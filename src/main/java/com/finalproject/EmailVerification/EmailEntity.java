@@ -2,10 +2,7 @@ package com.finalproject.EmailVerification;
 
 import com.finalproject.Common.TimeBaseEntity;
 import com.finalproject.Member.MemberDTO;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
@@ -20,6 +17,7 @@ import org.modelmapper.ModelMapper;
 @Getter
 public class EmailEntity extends TimeBaseEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column

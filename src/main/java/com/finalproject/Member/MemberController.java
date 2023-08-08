@@ -43,7 +43,7 @@ public class MemberController {
     @GetMapping("/logOut") //로그아웃
     public void logout(){}
 
-    @GetMapping("/findMyInfo/byEmail")// 아이디찾기
+    @PostMapping("/findMyInfo/byEmail")// 아이디찾기
     public void findId(MemberDTO memberDTO){
         emailService.findIdByEmail(memberDTO);
     }

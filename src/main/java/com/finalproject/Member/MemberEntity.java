@@ -13,7 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 @Setter
 public class MemberEntity extends TimeBaseEntity {
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; // pk
     @Column(nullable = false)
     private String username; //사용자 이름
