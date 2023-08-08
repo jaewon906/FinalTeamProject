@@ -20,7 +20,8 @@ public class SecurityConfig {
                 .formLogin(form -> form.disable())
                 .authorizeHttpRequests(authorize->
                         authorize.requestMatchers("/api/user/logIn").permitAll()
-                                 .requestMatchers("/api/user/signUp").permitAll()
+                                 .requestMatchers("/api/user/signUp/**").permitAll()
+                                .requestMatchers("/api/user/findMyInfo/**").permitAll()
                                 .requestMatchers("/api/user/**").authenticated())
                 ///.addFilterBefore()
                 .build();

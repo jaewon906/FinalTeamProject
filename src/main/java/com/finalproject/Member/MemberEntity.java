@@ -1,17 +1,19 @@
 package com.finalproject.Member;
 
+import com.finalproject.Common.TimeBaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 @Entity
-@Table(name = "USER_INFO_TABLE")
+@Table(name = "MEMBER_INFO")
 @Getter
 @Setter
-public class MemberEntity {
+public class MemberEntity extends TimeBaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; // pk
     @Column(nullable = false)
     private String username; //사용자 이름
@@ -28,19 +30,19 @@ public class MemberEntity {
     @Column(nullable = false)
     private String userAge; // 사용자 나이
     @Column(nullable = false)
-    private String userSex; // 사용자 성별
+    private String gender; // 사용자 성별
     @Column(nullable = false)
     private String userTel; // 사용자 전화번호
-    @Column(nullable = false)
-    private String userRole; // 사용자 권한
+//    @Column(nullable = false)
+//    private MemberRole userRole; // 사용자 권한
     @Column(nullable = false)
     private String deleteFlag;// DB에서 완전 삭제 대신 값이 0일때 비활성화 처리. 추후 계정 복구를 위함
     @Column(nullable = false,unique = true)
     private String userNumber; //회원 고유번호 (난수)
 
-
     public static MemberEntity DTOToEntity(MemberDTO memberDTO) {
         ModelMapper modelMapper=new ModelMapper();
+        memberDTO.setPassword(BCrypt.hashpw(memberDTO.getPassword(),BCrypt.gensalt()));
         return modelMapper.map(memberDTO, MemberEntity.class);
     }
 

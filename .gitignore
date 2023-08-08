@@ -7,7 +7,7 @@ build/
 ### important ###
 application-secret.properties
 SecretKey.java
-
+EmailConfig.java
 ### STS ###
 .apt_generated
 .classpath
