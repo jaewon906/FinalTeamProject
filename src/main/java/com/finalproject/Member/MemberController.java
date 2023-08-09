@@ -3,6 +3,8 @@ package com.finalproject.Member;
 import com.finalproject.EmailVerification.EmailDTO;
 import com.finalproject.EmailVerification.EmailService;
 import jakarta.mail.AuthenticationFailedException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 @RestController
@@ -46,10 +49,14 @@ public class MemberController {
     }
 
     @GetMapping("/logIn") //로그인
-    public void login(){}
+    public void login(MemberDTO memberDTO, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+        memberService.login(memberDTO, request, response);
+    }
 
     @GetMapping("/logOut") //로그아웃
-    public void logout(){}
+    public void logout(HttpServletResponse response) {
+        memberService.logout(response);
+    }
 
     @GetMapping("/myPage") //본인 정보 열람
     public MemberDTO myInfo(MemberDTO memberDTO) {
@@ -58,7 +65,7 @@ public class MemberController {
 
 
     @PostMapping("/update") // 본인 정보 업데이트
-    public boolean modifyInfo(@Valid MemberDTO memberDTO) throws Exception { //회원 정보 수정
+    public boolean modifyInfo(@Valid MemberDTO memberDTO) { //회원 정보 수정
         return memberService.modifyInfo(memberDTO);
     }
 

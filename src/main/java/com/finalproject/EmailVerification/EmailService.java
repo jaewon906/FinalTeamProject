@@ -52,7 +52,7 @@ public class EmailService {
          return null;
     }
 
-    public List<String> findPasswordByEmail(MemberDTO memberDTO) throws Exception { //비밀번호 찾기
+    public List<String> findPasswordByEmail(MemberDTO memberDTO){ //비밀번호 찾기
         Optional<MemberEntity> byUserEmailAndUserId = memberRepository.findByUserEmailAndUserId(memberDTO.getUserEmail(), memberDTO.getUserId());
         List<String> result = new ArrayList<>();
 
@@ -79,32 +79,49 @@ public class EmailService {
     }
 
     public String findIdCompareVerificationCodeAndInput(EmailDTO emailDTO) throws AuthenticationFailedException {// 아이디찾기(전송된 인증번호 입력하기)
-        String verificationCode = emailRepository.findByUserEmail(emailDTO.getUserEmail()).get().getVerificationCode();
+        Optional<EmailEntity> byUserEmail = emailRepository.findByUserEmail(emailDTO.getUserEmail());
 
-        if(verificationCode.equals(emailDTO.getVerificationCode())){
-            log.info("(아이디 찾기)인증에 성공했습니다.");
-            String userId = emailRepository.findByUserEmail(emailDTO.getUserEmail()).get().getUserId();
-            emailRepository.deleteByUserEmail(emailDTO.getUserEmail());
+        if(byUserEmail.isPresent()){
 
-            return userId;
+            String verificationCode = byUserEmail.get().getVerificationCode();
+
+            if(verificationCode.equals(emailDTO.getVerificationCode())){
+                log.info("(아이디 찾기)인증에 성공했습니다.");
+                String userId = byUserEmail.get().getUserId();
+                emailRepository.deleteByUserEmail(emailDTO.getUserEmail());
+
+                return userId;
+            }
+            else{
+                throw new AuthenticationFailedException("인증번호가 일치하지 않습니다.");
+            }
         }
-        else{
-            throw new AuthenticationFailedException("인증번호가 일치하지 않습니다.");
-        }
+        else throw new NullPointerException("가입하신 이메일이 존재하지 않습니다.");
     }
 
     public String findPasswordCompareVerificationCodeAndInput(EmailDTO emailDTO) throws AuthenticationFailedException {// 비밀번호 찾기(전송된 인증번호 입력하기)
-        String verificationCode = emailRepository.findByUserEmail(emailDTO.getUserEmail()).get().getVerificationCode();
+        Optional<EmailEntity> byUserEmail = emailRepository.findByUserEmail(emailDTO.getUserEmail());
 
-        if(verificationCode.equals(emailDTO.getVerificationCode())){
-            log.info("(비밀번호 찾기)인증에 성공했습니다.");
-            String userNumber = memberRepository.findByUserEmail(emailDTO.getUserEmail()).get().getUserNumber();
-            emailRepository.deleteByUserEmail(emailDTO.getUserEmail());
+        if(byUserEmail.isPresent()){
+            String verificationCode = byUserEmail.get().getVerificationCode();
 
-            return userNumber;
-        }
-        else{
-            throw new AuthenticationFailedException("인증번호가 일치하지 않습니다.");
+            if(verificationCode.equals(emailDTO.getVerificationCode())){
+                log.info("(비밀번호 찾기)인증에 성공했습니다.");
+                Optional<MemberEntity> byUserEmail1 = memberRepository.findByUserEmail(emailDTO.getUserEmail());
+
+                if(byUserEmail1.isPresent()){
+                    String userNumber = byUserEmail1.get().getUserNumber();
+                    emailRepository.deleteByUserEmail(emailDTO.getUserEmail());
+
+                    return userNumber;
+                }
+                else throw new NullPointerException("가입하신 이메일이 존재하지 않습니다.");
+            }
+            else{
+                throw new AuthenticationFailedException("인증번호가 일치하지 않습니다.");
+            }
+        }else {
+            throw new NullPointerException("가입하신 이메일이 존재하지 않습니다.");
         }
     }
 

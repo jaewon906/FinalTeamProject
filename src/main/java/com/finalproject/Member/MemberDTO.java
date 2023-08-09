@@ -48,7 +48,7 @@ public class MemberDTO {
     private String userTel; // 사용자 전화번호
 
 
-//    private MemberRole userRole; // 사용자 권한
+    private String userRole; // 사용자 권한
 
     @Pattern(regexp = "^[0-1]$")
     private String deleteFlag;// DB에서 완전 삭제 대신 값이 0일때 비활성화 처리. 추후 계정 복구를 위함
