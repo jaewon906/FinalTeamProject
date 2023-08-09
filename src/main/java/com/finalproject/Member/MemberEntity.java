@@ -35,6 +35,8 @@ public class MemberEntity extends TimeBaseEntity {
     private String userTel; // 사용자 전화번호
 //    @Column(nullable = false)
 //    private MemberRole userRole; // 사용자 권한
+    @Column
+    private String interest; //사용자 관심사
     @Column(nullable = false)
     private String deleteFlag;// DB에서 완전 삭제 대신 값이 0일때 비활성화 처리. 추후 계정 복구를 위함
     @Column(nullable = false,unique = true)
@@ -43,6 +45,14 @@ public class MemberEntity extends TimeBaseEntity {
     public static MemberEntity DTOToEntity(MemberDTO memberDTO) {
         ModelMapper modelMapper=new ModelMapper();
         memberDTO.setPassword(BCrypt.hashpw(memberDTO.getPassword(),BCrypt.gensalt()));
+        memberDTO.setDeleteFlag("N");
+        StringBuilder userNumber = new StringBuilder();
+
+        for (int i = 0; i < 10; i++) {
+            userNumber.append((int) Math.floor(Math.random() * 10));
+        }
+        memberDTO.setUserNumber(userNumber.toString());
+        //        memberDTO.setUserRole(MemberRole.USER);
         return modelMapper.map(memberDTO, MemberEntity.class);
     }
 

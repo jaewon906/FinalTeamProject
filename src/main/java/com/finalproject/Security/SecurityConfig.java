@@ -22,7 +22,7 @@ public class SecurityConfig {
                         authorize.requestMatchers("/api/user/logIn").permitAll()
                                  .requestMatchers("/api/user/signUp/**").permitAll()
                                 .requestMatchers("/api/user/findMyInfo/**").permitAll()
-                                .requestMatchers("/api/user/**").authenticated())
+                                .requestMatchers("/api/user/**").permitAll())
                 ///.addFilterBefore()
                 .build();
     }

@@ -3,6 +3,7 @@ package com.finalproject.EmailVerification;
 import com.finalproject.Member.MemberDTO;
 import com.finalproject.Member.MemberEntity;
 import com.finalproject.Member.MemberRepository;
+import jakarta.mail.AuthenticationFailedException;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.transaction.Transactional;
@@ -14,6 +15,8 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -25,20 +28,88 @@ public class EmailService {
     private final MemberRepository memberRepository;
     private final JavaMailSender javaMailSender;
 
-    protected void resetPasswordByEmailAndId() {
-
-    }
-
-    public void findIdByEmail(MemberDTO memberDTO) {
+    public List<String> findIdByEmail(MemberDTO memberDTO) throws Exception { //아이디 찾기
         Optional<MemberEntity> byUserEmail = memberRepository.findByUserEmail(memberDTO.getUserEmail());
+        List<String> result = new ArrayList<>();
+
 
         if (byUserEmail.isPresent()) {
+            emailRepository.deleteByUserEmail(byUserEmail.get().getUserEmail()); //이메일에 매핑되는 인증코드 초기화
+            log.info("아이디 찾기");
+            log.info("입력값에 해당하는 이메일을 찾았습니다.");
+
             String email = byUserEmail.get().getUserEmail();
-            sendEmail(email);
+            boolean isEmailSendSucceed = sendEmail(email);
+
+            if (isEmailSendSucceed) {
+                result.add(email);
+                return result;
+            }
+
+         } else {
+            throw new NullPointerException("일치하는 값이 없습니다.");
+         }
+         return null;
+    }
+
+    public List<String> findPasswordByEmail(MemberDTO memberDTO) throws Exception { //비밀번호 찾기
+        Optional<MemberEntity> byUserEmailAndUserId = memberRepository.findByUserEmailAndUserId(memberDTO.getUserEmail(), memberDTO.getUserId());
+        List<String> result = new ArrayList<>();
+
+
+        if (byUserEmailAndUserId.isPresent()) {
+            emailRepository.deleteByUserEmail(byUserEmailAndUserId.get().getUserEmail());//이메일에 매핑되는 인증코드 초기화
+            log.info("비밀번호 찾기");
+            log.info("입력값에 해당하는 아이디와 이메일을 찾았습니다.");
+
+            String email = byUserEmailAndUserId.get().getUserEmail();
+            String userId = byUserEmailAndUserId.get().getUserId();
+            boolean isEmailSendSucceed = sendEmail(email);
+
+            if (isEmailSendSucceed) {
+                result.add(email);
+                result.add(userId);
+                return result;
+            }
+        }
+        else {
+            throw new NullPointerException("일치하는 값이 없습니다.");
+        }
+        return  null;
+    }
+
+    public String findIdCompareVerificationCodeAndInput(EmailDTO emailDTO) throws AuthenticationFailedException {// 아이디찾기(전송된 인증번호 입력하기)
+        String verificationCode = emailRepository.findByUserEmail(emailDTO.getUserEmail()).get().getVerificationCode();
+
+        if(verificationCode.equals(emailDTO.getVerificationCode())){
+            log.info("(아이디 찾기)인증에 성공했습니다.");
+            String userId = emailRepository.findByUserEmail(emailDTO.getUserEmail()).get().getUserId();
+            emailRepository.deleteByUserEmail(emailDTO.getUserEmail());
+
+            return userId;
+        }
+        else{
+            throw new AuthenticationFailedException("인증번호가 일치하지 않습니다.");
         }
     }
 
-    public void sendEmail(String email) { //해당하는 이메일로 인증코드를 보냄
+    public String findPasswordCompareVerificationCodeAndInput(EmailDTO emailDTO) throws AuthenticationFailedException {// 비밀번호 찾기(전송된 인증번호 입력하기)
+        String verificationCode = emailRepository.findByUserEmail(emailDTO.getUserEmail()).get().getVerificationCode();
+
+        if(verificationCode.equals(emailDTO.getVerificationCode())){
+            log.info("(비밀번호 찾기)인증에 성공했습니다.");
+            String userNumber = memberRepository.findByUserEmail(emailDTO.getUserEmail()).get().getUserNumber();
+            emailRepository.deleteByUserEmail(emailDTO.getUserEmail());
+
+            return userNumber;
+        }
+        else{
+            throw new AuthenticationFailedException("인증번호가 일치하지 않습니다.");
+        }
+    }
+
+
+    public boolean sendEmail(String email) { //해당하는 이메일로 인증코드를 보냄
 //        MimeMessage는 javaMail API에서 이메일을 나타내는 클래스
 //        javaMailSender는 이메일을 보내는데 사용되는 메일 전송 작업을 추상화함.
 //        MimeMessageHelper 생성자의 매개변수 중 true는 멀티파트(사진 동영상을 첨부할 수 있는)형식을 지원여부를 묻는다.
@@ -59,12 +130,14 @@ public class EmailService {
             helper.setSubject("[Company]인증코드 입니다."); //메일 제목
             helper.setText("인증코드는 " + verificationCode + " 입니다."); //메일 내용
             javaMailSender.send(mimeMessage);
-            log.info("성공");
+            log.info("메일을 성공적으로 발송했습니다.");
 
             EmailEntity emailEntity = EmailEntity.DTOToEntity(emailDTO);
             emailRepository.save(emailEntity);
+            return true;
         } catch (MessagingException e) {
-            log.error("실패");
+            log.error("메일 발송을 실패했습니다.");
+            return false;
         }
 
     }
@@ -83,23 +156,12 @@ public class EmailService {
         return verificationCode.toString();
     }
 
-
-    @Transactional
-    public MemberDTO sendIdAndEmailAndVerificationCode(EmailDTO emailDTO) {
-        EmailEntity emailEntity = EmailEntity.DTOToEntity(emailDTO);
-        Optional<EmailEntity> ByUserEmail = emailRepository.findByUserEmail(emailEntity.getUserEmail()); //해당하는 이메일 찾기
-        MemberEntity memberEntity = memberRepository.findByUserEmail(ByUserEmail.get().getUserEmail()).get(); //해당하는 이메일의 PK값 찾기
-
-
-        if (ByUserEmail.get().getUserId().equals(emailEntity.getUserId())) { //이메일이 존재하고 ID가 일치할 때
-            if (ByUserEmail.get().getVerificationCode().equals(emailEntity.getVerificationCode())) { //위 조건 + 인증번호가 만족될때
-
-                MemberDTO memberDTO = MemberDTO.EntityToDTO(memberEntity);
-
-                emailRepository.deleteByUserEmail(ByUserEmail.get().getUserEmail());
-                return memberDTO;
-            }
-        }
-        return null;
+    public void resetAndModifyPasswordByEmail(MemberDTO memberDTO) {
+        MemberEntity memberEntity = MemberEntity.DTOToEntity(memberDTO);
+        String userNumber = memberEntity.getUserNumber();
+        String password = memberEntity.getPassword();
+        memberRepository.updatePassword(userNumber,password);
     }
+
+
 }
