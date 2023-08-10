@@ -37,15 +37,16 @@ public class JwtFilter extends OncePerRequestFilter {
         String accessToken = "";
         String refreshToken = "";
 
+        try{
+            for (Cookie cookie : cookies) {
+                String cookieName = cookie.getName();
 
-        for (Cookie cookie : cookies) {
-            String cookieName = cookie.getName();
-
-            switch (cookieName) {
-                case "accessToken" -> accessToken = cookie.getValue();
-                case "refreshToken" -> refreshToken = cookie.getValue();
+                switch (cookieName) {
+                    case "accessToken" -> accessToken = cookie.getValue();
+                    case "refreshToken" -> refreshToken = cookie.getValue();
+                }
             }
-        }
+        }catch (Exception ignore){}
 
 
         boolean validateAccessToken = tokenConfig.validateToken(accessToken);
@@ -73,8 +74,6 @@ public class JwtFilter extends OncePerRequestFilter {
 //                throw new TokenNotValidateException("토큰이 유효하지 않습니다."); //403일 때 로그인해야댐
             }
         }
-
-
     }
 
     private void regenerateAccessToken(String a, String b) {

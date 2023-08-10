@@ -28,17 +28,17 @@ public class MemberController {
     }
 
     @GetMapping("/signUp/idValidation") //아이디 중복 검증
-    public boolean idValidation(MemberDTO memberDTO){
+    public boolean idValidation(@Valid MemberDTO memberDTO){
         return memberService.idDuplicateValidation(memberDTO);
     }
 
     @GetMapping("/signUp/nicknameValidation") //닉네임 중복검증
-    public boolean nicknameValidation(MemberDTO memberDTO){
+    public boolean nicknameValidation(@Valid MemberDTO memberDTO){
         return memberService.nicknameDuplicateValidation(memberDTO);
     }
 
     @GetMapping("/signUp/emailValidation") //이메일 중복 검증 및 인증번호 전송
-    public boolean emailValidation(EmailDTO emailDTO) throws Exception { // 이메일 중복검증
+    public boolean emailValidation(@Valid EmailDTO emailDTO) throws Exception { // 이메일 중복검증
         return memberService.emailDuplicateValidation(emailDTO);
     }
 

@@ -30,7 +30,7 @@ public class SecurityConfig {
                 .formLogin(form -> form.disable())
                 .authorizeHttpRequests(authorize ->
                         authorize.requestMatchers("/api/user/logOut").authenticated()
-                                .requestMatchers("/api/user/signUp").permitAll()
+                                .requestMatchers("/api/user/signUp/**").permitAll()
                                 .requestMatchers("/api/user/findMyInfo/**").permitAll()
                                 .requestMatchers("/api/user/logIn").permitAll())
                 .addFilterBefore(new JwtFilter(tokenConfig, new ModelMapper()), UsernamePasswordAuthenticationFilter.class)
@@ -58,7 +58,6 @@ public class SecurityConfig {
     protected AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
 
         return authenticationConfiguration.getAuthenticationManager();
-
     }
 
 

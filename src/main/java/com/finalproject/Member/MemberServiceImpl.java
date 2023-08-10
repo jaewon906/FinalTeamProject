@@ -170,7 +170,7 @@ public class MemberServiceImpl implements MemberService {
         String id = memberEntity.getUserId();
 
         Optional<MemberEntity> byUserId = memberRepository.findByUserId(id);
-        return byUserId.isPresent();
+        return byUserId.isEmpty();
     }
 
     @Override
@@ -179,7 +179,7 @@ public class MemberServiceImpl implements MemberService {
         String nickname = memberEntity.getNickname();
 
         Optional<MemberEntity> byUserNickname = memberRepository.findByNickname(nickname);
-        return byUserNickname.isPresent();
+        return byUserNickname.isEmpty();
     }
 
     @Override
@@ -189,7 +189,7 @@ public class MemberServiceImpl implements MemberService {
 
         Optional<MemberEntity> byUserEmail = memberRepository.findByUserEmail(email);
 
-        if (!byUserEmail.isPresent()) {
+        if (byUserEmail.isEmpty()) {
             String userEmail = emailDTO.getUserEmail();
             emailRepository.deleteByUserEmail(emailDTO.getUserEmail());
             emailService.sendEmail(userEmail);
