@@ -1,0 +1,82 @@
+.container{
+    width:100vw;
+    min-width: 1440px;
+    height:960px;
+    display: flex;
+    justify-content: center;
+}
+.main{
+    margin-top: 100px;
+    max-width: 1440px;
+    width: 80%;
+    height: 70%;
+    display: flex;
+    align-items: center;
+    border: 2px solid #45B751;
+    border-radius: 10px;
+}
+.leftSection{
+    width: 50%;
+    height:100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+.rightSection{
+    width: 50%;
+    height:100%;
+    background-image: url("../../public/image/logInImg.png");
+}
+
+.logInBox{
+    width: 326px;
+    height:400px;
+    display: flex;
+    flex-direction: column;
+
+}
+.loginMain{
+    width: 326px;
+    height:400px;
+}
+.loginBtn{
+    width: 326px;
+    height: 46px;
+    border: 1px solid #9E9E9E;
+    border-radius: 8px;
+    margin-top: 40px;
+    transition: transform 0.3s;
+    cursor: pointer;
+}
+.loginBtn:active{
+    transform: scale(0.9);
+}
+.container input{
+    width: 316px;
+    height: 48px;
+    border: 2px solid #9E9E9E;
+    border-radius: 8px;
+    padding-left: 10px;
+    margin-top: 20px;
+    transition : outline-color 0.3s;
+    outline:none;
+}
+.container input:focus{
+    border: 3px solid #45B751;
+}
+.findId{
+    margin-top: 20px;
+    width: 326px;
+    font-size: 12px;
+    display: flex;
+    justify-content: space-between;
+}
+.findPw{
+    margin-top: 20px;
+    width: 326px;
+    font-size: 12px;
+    display: flex;
+    justify-content: space-between;
+}
+.copyright{}

@@ -37,6 +37,7 @@ public class JwtFilter extends OncePerRequestFilter {
         String accessToken = "";
         String refreshToken = "";
 
+
         for (Cookie cookie : cookies) {
             String cookieName = cookie.getName();
 
@@ -45,6 +46,7 @@ public class JwtFilter extends OncePerRequestFilter {
                 case "refreshToken" -> refreshToken = cookie.getValue();
             }
         }
+
 
         boolean validateAccessToken = tokenConfig.validateToken(accessToken);
         boolean validateRefreshToken = tokenConfig.validateToken(refreshToken);
@@ -61,18 +63,17 @@ public class JwtFilter extends OncePerRequestFilter {
             SecurityContextHolder.getContext().setAuthentication(token);
 
             filterChain.doFilter(request, response);
-        }
-        else{
-            if(validateRefreshToken){
+        } else {
+            if (validateRefreshToken) {
                 log.info("엑세스 토큰은 인증되지 않고 리프레쉬 토큰은 인증되었습니다.");
 
 //                tokenConfig.generateToken()
-            }
-            else{
+            } else {
                 filterChain.doFilter(request, response);
 //                throw new TokenNotValidateException("토큰이 유효하지 않습니다."); //403일 때 로그인해야댐
             }
         }
+
 
     }
 

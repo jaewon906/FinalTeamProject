@@ -1,0 +1,100 @@
+.container{
+    width:100vw;
+    height:1000px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main{
+    width:670px;
+    height:900px;
+    border: 1px solid #45b751;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+.main > button{
+    width: 300px;
+    height: 60px;
+    border-radius: 20px;
+    background-color: #45b751;
+    border:none;
+    cursor: pointer;
+    transition: background-color 0.3s,color 0.3s;
+    margin-top: 30px;
+    color: white;
+}
+.main > button:hover{
+    border: 1px solid #45b751;
+    background-color: #ffffff;
+    color: black;
+}
+.main >.findAndSignUpArea> a{
+    font-size: 12px;
+
+}
+.main > div {
+    width:63%;
+    height: 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    margin-top: 20px;
+
+}
+.main > div > div{
+    width:50%;
+    height:100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.main input{
+    width:260px;
+    height:30px;
+    outline: none;
+}
+.main >div>button{
+    font-size: 12px;
+}
+.main > div:nth-child(11)>div>input:nth-child(1){
+    width:85px;
+    height:30px;
+}
+.main > div:nth-child(11)>div>input:nth-child(2){
+    width:160px;
+    height:30px;
+}
+.main > div:nth-child(13)>div>input:nth-child(1){
+    width:81px;
+    height:30px;
+}.main > div:nth-child(13)>div>input:nth-child(2){
+    width:81px;
+    height:30px;
+}
+.main > div:nth-child(13)>div>input:nth-child(3){
+    width:81px;
+    height:30px;
+}
+
+.findAndSignUpArea{
+    margin-top: 50px;
+    width:70%;
+    height:50px;
+    display: flex;
+    justify-content: space-between;
+}
+input:focus{
+    border:3px solid #45b751;
+    text-align: left;
+}
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}

@@ -51,7 +51,8 @@ public class MemberEntity extends TimeBaseEntity {
             userNumber.append((int) Math.floor(Math.random() * 10));
         }
 
-        memberDTO.setPassword(BCrypt.hashpw(memberDTO.getPassword(),BCrypt.gensalt()));
+        try{memberDTO.setPassword(BCrypt.hashpw(memberDTO.getPassword(),BCrypt.gensalt()));}
+        catch (Exception ignored){}
         memberDTO.setDeleteFlag("N");
         memberDTO.setUserNumber(userNumber.toString());
         memberDTO.setUserRole(MemberRole.USER.getRoleName());
