@@ -2,55 +2,62 @@ import style from "../css/header.module.css"
 import {Link} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axios from "axios";
+import {getUserNumber} from "../js/getUserNumber";
 
 export default function Header() {
 
     const [isLogin, setIsLogin] = useState(false)
-    let userNumber="";
+    const [nickname, setNickname] = useState()
+    const [userNumber, setUserNumber] = useState("0")
 
     useEffect(() => {
-        const getCookie = (name) => {
-            const value = "; " + document.cookie;
-            const parts = value.split("; " + name + "=");
-            if (parts.length === 2) {
-                return parts.pop().split(";").shift();
+        setUserNumber(getUserNumber().userNumber);
+
+        if (userNumber !== "0" && userNumber !== undefined) {
+            setIsLogin(true);
+            setNickname(getUserNumber().username)
+
+        } else setIsLogin(false);
+
+    }, [userNumber])
+
+    const myPage = () => {
+
+        axios.get("/api/user/myPage", {
+            params: {
+                userNumber: userNumber
             }
-        }
-        const parseJwt = (token) => {
-            let base64Url = token.split('.')[1];
-            let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-            let jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
-                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-            }).join(''));
+        })
+            .then(() => {
+                window.location.href = "/myPage"
+            })
+            .catch(err => {
+                console.error(err);
+                const ret = window.confirm("로그인이 필요한 서비스입니다. 로그인 하시겠습니까?")
 
-            return JSON.parse(jsonPayload);
-        };
-        try {
-           userNumber = parseJwt(getCookie("accessToken")).userNumber
-            setIsLogin(true)
-        } catch (e) {
-            console.error(e)
-        }
-    }, [])
-
+                if (ret) {
+                    window.location.href = "/logIn"
+                }
+            })
+    }
     const signUp = () => {
         window.location.href = "/signUp"
     }
     const logIn = () => {
-        window.location.href = "/login"
+        window.location.href = "/logIn"
     }
     const logOut = () => {
         const ret = window.confirm("로그아웃 하시겠습니까?")
 
         if (ret) {
             axios.get("api/user/logOut")
-                .then(res => {
+                .then(() => {
                         alert("로그아웃 되셨습니다.")
-                    setIsLogin(false);
+                        setIsLogin(false);
                     }
-                ).catch(e=>{
-                    console.error(e)
-                    alert("잠시후에 다시 시도해주세요")
+                ).catch(e => {
+                console.error(e)
+                alert("잠시후에 다시 시도해주세요")
             })
         }
     }
@@ -62,10 +69,11 @@ export default function Header() {
                 <Link style={{color: "#45b751", textDecoration: "none"}} to={"/"}>KyoYesAla</Link>
             </div>
             <div className={style.functionBox}>
+                {isLogin ? <p style={{fontSize: "14px"}}>반갑습니다 <strong>{nickname}</strong> 님</p> : ""}
                 <button className={style.cart}>
                     <img src="../../public/image/cart.png" alt={""}/>
                 </button>
-                <button className={style.myInfo}>
+                <button onClick={myPage} className={style.myInfo}>
                     <img src="../" alt={""}/>
                 </button>
                 <input type={"search"} className={style.search} placeholder={"search..."}/>

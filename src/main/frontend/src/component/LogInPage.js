@@ -15,7 +15,7 @@ export default function LogInPage() {
                 userId: userId.current.value,
                 password: password.current.value
             }
-        }).then(res => {
+        }).then(() => {
             window.location.href="/"
             }
         ).catch(err=>{
@@ -45,6 +45,7 @@ export default function LogInPage() {
                 </div>
                 <div className={style.rightSection}></div>
             </div>
+
         </div>
     )
 }

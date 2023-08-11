@@ -4,7 +4,6 @@ import com.finalproject.Common.TimeBaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
@@ -40,21 +39,17 @@ public class MemberEntity extends TimeBaseEntity {
     private String interest; //사용자 관심사
     @Column(nullable = false)
     private String deleteFlag;// DB에서 완전 삭제 대신 값이 0일때 비활성화 처리. 추후 계정 복구를 위함
-    @Column(nullable = false,unique = true)
+    @Column(nullable = false, unique = true)
     private String userNumber; //회원 고유번호 (난수)
 
     public static MemberEntity DTOToEntity(MemberDTO memberDTO) {
-        ModelMapper modelMapper=new ModelMapper();
-        StringBuilder userNumber = new StringBuilder();
+        ModelMapper modelMapper = new ModelMapper();
 
-        for (int i = 0; i < 10; i++) {
-            userNumber.append((int) Math.floor(Math.random() * 10));
+        try {
+            memberDTO.setPassword(BCrypt.hashpw(memberDTO.getPassword(), BCrypt.gensalt()));
+        } catch (Exception ignored) {
         }
-
-        try{memberDTO.setPassword(BCrypt.hashpw(memberDTO.getPassword(),BCrypt.gensalt()));}
-        catch (Exception ignored){}
         memberDTO.setDeleteFlag("N");
-        memberDTO.setUserNumber(userNumber.toString());
         memberDTO.setUserRole(MemberRole.USER.getRoleName());
 
         return modelMapper.map(memberDTO, MemberEntity.class);

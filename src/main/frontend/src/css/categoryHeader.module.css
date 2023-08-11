@@ -1,0 +1,19 @@
+.container{
+    width: 100vw;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid #45b751;
+}
+.main{
+    width: 40%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.main > a{
+    text-decoration: none;
+    color: black;
+}

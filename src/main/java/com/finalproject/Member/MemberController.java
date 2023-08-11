@@ -63,7 +63,6 @@ public class MemberController {
         return memberService.showMyInfo(memberDTO);
     }
 
-
     @PostMapping("/update") // 본인 정보 업데이트
     public boolean modifyInfo(@Valid MemberDTO memberDTO) { //회원 정보 수정
         return memberService.modifyInfo(memberDTO);
@@ -80,7 +79,7 @@ public class MemberController {
     }
 
     @GetMapping("/findMyInfo/byEmailAndId") //비밀번호 찾기(id,이메일값 넘기고 인증번호 받기)
-    public List<String> findPassword(MemberDTO memberDTO) throws Exception {
+    public List<String> findPassword(MemberDTO memberDTO) {
         return emailService.findPasswordByEmail(memberDTO);
     }
 

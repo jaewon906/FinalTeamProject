@@ -84,7 +84,7 @@ export default function SignUpPage() {
                     setIsEmailValidate(true);
                 } else alert("중복된 이메일입니다.")
             })
-            .catch(e =>  alert("양식을 확인해주세요."))
+            .catch(() =>  alert("양식을 확인해주세요."))
     }
 
     const confirmVerificationCode = () => {
@@ -93,7 +93,7 @@ export default function SignUpPage() {
                 userEmail: email.current[0].value + "@" + email.current[1].value,
                 verificationCode: verificationCode1.current.value
             }
-        }).then(res => {
+        }).then(() => {
             setDeleteFlag1("N");
             alert("인증 되었습니다.")
         }).catch(err=>{
@@ -169,7 +169,7 @@ export default function SignUpPage() {
                         margin: "560px 0px 0px 530px"
                     }}>인증하기</button>}
 
-                <p style={{position: "relative", fontSize: "30px", fontWeight: "600", margin: "20px 0px"}}>회원가입</p>
+                <p style={{ fontSize: "30px", fontWeight: "600", margin: "20px 0px"}}>회원가입</p>
                 <div><p style={{fontSize: "11px"}}>( <span>*</span> 는 필수 입력사항)</p></div>
                 <div>
                     <div><span>*</span> 아이디</div>

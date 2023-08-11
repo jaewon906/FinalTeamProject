@@ -37,10 +37,19 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public boolean signUp(MemberDTO memberDTO) throws Exception {
 //Validation이 memberDTO를 인터셉트해서 검사를 먼저하고 엔티티에서 unique를 지정했기 때문에 예외처리 하지않음
+
+        StringBuilder userNumber = new StringBuilder();
+
+        for (int i = 0; i < 10; i++) {
+            userNumber.append((int) Math.floor(Math.random() * 10));
+        }
+        memberDTO.setUserNumber(userNumber.toString());
+
         MemberEntity memberEntity = MemberEntity.DTOToEntity(memberDTO);
         Optional<MemberEntity> byUserId = memberRepository.findByUserId(memberEntity.getUserId());
 
         if (byUserId.isEmpty()) {
+
             memberRepository.save(memberEntity);
 
             log.info("회원가입에 성공했습니다.");
@@ -62,11 +71,14 @@ public class MemberServiceImpl implements MemberService {
         if(byUserId.isPresent()){ // 예외 -> id or 비번 문제 / true -> 로그인 / false -> 휴면 계정 or 비활성화 계정
             if(byUserId.get().getDeleteFlag().equals("N")){
                 if(BCrypt.checkpw(plainText,byUserId.get().getPassword())){
-                    TokenDTO token = tokenConfig.generateToken(memberDTO);
 
+                    MemberDTO memberDTO1 = MemberDTO.EntityToDTO(byUserId.get());
 
-                    Cookie accessToken = cookieConfig.setCookie(token.getAccessToken(), "accessToken", false, "/", 3600);
-                    Cookie refreshToken = cookieConfig.setCookie(token.getRefreshToken(), "refreshToken", true, "/", 7 * 24 * 3600);
+                    TokenDTO generateAccessToken = tokenConfig.generateAccessToken(memberDTO1);
+                    TokenDTO generateRefreshToken = tokenConfig.generateRefreshToken(memberDTO1);
+
+                    Cookie accessToken = cookieConfig.setCookie(generateAccessToken.getAccessToken(), "accessToken", false, "/", 3600);
+                    Cookie refreshToken = cookieConfig.setCookie(generateRefreshToken.getRefreshToken(), "refreshToken", true, "/", 7 * 24 * 3600);
 
                     response.addCookie(accessToken);
                     response.addCookie(refreshToken);

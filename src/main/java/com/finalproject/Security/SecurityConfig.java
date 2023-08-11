@@ -5,7 +5,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -30,6 +29,8 @@ public class SecurityConfig {
                 .formLogin(form -> form.disable())
                 .authorizeHttpRequests(authorize ->
                         authorize.requestMatchers("/api/user/logOut").authenticated()
+                                .requestMatchers("/api/user/board/**").authenticated()
+                                .requestMatchers("/api/user/myPage/**").authenticated()
                                 .requestMatchers("/api/user/signUp/**").permitAll()
                                 .requestMatchers("/api/user/findMyInfo/**").permitAll()
                                 .requestMatchers("/api/user/logIn").permitAll())

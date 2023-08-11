@@ -1,6 +1,5 @@
 package com.finalproject.Security;
 
-import com.finalproject.Common.TokenNotValidateException;
 import com.finalproject.Member.MemberRole;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -10,7 +9,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,8 +16,6 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Base64;
 import java.util.List;
 
 @Slf4j
@@ -49,8 +45,8 @@ public class JwtFilter extends OncePerRequestFilter {
         }catch (Exception ignore){}
 
 
-        boolean validateAccessToken = tokenConfig.validateToken(accessToken);
-        boolean validateRefreshToken = tokenConfig.validateToken(refreshToken);
+        boolean validateAccessToken = tokenConfig.validateAccessToken(accessToken);
+        boolean validateRefreshToken = tokenConfig.validateRefreshToken(refreshToken);
 
         if (validateAccessToken && validateRefreshToken) {
 
@@ -67,12 +63,15 @@ public class JwtFilter extends OncePerRequestFilter {
         } else {
             if (validateRefreshToken) {
                 log.info("엑세스 토큰은 인증되지 않고 리프레쉬 토큰은 인증되었습니다.");
-
+//                Base64.Decoder decoder = Base64.getUrlDecoder();
+//                byte[] decode = decoder.decode(refreshToken);
+//                String decodeString = Arrays.toString(decode);
+//                log.info(decodeString);
 //                tokenConfig.generateToken()
             } else {
-                filterChain.doFilter(request, response);
 //                throw new TokenNotValidateException("토큰이 유효하지 않습니다."); //403일 때 로그인해야댐
             }
+            filterChain.doFilter(request, response);
         }
     }
 
