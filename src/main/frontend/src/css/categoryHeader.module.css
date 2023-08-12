@@ -1,5 +1,6 @@
 .container{
-    width: 100vw;
+    width: 100%;
+    min-width: 1440px;
     height: 100px;
     display: flex;
     align-items: center;

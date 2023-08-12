@@ -39,7 +39,7 @@ export default function LogInPage() {
                         </div>
                         <div className={style.findPw}>
                             <p>비밀번호를 잊어버리셨나요?</p>
-                            <Link to={"/findId"}>비밀번호 찾기</Link>
+                            <Link to={"/findPw"}>비밀번호 찾기</Link>
                         </div>
                     </div>
                 </div>

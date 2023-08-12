@@ -51,24 +51,26 @@ export default function FindMyIdPage() {
                 <br/>
                 <h2>아이디를 잊어 버리셨나요?</h2><br/>
                 <p>저희가 도와 드리겠습니다.</p><br/>
-                <p>본인이 가입하신 이메일을 입력하면 인증코드가 전송됩니다.</p><br/><br/>
+                <p>가입하신 이메일을 입력하면 인증코드가 전송됩니다.</p><br/><br/>
                 <div className={style.main}>
                     <br/>
-                    {isEmailExist ? <div style={{display:"flex", justifyContent:"center",width:"100%"}}><p style={{fontWeight:"bold"}}>{emailFromRepo}</p></div> : ""}<br/><br/>
+                    {isEmailExist ? <div style={{display:"flex", justifyContent:"center",width:"100%"}}><p style={{fontWeight:"bold"}}>{emailFromRepo}</p><br/><br/></div> : ""}
                     {isEmailExist ? <p style={{fontSize: "12px"}}>인증코드</p> : <p style={{fontSize: "12px"}}>이메일</p>}<br/>
                     {isEmailExist ? <input type={"text"} ref={verificationCode} placeholder={"Verification Code"}/> : ""}
                     {isEmailExist ?
                         "" :
-                        <input type={"text"} ref={email} placeholder={"ploi9@example.com"}/> }
+                        <input type={"text"} ref={email} placeholder={"Your Email"}/> }
                     {isEmailExist ?
-                        <button onClick={sendVerifyCode} className={style.sendVerificationBtn}>인증하기</button> :
-                        <button onClick={sendEmail} className={style.sendVerificationBtn}>인증코드 전송하기</button>}
+                        <button style={{marginTop:"50px",marginBottom:"100px"}} onClick={sendVerifyCode}>인증하기</button> :
+                        <button style={{marginTop:"50px", marginBottom:"100px"}} onClick={sendEmail}>인증코드 전송하기</button>}
                 </div>
             </div>:
             <div className={style.box}>
-                <p>고객님의 ID는 <strong>{myId}</strong> 입니다.</p>
+                <p>고객님의 ID는 <strong>{myId}</strong> 입니다.</p><br/><br/><br/>
+                <button onClick={() => {window.location.href="/logIn"}}>로그인 하기</button>
+                <button onClick={() => {window.location.href="/findId"}}>다른 아이디 찾기</button>
+                <button onClick={() => {window.location.href="/findPw"}}>비밀번호 찾기</button>
                 <button onClick={()=> window.location.href="/"}>홈으로 가기</button>
-                <button onClick={() => {window.location.href="/findMyPw"}}></button>
             </div>}
         </div>
     )

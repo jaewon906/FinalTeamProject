@@ -17,7 +17,6 @@
 }
 .main{
     width:400px;
-
 }
 .container button{
     width: 400px;
@@ -34,7 +33,7 @@
     background-color: #ffffff;
     color: black;
 }
-.main > input{
+.container input{
     width:390px;
     height: 50px;
     background-color: #dfe3f8;

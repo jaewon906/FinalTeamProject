@@ -76,6 +76,14 @@
     display: flex;
     justify-content: space-between;
 }
+.logInBox a{
+    text-decoration:none;
+    color: #00cfff;
+    transition: color 0.2s;
+}
+.logInBox a:hover{
+    color: #ff0000;
+}
 .findPw{
     margin-top: 20px;
     width: 326px;

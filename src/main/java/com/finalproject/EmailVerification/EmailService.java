@@ -13,6 +13,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -141,18 +142,23 @@ public class EmailService {
 
         try {
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "EUC-KR");
+            helper.setFrom("ploi2580@gmail.com","BookVoyage");
             helper.setTo(email); //메일 수신자.
-            helper.setSubject("[Company]인증코드 입니다."); //메일 제목
+            helper.setSubject("[BookVoyage] 인증코드 입니다."); //메일 제목
             helper.setText("인증코드는 " + verificationCode + " 입니다."); //메일 내용
             javaMailSender.send(mimeMessage);
             log.info("메일을 성공적으로 발송했습니다.");
 
             EmailEntity emailEntity = EmailEntity.DTOToEntity(emailDTO);
             emailRepository.save(emailEntity);
+
             return true;
         } catch (MessagingException e) {
             log.error("메일 발송을 실패했습니다.");
+
             return false;
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
         }
 
     }

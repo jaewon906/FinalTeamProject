@@ -5,6 +5,7 @@ import SignUpPage from "./component/SignUpPage";
 import MyPage from "./component/MyPage";
 import MyPageAuth from "./component/MyPageAuth";
 import FindMyIdPage from "./component/FindMyIdPage";
+import FindMyPwPage from "./component/FindMyPwPage";
 
 function App() {
     return (
@@ -13,6 +14,7 @@ function App() {
             <Route path={"login/"} element={<LogInPage/>}></Route>
             <Route path={"signUp/"} element={<SignUpPage/>}></Route>
             <Route path={"findId/"} element={<FindMyIdPage/>}></Route>
+            <Route path={"findPw/"} element={<FindMyPwPage/>}></Route>
             <Route path={"myPage/"} element={<MyPage/>}></Route>
             <Route path={"myPage/"} element={<MyPageAuth/>}></Route>
         </Routes>

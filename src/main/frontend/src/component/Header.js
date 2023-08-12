@@ -66,7 +66,7 @@ export default function Header() {
     return (
         <div className={style.container}>
             <div className={style.logo}>
-                <Link style={{color: "#45b751", textDecoration: "none"}} to={"/"}>KyoYesAla</Link>
+                <Link style={{color: "#45b751", textDecoration: "none"}} to={"/"}>BookVoyage</Link>
             </div>
             <div className={style.functionBox}>
                 {isLogin ? <p style={{fontSize: "14px"}}>반갑습니다 <strong>{nickname}</strong> 님</p> : ""}
