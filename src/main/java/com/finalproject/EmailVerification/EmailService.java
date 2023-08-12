@@ -9,11 +9,9 @@ import jakarta.mail.internet.MimeMessage;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,10 +26,10 @@ public class EmailService {
     private final MemberRepository memberRepository;
     private final JavaMailSender javaMailSender;
 
-    public List<String> findIdByEmail(MemberDTO memberDTO) throws Exception { //아이디 찾기
+    public List<String> findIdByEmail(MemberDTO memberDTO) { //아이디 찾기
+
         Optional<MemberEntity> byUserEmail = memberRepository.findByUserEmail(memberDTO.getUserEmail());
         List<String> result = new ArrayList<>();
-
 
         if (byUserEmail.isPresent()) {
             emailRepository.deleteByUserEmail(byUserEmail.get().getUserEmail()); //이메일에 매핑되는 인증코드 초기화

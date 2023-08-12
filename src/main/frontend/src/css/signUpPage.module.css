@@ -15,9 +15,7 @@
     flex-direction: column;
     align-items: center;
     margin-top: 50px;
-
 }
-
 .main  span{
     color: #fa6000;
 }
@@ -31,6 +29,7 @@
     transition: background-color 0.3s,color 0.3s;
     margin-top: 50px;
     color: white;
+    font-size: 14px;
 }
 .main > button:hover{
     border: 1px solid #45b751;

@@ -5,6 +5,10 @@
     align-items: center;
     justify-content: center;
     border-bottom: 1px solid #45b751;
+    position: sticky;
+    background-color: white;
+    top: 0;
+    z-index: 9;
 }
 .main{
     width: 40%;

@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/user")
 @RequiredArgsConstructor
+@Slf4j
 public class MemberController {
     private final MemberServiceImpl memberService;
     private final EmailService emailService;
@@ -38,7 +40,7 @@ public class MemberController {
     }
 
     @GetMapping("/signUp/emailValidation") //이메일 중복 검증 및 인증번호 전송
-    public boolean emailValidation(@Valid EmailDTO emailDTO) throws Exception { // 이메일 중복검증
+    public boolean emailValidation(@Valid EmailDTO emailDTO) { // 이메일 중복검증
         return memberService.emailDuplicateValidation(emailDTO);
     }
 
@@ -70,7 +72,7 @@ public class MemberController {
 
 
     @GetMapping("/findMyInfo/byEmail")// 아이디찾기(이메일값 넘기고 인증번호 받기)
-    public List<String> findId(MemberDTO memberDTO) throws Exception {
+    public List<String> findId(@Valid MemberDTO memberDTO) {
        return emailService.findIdByEmail(memberDTO);
     }
     @GetMapping("/findMyInfo/byEmail/auth")// 아이디찾기(전송된 인증번호 입력하기)

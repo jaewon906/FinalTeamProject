@@ -10,7 +10,6 @@ function TopBtn() {
     const [btnMarginTop, setBtnMarginTop] = useState(window.innerHeight - 100);
     window.onscroll = () => {
         setBtnMarginTop(window.innerHeight - 100)
-        console.log(btnMarginTop)
 
     }
     window.onresize = () => {

@@ -1,7 +1,6 @@
 package com.finalproject.Member;
 
 import jakarta.validation.constraints.*;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.modelmapper.ModelMapper;
@@ -26,11 +25,10 @@ public class MemberDTO {
 
     private String userAddress; //사용자 주소
 
-    @Email
+    @Pattern(regexp = "[a-z0-9]+@[a-z]+\\.(com|org|net)$")
     private String userEmail; //사용자 이메일
 
-    @Pattern(regexp = "^(?:[1-9]|[1-9][0-9]|1[0-4][0-9]|150)$")
-    private String userAge; // 사용자 나이, 1~150
+    private String userAge; // 사용자 나이
 
     private String gender; // 사용자 성별
 
@@ -38,7 +36,6 @@ public class MemberDTO {
 
     @Pattern(regexp = "^\\d{3}-\\d{3,4}-\\d{4}$")
     private String userTel; // 사용자 전화번호
-
 
     private String userRole; // 사용자 권한
 

@@ -7,17 +7,21 @@ export default function SignUpPage() {
 
     const id = useRef();
     const password = useRef();
+    const confirmPassword = useRef();
     const nickname1 = useRef();
     const email = useRef([]);
     const tel = useRef([]);
     const address = useRef();
     const sex = useRef([]);
-    const age = useRef();
+    const age_year = useRef();
+    const age_month = useRef();
+    const age_date = useRef();
     const username1 = useRef();
     const interest = useRef();
     const verificationCode1 = useRef();
     const [deleteFlag1, setDeleteFlag1] = useState("");
     const [isEmailValidate, setIsEmailValidate] = useState(false);
+    const [isPasswordMatch, setIsPasswordMatch] = useState(false);
     const [idState1, setIdState1] = useState(false);
     const [nickState1, setNickState1] = useState(false);
     const [emailState1, setEmailState1] = useState(false);
@@ -26,7 +30,24 @@ export default function SignUpPage() {
     let nicknameState =false
     let emailState =false
 
+    let year = [];
+    let month= [];
+    let j1=0;
+    let j2=0;
+    let j3=0;
 
+    let date = [];
+    for(let i=2023; i>=1900;i--){
+        year[j1++] = i + "년"
+    }
+
+    for(let i=1; i<=12; i++){
+        month[j2++] = i + "월"
+    }
+
+    for(let i=1; i<=31; i++){
+        date[j3++] = i + "일"
+    }
     const validateID = () => {
 
         axios.get("/api/user/signUp/idValidation", {
@@ -84,7 +105,7 @@ export default function SignUpPage() {
                     setIsEmailValidate(true);
                 } else alert("중복된 이메일입니다.")
             })
-            .catch(() =>  alert("양식을 확인해주세요."))
+            .catch(() =>  alert("양식을 확인해주세요. (.com, .org, .net 만 가입 가능합니다.)"))
     }
 
     const confirmVerificationCode = () => {
@@ -95,42 +116,64 @@ export default function SignUpPage() {
             }
         }).then(() => {
             setDeleteFlag1("N");
+            setEmailState1(true);
             alert("인증 되었습니다.")
         }).catch(err=>{
             alert("인증에 실패했습니다.")
             console.error(err)
         })
     }
+
+    const verifyPassword = () => {
+
+        console.log(confirmPassword)
+        if(password.current.value === confirmPassword.current.value){
+            setIsPasswordMatch(true)
+        }
+        else setIsPasswordMatch(false)
+    }
+
+    const checkInputSize = (e) =>{
+        let size = e.target.value;
+
+        if(size.length>4){
+            e.target.value = size.substring(0,4);
+        }
+    }
     const toSignUp = () => {
 
-        axios.post("/api/user/signUp", null, {
-            params: {
-                userId: id.current.value,
-                password: password.current.value,
-                username: username1.current.value,
-                nickname: nickname1.current.value,
-                userEmail: email.current[0].value + "@" + email.current[1].value,
-                userTel: tel.current[0].value + "-" + tel.current[1].value + "-" + tel.current[2].value,
-                userAddress: address.current.value,
-                gender: sex.current[0].value,
-                userAge: age.current.value,
-                interest: interest.current.value,
-                deleteFlag: deleteFlag1
+        const ret = window.confirm("등록하시겠습니까?")
 
-            }
-        })
-            .then(() => {
-                const ret = window.confirm("등록하시겠습니까?")
 
-                if (ret) {
-                    alert("회원가입이 완료되었습니다.")
-                    window.location.href = "/"
+        if(ret && (password.current.value===confirmPassword.current.value)){
+            axios.post("/api/user/signUp", null, {
+                params: {
+                    userId: id.current.value,
+                    password: password.current.value,
+                    username: username1.current.value,
+                    nickname: nickname1.current.value,
+                    userEmail: email.current[0].value + "@" + email.current[1].value,
+                    userTel: tel.current[0].value + "-" + tel.current[1].value + "-" + tel.current[2].value,
+                    userAddress: address.current.value,
+                    gender: sex.current[0].value,
+                    userAge: age_year.current.value + " " + age_month.current.value + " " + age_date.current.value,
+                    interest: interest.current.value,
+                    deleteFlag: deleteFlag1
+
                 }
             })
-            .catch(err => {
-                console.error(err)
-                alert("가입 양식을 확인해주세요.")
-            })
+                .then(() => {
+                        alert("회원가입이 완료되었습니다.")
+                        window.location.href = "/"
+
+                })
+                .catch(err => {
+                    console.error(err)
+                    alert("가입 양식을 확인해주세요.")
+                })
+        }
+
+
 
 
     }
@@ -151,7 +194,7 @@ export default function SignUpPage() {
                     height: "30px",
                     borderRadius: "10px",
                     position: "absolute",
-                    margin: "335px 0px 0px 530px"
+                    margin: "417px 0px 0px 530px"
                 }}>중복확인
                 </button>
                 {!isEmailValidate ? <button onClick={validateEmail} style={{
@@ -159,14 +202,14 @@ export default function SignUpPage() {
                         height: "30px",
                         borderRadius: "10px",
                         position: "absolute",
-                        margin: "490px 0px 0px 530px"
+                        margin: "573px 0px 0px 530px"
                     }}>중복확인</button> :
                     <button onClick={confirmVerificationCode} style={{
                         width: "70px",
                         height: "30px",
                         borderRadius: "10px",
                         position: "absolute",
-                        margin: "560px 0px 0px 530px"
+                        margin: "643px 0px 0px 530px"
                     }}>인증하기</button>}
 
                 <p style={{ fontSize: "30px", fontWeight: "600", margin: "20px 0px"}}>회원가입</p>
@@ -180,7 +223,15 @@ export default function SignUpPage() {
 
                 <div>
                     <div><span>*</span> 비밀번호</div>
-                    <input ref={password} type="password" placeholder="숫자 영문자 특수문자 포함 8~15글자"/></div>
+                    <input onInput={verifyPassword} ref={password} type="password" placeholder="숫자 영문자 특수문자 포함 8~15글자"/>
+                </div>
+
+                <div>
+                    <div><span>*</span> 비밀번호 확인</div>
+                    <input onInput={verifyPassword} ref={confirmPassword} type="password" placeholder="설정한 비밀번호를 입력하세요"/>
+                </div>
+                {isPasswordMatch? <p style={{color: "green", fontSize: "10px"}}>사용 가능합니다.</p> :
+                    (confirmPassword!==undefined?<p style={{color: "red", fontSize: "10px"}}>일치 하지 않습니다.</p> :"")}
 
                 <div>
                     <div><span>*</span> 닉네임</div>
@@ -210,6 +261,7 @@ export default function SignUpPage() {
                         <input type={"text"} ref={verificationCode1} placeholder={"인증번호"}/>
                     </div>
                 </div> : ""}
+                {emailState1 ? <p style={{color: "green", fontSize: "10px"}}>인증 되었습니다.</p> : <pre> </pre>}
 
                 <p style={{color: "red", fontSize: "10px"}}>{emailState}</p>
 
@@ -217,11 +269,11 @@ export default function SignUpPage() {
                     <div><span>*</span> 전화번호</div>
                     <div>
                         <input style={{width: "81px", height: "30px"}} ref={el => tel.current[0] = el} type="number"
-                               placeholder="010"/>-
+                               onInput={checkInputSize} placeholder="010"/>-
                         <input style={{width: "81px", height: "30px"}} ref={el => tel.current[1] = el} type="number"
-                               placeholder="1234"/>-
+                               onInput={checkInputSize} placeholder="1234"/>-
                         <input style={{width: "81px", height: "30px"}} ref={el => tel.current[2] = el} type="number"
-                               placeholder="5678"/>
+                               onInput={checkInputSize} placeholder="5678"/>
                     </div>
                 </div>
 
@@ -238,14 +290,39 @@ export default function SignUpPage() {
                 </div>
                 <div> 관심사
                     <div style={{width: "260px", height: "25px"}}>
-                        <input ref={interest} type="text" placeholder={"관심사"}/>
+                        <select style={{height:"25px"}} ref={interest}>
+                            <option value={"없음"}>없음</option>
+                            <option value={"아동도서"}>아동도서</option>
+                            <option value={"세계도서"}>세계도서</option>
+                            <option value={"국내도서"}>국내도서</option>
+                        </select>
                     </div>
                 </div>
 
                 <div>
                     <div><span>*</span> 나이</div>
                     <div style={{width: "260px", height: "25px"}}>
-                        <input ref={age} type="text" placeholder={"나이"}/>
+                        <select style={{height:"25px"}} ref={age_year}>
+                            {year.map(el=>{
+                                return(
+                                    <option key={el} value={el}>{el}</option>
+                                )
+                            })}
+                        </select>
+                        <select style={{height:"25px", marginLeft:"20px"}} ref={age_month}>
+                            {month.map(el=>{
+                                return(
+                                    <option key={el} value={el}>{el}</option>
+                                )
+                            })}
+                        </select>
+                        <select style={{height:"25px",  marginLeft:"20px"}} ref={age_date}>
+                            {date.map(el=>{
+                                return(
+                                    <option key={el} value={el}>{el}</option>
+                                )
+                            })}
+                        </select>
                     </div>
                 </div>
 

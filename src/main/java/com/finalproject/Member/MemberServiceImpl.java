@@ -20,7 +20,6 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Component;
 
 import java.io.UnsupportedEncodingException;
-import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Optional;
 
@@ -196,7 +195,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional
-    public boolean emailDuplicateValidation(EmailDTO emailDTO) throws Exception {
+    public boolean emailDuplicateValidation(EmailDTO emailDTO) {
         String email = emailDTO.getUserEmail();
 
         Optional<MemberEntity> byUserEmail = memberRepository.findByUserEmail(email);
@@ -207,7 +206,7 @@ public class MemberServiceImpl implements MemberService {
             emailService.sendEmail(userEmail);
             return true;
         } else {
-            throw new Exception("이메일이 중복됩니다.");
+            return false;
         }
     }
 
