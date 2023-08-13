@@ -28,4 +28,6 @@ public interface MemberService {
     boolean emailAuthentication(EmailDTO emailDTO) throws AuthenticationFailedException;
 
     void logout(HttpServletResponse response);
+
+    void withdrawal1(MemberDTO memberDTO);
 }

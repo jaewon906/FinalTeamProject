@@ -28,12 +28,15 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .formLogin(form -> form.disable())
                 .authorizeHttpRequests(authorize ->
-                        authorize.requestMatchers("/api/user/logOut").authenticated()
-                                .requestMatchers("/api/user/board/**").authenticated()
-                                .requestMatchers("/api/user/myPage/**").authenticated()
-                                .requestMatchers("/api/user/signUp/**").permitAll()
-                                .requestMatchers("/api/user/findMyInfo/**").authenticated()
-                                .requestMatchers("/api/user/logIn").permitAll())
+                        authorize.requestMatchers("/api/user/logOut").authenticated() //로그아웃
+                                .requestMatchers("/api/user/board/**").authenticated() //게시글 관련
+                                .requestMatchers("/api/user/update").authenticated() //회원정보 수정
+                                .requestMatchers("/api/user/myPage/**").authenticated() //내 페이지 관련
+                                .requestMatchers("/api/user/withdrawal").authenticated() //회원탈퇴
+                                .requestMatchers("/api/user/findMyInfo/**").permitAll() //내정보 찾기
+                                .requestMatchers("/api/user/signUp/**").permitAll() //회원 가입
+                                .requestMatchers("/api/user/logIn").permitAll() //로그인
+                                .requestMatchers("/api/user/dormantAccount").permitAll()) //휴면계정
                 .addFilterBefore(new JwtFilter(tokenConfig, new ModelMapper()), UsernamePasswordAuthenticationFilter.class)
                 .build();
     }

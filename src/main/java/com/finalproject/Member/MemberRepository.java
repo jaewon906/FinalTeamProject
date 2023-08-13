@@ -12,8 +12,12 @@ import java.util.Optional;
 public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
 
     @Modifying
-    @Query(value = "update MemberEntity m set m.deleteFlag='0' where m.id=:id")
-    void updateDeleteFlag(@Param("id") Long id);
+    @Query(value = "update MemberEntity m set m.deleteFlag='Y' where m.userNumber=:userNumber")
+    void updateDeleteFlag(@Param("userNumber") String userNumber);
+
+    @Modifying
+    @Query(value = "update MemberEntity m set m.deleteFlag='N' where m.userId=:userId")
+    void updateDeleteFlag1(@Param("userId") String userId);
 
     @Modifying
     @Query(value = "update MemberEntity m set m.password=:password where m.userNumber=:userNumber")
@@ -26,7 +30,6 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
             "m.nickname=:nickname, " +
             "m.userAddress=:userAddress, " +
             "m.interest=:interest, " +
-            "m.userAge=:userAge, " +
             "m.userTel=:userTel " +
             "where m.userNumber=:userNumber"
             )
@@ -35,7 +38,6 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
                       @Param("nickname")String nickname,
                       @Param("userAddress")String userAddress,
                       @Param("interest")String interest,
-                      @Param("userAge")String userAge,
                       @Param("userTel")String userTel,
                       @Param("userNumber")String userNumber);
 

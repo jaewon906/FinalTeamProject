@@ -1,6 +1,6 @@
 import style from "../css/logInPage.module.css"
 import {Link} from "react-router-dom";
-import {useRef} from "react";
+import {useRef, useState} from "react";
 import axios from "axios";
 
 
@@ -8,6 +8,7 @@ export default function LogInPage() {
 
     const userId = useRef();
     const password = useRef();
+    const [userState, setUserState] = useState(false);
 
     const toLogIn = () => {
         axios.get("api/user/logIn", {
@@ -15,17 +16,52 @@ export default function LogInPage() {
                 userId: userId.current.value,
                 password: password.current.value
             }
-        }).then(() => {
-            window.location.href="/"
+        }).then((res) => {
+
+            setUserState(res.data)
+            console.log(userState)
+
+                if (userState) {
+                    window.location.href = "/"
+                } else {
+                    const ret = window.confirm("휴면 계정입니다. 계정 전환 하시겠습니까?")
+
+                    if (ret) {
+                        axios.post("api/user/dormantAccount", null, {
+                            params: {
+                                userId: userId.current.value,
+                            }
+                        }).then(() => {
+                            axios.get("api/user/logIn", {
+                                params: {
+                                    userId: userId.current.value,
+                                    password: password.current.value
+                                }
+                            }).then(() => {
+                                alert("계정 전환이 완료되었습니다.")
+                                window.location.href="/"
+                            })
+                                .catch(err => {
+                                    console.error(err)
+                                    alert("다시 시도해주세요")
+                                })
+                        })
+                            .catch(err => {
+                                console.error(err)
+                                alert("잠시후에 다시 시도해주세요.")
+                            })
+
+                    }
+                }
             }
-        ).catch(err=>{
+        ).catch(err => {
             alert("아이디나 비밀번호를 확인하세요")
             console.error(err)
         })
     }
 
     const onEnter = (e) => {
-        if(e.keyCode===13){
+        if (e.keyCode === 13) {
             toLogIn()
         }
     }

@@ -51,8 +51,8 @@ public class MemberController {
     }
 
     @GetMapping("/logIn") //로그인
-    public void login(MemberDTO memberDTO, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
-        memberService.login(memberDTO, request, response);
+    public boolean login(MemberDTO memberDTO, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+       return memberService.login(memberDTO, request, response);
     }
 
     @GetMapping("/logOut") //로그아웃
@@ -67,6 +67,8 @@ public class MemberController {
 
     @PostMapping("/update") // 본인 정보 업데이트
     public boolean modifyInfo(@Valid MemberDTO memberDTO) { //회원 정보 수정
+        log.info("유저 아이디{}",memberDTO.getUserId());
+        log.info("유저 넘버{}",memberDTO.getUserNumber());
         return memberService.modifyInfo(memberDTO);
     }
 
@@ -99,6 +101,11 @@ public class MemberController {
     @PostMapping("/withdrawal") //회원탈퇴
     public void withdrawal(MemberDTO memberDTO) {
         memberService.withdrawal(memberDTO);
+    }
+
+    @PostMapping("/dormantAccount") //회원탈퇴
+    public void wakeUpDormantAccount(MemberDTO memberDTO) {
+        memberService.withdrawal1(memberDTO);
     }
 
 

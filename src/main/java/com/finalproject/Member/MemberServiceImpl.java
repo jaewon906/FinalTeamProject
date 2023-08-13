@@ -99,31 +99,6 @@ public class MemberServiceImpl implements MemberService {
         cookieConfig.deleteCookie(response, cookieKey);
     }
 
-    //    @Override
-//    @Transactional
-//    public boolean modifyInfo(MemberDTO memberDTO) { //회원 정보 수정
-//        MemberEntity memberEntity = MemberEntity.DTOToEntity(memberDTO);
-//        Optional<MemberEntity> byUserNumber = memberRepository.findByUserNumber(memberEntity.getUserNumber());
-//
-//        if (byUserNumber.isPresent()) {
-//            memberRepository.updateMyInfo(
-//                    memberEntity.getUsername(),
-//                    memberEntity.getPassword(),
-//                    memberEntity.getNickname(),
-//                    memberEntity.getUserAddress(),
-//                    memberEntity.getInterest(),
-//                    memberEntity.getUserAge(),
-//                    memberEntity.getUserTel(),
-//                    memberEntity.getUserNumber()
-//            );
-//            log.info("회원정보 수정에 성공했습니다.");
-//
-//            return true;
-//        }
-//        else{
-//            throw new InvalidDataAccessApiUsageException("회원정보 수정에 실패했습니다.");
-//        }
-//    }
     @Override
     @Transactional
     public boolean modifyInfo(MemberDTO memberDTO) { //회원 정보 수정
@@ -138,7 +113,6 @@ public class MemberServiceImpl implements MemberService {
                         memberEntity.getNickname(),
                         memberEntity.getUserAddress(),
                         memberEntity.getInterest(),
-                        memberEntity.getUserAge(),
                         memberEntity.getUserTel(),
                         memberEntity.getUserNumber()
                 );
@@ -171,8 +145,15 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    @Transactional
     public void withdrawal(MemberDTO memberDTO) {
-        memberRepository.updateDeleteFlag(memberDTO.getId());
+        memberRepository.updateDeleteFlag(memberDTO.getUserNumber());
+    }
+
+    @Override
+    @Transactional
+    public void withdrawal1(MemberDTO memberDTO) {
+        memberRepository.updateDeleteFlag1(memberDTO.getUserId());
     }
 
     @Override
