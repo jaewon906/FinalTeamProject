@@ -75,6 +75,7 @@ public class MemberController {
     public List<String> findId(@Valid MemberDTO memberDTO) {
        return emailService.findIdByEmail(memberDTO);
     }
+
     @GetMapping("/findMyInfo/byEmail/auth")// 아이디찾기(전송된 인증번호 입력하기)
     public String findIdVerificationCode(EmailDTO emailDTO) throws AuthenticationFailedException {
         return emailService.findIdCompareVerificationCodeAndInput(emailDTO);

@@ -24,14 +24,20 @@ export default function LogInPage() {
         })
     }
 
+    const onEnter = (e) => {
+        if(e.keyCode===13){
+            toLogIn()
+        }
+    }
+
     return (
         <div className={style.container}>
             <div className={style.main}>
                 <div className={style.leftSection}>
                     <div className={style.logInBox}>
                         <p style={{fontSize: "20px", fontWeight: "600"}}>로그인</p>
-                        <input ref={userId} type={"text"} placeholder={"아이디"}/>
-                        <input ref={password} type={"password"} placeholder={"패스워드"}/>
+                        <input onKeyDown={onEnter} ref={userId} type={"text"} placeholder={"아이디"}/>
+                        <input onKeyDown={onEnter} ref={password} type={"password"} placeholder={"패스워드"}/>
                         <button onClick={toLogIn} className={style.loginBtn}>로그인</button>
                         <div className={style.findId}>
                             <p>아이디를 잊어버리셨나요?</p>
