@@ -32,7 +32,7 @@ public class SecurityConfig {
                                 .requestMatchers("/api/user/board/**").authenticated()
                                 .requestMatchers("/api/user/myPage/**").authenticated()
                                 .requestMatchers("/api/user/signUp/**").permitAll()
-                                .requestMatchers("/api/user/findMyInfo/**").permitAll()
+                                .requestMatchers("/api/user/findMyInfo/**").authenticated()
                                 .requestMatchers("/api/user/logIn").permitAll())
                 .addFilterBefore(new JwtFilter(tokenConfig, new ModelMapper()), UsernamePasswordAuthenticationFilter.class)
                 .build();

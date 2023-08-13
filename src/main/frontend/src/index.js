@@ -10,7 +10,7 @@ import CategoryHeader from "./component/CategoryHeader";
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <BrowserRouter>
-        <div style={{width:"100vw", minWidth:"1440px", height:"auto", position:"relative"}}>
+        <div style={{width:"100vw", minWidth:"1024px", height:"auto", position:"relative"}}>
             <Header/>
             <CategoryHeader/>
             <TopBtn/>
