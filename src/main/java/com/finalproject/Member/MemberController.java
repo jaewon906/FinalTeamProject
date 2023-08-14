@@ -101,7 +101,7 @@ public class MemberController {
         memberService.withdrawal(memberDTO);
     }
 
-    @PostMapping("/dormantAccount") //회원탈퇴
+    @PostMapping("/dormantAccount") //휴면 -> 일반 전환
     public void wakeUpDormantAccount(MemberDTO memberDTO) {
         memberService.withdrawal1(memberDTO);
     }

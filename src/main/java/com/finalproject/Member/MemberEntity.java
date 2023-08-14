@@ -19,9 +19,9 @@ public class MemberEntity {
     private String username; //사용자 이름
     @Column(nullable = false)
     private String password; //사용자 암호
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false ,unique = true)
     private String userId; //사용자 아이디
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false ,unique = true)
     private String nickname; //사용자 닉네임
     @Column(nullable = false)
     private String userAddress; //사용자 주소

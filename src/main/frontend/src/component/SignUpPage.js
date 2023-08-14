@@ -26,26 +26,26 @@ export default function SignUpPage() {
     const [nickState1, setNickState1] = useState(false);
     const [emailState1, setEmailState1] = useState(false);
 
-    let idState=false
-    let nicknameState =false
-    let emailState =false
+    let idState = false
+    let nicknameState = false
+    let emailState = false
 
     let year = [];
-    let month= [];
-    let j1=0;
-    let j2=0;
-    let j3=0;
+    let month = [];
+    let j1 = 0;
+    let j2 = 0;
+    let j3 = 0;
 
     let date = [];
-    for(let i=2023; i>=1900;i--){
+    for (let i = 2023; i >= 1900; i--) {
         year[j1++] = i + "년"
     }
 
-    for(let i=1; i<=12; i++){
+    for (let i = 1; i <= 12; i++) {
         month[j2++] = i + "월"
     }
 
-    for(let i=1; i<=31; i++){
+    for (let i = 1; i <= 31; i++) {
         date[j3++] = i + "일"
     }
     const validateID = () => {
@@ -56,14 +56,14 @@ export default function SignUpPage() {
             }
         })
             .then(res => {
-                idState=res.data
+                idState = res.data
                 setIdState1(idState)
                 if (idState === true) {
                     alert("사용 가능합니다.")
                 } else alert("중복된 아이디 입니다.")
             })
             .catch(err => {
-                idState=false
+                idState = false
                 setIdState1(idState)
                 console.error(err)
                 alert("양식을 확인해주세요.")
@@ -79,14 +79,14 @@ export default function SignUpPage() {
                 }
         })
             .then(res => {
-                nicknameState =res.data
+                nicknameState = res.data
                 setNickState1(nicknameState)
                 if (nicknameState === true) {
                     alert("사용 가능합니다.")
                 } else alert("중복된 닉네임입니다.")
             })
             .catch(err => {
-                nicknameState=false
+                nicknameState = false
                 setNickState1(nicknameState);
                 console.error(err)
                 alert("양식을 확인해주세요.")
@@ -105,7 +105,7 @@ export default function SignUpPage() {
                     setIsEmailValidate(true);
                 } else alert("중복된 이메일입니다.")
             })
-            .catch(() =>  alert("양식을 확인해주세요. (.com, .org, .net 만 가입 가능합니다.)"))
+            .catch(() => alert("양식을 확인해주세요. (.com, .org, .net 만 가입 가능합니다.)"))
     }
 
     const confirmVerificationCode = () => {
@@ -118,7 +118,7 @@ export default function SignUpPage() {
             setDeleteFlag1("N");
             setEmailState1(true);
             alert("인증 되었습니다.")
-        }).catch(err=>{
+        }).catch(err => {
             alert("인증에 실패했습니다.")
             console.error(err)
         })
@@ -127,25 +127,23 @@ export default function SignUpPage() {
     const verifyPassword = () => {
 
         console.log(confirmPassword)
-        if(password.current.value === confirmPassword.current.value){
+        if (password.current.value === confirmPassword.current.value) {
             setIsPasswordMatch(true)
-        }
-        else setIsPasswordMatch(false)
+        } else setIsPasswordMatch(false)
     }
 
-    const checkInputSize = (e) =>{
+    const checkInputSize = (e) => {
         let size = e.target.value;
 
-        if(size.length>4){
-            e.target.value = size.substring(0,4);
+        if (size.length > 4) {
+            e.target.value = size.substring(0, 4);
         }
     }
     const toSignUp = () => {
 
         const ret = window.confirm("등록하시겠습니까?")
 
-
-        if(ret && (password.current.value===confirmPassword.current.value)){
+        if (ret && (password.current.value === confirmPassword.current.value)) {
             axios.post("/api/user/signUp", null, {
                 params: {
                     userId: id.current.value,
@@ -163,8 +161,8 @@ export default function SignUpPage() {
                 }
             })
                 .then(() => {
-                        alert("회원가입이 완료되었습니다.")
-                        window.location.href = "/"
+                    alert("회원가입이 완료되었습니다.")
+                    window.location.href = "/"
 
                 })
                 .catch(err => {
@@ -174,6 +172,36 @@ export default function SignUpPage() {
         }
 
     }
+
+    // let i=0;
+    // const createAccount = () => {
+    //     i++;
+    //
+    //     axios.post("/api/user/signUp", null, {
+    //         params: {
+    //             userId: "qwer1234" + i,
+    //             password: "rkddkwl1!",
+    //             username: "박재원",
+    //             nickname: "재원씨야" + i,
+    //             userEmail: "ploi" + i + "@naver.com",
+    //             userTel: "010-1234-1234",
+    //             userAddress: "없음",
+    //             gender: "남자",
+    //             userAge: "1996-04-06",
+    //             interest: "없음",
+    //             deleteFlag: "Y"
+    //
+    //         }
+    //     })
+    //         .then(() => {
+    //
+    //         })
+    //         .catch(err => {
+    //             console.error(err)
+    //         })
+    //     console.log(i)
+    // }
+    // window.setInterval(createAccount,100);
 
     return (
         <div className={style.container}>
@@ -209,7 +237,7 @@ export default function SignUpPage() {
                         margin: "643px 0px 0px 530px"
                     }}>인증하기</button>}
 
-                <p style={{ fontSize: "30px", fontWeight: "600", margin: "20px 0px"}}>회원가입</p>
+                <p style={{fontSize: "30px", fontWeight: "600", margin: "20px 0px"}}>회원가입</p>
                 <div><p style={{fontSize: "11px"}}>( <span>*</span> 는 필수 입력사항)</p></div>
                 <div>
                     <div><span>*</span> 아이디</div>
@@ -225,10 +253,11 @@ export default function SignUpPage() {
 
                 <div>
                     <div><span>*</span> 비밀번호 확인</div>
-                    <input onInput={verifyPassword} ref={confirmPassword} type="password" placeholder="설정한 비밀번호를 입력하세요"/>
+                    <input onInput={verifyPassword} ref={confirmPassword} type="password"
+                           placeholder="설정한 비밀번호를 입력하세요"/>
                 </div>
-                {isPasswordMatch? <p style={{color: "green", fontSize: "10px"}}>사용 가능합니다.</p> :
-                    (confirmPassword!==undefined?<p style={{color: "red", fontSize: "10px"}}>일치 하지 않습니다.</p> :"")}
+                {isPasswordMatch ? <p style={{color: "green", fontSize: "10px"}}>사용 가능합니다.</p> :
+                    (confirmPassword !== undefined ? <p style={{color: "red", fontSize: "10px"}}>일치 하지 않습니다.</p> : "")}
 
                 <div>
                     <div><span>*</span> 닉네임</div>
@@ -287,7 +316,7 @@ export default function SignUpPage() {
                 </div>
                 <div> 관심사
                     <div style={{width: "260px", height: "25px"}}>
-                        <select style={{height:"25px"}} ref={interest}>
+                        <select style={{height: "25px"}} ref={interest}>
                             <option value={"없음"}>없음</option>
                             <option value={"아동도서"}>아동도서</option>
                             <option value={"세계도서"}>세계도서</option>
@@ -299,23 +328,23 @@ export default function SignUpPage() {
                 <div>
                     <div><span>*</span> 나이</div>
                     <div style={{width: "260px", height: "25px"}}>
-                        <select style={{height:"25px"}} ref={age_year}>
-                            {year.map(el=>{
-                                return(
+                        <select style={{height: "25px"}} ref={age_year}>
+                            {year.map(el => {
+                                return (
                                     <option key={el} value={el}>{el}</option>
                                 )
                             })}
                         </select>
-                        <select style={{height:"25px", marginLeft:"20px"}} ref={age_month}>
-                            {month.map(el=>{
-                                return(
+                        <select style={{height: "25px", marginLeft: "20px"}} ref={age_month}>
+                            {month.map(el => {
+                                return (
                                     <option key={el} value={el}>{el}</option>
                                 )
                             })}
                         </select>
-                        <select style={{height:"25px",  marginLeft:"20px"}} ref={age_date}>
-                            {date.map(el=>{
-                                return(
+                        <select style={{height: "25px", marginLeft: "20px"}} ref={age_date}>
+                            {date.map(el => {
+                                return (
                                     <option key={el} value={el}>{el}</option>
                                 )
                             })}

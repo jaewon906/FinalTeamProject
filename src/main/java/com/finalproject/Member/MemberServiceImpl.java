@@ -37,6 +37,7 @@ public class MemberServiceImpl implements MemberService {
     private final TokenConfig tokenConfig;
     private final CookieConfig cookieConfig;
 
+    List<MemberEntity> dormantAccounts;
     @Override
     public boolean signUp(MemberDTO memberDTO) throws Exception {
 //Validation이 memberDTO를 인터셉트해서 검사를 먼저하고 엔티티에서 unique를 지정했기 때문에 예외처리 하지않음
@@ -87,6 +88,8 @@ public class MemberServiceImpl implements MemberService {
                     response.addCookie(refreshToken);
 
                     log.info("로그인 성공");
+
+                    emailService.sendEmailLogInNotification(byUserId.get().getUserEmail());
 
                     return true;
                 }
@@ -196,7 +199,7 @@ public class MemberServiceImpl implements MemberService {
         if (byUserEmail.isEmpty()) {
             String userEmail = emailDTO.getUserEmail();
             emailRepository.deleteByUserEmail(emailDTO.getUserEmail());
-            emailService.sendEmail(userEmail);
+            emailService.sendEmailVerificationCode(userEmail);
             return true;
         } else {
             return false;
@@ -220,11 +223,14 @@ public class MemberServiceImpl implements MemberService {
         }
     }
 
-    @Scheduled(fixedDelay = 30 * 24 * 60 * 60 * 1000L)
+    @Scheduled(fixedDelay = 30 * 24 * 60 * 60 * 1000L) //한달에 한번 씩 휴면계정의 모든 리스트를 불러옴
+    public void deleteDormantAccount() {
+        dormantAccounts = memberRepository.findByDeleteFlag("Y");
+    }
+
+    @Scheduled(fixedDelay = 60 * 60 * 1000L) // 한 시간에 한번씩 휴면 계정 전환 후 30일 이후의 계정들 삭제
     @Transactional
     public void dormantAccountManagementScheduler() {
-
-        List<MemberEntity> dormantAccounts = memberRepository.findByDeleteFlag("Y");
 
         if(dormantAccounts.size()!=0){ //휴면 계정이 존재할 때
 
@@ -238,15 +244,12 @@ public class MemberServiceImpl implements MemberService {
                 Long deleteDate = oneMonth + deletedTime.getTime(); //지운 날짜 한달 뒤
 
                 if (now > deleteDate) {
-                    log.info("삭제된 사용자 : {}",dormantAccount.getUserNumber());
                     memberRepository.deleteByUserNumber(dormantAccount.getUserNumber());
                 }
             }
         }
     }
 
-    @Scheduled(fixedDelay = 60 * 60 * 1000L)
-    public void deleteDormantAccount() {
 
-    }
+
 }

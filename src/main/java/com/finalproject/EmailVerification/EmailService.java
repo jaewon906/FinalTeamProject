@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.io.UnsupportedEncodingException;
@@ -38,7 +39,7 @@ public class EmailService {
             log.info("입력값에 해당하는 이메일을 찾았습니다.");
 
             String email = byUserEmail.get().getUserEmail();
-            boolean isEmailSendSucceed = sendEmail(email);
+            boolean isEmailSendSucceed = sendEmailVerificationCode(email);
 
             if (isEmailSendSucceed) {
                 result.add(email);
@@ -63,7 +64,7 @@ public class EmailService {
 
             String email = byUserEmailAndUserId.get().getUserEmail();
             String userId = byUserEmailAndUserId.get().getUserId();
-            boolean isEmailSendSucceed = sendEmail(email);
+            boolean isEmailSendSucceed = sendEmailVerificationCode(email);
 
             if (isEmailSendSucceed) {
                 result.add(email);
@@ -125,7 +126,7 @@ public class EmailService {
     }
 
 
-    public boolean sendEmail(String email) { //해당하는 이메일로 인증코드를 보냄
+    public boolean sendEmailVerificationCode(String email) { //해당하는 이메일로 인증코드를 보냄
 //        MimeMessage는 javaMail API에서 이메일을 나타내는 클래스
 //        javaMailSender는 이메일을 보내는데 사용되는 메일 전송 작업을 추상화함.
 //        MimeMessageHelper 생성자의 매개변수 중 true는 멀티파트(사진 동영상을 첨부할 수 있는)형식을 지원여부를 묻는다.
@@ -133,6 +134,7 @@ public class EmailService {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         String matchedId = matcherIdAndEmail(email); //이메일에 해당하는 id
         String verificationCode = makeVerificationCode(); //인증번호 만들기
+        String html = EmailHtml.verificationCodeHTML(verificationCode);
 
         EmailDTO emailDTO = EmailDTO.builder()
                 .userEmail(email)
@@ -145,7 +147,7 @@ public class EmailService {
             helper.setFrom("ploi2580@gmail.com","BookVoyage");
             helper.setTo(email); //메일 수신자.
             helper.setSubject("[BookVoyage] 인증코드 입니다."); //메일 제목
-            helper.setText("인증코드는 " + verificationCode + " 입니다."); //메일 내용
+            helper.setText(html,true); //메일 내용
             javaMailSender.send(mimeMessage);
             log.info("메일을 성공적으로 발송했습니다.");
 
@@ -157,6 +159,29 @@ public class EmailService {
             log.error("메일 발송을 실패했습니다.");
 
             return false;
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public void sendEmailLogInNotification(String email) {
+
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        String html = EmailHtml.logInHTML("qwer1234");
+
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "EUC-KR");
+            helper.setFrom("ploi2580@gmail.com","BookVoyage");
+            helper.setTo(email); //메일 수신자.
+            helper.setSubject("[BookVoyage] 로그인 되었습니다."); //메일 제목
+            helper.setText(html,true);
+            javaMailSender.send(mimeMessage);
+            log.info("메일을 성공적으로 발송했습니다.");
+
+        } catch (MessagingException e) {
+            log.error("메일 발송을 실패했습니다.");
+
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
