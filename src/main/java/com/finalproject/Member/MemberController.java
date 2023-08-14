@@ -67,8 +67,6 @@ public class MemberController {
 
     @PostMapping("/update") // 본인 정보 업데이트
     public boolean modifyInfo(@Valid MemberDTO memberDTO) { //회원 정보 수정
-        log.info("유저 아이디{}",memberDTO.getUserId());
-        log.info("유저 넘버{}",memberDTO.getUserNumber());
         return memberService.modifyInfo(memberDTO);
     }
 

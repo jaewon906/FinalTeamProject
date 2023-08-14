@@ -68,8 +68,8 @@ public class MemberServiceImpl implements MemberService {
         Optional<MemberEntity> byUserId = memberRepository.findByUserId(memberEntity.getUserId());
 
         if(byUserId.isPresent()){ // 예외 -> id or 비번 문제 / true -> 로그인 / false -> 휴면 계정 or 비활성화 계정
-            if(byUserId.get().getDeleteFlag().equals("N")){
-                if(BCrypt.checkpw(plainText,byUserId.get().getPassword())){
+            if(BCrypt.checkpw(plainText,byUserId.get().getPassword())){
+                if(byUserId.get().getDeleteFlag().equals("N")){
 
                     MemberDTO memberDTO1 = MemberDTO.EntityToDTO(byUserId.get());
 
@@ -82,11 +82,18 @@ public class MemberServiceImpl implements MemberService {
                     response.addCookie(accessToken);
                     response.addCookie(refreshToken);
 
+                    log.info("로그인 성공");
+
                     return true;
                 }
-                else throw new UserPasswordNotMatchException("비밀번호가 일치하지 않습니다.");
+                else {
+
+                    log.info("휴면 계정");
+
+                    return false;
+                }
             }
-            else return false;
+            else throw new UserPasswordNotMatchException("비밀번호가 일치하지 않습니다.");
         }
         else{
             throw new UserIdNotFoundException("아이디가 존재하지 않습니다.");

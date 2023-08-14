@@ -54,6 +54,7 @@ export default function Header() {
                 .then(() => {
                         alert("로그아웃 되셨습니다.")
                         setIsLogin(false);
+                        window.location.href="/"
                     }
                 ).catch(e => {
                 console.error(e)

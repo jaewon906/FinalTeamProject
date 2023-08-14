@@ -11,7 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 @Table(name = "MEMBER_INFO")
 @Getter
 @Setter
-public class MemberEntity extends TimeBaseEntity {
+public class MemberEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; // pk
@@ -41,6 +41,9 @@ public class MemberEntity extends TimeBaseEntity {
     private String deleteFlag;// DB에서 완전 삭제 대신 값이 0일때 비활성화 처리. 추후 계정 복구를 위함
     @Column(nullable = false, unique = true)
     private String userNumber; //회원 고유번호 (난수)
+
+    @Embedded
+    private TimeBaseEntity timeBaseEntity;
 
     public static MemberEntity DTOToEntity(MemberDTO memberDTO) {
         ModelMapper modelMapper = new ModelMapper();

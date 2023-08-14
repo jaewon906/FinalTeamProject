@@ -8,7 +8,6 @@ export default function MyPage() {
     const [myInfo, setMyInfo] = useState();
     let userNumber = "";
 
-    const userId = useRef();
     const password = useRef();
     const confirmPassword = useRef();
     const nickname1 = useRef();
@@ -40,6 +39,7 @@ export default function MyPage() {
     for (let i = 1; i <= 31; i++) {
         date[j3++] = i + "일"
     }
+
 
     useEffect(() => {
         userNumber = getUserNumber().userNumber
@@ -113,7 +113,7 @@ export default function MyPage() {
                         nickname: nickname1.current.value,
                         userAddress: address.current.value,
                         gender: sex.current[0].value,
-                        userTel: tel.current.value,
+                        userTel: tel.current[0].value + "-" + tel.current[1].value + "-" + tel.current[2].value,
                         interest: interest.current.value,
                         userNumber: myInfo.userNumber
                     }
@@ -153,8 +153,8 @@ export default function MyPage() {
                 }).then(()=>{
                     alert("그동안 이용해 주셔서 감사합니다.")
                     axios.get("api/user/logOut")
-                        .then(res=>console.log(res.data))
-                        .catch(err=>console.log(err))
+                        .then()
+                        .catch(err=>console.error(err))
                     window.location.href="/"
                 })
                     .catch(() => {
@@ -163,6 +163,8 @@ export default function MyPage() {
             }).catch(() => alert("암호가 일치하지 않습니다."))
         }
     }
+
+
 
     return (
         <div className={style.container}>
@@ -194,7 +196,7 @@ export default function MyPage() {
 
                     <div className={style.section}>
                         <div style={{width: "100px"}}><p style={{fontSize: "12px"}}>닉네임</p></div>
-                        <input ref={nickname1} type={"text"} value={myInfo.nickname}/>
+                        <input ref={nickname1} type={"text"} value={myInfo.nickname } placeholder={"특수문자 제외 4~20글자"}/>
                     </div>
 
                     <div className={style.section}>
@@ -209,7 +211,14 @@ export default function MyPage() {
 
                     <div className={style.section}>
                         <div style={{width: "100px"}}><p style={{fontSize: "12px"}}>전화번호</p></div>
-                        <input ref={tel} value={myInfo.userTel}/>
+                        <div style={{display:"flex", alignItems:"center"}}>
+                            <input  onInput={checkInputSize} style={{width:"70px"}} ref={el=>tel.current[0]=el} value={myInfo.userTel.split("-")[0]}/>
+                            <pre> - </pre>
+                            <input  onInput={checkInputSize} style={{width:"110px"}} ref={el=>tel.current[1]=el} value={myInfo.userTel.split("-")[1]}/>
+                            <pre> - </pre>
+                            <input  onInput={checkInputSize} style={{width:"110px"}} ref={el=>tel.current[2]=el} value={myInfo.userTel.split("-")[2]}/>
+                        </div>
+
                     </div>
 
                     <div className={style.section}>
@@ -236,7 +245,7 @@ export default function MyPage() {
                     </div>
 
                     <button className={style.modifyBtn} onClick={toUpdate}>수정하기</button>
-                    <button className={style.deleteBtn} onClick={toDelete}>삭제하기</button>
+                    <button className={style.deleteBtn} onClick={toDelete}>탈퇴하기</button>
 
                 </div> : ""}
         </div>

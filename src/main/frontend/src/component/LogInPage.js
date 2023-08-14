@@ -1,6 +1,6 @@
 import style from "../css/logInPage.module.css"
 import {Link} from "react-router-dom";
-import {useRef, useState} from "react";
+import {useRef} from "react";
 import axios from "axios";
 
 
@@ -8,7 +8,7 @@ export default function LogInPage() {
 
     const userId = useRef();
     const password = useRef();
-    const [userState, setUserState] = useState(false);
+    let userState=true;
 
     const toLogIn = () => {
         axios.get("api/user/logIn", {
@@ -18,8 +18,7 @@ export default function LogInPage() {
             }
         }).then((res) => {
 
-            setUserState(res.data)
-            console.log(userState)
+            userState=res.data
 
                 if (userState) {
                     window.location.href = "/"
@@ -59,6 +58,7 @@ export default function LogInPage() {
             console.error(err)
         })
     }
+
 
     const onEnter = (e) => {
         if (e.keyCode === 13) {
