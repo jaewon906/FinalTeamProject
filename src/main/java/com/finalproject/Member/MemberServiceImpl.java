@@ -16,11 +16,15 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Component;
 
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -121,7 +125,8 @@ public class MemberServiceImpl implements MemberService {
                         memberEntity.getUserAddress(),
                         memberEntity.getInterest(),
                         memberEntity.getUserTel(),
-                        memberEntity.getUserNumber()
+                        memberEntity.getUserNumber(),
+                        LocalDateTime.now()
                 );
                 log.info("회원정보 수정에 성공했습니다.");
                 return true;
@@ -154,7 +159,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     @Transactional
     public void withdrawal(MemberDTO memberDTO) {
-        memberRepository.updateDeleteFlag(memberDTO.getUserNumber());
+        memberRepository.updateDeleteFlag(memberDTO.getUserNumber(), LocalDateTime.now());
     }
 
     @Override
@@ -213,5 +218,35 @@ public class MemberServiceImpl implements MemberService {
         } else {
             throw new AuthenticationFailedException("인증번호가 일치하지 않습니다.");
         }
+    }
+
+    @Scheduled(fixedDelay = 30 * 24 * 60 * 60 * 1000L)
+    @Transactional
+    public void dormantAccountManagementScheduler() {
+
+        List<MemberEntity> dormantAccounts = memberRepository.findByDeleteFlag("Y");
+
+        if(dormantAccounts.size()!=0){ //휴면 계정이 존재할 때
+
+            for (MemberEntity dormantAccount : dormantAccounts) {
+
+                Timestamp deletedTime = dormantAccount.getTimeBaseEntity().getDeletedTime();
+                Long now = new Timestamp(System.currentTimeMillis()).getTime();
+
+                Long oneMonth = 30 * 24 * 60 * 60 * 1000L;
+
+                Long deleteDate = oneMonth + deletedTime.getTime(); //지운 날짜 한달 뒤
+
+                if (now > deleteDate) {
+                    log.info("삭제된 사용자 : {}",dormantAccount.getUserNumber());
+                    memberRepository.deleteByUserNumber(dormantAccount.getUserNumber());
+                }
+            }
+        }
+    }
+
+    @Scheduled(fixedDelay = 60 * 60 * 1000L)
+    public void deleteDormantAccount() {
+
     }
 }
