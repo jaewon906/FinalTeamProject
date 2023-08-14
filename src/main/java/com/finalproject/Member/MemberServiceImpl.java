@@ -89,7 +89,7 @@ public class MemberServiceImpl implements MemberService {
 
                     log.info("로그인 성공");
 
-                    emailService.sendEmailLogInNotification(byUserId.get().getUserEmail());
+                    emailService.sendEmailLogInNotification(byUserId.get().getUserEmail(), byUserId.get().getUserId());
 
                     return true;
                 }

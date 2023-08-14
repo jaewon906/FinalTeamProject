@@ -165,10 +165,10 @@ public class EmailService {
 
     }
 
-    public void sendEmailLogInNotification(String email) {
+    public void sendEmailLogInNotification(String email, String userId) {
 
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-        String html = EmailHtml.logInHTML("qwer1234");
+        String html = EmailHtml.logInHTML(userId);
 
         try {
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "EUC-KR");
