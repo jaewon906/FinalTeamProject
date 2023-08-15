@@ -11,11 +11,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.modelmapper.ModelMapper;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "EmailVerification")
 @Setter
 @Getter
-public class EmailEntity extends TimeBaseEntity {
+public class EmailEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

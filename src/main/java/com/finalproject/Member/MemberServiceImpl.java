@@ -200,8 +200,10 @@ public class MemberServiceImpl implements MemberService {
             String userEmail = emailDTO.getUserEmail();
             emailRepository.deleteByUserEmail(emailDTO.getUserEmail());
             emailService.sendEmailVerificationCode(userEmail);
+
             return true;
         } else {
+
             return false;
         }
     }

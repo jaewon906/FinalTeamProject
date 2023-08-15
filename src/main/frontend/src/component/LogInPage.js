@@ -59,7 +59,6 @@ export default function LogInPage() {
         })
     }
 
-
     const onEnter = (e) => {
         if (e.keyCode === 13) {
             toLogIn()

@@ -29,7 +29,7 @@ export default function FindMyPwPage() {
             setIdFromRepo(res.data[1])
         })
             .catch(() => {
-                alert("이메일이 존재하지 않습니다.")
+                alert("아이디 또는 이메일을 확인해주세요.")
             })
 
     }

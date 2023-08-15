@@ -22,7 +22,6 @@ export function getUserNumber(){
         return parseJwt(getCookie("accessToken"));
 
     } catch (e) {
-        console.error(e)
         return "";
     }
 }
