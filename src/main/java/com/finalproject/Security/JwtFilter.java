@@ -5,6 +5,7 @@ import com.finalproject.Common.TokenNotValidateException;
 import com.finalproject.Member.MemberDTO;
 import com.finalproject.Member.MemberEntity;
 import com.finalproject.Member.MemberRepository;
+import com.finalproject.Member.MemberRole;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -62,7 +63,9 @@ public class JwtFilter extends OncePerRequestFilter {
 
             log.info("엑세스 토큰과 리프레쉬 토큰 둘 다 인증되었습니다.");
 
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("", "", List.of(new SimpleGrantedAuthority("ROLE_USER")));
+            String role = modelMapper.map(MemberRole.USER,String.class);
+
+            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("", "", List.of(new SimpleGrantedAuthority("ROLE_"+role)));
 
             token.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
@@ -87,7 +90,9 @@ public class JwtFilter extends OncePerRequestFilter {
 
                 response.addCookie(regeneratedAccessToken);
 
-                UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("", "", List.of(new SimpleGrantedAuthority("ROLE_USER")));
+                String role = modelMapper.map(MemberRole.USER,String.class);
+
+                UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("", "", List.of(new SimpleGrantedAuthority("ROLE_"+role)));
 
                 token.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 

@@ -53,7 +53,7 @@ public class MemberEntity {
         } catch (Exception ignored) {
         }
         memberDTO.setDeleteFlag("N");
-        memberDTO.setUserRole("USER");
+        memberDTO.setUserRole(MemberRole.USER.getRoleName());
 
         return modelMapper.map(memberDTO, MemberEntity.class);
     }
