@@ -60,7 +60,7 @@ export default function FindMyPwPage() {
                     password:setPassword.current.value
                 }
             }).then(()=>{
-                alert("수정에 성공했습니다.")
+                alert("비밀번호 재설정이 완료되었습니다. 설정한 비밀번호로 로그인 해주세요")
                 window.location.href="/"
             }).catch(err=>{
                 console.error(err)

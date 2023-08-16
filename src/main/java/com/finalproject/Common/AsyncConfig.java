@@ -16,7 +16,7 @@ public class AsyncConfig {
 
         ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
 
-        int CORE_POOL_SIZE = 3;
+        int CORE_POOL_SIZE = 4;
         taskExecutor.setCorePoolSize(CORE_POOL_SIZE); // 최초 동작 시에 corePoolSize만큼 스레드가 생성하여 사용된다.
         int MAX_POOL_SIZE = 10;
         taskExecutor.setMaxPoolSize(MAX_POOL_SIZE);// Queue 사이즈 이상의 요청이 들어오게 될 경우, 스레드의 개수를 MaxPoolSize만큼 늘린다.

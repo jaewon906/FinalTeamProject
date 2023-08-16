@@ -1,5 +1,7 @@
 package com.finalproject.Security;
 
+import com.finalproject.Common.CookieConfig;
+import com.finalproject.Member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +22,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final TokenConfig tokenConfig;
+    private final CookieConfig cookieConfig;
+    private final MemberRepository memberRepository;
 
     @Bean
     protected SecurityFilterChain configure(HttpSecurity httpSecurity) throws Exception {
@@ -37,7 +41,7 @@ public class SecurityConfig {
                                 .requestMatchers("/api/user/signUp/**").permitAll() //회원 가입
                                 .requestMatchers("/api/user/logIn").permitAll() //로그인
                                 .requestMatchers("/api/user/dormantAccount").permitAll()) //휴면계정
-                .addFilterBefore(new JwtFilter(tokenConfig, new ModelMapper()), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtFilter(tokenConfig, cookieConfig, new ModelMapper(), memberRepository), UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 

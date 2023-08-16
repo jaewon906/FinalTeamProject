@@ -77,7 +77,7 @@ export default function Header() {
                 <button onClick={myPage} className={style.myInfo}>
                     <img src="../" alt={""}/>
                 </button>
-                <input type={"search"} className={style.search} placeholder={"search..."}/>
+                <input name={"search"} type={"search"} className={style.search} placeholder={"search..."}/>
                 <button className={style.signUp} onClick={signUp}>SignUp</button>
                 {isLogin ?
                     <button className={style.logIn} onClick={logOut}>LogOut</button> :

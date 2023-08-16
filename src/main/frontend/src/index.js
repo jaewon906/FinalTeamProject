@@ -6,6 +6,7 @@ import ScrollTop from "./js/ScrollTop";
 import Header from "./component/Header";
 import TopBtn from "./component/jw_topBtn";
 import CategoryHeader from "./component/CategoryHeader";
+import Footer from "./component/Footer";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -16,6 +17,7 @@ root.render(
             <TopBtn/>
             <App/>
             <ScrollTop/>
+            <Footer/>
         </div>
     </BrowserRouter>
 );

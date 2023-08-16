@@ -1,6 +1,7 @@
 .container{
     width:100vw;
-    height:auto;
+    min-width: 1024px;
+    height:100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -15,6 +16,7 @@
     flex-direction: column;
     align-items: center;
     margin-top: 50px;
+    margin-bottom: 100px;
 }
 .main  span{
     color: #fa6000;
@@ -75,4 +77,12 @@ input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
+}
+.main  a{
+    text-decoration: none;
+    color: #00cfff;
+    transition: color 0.2s;
+}
+.main  a:hover{
+    color: red;
 }

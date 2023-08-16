@@ -1,6 +1,6 @@
 .container{
     width: 100%;
-    min-width: 1440px;
+    min-width: 1024px;
     height: 100px;
     display: flex;
     align-items: center;
@@ -12,7 +12,7 @@
     z-index: 9;
 }
 .main{
-    width: 40%;
+    width: 60%;
     height: 100%;
     display: flex;
     justify-content: space-between;

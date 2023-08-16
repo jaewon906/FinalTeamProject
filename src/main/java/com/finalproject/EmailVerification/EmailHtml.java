@@ -15,7 +15,7 @@ public class EmailHtml {
     public static String verificationCodeHTML(String code){
         return "<div style=\"display:flex; width: 250px; align-items:center\">" +
                 "<h2 style=\"color: #45b751;\">BookVoyage</h2><pre> </pre>" +
-                "<p style=\"color: gray; font-size:12px;\"> 회원 정보 찾기</p>" +
+                "<p style=\"color: gray; font-size:12px;\"> 이메일 인증</p>" +
                 "</div><br />" +
                 "<div style=\"height: 18px; width:340px; display:flex; justify-contents:space-between\">회원님의 인증번호는<pre> </pre><p style=\" font-weight:bold; \">" + code + "</p><pre> </pre>입니다</div><br /><br />" +
                 "<p style=\"font-size:12px\">BookVoyage를 이용해 주셔서 감사합니다.</p><p style=\"font-size:12px\">더욱 편리한 서비스를 제공하기 위해 항상 최선을 다하겠습니다.</p><br /><br />";

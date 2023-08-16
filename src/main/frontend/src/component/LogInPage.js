@@ -74,14 +74,23 @@ export default function LogInPage() {
                         <input onKeyDown={onEnter} ref={userId} type={"text"} placeholder={"아이디"}/>
                         <input onKeyDown={onEnter} ref={password} type={"password"} placeholder={"패스워드"}/>
                         <button onClick={toLogIn} className={style.loginBtn}>로그인</button>
+
+                        <div className={style.findPw}>
+                            <p>아직 회원이 아니신가요?</p>
+                            <Link to={"/signUp"}>회원가입 하기</Link>
+                        </div>
+
                         <div className={style.findId}>
                             <p>아이디를 잊어버리셨나요?</p>
                             <Link to={"/findId"}>아이디 찾기</Link>
                         </div>
+
                         <div className={style.findPw}>
                             <p>비밀번호를 잊어버리셨나요?</p>
                             <Link to={"/findPw"}>비밀번호 찾기</Link>
                         </div>
+
+
                     </div>
                 </div>
                 <div className={style.rightSection}></div>

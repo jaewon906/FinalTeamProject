@@ -1,5 +1,10 @@
 package com.finalproject.Security;
 
+import com.finalproject.Common.CookieConfig;
+import com.finalproject.Common.TokenNotValidateException;
+import com.finalproject.Member.MemberDTO;
+import com.finalproject.Member.MemberEntity;
+import com.finalproject.Member.MemberRepository;
 import com.finalproject.Member.MemberRole;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -16,14 +21,19 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
 
     private final TokenConfig tokenConfig;
+    private final CookieConfig cookieConfig;
     private final ModelMapper modelMapper;
+    private final MemberRepository memberRepository;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -48,7 +58,8 @@ public class JwtFilter extends OncePerRequestFilter {
         boolean validateAccessToken = tokenConfig.validateAccessToken(accessToken);
         boolean validateRefreshToken = tokenConfig.validateRefreshToken(refreshToken);
 
-        if (validateAccessToken && validateRefreshToken) {
+
+        if (validateAccessToken && validateRefreshToken) { //두 토큰이 인증될 때
 
             log.info("엑세스 토큰과 리프레쉬 토큰 둘 다 인증되었습니다.");
 
@@ -59,22 +70,54 @@ public class JwtFilter extends OncePerRequestFilter {
             token.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(token);
 
-            filterChain.doFilter(request, response);
-        } else {
-            if (validateRefreshToken) {
-                log.info("엑세스 토큰은 인증되지 않고 리프레쉬 토큰은 인증되었습니다.");
-//                Base64.Decoder decoder = Base64.getUrlDecoder();
-//                byte[] decode = decoder.decode(refreshToken);
-//                String decodeString = Arrays.toString(decode);
-//                log.info(decodeString);
-//                tokenConfig.generateToken()
-            } else {
-//                throw new TokenNotValidateException("토큰이 유효하지 않습니다."); //403일 때 로그인해야댐
-            }
-            filterChain.doFilter(request, response);
+
         }
+        else if(!validateAccessToken && validateRefreshToken){ //엑세스는 인증되지 않고 리프레쉬만 인증될 때
+
+            log.info("엑세스 토큰은 인증되지 않고 리프레쉬 토큰만 인증되었습니다.");
+
+            TokenDecoder decoder = new TokenDecoder();
+            String userNumber = decoder.refreshTokenDecoder(refreshToken, "userNumber");
+
+            Optional<MemberEntity> allByUserNumber = memberRepository.findAllByUserNumber(userNumber);
+
+            if(allByUserNumber.isPresent()){
+
+                MemberDTO map = modelMapper.map(allByUserNumber, MemberDTO.class);
+                TokenDTO tokenDTO = tokenConfig.generateAccessToken(map);
+                Cookie regeneratedAccessToken = cookieConfig.setCookie(tokenDTO.getAccessToken(), "accessToken", false, "/", 3600);
+
+                response.addCookie(regeneratedAccessToken);
+
+            }
+
+
+        }
+        else if(validateAccessToken && !validateRefreshToken){ // 리프레쉬는 인증되지 않고 엑세스만 인증될 때
+            log.info("리프레쉬 토큰은 인증되지 않고 엑세스 토큰만 인증되었습니다.");
+
+            TokenDecoder decoder = new TokenDecoder();
+            String userNumber = decoder.accessTokenDecoder(accessToken, "userNumber");
+
+            Optional<MemberEntity> allByUserNumber = memberRepository.findAllByUserNumber(userNumber);
+
+            if(allByUserNumber.isPresent()){
+
+                MemberDTO map = modelMapper.map(allByUserNumber, MemberDTO.class);
+                TokenDTO tokenDTO = tokenConfig.generateRefreshToken(map);
+                Cookie regeneratedRefreshToken = cookieConfig.setCookie(tokenDTO.getRefreshToken(), "refreshToken", true, "/", 7 * 24 * 3600);
+
+                response.addCookie(regeneratedRefreshToken);
+
+            }
+
+        }
+        else{
+            log.error("두 토큰이 인증되지 않았습니다.");
+        }
+
+        filterChain.doFilter(request, response);
+
     }
 
-    private void regenerateAccessToken(String a, String b) {
-    }
 }
