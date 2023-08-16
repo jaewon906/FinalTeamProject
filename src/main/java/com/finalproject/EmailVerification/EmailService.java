@@ -82,7 +82,7 @@ public class EmailService {
             String verificationCode = byUserEmail.get().getVerificationCode();
 
             if (verificationCode.equals(emailDTO.getVerificationCode())) {
-                log.info("(아이디 찾기)인증에 성공했습니다.");
+                log.info("인증에 성공했습니다.");
                 String userId = byUserEmail.get().getUserId();
                 emailRepository.deleteByUserEmail(emailDTO.getUserEmail());
 
@@ -100,7 +100,7 @@ public class EmailService {
             String verificationCode = byUserEmail.get().getVerificationCode();
 
             if (verificationCode.equals(emailDTO.getVerificationCode())) {
-                log.info("(비밀번호 찾기)인증에 성공했습니다.");
+                log.info("인증에 성공했습니다.");
                 Optional<MemberEntity> byUserEmail1 = memberRepository.findByUserEmail(emailDTO.getUserEmail());
 
                 if (byUserEmail1.isPresent()) {

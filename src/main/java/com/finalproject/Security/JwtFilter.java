@@ -5,7 +5,6 @@ import com.finalproject.Common.TokenNotValidateException;
 import com.finalproject.Member.MemberDTO;
 import com.finalproject.Member.MemberEntity;
 import com.finalproject.Member.MemberRepository;
-import com.finalproject.Member.MemberRole;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -63,11 +62,10 @@ public class JwtFilter extends OncePerRequestFilter {
 
             log.info("엑세스 토큰과 리프레쉬 토큰 둘 다 인증되었습니다.");
 
-            String map = modelMapper.map(MemberRole.USER, String.class); // USER
-
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("", "", List.of(new SimpleGrantedAuthority(map)));
+            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("", "", List.of(new SimpleGrantedAuthority("ROLE_USER")));
 
             token.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
             SecurityContextHolder.getContext().setAuthentication(token);
 
 
@@ -89,27 +87,17 @@ public class JwtFilter extends OncePerRequestFilter {
 
                 response.addCookie(regeneratedAccessToken);
 
-            }
+                UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("", "", List.of(new SimpleGrantedAuthority("ROLE_USER")));
 
+                token.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
+                SecurityContextHolder.getContext().setAuthentication(token);
+
+            }
 
         }
         else if(validateAccessToken && !validateRefreshToken){ // 리프레쉬는 인증되지 않고 엑세스만 인증될 때
             log.info("리프레쉬 토큰은 인증되지 않고 엑세스 토큰만 인증되었습니다.");
-
-            TokenDecoder decoder = new TokenDecoder();
-            String userNumber = decoder.accessTokenDecoder(accessToken, "userNumber");
-
-            Optional<MemberEntity> allByUserNumber = memberRepository.findAllByUserNumber(userNumber);
-
-            if(allByUserNumber.isPresent()){
-
-                MemberDTO map = modelMapper.map(allByUserNumber, MemberDTO.class);
-                TokenDTO tokenDTO = tokenConfig.generateRefreshToken(map);
-                Cookie regeneratedRefreshToken = cookieConfig.setCookie(tokenDTO.getRefreshToken(), "refreshToken", true, "/", 7 * 24 * 3600);
-
-                response.addCookie(regeneratedRefreshToken);
-
-            }
 
         }
         else{
