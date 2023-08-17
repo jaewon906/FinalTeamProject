@@ -1,22 +1,27 @@
 import {Outlet, Route, Routes} from 'react-router-dom'
-import MainPage from "./component/MainPage";
-import LogInPage from "./component/LogInPage";
-import SignUpPage from "./component/SignUpPage";
-import MyPage from "./component/MyPage";
-import MyPageAuth from "./component/MyPageAuth";
-import FindMyIdPage from "./component/FindMyIdPage";
-import FindMyPwPage from "./component/FindMyPwPage";
+import LogInPage from "./component/USER/LogInPage";
+import SignUpPage from "./component/USER/SignUpPage";
+import MyPage from "./component/USER/MyPage";
+import FindMyIdPage from "./component/USER/FindMyIdPage";
+import FindMyPwPage from "./component/USER/FindMyPwPage";
+import AdminLogin from "./component/ADMIN/AdminLogin";
+import AdminManageUser from "./component/ADMIN/AdminManageUser";
+import {useEffect} from "react";
+import Main from "./component/USER/Main";
+
 
 function App() {
+
     return (
         <Routes>
-            <Route path={"/"} element={<MainPage/>}></Route>
-            <Route path={"login/"} element={<LogInPage/>}></Route>
-            <Route path={"signUp/"} element={<SignUpPage/>}></Route>
-            <Route path={"findId/"} element={<FindMyIdPage/>}></Route>
-            <Route path={"findPw/"} element={<FindMyPwPage/>}></Route>
-            <Route path={"myPage/"} element={<MyPage/>}></Route>
-            <Route path={"myPage/"} element={<MyPageAuth/>}></Route>
+            <Route path={"/"} element={<Main/>}/>
+            <Route path={"/"} element={<Outlet/>}>
+                <Route path={"login/"} element={<LogInPage/>}/>
+                <Route path={"signUp/"} element={<SignUpPage/>}/>
+                <Route path={"findId/"} element={<FindMyIdPage/>}/>
+                <Route path={"findPw/"} element={<FindMyPwPage/>}/>
+                <Route path={"myPage/"} element={<MyPage/>}/>
+            </Route>
         </Routes>
     );
 }

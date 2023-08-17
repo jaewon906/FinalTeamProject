@@ -1,4 +1,4 @@
-import style from "../css/categoryHeader.module.css"
+import style from "../../css/USER/categoryHeader.module.css"
 import {Link} from "react-router-dom";
 
 export default function CategoryHeader() {

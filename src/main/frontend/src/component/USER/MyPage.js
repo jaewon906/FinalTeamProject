@@ -1,8 +1,8 @@
 import axios from "axios";
 import {useEffect, useRef, useState} from "react";
-import {getUserNumber} from "../js/getUserNumber";
-import style from "../css/myPage.module.css"
-import style1 from "../css/myPageAuth.module.css"
+import {getUserNumber} from "../../js/getUserNumber";
+import style from "../../css/USER/myPage.module.css"
+import style1 from "../../css/USER/myPageAuth.module.css"
 import Modal from "react-modal";
 import DaumPostcode from "react-daum-postcode";
 

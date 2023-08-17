@@ -1,4 +1,4 @@
-import style from "../css/findMyIdPage.module.css"
+import style from "../../css/USER/findMyIdPage.module.css"
 import {useRef, useState} from "react";
 import axios from "axios";
 

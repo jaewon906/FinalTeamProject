@@ -41,6 +41,8 @@ public class SecurityConfig {
                                 .requestMatchers("/api/user/signUp/**").permitAll() //회원 가입
                                 .requestMatchers("/api/user/logIn").permitAll() //로그인
                                 .requestMatchers("/api/user/dormantAccount").permitAll() //휴면계정
+                                .requestMatchers("api/admin/login").permitAll()
+                                .requestMatchers("api/admin/manage/**").hasRole("ADMIN")
                                 .requestMatchers("api/board/**").hasRole("ADMIN")
                                 .requestMatchers("api/book/**").hasRole("ADMIN")
                 )

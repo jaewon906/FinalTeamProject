@@ -26,7 +26,9 @@
 .rightSection{
     width: 50%;
     height:100%;
-    background-image: url("../../public/image/logInImg.png");
+    background-image: url("../../../public/image/logInImg.png");
+    background-position: center center;
+    background-repeat: no-repeat;
 }
 
 .logInBox{

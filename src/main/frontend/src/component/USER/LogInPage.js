@@ -1,4 +1,4 @@
-import style from "../css/logInPage.module.css"
+import style from "../../css/USER/logInPage.module.css"
 import {Link} from "react-router-dom";
 import {useRef} from "react";
 import axios from "axios";
@@ -23,7 +23,7 @@ export default function LogInPage() {
                 if (userState) {
                     window.location.href = "/"
                 } else {
-                    const ret = window.confirm("휴면 계정입니다. 계정 전환 하시겠습니까?")
+                    const ret = window.confirm("휴면 계정입니다. 활동 계정으로 전환 하시겠습니까?")
 
                     if (ret) {
                         axios.post("api/user/dormantAccount", null, {

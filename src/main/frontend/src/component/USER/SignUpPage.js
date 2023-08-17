@@ -1,4 +1,4 @@
-import style from '../css/signUpPage.module.css'
+import style from '../../css/USER/signUpPage.module.css'
 import {Link} from "react-router-dom";
 import axios from "axios";
 import {useRef, useState} from "react";
@@ -259,6 +259,7 @@ export default function SignUpPage() {
     //             userEmail: "ploi" + i + "@naver.com",
     //             userTel: "010-1234-1234",
     //             userAddress: "없음",
+    //             userDetailAddress: "없음",
     //             gender: "남자",
     //             userAge: "1996-04-06",
     //             interest: "없음",
@@ -397,7 +398,7 @@ export default function SignUpPage() {
                         @
                         <input name={"emailDomain"} style={{width: "160px", height: "30px"}}
                                ref={el => email.current[1] = el} type="text"
-                               placeholder="naver.com"/>
+                               placeholder="example.com"/>
 
                     </div>
                 </div>
@@ -416,24 +417,24 @@ export default function SignUpPage() {
                     <div>
                         <input name={"Tel1"} style={{width: "81px", height: "30px"}} ref={el => tel.current[0] = el}
                                type="number"
-                               onInput={checkInputSize} placeholder="010"/>-
+                               onInput={checkInputSize} placeholder=""/>-
                         <input name={"Tel2"} style={{width: "81px", height: "30px"}} ref={el => tel.current[1] = el}
                                type="number"
-                               onInput={checkInputSize} placeholder="1234"/>-
+                               onInput={checkInputSize} placeholder=""/>-
                         <input name={"Tel3"} style={{width: "81px", height: "30px"}} ref={el => tel.current[2] = el}
                                type="number"
-                               onInput={checkInputSize} placeholder="5678"/>
+                               onInput={checkInputSize} placeholder=""/>
                     </div>
                 </div>
 
                 <div>
                     <div><span>*</span> 주소</div>
                     <input name={"address"} readOnly value={addressData[0] + addressData[1]} type="text"
-                           placeholder="경기도 성남시 중원구 중앙로 326-21"/>
+                           placeholder=""/>
                 </div>
                 <div>
                     <div><span>*</span> 상세 주소</div>
-                    <input name={"detailAddress"} ref={address} type="text" placeholder="105동 305호"/>
+                    <input name={"detailAddress"} ref={address} type="text" placeholder=""/>
                 </div>
 
                 <div>

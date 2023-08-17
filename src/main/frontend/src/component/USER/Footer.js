@@ -1,14 +1,13 @@
-import style from "../css/footer.module.css"
+import style from "../../css/USER/footer.module.css"
 export default function Footer(){
     return(
         <div className={style.container}>
-
             <div className={style.main}>
                 <table>
                     <thead>
-                    <tr>도서 관리 및 판매 시스템</tr>
+                    <tr><td>도서 관리 및 판매 시스템</td></tr>
                     </thead>
-                    <tbody >
+                    <tbody>
                     <tr>
                         <td>프로젝트명</td>
                         <td>BookVoyage</td>

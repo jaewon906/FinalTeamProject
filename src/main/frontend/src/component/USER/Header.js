@@ -1,8 +1,8 @@
-import style from "../css/header.module.css"
+import style from "../../css/USER/header.module.css"
 import {Link} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axios from "axios";
-import {getUserNumber} from "../js/getUserNumber";
+import {getUserNumber} from "../../js/getUserNumber";
 
 export default function Header() {
 
@@ -72,10 +72,10 @@ export default function Header() {
             <div className={style.functionBox}>
                 {isLogin ? <p style={{fontSize: "14px"}}>반갑습니다 <strong>{nickname}</strong> 님</p> : ""}
                 <button className={style.cart}>
-                    <img src="../../public/image/cart.png" alt={""}/>
+                    <img src="../../../public/image/cart.png" alt={""}/>
                 </button>
                 <button onClick={myPage} className={style.myInfo}>
-                    <img src="../" alt={""}/>
+                    <img src="../.." alt={""}/>
                 </button>
                 <input name={"search"} type={"search"} className={style.search} placeholder={"search..."}/>
                 <button className={style.signUp} onClick={signUp}>SignUp</button>

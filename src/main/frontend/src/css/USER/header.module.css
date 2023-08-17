@@ -34,7 +34,7 @@
 .cart {
     width: 40px;
     height: 40px;
-    background-image: url("../../public/image/cart.png");
+    background-image: url("../../../public/image/cart.png");
     background-size: contain;
     border: none;
     cursor: pointer;
@@ -44,7 +44,7 @@
 .myInfo {
     width: 40px;
     height: 40px;
-    background-image: url("../../public/image/myInfo.png");
+    background-image: url("../../../public/image/myInfo.png");
     background-size: contain;
     border: none;
     cursor: pointer;

@@ -1,4 +1,4 @@
-import style from '../css/jw_topBtn.module.css'
+import style from '../../css/USER/jw_topBtn.module.css'
 import {useState} from 'react';
 
 // top 버튼 클릭시 최상단으로 이동하는 기능
