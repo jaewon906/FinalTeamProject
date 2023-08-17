@@ -65,6 +65,11 @@ public class MemberController {
         return memberService.showMyInfo(memberDTO);
     }
 
+    @GetMapping("/myPage/auth") //본인 정보 열람 전 암호 입력
+    public boolean myInfoAuth(MemberDTO memberDTO) {
+        return memberService.myInfoAuth(memberDTO);
+    }
+
     @PostMapping("/update") // 본인 정보 업데이트
     public boolean modifyInfo(@Valid MemberDTO memberDTO) { //회원 정보 수정
         return memberService.modifyInfo(memberDTO);

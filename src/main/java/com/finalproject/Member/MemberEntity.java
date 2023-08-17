@@ -25,6 +25,8 @@ public class MemberEntity {
     private String nickname; //사용자 닉네임
     @Column(nullable = false)
     private String userAddress; //사용자 주소
+    @Column(nullable = false)
+    private String userDetailAddress; //사용자 상세 주소
     @Column(nullable = false, unique = true)
     private String userEmail; //사용자 이메일
     @Column(nullable = false)

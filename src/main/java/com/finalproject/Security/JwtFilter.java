@@ -1,7 +1,6 @@
 package com.finalproject.Security;
 
 import com.finalproject.Common.CookieConfig;
-import com.finalproject.Common.TokenNotValidateException;
 import com.finalproject.Member.MemberDTO;
 import com.finalproject.Member.MemberEntity;
 import com.finalproject.Member.MemberRepository;
@@ -21,9 +20,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Slf4j

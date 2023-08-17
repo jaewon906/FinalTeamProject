@@ -132,6 +132,7 @@ public class MemberServiceImpl implements MemberService {
                         LocalDateTime.now()
                 );
                 log.info("회원정보 수정에 성공했습니다.");
+
                 return true;
 
             }
@@ -239,11 +240,11 @@ public class MemberServiceImpl implements MemberService {
             for (MemberEntity dormantAccount : dormantAccounts) {
 
                 Timestamp deletedTime = dormantAccount.getTimeBaseEntity().getDeletedTime();
-                Long now = new Timestamp(System.currentTimeMillis()).getTime();
+                long now = new Timestamp(System.currentTimeMillis()).getTime();
 
-                Long oneMonth = 30 * 24 * 60 * 60 * 1000L;
+                long oneMonth = 30 * 24 * 60 * 60 * 1000L;
 
-                Long deleteDate = oneMonth + deletedTime.getTime(); //지운 날짜 한달 뒤
+                long deleteDate = oneMonth + deletedTime.getTime(); //지운 날짜 한달 뒤
 
                 if (now > deleteDate) {
                     memberRepository.deleteByUserNumber(dormantAccount.getUserNumber());
@@ -252,6 +253,31 @@ public class MemberServiceImpl implements MemberService {
         }
     }
 
+    @Override
+    public boolean myInfoAuth(MemberDTO memberDTO) {
+        String plainText = memberDTO.getPassword();
+        MemberEntity memberEntity = MemberEntity.DTOToEntity(memberDTO);
+        Optional<MemberEntity> byUserNumber = memberRepository.findByUserNumber(memberEntity.getUserNumber());
 
+        if(byUserNumber.isPresent()){ // 예외 -> id or 비번 문제 / true -> 로그인 / false -> 휴면 계정 or 비활성화 계정
+            if(BCrypt.checkpw(plainText,byUserNumber.get().getPassword())){
+                if(byUserNumber.get().getDeleteFlag().equals("N")){
 
+                    log.info("회원정보 열람 인증 성공");
+
+                    return true;
+                }
+                else {
+
+                    log.info("휴면 계정");
+
+                    return false;
+                }
+            }
+            else throw new UserPasswordNotMatchException("비밀번호가 일치하지 않습니다.");
+        }
+        else{
+            throw new UserIdNotFoundException("아이디가 존재하지 않습니다.");
+        }
+    }
 }

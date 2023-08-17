@@ -198,7 +198,8 @@ export default function SignUpPage() {
                     nickname: nickname1.current.value,
                     userEmail: email.current[0].value + "@" + email.current[1].value,
                     userTel: tel.current[0].value + "-" + tel.current[1].value + "-" + tel.current[2].value,
-                    userAddress: addressData + " " + address.current.value,
+                    userAddress: addressData[0] + " " + addressData[1],
+                    userDetailAddress: address.current.value,
                     gender: genderValue,
                     userAge: age_year.current.value + " " + age_month.current.value + " " + age_date.current.value,
                     interest: interest.current.value,
@@ -227,7 +228,6 @@ export default function SignUpPage() {
         e.target.checked= !e.target.checked
 
         setGenderValue(e.target.value)
-        console.log(genderValue)
     }
 
     const openModal = () => {
@@ -239,7 +239,6 @@ export default function SignUpPage() {
     }
 
     const addressResult = (data) => {
-        console.log(data)
         setAddressData([data.roadAddress
             , " (" + data.zonecode + ")"
         ])

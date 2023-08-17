@@ -25,6 +25,8 @@ public class MemberDTO {
 
     private String userAddress; //사용자 주소
 
+    private String userDetailAddress; //사용자 상세 주소
+
     @Pattern(regexp = "[a-z0-9]+@[a-z]+\\.(com|org|net)$")
     private String userEmail; //사용자 이메일
 

@@ -6,7 +6,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.UnsupportedEncodingException;
-import java.util.List;
 
 public interface MemberService {
     boolean signUp(MemberDTO memberDTO) throws Exception;
@@ -30,4 +29,6 @@ public interface MemberService {
     void logout(HttpServletResponse response);
 
     void withdrawal1(MemberDTO memberDTO);
+
+    boolean myInfoAuth(MemberDTO memberDTO);
 }
