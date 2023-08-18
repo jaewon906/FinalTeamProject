@@ -29,32 +29,32 @@ export default function Header() {
             }
         })
             .then(() => {
-                window.location.href = "/myPage"
+                window.location.href = "/home/myPage"
             })
             .catch(err => {
                 console.error(err);
                 const ret = window.confirm("로그인이 필요한 서비스입니다. 로그인 하시겠습니까?")
 
                 if (ret) {
-                    window.location.href = "/logIn"
+                    window.location.href = "/home/logIn"
                 }
             })
     }
     const signUp = () => {
-        window.location.href = "/signUp"
+        window.location.href = "/home/signUp"
     }
     const logIn = () => {
-        window.location.href = "/logIn"
+        window.location.href = "/home/logIn"
     }
     const logOut = () => {
         const ret = window.confirm("로그아웃 하시겠습니까?")
 
         if (ret) {
-            axios.get("api/user/logOut")
+            axios.get("/api/user/logOut")
                 .then(() => {
                         alert("로그아웃 되셨습니다.")
                         setIsLogin(false);
-                        window.location.href="/"
+                        window.location.href="/home"
                     }
                 ).catch(e => {
                 console.error(e)

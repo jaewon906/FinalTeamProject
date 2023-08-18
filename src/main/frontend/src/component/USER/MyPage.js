@@ -83,7 +83,7 @@ export default function MyPage() {
                 const ret = window.confirm("로그인이 필요한 서비스입니다. 로그인 하시겠습니까?")
 
                 if (ret) {
-                    window.location.href = "/logIn"
+                    window.location.href = "/home/logIn"
                 }
             })
     }
@@ -91,7 +91,7 @@ export default function MyPage() {
 
     const authenticateToSeeMyInfo = () => {
 
-        axios.get("api/user/myPage/auth", {
+        axios.get("/api/user/myPage/auth", {
             params: {
                 userNumber: getUserNumber().userNumber,
                 password: password.current.value
@@ -165,7 +165,7 @@ export default function MyPage() {
                 })
                     .then(() => {
                         alert("수정이 완료되었습니다.")
-                        window.location.href = "/"
+                        window.location.href = "/home/"
 
                     })
                     .catch(err => {
@@ -185,22 +185,22 @@ export default function MyPage() {
         if (ret) {
             const ret1 = window.prompt("암호를 입력하세요")
 
-            axios.get("api/user/logIn", {
+            axios.get("/api/user/logIn", {
                 params: {
                     userId: myInfo.userId,
                     password: ret1
                 }
             }).then(() => {
-                axios.post("api/user/withdrawal", "", {
+                axios.post("/api/user/withdrawal", "", {
                     params: {
                         userNumber: myInfo.userNumber
                     }
                 }).then(() => {
                     alert("그동안 이용해 주셔서 감사합니다.")
-                    axios.get("api/user/logOut")
+                    axios.get("/api/user/logOut")
                         .then()
                         .catch(err => console.error(err))
-                    window.location.href = "/"
+                    window.location.href = "/home/"
                 })
                     .catch(() => {
                         alert("잠시후 다시 시도해주세요.")
@@ -398,7 +398,7 @@ export default function MyPage() {
                         }}>
                             <button className={style.cancelBtn} onClick={() => {
                                 alert("회원 수정을 취소하시겠습니까? 작성된 데이터들은 저장되지 않습니다.")
-                                window.location.href = "/"
+                                window.location.href = "/home/"
                             }}>취소하기
                             </button>
                             <button className={style.modifyBtn} onClick={toUpdate}>수정하기</button>

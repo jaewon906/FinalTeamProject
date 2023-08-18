@@ -1,7 +1,5 @@
-import {useEffect} from "react";
-
 export default function Main(){
-    useEffect(()=>{
-        document.getElementById("adminOnly").remove()
-    })
+    return(
+        <div style={{width:"100%", minHeight:"768px", backgroundColor:"whitesmoke"}}></div>
+    )
 }

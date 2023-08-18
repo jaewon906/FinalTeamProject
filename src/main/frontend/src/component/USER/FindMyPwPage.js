@@ -35,7 +35,7 @@ export default function FindMyPwPage() {
     }
 
     const sendVerifyCode = () => {
-        axios.get("api/user/findMyInfo/byEmailAndId/auth", {
+        axios.get("/api/user/findMyInfo/byEmailAndId/auth", {
             params: {
                 userId:idFromRepo,
                 userEmail: emailFromRepo,
@@ -54,14 +54,14 @@ export default function FindMyPwPage() {
     const resetPassword = () => {
 
         if(setPassword.current.value === confirmPassword.current.value){
-            axios.post("api/user/findMyInfo/resetAndModifyPassword",null,{
+            axios.post("/api/user/findMyInfo/resetAndModifyPassword",null,{
                 params:{
                     userNumber:resetMyPw,
                     password:setPassword.current.value
                 }
             }).then(()=>{
                 alert("비밀번호 재설정이 완료되었습니다. 설정한 비밀번호로 로그인 해주세요")
-                window.location.href="/"
+                window.location.href="/home"
             }).catch(err=>{
                 console.error(err)
                 alert("비밀번호 양식을 확인해주세요.")

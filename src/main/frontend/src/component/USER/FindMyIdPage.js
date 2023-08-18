@@ -29,7 +29,7 @@ export default function FindMyIdPage() {
     }
 
     const sendVerifyCode = () => {
-        axios.get("api/user/findMyInfo/byEmail/auth", {
+        axios.get("/api/user/findMyInfo/byEmail/auth", {
             params: {
                 userEmail: emailFromRepo,
                 verificationCode: verificationCode.current.value
@@ -67,10 +67,10 @@ export default function FindMyIdPage() {
             </div>:
             <div className={style.box}>
                 <p>고객님의 ID는 <strong>{myId}</strong> 입니다.</p><br/><br/><br/>
-                <button onClick={() => {window.location.href="/logIn"}}>로그인 하기</button>
-                <button onClick={() => {window.location.href="/findId"}}>다른 아이디 찾기</button>
-                <button onClick={() => {window.location.href="/findPw"}}>비밀번호 찾기</button>
-                <button onClick={()=> window.location.href="/"}>홈으로 가기</button>
+                <button onClick={() => {window.location.href="/home/logIn"}}>로그인 하기</button>
+                <button onClick={() => {window.location.href="/home/findId"}}>다른 아이디 찾기</button>
+                <button onClick={() => {window.location.href="/home/findPw"}}>비밀번호 찾기</button>
+                <button onClick={()=> window.location.href="/home"}>홈으로 가기</button>
             </div>}
         </div>
     )

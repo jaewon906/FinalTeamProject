@@ -11,7 +11,7 @@ export default function LogInPage() {
     let userState=true;
 
     const toLogIn = () => {
-        axios.get("api/user/logIn", {
+        axios.get("/api/user/logIn", {
             params: {
                 userId: userId.current.value,
                 password: password.current.value
@@ -21,24 +21,24 @@ export default function LogInPage() {
             userState=res.data
 
                 if (userState) {
-                    window.location.href = "/"
+                    window.location.href = "/home"
                 } else {
                     const ret = window.confirm("휴면 계정입니다. 활동 계정으로 전환 하시겠습니까?")
 
                     if (ret) {
-                        axios.post("api/user/dormantAccount", null, {
+                        axios.post("/api/user/dormantAccount", null, {
                             params: {
                                 userId: userId.current.value,
                             }
                         }).then(() => {
-                            axios.get("api/user/logIn", {
+                            axios.get("/api/user/logIn", {
                                 params: {
                                     userId: userId.current.value,
                                     password: password.current.value
                                 }
                             }).then(() => {
                                 alert("계정 전환이 완료되었습니다.")
-                                window.location.href="/"
+                                window.location.href="/home"
                             })
                                 .catch(err => {
                                     console.error(err)
