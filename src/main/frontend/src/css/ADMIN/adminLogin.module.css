@@ -41,7 +41,7 @@ h2{
     margin-bottom: 30px;
 }
 
-input:focus {
+.container input:focus {
     border: 3px solid #98b6ff;
     text-align: left;
 }

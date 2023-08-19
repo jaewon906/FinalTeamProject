@@ -74,7 +74,7 @@ public class MemberServiceImpl implements MemberService {
 
         if(byUserId.isPresent()){ // 예외 -> id or 비번 문제 / true -> 로그인 / false -> 휴면 계정 or 비활성화 계정
             if(BCrypt.checkpw(plainText,byUserId.get().getPassword())){
-                if(byUserId.get().getDeleteFlag().equals("N")){
+                if(byUserId.get().getDeleteFlag().equals("N") && byUserId.get().getRole().equals("USER")){
 
                     MemberDTO memberDTO1 = MemberDTO.EntityToDTO(byUserId.get());
 

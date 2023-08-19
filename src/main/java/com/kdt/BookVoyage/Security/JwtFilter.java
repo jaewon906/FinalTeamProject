@@ -58,15 +58,15 @@ public class JwtFilter extends OncePerRequestFilter {
         boolean validateRefreshToken = tokenConfig.validateRefreshToken(refreshToken);
 
 
+
         if (validateAccessToken && validateRefreshToken) { //두 토큰이 인증될 때
 
             log.info("엑세스 토큰과 리프레쉬 토큰 둘 다 인증되었습니다.");
 
             TokenDecoder decoder = new TokenDecoder();
-            String role = decoder.accessTokenDecoder(accessToken, "role");
+            String role = decoder.refreshTokenDecoder(refreshToken, "role");
 
             UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("", "", List.of(new SimpleGrantedAuthority("ROLE_"+role)));
-
             token.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
             SecurityContextHolder.getContext().setAuthentication(token);
@@ -79,7 +79,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
             TokenDecoder decoder = new TokenDecoder();
             String userNumber = decoder.refreshTokenDecoder(refreshToken, "userNumber");
-
+            String role = decoder.refreshTokenDecoder(refreshToken, "role");
 
             Optional<MemberEntity> allByUserNumber = memberRepository.findAllByUserNumber(userNumber);
 
@@ -90,8 +90,6 @@ public class JwtFilter extends OncePerRequestFilter {
                 Cookie regeneratedAccessToken = cookieConfig.setCookie(tokenDTO.getAccessToken(), "accessToken", false, "/", 3600);
 
                 response.addCookie(regeneratedAccessToken);
-
-                String role = decoder.accessTokenDecoder(regeneratedAccessToken.toString(), "role");
 
                 UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("", "", List.of(new SimpleGrantedAuthority("ROLE_"+role)));
 
