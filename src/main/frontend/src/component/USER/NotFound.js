@@ -1,13 +1,25 @@
+import {useEffect} from "react";
+
 export default function NotFound(){
-    if(document.getElementById("userOnly")){
+    const userOnly = document.getElementById("userOnly")
+    const adminOnly = document.getElementById("adminOnly")
 
-        document.getElementById("userOnly").remove()
-    }
+    console.log(userOnly)
+    console.log(adminOnly)
 
-    if(document.getElementById("adminOnly")){
+    useEffect(()=>{
 
-        document.getElementById("adminOnly").remove()
-    }
+        if(userOnly){
+
+            userOnly.remove()
+        }
+
+        if(adminOnly){
+
+            adminOnly.remove()
+        }
+    },[userOnly, adminOnly])
+
 
     return(
         <div style={{width:"100%", height:"500px"}}>

@@ -1,5 +1,6 @@
 package com.kdt.BookVoyage.Security;
 
+import com.kdt.BookVoyage.Admin.AdminRepository;
 import com.kdt.BookVoyage.Common.CookieConfig;
 import com.kdt.BookVoyage.Member.MemberDTO;
 import com.kdt.BookVoyage.Member.MemberEntity;
@@ -15,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -60,7 +62,8 @@ public class JwtFilter extends OncePerRequestFilter {
 
             log.info("엑세스 토큰과 리프레쉬 토큰 둘 다 인증되었습니다.");
 
-            String role = modelMapper.map(MemberRole.USER,String.class);
+            TokenDecoder decoder = new TokenDecoder();
+            String role = decoder.accessTokenDecoder(accessToken, "role");
 
             UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("", "", List.of(new SimpleGrantedAuthority("ROLE_"+role)));
 
@@ -77,6 +80,7 @@ public class JwtFilter extends OncePerRequestFilter {
             TokenDecoder decoder = new TokenDecoder();
             String userNumber = decoder.refreshTokenDecoder(refreshToken, "userNumber");
 
+
             Optional<MemberEntity> allByUserNumber = memberRepository.findAllByUserNumber(userNumber);
 
             if(allByUserNumber.isPresent()){
@@ -87,7 +91,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
                 response.addCookie(regeneratedAccessToken);
 
-                String role = modelMapper.map(MemberRole.USER,String.class);
+                String role = decoder.accessTokenDecoder(regeneratedAccessToken.toString(), "role");
 
                 UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("", "", List.of(new SimpleGrantedAuthority("ROLE_"+role)));
 

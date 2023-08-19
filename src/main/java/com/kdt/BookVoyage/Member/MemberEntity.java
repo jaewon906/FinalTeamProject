@@ -36,7 +36,7 @@ public class MemberEntity {
     @Column(nullable = false)
     private String userTel; // 사용자 전화번호
     @Column
-    private String userRole; // 사용자 권한
+    private String role; // 사용자 권한
     @Column
     private String interest; //사용자 관심사
     @Column(nullable = false)
@@ -55,7 +55,7 @@ public class MemberEntity {
         } catch (Exception ignored) {
         }
         memberDTO.setDeleteFlag("N");
-        memberDTO.setUserRole(MemberRole.USER.getRoleName());
+        memberDTO.setRole(MemberRole.USER.getRoleName());
 
         return modelMapper.map(memberDTO, MemberEntity.class);
     }

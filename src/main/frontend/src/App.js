@@ -4,15 +4,14 @@ import SignUpPage from "./component/USER/SignUpPage";
 import MyPage from "./component/USER/MyPage";
 import FindMyIdPage from "./component/USER/FindMyIdPage";
 import FindMyPwPage from "./component/USER/FindMyPwPage";
-import React, {useEffect} from "react";
-import ControllAdminPage from "./component/USER/ControllAdminPage";
+import React from "react";
+import ControlAdminPage from "./component/USER/ControlAdminPage";
 import Header from "./component/USER/Header";
 import CategoryHeader from "./component/USER/CategoryHeader";
 import TopBtn from "./component/USER/jw_topBtn";
 import ScrollTop from "./js/ScrollTop";
 import Footer from "./component/USER/Footer";
 import Main from "./component/USER/Main";
-import NotFound from "./component/USER/NotFound";
 
 
 function App() {
@@ -24,9 +23,8 @@ function App() {
             <TopBtn/>
             <Routes>
                 <Route path={"/"} element={<Main/>}/>
-                <Route path={"/*"} element={<NotFound/>}/>
                 <Route path={"/"} element={<Outlet/>}>
-                    <Route path={"home/*"} element={<ControllAdminPage/>}/>
+                    <Route path={"home/*"} element={<ControlAdminPage/>}/>
                     <Route path={"home/"} element={<Outlet/>}>
                         <Route path={"login/"} element={<LogInPage/>}/>
                         <Route path={"signUp/"} element={<SignUpPage/>}/>

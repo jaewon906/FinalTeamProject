@@ -39,7 +39,7 @@ public class MemberDTO {
     @Pattern(regexp = "^\\d{3}-\\d{3,4}-\\d{4}$")
     private String userTel; // 사용자 전화번호
 
-    private String userRole; // 사용자 권한
+    private String role; // 사용자 권한
 
     @Pattern(regexp = "^[Y,N]$")
     private String deleteFlag;// DB에서 완전 삭제 대신 값이 Y일때 비활성화 처리. 추후 계정 복구를 위함

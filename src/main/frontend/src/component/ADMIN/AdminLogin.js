@@ -5,11 +5,12 @@ import axios from "axios";
 export default function AdminLogin() {
 
     useEffect(()=>{
+        axios.get("/api/admin/createAdminAccount",{})
         document.getElementById("userOnly").remove()
     },[])
 
     const toLogin =() =>{
-        axios.get("",{
+        axios.get("/api/admin/login",{
             params:{
 
             }

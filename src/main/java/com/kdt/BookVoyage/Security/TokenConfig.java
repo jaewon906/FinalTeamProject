@@ -30,7 +30,7 @@ public class TokenConfig {
                 .claim("username",memberDTO.getUsername())
                 .claim("nickname", memberDTO.getNickname())
                 .claim("userNumber",memberDTO.getUserNumber())
-                .claim("userRole", memberDTO.getUserRole())
+                .claim("role", memberDTO.getRole())
                 .setIssuer(memberDTO.getUserId())
                 .setIssuedAt(currentTime)
                 .setExpiration(expireDate(accessTokenExpireDate))

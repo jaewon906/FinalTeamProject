@@ -12,6 +12,7 @@ public class BookVoyageApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(BookVoyageApplication.class, args);
+
     }
 
 }

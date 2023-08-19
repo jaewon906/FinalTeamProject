@@ -22,6 +22,9 @@ root.render(
             <App_Admin/>
         </div>
 
+        <Routes>
+            <Route path={"/*"} element={<NotFound/>} />
+        </Routes>
 
     </BrowserRouter>
 );
