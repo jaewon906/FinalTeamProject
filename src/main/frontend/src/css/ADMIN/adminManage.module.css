@@ -45,6 +45,12 @@
     border-bottom: 1px solid #98b6ff;
     cursor: pointer;
     margin: 10px 0;
+    transition: color 0.2s, background-color 0.2s;
+}
+.category:hover{
+    border: 1px solid #98b6ff;
+    background-color : #98b6ff;
+    color: white;
 }
 .main{
     width: calc( 100% - 200px);

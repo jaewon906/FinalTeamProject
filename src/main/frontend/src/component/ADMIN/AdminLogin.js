@@ -8,8 +8,8 @@ export default function AdminLogin() {
     const password=useRef();
 
     useEffect(()=>{
-        axios.get("/api/admin/createAdminAccount", {})
-            .then()
+        axios.get("/api/admin/autoLogin", {})
+            .then(()=>window.location.href="manage/")
             .catch()
         document.getElementById("userOnly").remove()
     },[])

@@ -8,10 +8,12 @@ import com.kdt.BookVoyage.Member.MemberEntity;
 import com.kdt.BookVoyage.Member.MemberRepository;
 import com.kdt.BookVoyage.Security.TokenConfig;
 import com.kdt.BookVoyage.Security.TokenDTO;
+import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
 
@@ -29,17 +31,16 @@ public class AdminService {
     private final TokenConfig tokenConfig;
     private final CookieConfig cookieConfig;
 
-    public void createAdminAccount(){
-
-        adminRepository.createAdminId();
-    }
-
+//    @PostConstruct
+//    public void createAdminAccount(){
+//        adminRepository.createAdminId();
+//    }
     public void login(AdminDTO adminDTO, HttpServletResponse response) throws UnsupportedEncodingException {
         String userId = adminDTO.getAdminId();
         Optional<MemberEntity> byUserId = memberRepository.findByUserId(userId);
 
         if(byUserId.isPresent()){
-            if(byUserId.get().getPassword().equals(adminDTO.getPassword())){
+            if(byUserId.get().getPassword().equals(adminDTO.getPassword()) && byUserId.get().getRole().equals("ADMIN")){
 
                 MemberDTO memberDTO = MemberDTO.EntityToDTO(byUserId.get());
 
@@ -58,12 +59,16 @@ public class AdminService {
 
     }
 
-    public List<Integer> getTotals() {
+    public List<Integer> getTotalSummary() {
         List<MemberEntity> all = memberRepository.findAll();
 
         List<Integer> result = new ArrayList<>();
         result.add(all.size());
 
         return result;
+    }
+
+    public List<MemberEntity> getUserInfo(){
+       return memberRepository.findAll();
     }
 }

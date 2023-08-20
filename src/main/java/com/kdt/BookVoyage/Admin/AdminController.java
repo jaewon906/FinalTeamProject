@@ -1,5 +1,6 @@
 package com.kdt.BookVoyage.Admin;
 
+import com.kdt.BookVoyage.Member.MemberEntity;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,9 +19,9 @@ public class AdminController {
 
     private final AdminService adminService;
 
-    @GetMapping("/createAdminAccount")
-    public void createAdminAccount() {
-        adminService.createAdminAccount();
+    @GetMapping("/autoLogin")
+    public void autoLogin() {
+        log.info("(admin)자동 로그인 되셨습니다.");
     }
 
     @GetMapping("/login")
@@ -29,9 +30,13 @@ public class AdminController {
     }
 
     @GetMapping("/manage")
-    public List<Integer> loadUserInfo(){
-        return adminService.getTotals();
+    public List<Integer> loadSummary(){
+        return adminService.getTotalSummary();
     }
 
 
+    @GetMapping("manage/user")
+    public List<MemberEntity> loadUserInfo(){
+       return  adminService.getUserInfo();
+    }
 }
