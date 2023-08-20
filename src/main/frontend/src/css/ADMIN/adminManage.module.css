@@ -32,8 +32,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid red;
-    margin-top: 250px;
+    margin-top: 150px;
     flex-direction: column;
 }
 .category{
@@ -42,7 +41,93 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid #d5d5d5;
+    border-top: 1px solid #98b6ff;
+    border-bottom: 1px solid #98b6ff;
     cursor: pointer;
+    margin: 10px 0;
 }
-.main{}
+.main{
+    width: calc( 100% - 200px);
+    height: 100%;
+}
+.section1{
+    width:700px;
+    height:500px;
+    display: flex;
+    flex-direction: column;
+}
+.totalMember{
+    width:300px;
+    height:180px;
+    box-shadow: 0 0 10px 0 gray;
+    border-radius: 10px;
+    margin: 20px 0 0 20px;
+    display: flex;
+    align-items: center;
+    padding-top: 20px;
+    flex-direction: column;
+    background-color: #d5f4ff;
+    transition: transform 0.2s;
+}
+.totalMember:hover{
+    cursor: pointer;
+    transform: scale(1.05);
+}
+.totalMember > h1{
+    margin-top: 50px;
+}
+.totalProduct{
+    width:300px;
+    height:180px;
+    box-shadow: 0 0 10px 0 gray;
+    border-radius: 10px;
+    margin: 20px 0 0 20px;
+    display: flex;
+    align-items: center;
+    padding-top: 20px;
+    flex-direction: column;
+    background-color: #d5ffdf;
+    transition: transform 0.2s;
+}
+.totalProduct:hover{
+    cursor: pointer;
+    transform: scale(1.05);
+}
+.totalProduct> h1{
+    margin-top: 50px;
+}
+.unreadCS{
+    width:300px;
+    height:180px;
+    box-shadow: 0 0 10px 0 gray;
+    border-radius: 10px;
+    margin: 20px 0 0 20px;
+    display: flex;
+    align-items: center;
+    padding-top: 20px;
+    flex-direction: column;
+    background-color: #ffd9d5;
+    transition: transform 0.2s;
+}
+.unreadCS:hover{
+    cursor: pointer;
+    transform: scale(1.05);
+}
+.unreadCS > h1{
+    margin-top: 50px;
+}
+.comingSoon{
+    width:300px;
+    height:180px;
+    box-shadow: 0 0 10px 0 gray;
+    border-radius: 10px;
+    margin: 20px 0 0 20px;
+    display: flex;
+    align-items: center;
+    padding-top: 20px;
+    flex-direction: column;
+    background-color: #fff9d5;
+}
+.comingSoon > h1{
+    margin-top: 50px;
+}

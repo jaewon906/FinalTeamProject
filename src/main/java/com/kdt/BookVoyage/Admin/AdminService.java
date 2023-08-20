@@ -16,6 +16,8 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -54,5 +56,14 @@ public class AdminService {
         }
         else throw new UserIdNotFoundException("아이디가 존재하지 않습니다.");
 
+    }
+
+    public List<Integer> getTotals() {
+        List<MemberEntity> all = memberRepository.findAll();
+
+        List<Integer> result = new ArrayList<>();
+        result.add(all.size());
+
+        return result;
     }
 }

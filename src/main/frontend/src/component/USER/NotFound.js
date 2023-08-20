@@ -4,8 +4,6 @@ export default function NotFound(){
     const userOnly = document.getElementById("userOnly")
     const adminOnly = document.getElementById("adminOnly")
 
-    console.log(userOnly)
-    console.log(adminOnly)
 
     useEffect(()=>{
 
