@@ -20,7 +20,7 @@ export default function AdminLogin() {
                 adminId:adminId.current.value,
                 password:password.current.value
             }
-        }).then(()=>{window.location.href="/admin/manage"})
+        }).then(()=>{window.location.href="/admin/manage/"})
             .catch(()=>{alert("아이디나 비밀번호를 확인하세요")})
     }
 

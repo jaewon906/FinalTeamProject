@@ -12,6 +12,7 @@ import TopBtn from "./component/USER/jw_topBtn";
 import ScrollTop from "./js/ScrollTop";
 import Footer from "./component/USER/Footer";
 import Main from "./component/USER/Main";
+import NotFound from "./component/USER/NotFound";
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
             <TopBtn/>
             <Routes>
                 <Route path={"/"} element={<Main/>}/>
+                <Route path={"/*"} element={<NotFound/>}/>
                 <Route path={"/"} element={<Outlet/>}>
                     <Route path={"home/*"} element={<ControlAdminPage/>}/>
                     <Route path={"home/"} element={<Outlet/>}>

@@ -8,10 +8,12 @@ export default function App_Admin() {
 
     return (
         <Routes>
-            <Route path={"/admin/*"} element={<ControlUserPage/>}/>
-            <Route path={"/admin"} element={<Outlet/>}>
-                <Route path={"login/"} element={<AdminLogin/>}/>
-                <Route path={"manage/"} element={<AdminManage/>}/>
+            <Route path={"/"} element={<Outlet/>}>
+                <Route path={"admin/*"} element={<ControlUserPage/>}/>
+                <Route path={"admin/"} element={<Outlet/>}>
+                    <Route path={"login/"} element={<AdminLogin/>}/>
+                    <Route path={"manage/"} element={<AdminManage/>}/>
+                </Route>
             </Route>
         </Routes>
     )
