@@ -2,6 +2,10 @@ import style from "../../css/ADMIN/userManage.module.css"
 import axios from "axios";
 import {useEffect, useRef, useState} from "react";
 
+
+let sort = "id";
+let order = "DESC"
+let page = "0"
 export default function UserManage() {
 
     const userAmount = useRef();
@@ -10,12 +14,9 @@ export default function UserManage() {
     const [isOrder, setIsOrder] = useState(false);
     const [userInfo, setUserInfo] = useState([{}])
     const [searchResultLength, setSearchResultLength] = useState("")
-    const [totalPage, setTotalPage] = useState("")
+    const [totalPage, setTotalPage] = useState("5")
     const [cat, setCat] = useState([false, false, false, false, false, false, false, false])
-
-    let sort = "id";
-    let order = "DESC"
-    let page = "0"
+    const [currentPage, setCurrentPage] = useState("0")
 
     useEffect(() => {
         axios.get("/api/admin/manage/user?page=" + page + "&size=100&sort=id,DESC")
@@ -23,18 +24,59 @@ export default function UserManage() {
                 setUserInfo(res.data.content)
                 setSearchResultLength(res.data.totalElements)
                 setTotalPage(res.data.totalPages)
+                console.log(res.data.totalPages)
             })
             .catch((e) => {
                 console.error(e)
             })
 
-    }, [totalPage])
+    }, [])
 
     const toSearch = () => {
 
         setUserInfo([{}])
+        console.log(page)
 
         const size = userAmount.current.value;
+
+        dataTransfer1(size)
+    }
+
+    const toSearchWithUserAmount = () => {
+
+        setUserInfo([{}])
+
+        const size = userAmount.current.value;
+        page="0"
+
+        dataTransfer1(size)
+
+    }
+
+    const dataTransfer1 = (size) =>{
+        axios.get("/api/admin/manage/user/search?page=" + page + "&size=" + size + "&sort=" + sort + "," + order, {
+            params: {
+                keyword: keyword.current.value
+            }
+        })
+            .then(res => {
+                setUserInfo(res.data.content)
+                setSearchResultLength(res.data.totalElements)
+                setTotalPage(res.data.totalPages)
+                setCurrentPage("0")
+
+            })
+            .catch(e => {
+                console.error(e)
+            })
+    }
+
+    const toSearchWithPage = (e) => {
+
+        const size = userAmount.current.value;
+
+        page = e.target.id
+        setCurrentPage(e.target.id)
 
         axios.get("/api/admin/manage/user/search?page=" + page + "&size=" + size + "&sort=" + sort + "," + order, {
             params: {
@@ -51,9 +93,6 @@ export default function UserManage() {
 
     }
 
-    const createPaging = (e) => {
-
-    }
 
     const onEnter = (e) => {
         if (e.keyCode === 13) {
@@ -168,17 +207,73 @@ export default function UserManage() {
 
         toSearch()
 
-
     };
 
-    const initialPaging = () => {
-        let arr = []
+    const renderPagination = () => {
 
-        for (let i = 0; i < totalPage; i++) {
-            arr[i] = i;
+        const paginationButtons = [];
+        let i = 1;
+
+        if(totalPage>=10){
+            for (i; i <= 10; i++) {
+                paginationButtons.push(
+                    <p style={{margin:"0 10px"}} id={i-1+""} key={i} onClick={toSearchWithPage}>
+                        {currentPage===(i-1)+""?<span>{i}</span>:i}
+                    </p>
+                );
+            }
+        }
+        else{
+            for (i; i <= totalPage; i++) {
+                paginationButtons.push(
+                    <p style={{margin:"0 10px"}} id={i-1+""} key={i} onClick={toSearchWithPage} >
+                        {currentPage===(i-1)+""?<span>{i}</span>:i}
+                    </p>
+                );
+            }
         }
 
-        return arr;
+        return (
+            <div className={style.middlePagingBtnArea}>
+            {paginationButtons}
+            </div>
+        );
+    };
+
+    const toSearchWithStartEndBtn = (val) => {
+
+        setUserInfo([{}])
+
+        const size = userAmount.current.value;
+        page = val
+
+        axios.get("/api/admin/manage/user/search?page=" + page + "&size=" + size + "&sort=" + sort + "," + order, {
+            params: {
+                keyword: keyword.current.value
+            }
+        })
+            .then(res => {
+                setUserInfo(res.data.content)
+                setSearchResultLength(res.data.totalElements)
+                setTotalPage(res.data.totalPages)
+                setCurrentPage(val+"")
+
+            })
+            .catch(e => {
+                console.error(e)
+            })
+
+    }
+
+    const startEndBtn=(e)=>{
+        const btn = e.target.id
+
+        switch (btn){
+            case "first":toSearchWithStartEndBtn(0);break;
+            case "prev":toSearchWithStartEndBtn(--page);break;
+            case "next":toSearchWithStartEndBtn(++page);break;
+            case "last":toSearchWithStartEndBtn(totalPage-1);break;
+        }
     }
 
     return (
@@ -190,7 +285,7 @@ export default function UserManage() {
                         <div className={style.selectAndSearchBox}>
                             <p>검색 결과 : <strong>{searchResultLength}개</strong></p>
                             <input ref={keyword} type={"search"} onKeyDown={onEnter} placeholder={"search"}/>
-                            <select onChange={toSearch} defaultValue={"100"} ref={userAmount}>
+                            <select onChange={toSearchWithUserAmount} defaultValue={"100"} ref={userAmount}>
                                 <option value={"10"}>10개</option>
                                 <option value={"50"}>50개</option>
                                 <option value={"100"}>100개</option>
@@ -282,11 +377,16 @@ export default function UserManage() {
 
                     </div>
                     <div className={style.pagingBtnArea}>
-                        {initialPaging().map((el)=>{
-                            return(
-                                <p>{el}</p>
-                            )
-                        })}
+                        <div className={style.leftPagingBtnArea}>
+                            <p id={"first"} onClick={startEndBtn}>&lt;&lt;</p>
+                            {currentPage==="1"?<p id={"prev"} onClick={startEndBtn}>&lt;</p>:""}
+                        </div>
+                        {renderPagination()}
+                        <div className={style.rightPagingBtnArea}>
+                            <p id={"next"} onClick={startEndBtn}>&gt;</p>
+                            <p id={"last"} onClick={startEndBtn}>&gt;&gt;</p>
+                        </div>
+
                     </div>
                 </div> : ""}</>
 

@@ -16,7 +16,7 @@
     width:80%;
     display: flex;
     height: 20px;
-    justify-content: end;
+    justify-content: flex-end;
 }
 .selectAndSearchBox{
     display: flex;
@@ -128,4 +128,37 @@
     height: 20px;
     border: 1px solid black;
     margin-top: 50px;
+    justify-content: space-between;
+}
+.leftPagingBtnArea{
+    width:50px;
+    display: flex;
+    justify-content: space-between;
+    line-height: 17px;
+}
+.leftPagingBtnArea > p{
+    cursor: pointer;
+}
+.rightPagingBtnArea{
+    width:50px;
+    display: flex;
+    justify-content: space-between;
+    line-height: 17px;
+}
+.rightPagingBtnArea > p{
+    cursor: pointer;
+}
+.middlePagingBtnArea{
+    width: auto;
+    display: flex;
+    justify-content: center;
+
+}
+
+.middlePagingBtnArea > p{
+    cursor: pointer;
+}
+.middlePagingBtnArea > p > span{
+    font-weight: bold;
+    color: #ff0000;
 }

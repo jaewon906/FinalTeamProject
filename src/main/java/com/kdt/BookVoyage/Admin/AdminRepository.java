@@ -44,4 +44,7 @@ public interface AdminRepository extends JpaRepository<MemberEntity,Long> {
             "28)", nativeQuery = true)
     void createAdminId();
 
+    @Transactional
+    void deleteByUserId(String userId);
+
 }
