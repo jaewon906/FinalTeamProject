@@ -1,7 +1,5 @@
-import {useEffect, useState} from "react";
-import axios from "axios";
+import {useEffect} from "react";
 import style from "../../css/ADMIN/adminManage.module.css";
-import AdminManage from "./AdminManage";
 export default function AdminTheme(props) {
 
     useEffect(()=>{
@@ -13,7 +11,7 @@ export default function AdminTheme(props) {
        <div className={style.container}>
             <div className={style.leftSide}>
                 <div className={style.logo}>
-                    <h2>BookVoyage</h2>
+                    <h2 style={{cursor:"pointer"}} onClick={()=>{window.location.href="/admin/manage/"}}>BookVoyage</h2>
                     <p>관리 페이지</p>
                 </div>
                 <div className={style.categories}>

@@ -1,6 +1,6 @@
 .container {
     width: 100%;
-    height: 100vh;
+    height: 100%;
     background-color: #f2f4fa;
     display: flex;
     align-items: center;
@@ -46,6 +46,7 @@
     cursor: pointer;
     margin: 10px 0;
     transition: color 0.2s, background-color 0.2s;
+    font-weight: bold;
 }
 .category:hover{
     border: 1px solid #98b6ff;
@@ -53,6 +54,7 @@
     color: white;
 }
 .main{
+    min-width: 1296px;
     width: calc( 100% - 200px);
     height: 100%;
 }

@@ -9,8 +9,8 @@ export default function AdminLogin() {
 
     useEffect(()=>{
         axios.get("/api/admin/autoLogin", {})
-            .then(()=>window.location.href="manage/")
-            .catch()
+            .then(()=>window.location.href="/admin/manage/")
+            .catch(e=>console.error(e))
         document.getElementById("userOnly").remove()
     },[])
 

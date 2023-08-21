@@ -1,5 +1,7 @@
 package com.kdt.BookVoyage.Member;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -53,6 +55,17 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
     Optional<MemberEntity> findByUserNumber(String number);
     Optional<MemberEntity> findAllByUserNumber(String userNumber);
     Optional<MemberEntity> findByUserEmailAndUserId(String userEmail, String userId);
+
+    Page<MemberEntity> searchByUserIdContainingIgnoreCaseOrUsernameContainingIgnoreCaseOrNicknameContainingIgnoreCaseOrUserNumberContainingIgnoreCaseOrUserEmailContainingIgnoreCaseOrUserAddressContainingIgnoreCaseOrUserTelContainingIgnoreCase(
+            String keyword1,
+            String keyword2,
+            String keyword3,
+            String keyword4,
+            String keyword5,
+            String keyword6,
+            String keyword7,
+            Pageable pageable
+    );
 
 
 }

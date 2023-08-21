@@ -23,7 +23,7 @@ export default function AdminManage(){
 
 
     return(
-        <>
+        <>{isLoading ?
             <div className={style.section1}>
                 <div style={{display:"flex"}}>
                     <div onClick={()=>{window.location.href="user/"}} className={style.totalMember}>
@@ -44,7 +44,7 @@ export default function AdminManage(){
                         <h1>준비중</h1>
                     </div>
                 </div>
-            </div>
+            </div>:""}
         </>
     )
 }

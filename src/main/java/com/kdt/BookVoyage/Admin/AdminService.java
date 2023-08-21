@@ -12,9 +12,8 @@ import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 
 import java.io.UnsupportedEncodingException;
@@ -31,10 +30,11 @@ public class AdminService {
     private final TokenConfig tokenConfig;
     private final CookieConfig cookieConfig;
 
-//    @PostConstruct
-//    public void createAdminAccount(){
-//        adminRepository.createAdminId();
-//    }
+    @PostConstruct
+    public void createAdminAccount(){
+        adminRepository.deleteByUserId("admin");
+        adminRepository.createAdminId();
+    }
     public void login(AdminDTO adminDTO, HttpServletResponse response) throws UnsupportedEncodingException {
         String userId = adminDTO.getAdminId();
         Optional<MemberEntity> byUserId = memberRepository.findByUserId(userId);
@@ -68,7 +68,12 @@ public class AdminService {
         return result;
     }
 
-    public List<MemberEntity> getUserInfo(){
-       return memberRepository.findAll();
+    public Page<MemberEntity> getUserInfo(Pageable pageable){
+       return memberRepository.findAll(pageable);
+    }
+    public Page<MemberEntity> searchUserInfo(String keyword,Pageable pageable){
+       return memberRepository.searchByUserIdContainingIgnoreCaseOrUsernameContainingIgnoreCaseOrNicknameContainingIgnoreCaseOrUserNumberContainingIgnoreCaseOrUserEmailContainingIgnoreCaseOrUserAddressContainingIgnoreCaseOrUserTelContainingIgnoreCase(
+               keyword,keyword,keyword,keyword,keyword,keyword,keyword,pageable
+       );
     }
 }
