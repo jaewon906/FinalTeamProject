@@ -239,7 +239,7 @@ public class MemberServiceImpl implements MemberService {
 
             for (MemberEntity dormantAccount : dormantAccounts) {
 
-                Timestamp deletedTime = dormantAccount.getTimeBaseEntity().getDeletedTime();
+                try{Timestamp deletedTime = dormantAccount.getTimeBaseEntity().getDeletedTime();
                 long now = new Timestamp(System.currentTimeMillis()).getTime();
 
                 long oneMonth = 30 * 24 * 60 * 60 * 1000L;
@@ -248,6 +248,8 @@ public class MemberServiceImpl implements MemberService {
 
                 if (now > deleteDate) {
                     memberRepository.deleteByUserNumber(dormantAccount.getUserNumber());
+                }}catch (NullPointerException e){
+                    log.error("",e);
                 }
             }
         }

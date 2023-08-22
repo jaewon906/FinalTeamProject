@@ -12,17 +12,21 @@ import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 
 import java.io.UnsupportedEncodingException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class AdminService {
 
     private final AdminRepository adminRepository;
@@ -75,5 +79,18 @@ public class AdminService {
        return memberRepository.searchByUserIdContainingIgnoreCaseOrUsernameContainingIgnoreCaseOrNicknameContainingIgnoreCaseOrUserNumberContainingIgnoreCaseOrUserEmailContainingIgnoreCaseOrUserAddressContainingIgnoreCaseOrUserTelContainingIgnoreCase(
                keyword,keyword,keyword,keyword,keyword,keyword,keyword,pageable
        );
+    }
+
+    public void updateUserState(List<Map<String, String>> updatedList) {
+
+        for(Map<String, String>updated : updatedList){
+            String userNumber = updated.get("userNumber");
+            String deleteFlag = updated.get("deleteFlag");
+
+            log.info(userNumber);
+            log.info(deleteFlag);
+
+            memberRepository.updateUserState(userNumber, deleteFlag, LocalDateTime.now());
+        }
     }
 }

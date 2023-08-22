@@ -6,6 +6,9 @@ import {useEffect, useRef, useState} from "react";
 let sort = "id";
 let order = "DESC"
 let page = "0"
+let updateDataArr = [{}]
+updateDataArr.pop()
+
 export default function UserManage() {
 
     const userAmount = useRef();
@@ -14,21 +17,22 @@ export default function UserManage() {
     const [isOrder, setIsOrder] = useState(false);
     const [userInfo, setUserInfo] = useState([{}])
     const [searchResultLength, setSearchResultLength] = useState("")
-    const [totalPage, setTotalPage] = useState("5")
+    const [totalPage, setTotalPage] = useState()
     const [cat, setCat] = useState([false, false, false, false, false, false, false, false])
     const [currentPage, setCurrentPage] = useState("0")
 
+
     useEffect(() => {
-        axios.get("/api/admin/manage/user?page=" + page + "&size=100&sort=id,DESC")
+        axios.get("/api/admin/manage/user?page=" + page + "&size=100&sort=id,ASC")
             .then(res => {
                 setUserInfo(res.data.content)
                 setSearchResultLength(res.data.totalElements)
                 setTotalPage(res.data.totalPages)
-                console.log(res.data.totalPages)
             })
             .catch((e) => {
                 console.error(e)
             })
+
 
     }, [])
 
@@ -38,8 +42,10 @@ export default function UserManage() {
         console.log(page)
 
         const size = userAmount.current.value;
-
+        page = "0"
+        setCurrentPage("0")
         dataTransfer1(size)
+        console.log(userInfo)
     }
 
     const toSearchWithUserAmount = () => {
@@ -47,13 +53,14 @@ export default function UserManage() {
         setUserInfo([{}])
 
         const size = userAmount.current.value;
-        page="0"
+        setCurrentPage("0")
+        page = "0"
 
         dataTransfer1(size)
 
     }
 
-    const dataTransfer1 = (size) =>{
+    const dataTransfer1 = (size) => {
         axios.get("/api/admin/manage/user/search?page=" + page + "&size=" + size + "&sort=" + sort + "," + order, {
             params: {
                 keyword: keyword.current.value
@@ -63,7 +70,7 @@ export default function UserManage() {
                 setUserInfo(res.data.content)
                 setSearchResultLength(res.data.totalElements)
                 setTotalPage(res.data.totalPages)
-                setCurrentPage("0")
+                // setCurrentPage("0")
 
             })
             .catch(e => {
@@ -208,26 +215,55 @@ export default function UserManage() {
         toSearch()
 
     };
-
     const renderPagination = () => {
 
         const paginationButtons = [];
         let i = 1;
+        let cnt = parseInt(page)
 
-        if(totalPage>=10){
-            for (i; i <= 10; i++) {
-                paginationButtons.push(
-                    <p style={{margin:"0 10px"}} id={i-1+""} key={i} onClick={toSearchWithPage}>
-                        {currentPage===(i-1)+""?<span>{i}</span>:i}
-                    </p>
-                );
+        if (totalPage >= 10) {
+
+            if (cnt > 5) {
+
+                let b = cnt + 10
+
+                if (cnt > totalPage - 5) {
+
+                    let c = totalPage - 5
+
+                    for (let j = 0; j < 10; j++) {
+                        paginationButtons.push(
+                            <p style={{margin: "0 10px"}} id={c - 5 + j + ""} key={c - 4 + j}
+                               onClick={toSearchWithPage}>
+                                {currentPage === (c - 5 + j) + "" ?
+                                    <span id={c - 5 + j + ""}>{c - 4 + j}</span> : c - 4 + j}
+                            </p>
+                        );
+                    }
+                } else {
+                    for (cnt; cnt < b; cnt++) {
+                        paginationButtons.push(
+                            <p style={{margin: "0 10px"}} id={cnt - 5 + ""} key={cnt - 4} onClick={toSearchWithPage}>
+                                {currentPage === (cnt - 5) + "" ? <span id={cnt - 5 + ""}>{cnt - 4}</span> : cnt - 4}
+                            </p>
+                        );
+                    }
+                }
+
+            } else {
+                for (i; i <= 10; i++) {
+                    paginationButtons.push(
+                        <p style={{margin: "0 10px"}} id={i - 1 + ""} key={i} onClick={toSearchWithPage}>
+                            {currentPage === (i - 1) + "" ? <span id={i - 1 + ""}>{i}</span> : i}
+                        </p>
+                    );
+                }
             }
-        }
-        else{
+        } else {
             for (i; i <= totalPage; i++) {
                 paginationButtons.push(
-                    <p style={{margin:"0 10px"}} id={i-1+""} key={i} onClick={toSearchWithPage} >
-                        {currentPage===(i-1)+""?<span>{i}</span>:i}
+                    <p style={{margin: "0 10px"}} id={i - 1 + ""} key={i} onClick={toSearchWithPage}>
+                        {currentPage === (i - 1) + "" ? <span id={i - 1 + ""}>{i}</span> : i}
                     </p>
                 );
             }
@@ -235,7 +271,7 @@ export default function UserManage() {
 
         return (
             <div className={style.middlePagingBtnArea}>
-            {paginationButtons}
+                {paginationButtons}
             </div>
         );
     };
@@ -256,7 +292,7 @@ export default function UserManage() {
                 setUserInfo(res.data.content)
                 setSearchResultLength(res.data.totalElements)
                 setTotalPage(res.data.totalPages)
-                setCurrentPage(val+"")
+                setCurrentPage(val + "")
 
             })
             .catch(e => {
@@ -265,15 +301,81 @@ export default function UserManage() {
 
     }
 
-    const startEndBtn=(e)=>{
+    const startEndBtn = (e) => {
         const btn = e.target.id
 
-        switch (btn){
-            case "first":toSearchWithStartEndBtn(0);break;
-            case "prev":toSearchWithStartEndBtn(--page);break;
-            case "next":toSearchWithStartEndBtn(++page);break;
-            case "last":toSearchWithStartEndBtn(totalPage-1);break;
+        switch (btn) {
+            case "first":
+                toSearchWithStartEndBtn(0);
+                break;
+            case "prev": {
+                page = (parseInt(page) - 10) + ""
+                const a = page
+                toSearchWithStartEndBtn(a)
+            }
+                break;
+            case "next": {
+                page = (parseInt(page) + 10) + ""
+                const a = page
+                toSearchWithStartEndBtn(a)
+            }
+                break;
+            case "last":
+                toSearchWithStartEndBtn(totalPage - 1);
+                break;
         }
+    }
+
+
+    const visualizationModifyDataAndAddToArray = (e) => {
+        let cnt = 0;
+        let atUserNumber = e.currentTarget.parentNode.parentNode.children[3].textContent
+
+
+        for (let i = 0; i < updateDataArr.length; i++) {
+            if (updateDataArr[i].userNumber === atUserNumber) {
+                cnt++;
+            }
+        }
+
+        if (cnt === 0) {
+            updateDataArr.push(
+                {
+                    userNumber: atUserNumber,
+                    deleteFlag: e.currentTarget.value
+                });
+            console.log("저장됨")
+
+        }
+
+        if (cnt === 1) {
+            let filter = updateDataArr.filter(el => el.userNumber !== atUserNumber);
+
+            filter.push({
+                userNumber: atUserNumber,
+                deleteFlag: e.currentTarget.value
+            })
+
+            updateDataArr=filter
+
+            console.log("수정됨")
+        }
+
+
+        console.log(updateDataArr)
+
+        e.currentTarget.parentNode.style.backgroundColor = "yellow"
+    }
+
+    const updateUserState = ()=>{
+        axios.post("/api/admin/manage/user/update",updateDataArr
+        ).then(()=>{
+            alert("수정이 완료되었습니다.")
+            window.location.reload()
+        }).catch((e)=>{
+            console.error(e)
+            alert("다시 시도해주세요")
+        })
     }
 
     return (
@@ -368,7 +470,16 @@ export default function UserManage() {
                                             <div
                                                 className={style.userAddress}>{el.userAddress + " " + el.userDetailAddress}</div>
                                             <div className={style.userTel}>{el.userTel}</div>
-                                            <div className={style.userDeleteFlag}>{el.deleteFlag}</div>
+                                            <div className={style.userDeleteFlag}>
+                                                <select onChange={visualizationModifyDataAndAddToArray}
+                                                        id={`select${key}`}
+                                                        defaultValue={el.deleteFlag}
+                                                >
+                                                    <option value={"N"}>활성</option>
+                                                    <option value={"Y"}>휴면</option>
+                                                    <option value={"B"}>정지</option>
+                                                </select>
+                                            </div>
                                         </div>
                                     )
                                 })
@@ -378,17 +489,22 @@ export default function UserManage() {
                     </div>
                     <div className={style.pagingBtnArea}>
                         <div className={style.leftPagingBtnArea}>
-                            <p id={"first"} onClick={startEndBtn}>&lt;&lt;</p>
-                            {currentPage==="1"?<p id={"prev"} onClick={startEndBtn}>&lt;</p>:""}
+                            <i id={"first"} onClick={startEndBtn} className="fa-solid fa-angles-left"></i>
+                            {currentPage !== "0" ?
+                                <i id={"prev"} onClick={startEndBtn} className="fa-solid fa-chevron-left"></i> : ""}
                         </div>
                         {renderPagination()}
                         <div className={style.rightPagingBtnArea}>
-                            <p id={"next"} onClick={startEndBtn}>&gt;</p>
-                            <p id={"last"} onClick={startEndBtn}>&gt;&gt;</p>
+                            {currentPage !== (totalPage - 1) + "" ?
+                                <i id={"next"} onClick={startEndBtn} className="fa-solid fa-chevron-right"></i> :
+                                <div style={{width: "16px"}}></div>}
+                            <i id={"last"} onClick={startEndBtn} className="fa-solid fa-angles-right"></i>
                         </div>
-
                     </div>
-                </div> : ""}</>
+                </div> : ""}
+            <div style={{width:"100%", display:"flex", justifyContent:"center", marginTop:"30px"}}><button onClick={updateUserState}>수정하기</button></div>
+
+        </>
 
     )
 }

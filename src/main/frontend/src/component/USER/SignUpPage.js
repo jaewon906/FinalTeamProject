@@ -204,7 +204,6 @@ export default function SignUpPage() {
                     userAge: age_year.current.value + " " + age_month.current.value + " " + age_date.current.value,
                     interest: interest.current.value,
                     deleteFlag: deleteFlag1
-
                 }
             })
                 .then(() => {

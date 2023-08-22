@@ -122,12 +122,19 @@
     text-overflow: fade;
     padding: 0 10px;
 }
+.userDeleteFlag > select{
+    width: 100%;
+    height: 100%;
+    border: none;
+    background:none;
+    outline: #98b6ff;
+}
 .pagingBtnArea{
     display: flex;
-    width: 500px;
-    height: 20px;
-    border: 1px solid black;
-    margin-top: 50px;
+    min-width: 500px;
+    height: 30px;
+    border-bottom: 1px solid #c3c3c3;
+    margin-top: 40px;
     justify-content: space-between;
 }
 .leftPagingBtnArea{
@@ -136,7 +143,12 @@
     justify-content: space-between;
     line-height: 17px;
 }
-.leftPagingBtnArea > p{
+.pagingBtnArea >*> i{
+    cursor: pointer;
+    transition: color 0.2s
+}
+.pagingBtnArea >*> i:hover{
+    color: red;
     cursor: pointer;
 }
 .rightPagingBtnArea{

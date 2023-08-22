@@ -1,5 +1,6 @@
 package com.kdt.BookVoyage.Member;
 
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,6 +17,11 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
     @Modifying
     @Query(value = "update MemberEntity m set m.deleteFlag='Y', m.timeBaseEntity.DeletedTime=:dateTime where m.userNumber=:userNumber")
     void updateDeleteFlag(@Param("userNumber") String userNumber, LocalDateTime dateTime);
+
+    @Modifying
+    @Transactional
+    @Query(value = "update MemberEntity m set m.deleteFlag=:deleteFlag, m.timeBaseEntity.DeletedTime=:dateTime where m.userNumber=:userNumber")
+    void updateUserState(@Param("userNumber") String userNumber, @Param("deleteFlag") String deleteFlag, LocalDateTime dateTime);
 
     @Modifying
     @Query(value = "update MemberEntity m set m.deleteFlag='N', m.timeBaseEntity.DeletedTime=null where m.userId=:userId")

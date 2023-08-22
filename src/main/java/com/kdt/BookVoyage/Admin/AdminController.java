@@ -1,17 +1,20 @@
 package com.kdt.BookVoyage.Admin;
 
 import com.kdt.BookVoyage.Member.MemberEntity;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -49,4 +52,13 @@ public class AdminController {
         log.info("pageable : {}",pageable);
         return adminService.searchUserInfo(keyword,pageable);
     }
+
+    @PostMapping("manage/user/update")
+    public void updateUserState(@RequestBody List<Map<String, String>> updatedList) {
+
+        adminService.updateUserState(updatedList);
+
+
+    }
+
 }
