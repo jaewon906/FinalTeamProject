@@ -10,7 +10,7 @@ import java.io.UnsupportedEncodingException;
 public interface MemberService {
     boolean signUp(MemberDTO memberDTO) throws Exception;
 
-    boolean login(MemberDTO memberDTO, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException;
+    Object login(MemberDTO memberDTO, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException;
 
     boolean modifyInfo(MemberDTO memberDTO) throws Exception;
 

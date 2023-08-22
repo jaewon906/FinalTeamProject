@@ -67,37 +67,47 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public boolean login(MemberDTO memberDTO, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+    public Object login(MemberDTO memberDTO, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+
         String plainText = memberDTO.getPassword();
+
         MemberEntity memberEntity = MemberEntity.DTOToEntity(memberDTO);
         Optional<MemberEntity> byUserId = memberRepository.findByUserId(memberEntity.getUserId());
 
         if(byUserId.isPresent()){ // 예외 -> id or 비번 문제 / true -> 로그인 / false -> 휴면 계정 or 비활성화 계정
-            if(BCrypt.checkpw(plainText,byUserId.get().getPassword())){
-                if(byUserId.get().getDeleteFlag().equals("N") && byUserId.get().getRole().equals("USER")){
 
-                    MemberDTO memberDTO1 = MemberDTO.EntityToDTO(byUserId.get());
+            if(BCrypt.checkpw(plainText,byUserId.get().getPassword()) && byUserId.get().getRole().equals("USER")){
 
-                    TokenDTO generateAccessToken = tokenConfig.generateAccessToken(memberDTO1);
-                    TokenDTO generateRefreshToken = tokenConfig.generateRefreshToken(memberDTO1);
+                switch (byUserId.get().getDeleteFlag()) {
+                    case "N" -> {
+                        MemberDTO memberDTO1 = MemberDTO.EntityToDTO(byUserId.get());
 
-                    Cookie accessToken = cookieConfig.setCookie(generateAccessToken.getAccessToken(), "accessToken", false, "/", 3600);
-                    Cookie refreshToken = cookieConfig.setCookie(generateRefreshToken.getRefreshToken(), "refreshToken", true, "/", 7 * 24 * 3600);
+                        TokenDTO generateAccessToken = tokenConfig.generateAccessToken(memberDTO1);
+                        TokenDTO generateRefreshToken = tokenConfig.generateRefreshToken(memberDTO1);
 
-                    response.addCookie(accessToken);
-                    response.addCookie(refreshToken);
+                        Cookie accessToken = cookieConfig.setCookie(generateAccessToken.getAccessToken(), "accessToken", false, "/", 3600);
+                        Cookie refreshToken = cookieConfig.setCookie(generateRefreshToken.getRefreshToken(), "refreshToken", true, "/", 7 * 24 * 3600);
 
-                    log.info("로그인 성공");
+                        response.addCookie(accessToken);
+                        response.addCookie(refreshToken);
 
-                    emailService.sendEmailLogInNotification(byUserId.get().getUserEmail(), byUserId.get().getUserId());
+                        log.info("로그인 성공");
 
-                    return true;
-                }
-                else {
+                        emailService.sendEmailLogInNotification(byUserId.get().getUserEmail(), byUserId.get().getUserId());
 
-                    log.info("휴면 계정");
+                        return true;
+                    }
+                    case "Y" -> {
+                        log.info("휴면 계정");
 
-                    return false;
+                        return false;
+                    }
+                    case "B" -> {
+                        log.info("블락된 계정");
+                    }
+                    default -> {
+                        log.error("계정 상태 유형을 벗어났습니다.");
+                    }
                 }
             }
             else throw new UserPasswordNotMatchException("비밀번호가 일치하지 않습니다.");
@@ -105,6 +115,7 @@ public class MemberServiceImpl implements MemberService {
         else{
             throw new UserIdNotFoundException("아이디가 존재하지 않습니다.");
         }
+        return null;
     }
 
     @Override

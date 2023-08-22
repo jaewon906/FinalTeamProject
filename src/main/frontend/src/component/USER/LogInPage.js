@@ -8,7 +8,7 @@ export default function LogInPage() {
 
     const userId = useRef();
     const password = useRef();
-    let userState=true;
+    let userState ;
 
     const toLogIn = () => {
         axios.get("/api/user/logIn", {
@@ -18,39 +18,52 @@ export default function LogInPage() {
             }
         }).then((res) => {
 
-            userState=res.data
+                userState = res.data
 
-                if (userState) {
-                    window.location.href = "/home"
-                } else {
-                    const ret = window.confirm("휴면 계정입니다. 활동 계정으로 전환 하시겠습니까?")
+                switch (userState) {
+                    case true:
 
-                    if (ret) {
-                        axios.post("/api/user/dormantAccount", null, {
-                            params: {
-                                userId: userId.current.value,
-                            }
-                        }).then(() => {
-                            axios.get("/api/user/logIn", {
+                        window.location.href = "/home";
+
+                        break;
+
+                    case false: {
+
+                        const ret = window.confirm("휴면 계정입니다. 활동 계정으로 전환 하시겠습니까?")
+
+                        if (ret) {
+                            axios.post("/api/user/dormantAccount", null, {
                                 params: {
                                     userId: userId.current.value,
-                                    password: password.current.value
                                 }
                             }).then(() => {
-                                alert("계정 전환이 완료되었습니다.")
-                                window.location.href="/home"
+                                axios.get("/api/user/logIn", {
+                                    params: {
+                                        userId: userId.current.value,
+                                        password: password.current.value
+                                    }
+                                }).then(() => {
+                                    alert("계정 전환이 완료되었습니다.")
+                                    window.location.href = "/home"
+                                })
+                                    .catch(err => {
+                                        console.error(err)
+                                        alert("다시 시도해주세요")
+                                    })
                             })
                                 .catch(err => {
                                     console.error(err)
-                                    alert("다시 시도해주세요")
+                                    alert("잠시후에 다시 시도해주세요.")
                                 })
-                        })
-                            .catch(err => {
-                                console.error(err)
-                                alert("잠시후에 다시 시도해주세요.")
-                            })
 
+                        }
                     }
+                        break;
+                    case "": {
+                        alert("블락된 계정입니다. 관리자에게 문의하세요")
+                    }
+                        break;
+                    default:
                 }
             }
         ).catch(err => {

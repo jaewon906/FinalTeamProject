@@ -262,7 +262,8 @@ export default function SignUpPage() {
     //             gender: "남자",
     //             userAge: "1996-04-06",
     //             interest: "없음",
-    //             deleteFlag: "Y"
+    //             deleteFlag: "Y",
+    //             role:"USER"
     //
     //         }
     //     })

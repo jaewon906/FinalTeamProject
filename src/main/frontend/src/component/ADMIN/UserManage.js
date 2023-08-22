@@ -4,7 +4,7 @@ import {useEffect, useRef, useState} from "react";
 
 
 let sort = "id";
-let order = "DESC"
+let order = "ASC"
 let page = "0"
 let updateDataArr = [{}]
 updateDataArr.pop()
@@ -20,6 +20,8 @@ export default function UserManage() {
     const [totalPage, setTotalPage] = useState()
     const [cat, setCat] = useState([false, false, false, false, false, false, false, false])
     const [currentPage, setCurrentPage] = useState("0")
+    const [updateArrLength, setUpdateArrLength] = useState(0)
+    const [loading, setLoading] = useState(false)
 
 
     useEffect(() => {
@@ -28,9 +30,12 @@ export default function UserManage() {
                 setUserInfo(res.data.content)
                 setSearchResultLength(res.data.totalElements)
                 setTotalPage(res.data.totalPages)
+                setLoading(true)
             })
             .catch((e) => {
                 console.error(e)
+                alert("Error")
+                window.location.href="../"
             })
 
 
@@ -38,7 +43,6 @@ export default function UserManage() {
 
     const toSearch = () => {
 
-        setUserInfo([{}])
         console.log(page)
 
         const size = userAmount.current.value;
@@ -50,7 +54,6 @@ export default function UserManage() {
 
     const toSearchWithUserAmount = () => {
 
-        setUserInfo([{}])
 
         const size = userAmount.current.value;
         setCurrentPage("0")
@@ -61,6 +64,7 @@ export default function UserManage() {
     }
 
     const dataTransfer1 = (size) => {
+        setLoading(false)
         axios.get("/api/admin/manage/user/search?page=" + page + "&size=" + size + "&sort=" + sort + "," + order, {
             params: {
                 keyword: keyword.current.value
@@ -70,7 +74,7 @@ export default function UserManage() {
                 setUserInfo(res.data.content)
                 setSearchResultLength(res.data.totalElements)
                 setTotalPage(res.data.totalPages)
-                // setCurrentPage("0")
+                setLoading(true)
 
             })
             .catch(e => {
@@ -79,7 +83,7 @@ export default function UserManage() {
     }
 
     const toSearchWithPage = (e) => {
-
+        setLoading(false)
         const size = userAmount.current.value;
 
         page = e.target.id
@@ -93,6 +97,7 @@ export default function UserManage() {
             .then(res => {
                 setUserInfo(res.data.content)
                 setSearchResultLength(res.data.totalElements)
+                setLoading(true)
             })
             .catch(e => {
                 console.error(e)
@@ -278,7 +283,7 @@ export default function UserManage() {
 
     const toSearchWithStartEndBtn = (val) => {
 
-        setUserInfo([{}])
+        setLoading(false)
 
         const size = userAmount.current.value;
         page = val
@@ -293,6 +298,7 @@ export default function UserManage() {
                 setSearchResultLength(res.data.totalElements)
                 setTotalPage(res.data.totalPages)
                 setCurrentPage(val + "")
+                setLoading(true)
 
             })
             .catch(e => {
@@ -309,13 +315,23 @@ export default function UserManage() {
                 toSearchWithStartEndBtn(0);
                 break;
             case "prev": {
-                page = (parseInt(page) - 10) + ""
+                if (parseInt(page) - 10 >= 0) {
+
+                    page = (parseInt(page) - 10) + ""
+                } else {
+                    page = 0
+                }
                 const a = page
                 toSearchWithStartEndBtn(a)
             }
                 break;
             case "next": {
-                page = (parseInt(page) + 10) + ""
+                if (parseInt(page) + 10 <= totalPage) {
+
+                    page = (parseInt(page) + 10) + ""
+                } else {
+                    page = totalPage - 1
+                }
                 const a = page
                 toSearchWithStartEndBtn(a)
             }
@@ -345,7 +361,7 @@ export default function UserManage() {
                     deleteFlag: e.currentTarget.value
                 });
             console.log("저장됨")
-
+            setUpdateArrLength(updateDataArr.length)
         }
 
         if (cnt === 1) {
@@ -356,155 +372,172 @@ export default function UserManage() {
                 deleteFlag: e.currentTarget.value
             })
 
-            updateDataArr=filter
+            updateDataArr = filter
 
             console.log("수정됨")
+            setUpdateArrLength(updateDataArr.length)
         }
 
-
-        console.log(updateDataArr)
-
-        e.currentTarget.parentNode.style.backgroundColor = "yellow"
+        e.currentTarget.style.backgroundColor = "yellow"
     }
 
-    const updateUserState = ()=>{
-        axios.post("/api/admin/manage/user/update",updateDataArr
-        ).then(()=>{
-            alert("수정이 완료되었습니다.")
-            window.location.reload()
-        }).catch((e)=>{
-            console.error(e)
-            alert("다시 시도해주세요")
-        })
+    const updateUserState = () => {
+
+        const ret = window.confirm("수정 하시겠습니까?")
+
+        if(ret){
+            axios.post("/api/admin/manage/user/update", updateDataArr
+            ).then(() => {
+                alert("수정이 완료되었습니다.")
+                window.location.reload()
+            }).catch((e) => {
+                console.error(e)
+                alert("다시 시도해주세요")
+            })
+        }
+
     }
+
+    const returnOptionElement=(deleteFlag,key,color)=>{
+        return(
+            <select style={{background:color}} onChange={visualizationModifyDataAndAddToArray} id={`select${key}`} defaultValue={deleteFlag}>
+            <option value={"N"}>활성</option>
+            <option value={"Y"}>휴면</option>
+            <option value={"B"}>정지</option>
+        </select>)
+    }
+
+
+
+
+
+
 
     return (
         <>
-            {userInfo !== [{}] ?
-                <div className={style.main}>
-                    <h1 style={{margin: "200px 0 100px 0 "}}>회원정보 리스트</h1>
-                    <div className={style.selectAndSearch}>
-                        <div className={style.selectAndSearchBox}>
-                            <p>검색 결과 : <strong>{searchResultLength}개</strong></p>
-                            <input ref={keyword} type={"search"} onKeyDown={onEnter} placeholder={"search"}/>
-                            <select onChange={toSearchWithUserAmount} defaultValue={"100"} ref={userAmount}>
-                                <option value={"10"}>10개</option>
-                                <option value={"50"}>50개</option>
-                                <option value={"100"}>100개</option>
-                                <option value={"300"}>300개</option>
-                                <option value={"500"}>500개</option>
-                                <option value={"1000"}>1000개</option>
-                            </select>
-                        </div>
+            <div className={style.main}>
+                <h1 style={{margin: "200px 0 100px 0 "}}>회원정보 리스트</h1>
+                <div className={style.selectAndSearch}>
+                    <div className={style.selectAndSearchBox}>
+                        <p style={{lineHeight: "27px"}}>검색 결과 : <strong>{searchResultLength}개</strong></p>
+                        <input ref={keyword} type={"search"} onKeyDown={onEnter} placeholder={"search"}/>
+                        <select onChange={toSearchWithUserAmount} defaultValue={"100"} ref={userAmount}>
+                            <option value={"10"}>10개</option>
+                            <option value={"50"}>50개</option>
+                            <option value={"100"}>100개</option>
+                            <option value={"300"}>300개</option>
+                            <option value={"500"}>500개</option>
+                            <option value={"1000"}>1000개</option>
+                        </select>
                     </div>
-                    <div className={style.section}>
-                        <div className={style.table}>
-                            <div style={{position: "sticky", top: "0px", backgroundColor: "#f2f4fa"}}
-                                 className={style.userInfo}>
-                                <div id={"userId"} onClick={sortMethod}
-                                     className={`${style.userId} ${style.category}`}>아이디
-                                    {
-                                        cat[0] ? <i className="fa-solid fa-caret-up"></i>
-                                            : <i className="fa-solid fa-caret-down"></i>
-                                    }
-                                </div>
-                                <div id={"username"} onClick={sortMethod}
-                                     className={`${style.username} ${style.category} `}>이름
-                                    {
-                                        cat[1] ? <i className="fa-solid fa-caret-up"></i>
-                                            : <i className="fa-solid fa-caret-down"></i>
-                                    }
-                                </div>
-                                <div id={"nickname"} onClick={sortMethod}
-                                     className={`${style.nickname} ${style.category}`}>닉네임
-                                    {
-                                        cat[2] ? <i className="fa-solid fa-caret-up"></i>
-                                            : <i className="fa-solid fa-caret-down"></i>
-                                    }
-                                </div>
-                                <div id={"userNumber"} onClick={sortMethod}
-                                     className={`${style.userNumber} ${style.category}`}>일련번호
-                                    {
-                                        cat[3] ? <i className="fa-solid fa-caret-up"></i>
-                                            : <i className="fa-solid fa-caret-down"></i>
-                                    }
-                                </div>
-                                <div id={"userEmail"} onClick={sortMethod}
-                                     className={`${style.userEmail} ${style.category}`}>이메일
-                                    {
-                                        cat[4] ? <i className="fa-solid fa-caret-up"></i>
-                                            : <i className="fa-solid fa-caret-down"></i>
-                                    }
-                                </div>
-                                <div id={"userAddress"} onClick={sortMethod}
-                                     className={`${style.userAddress} ${style.category}`}>주소
-                                    {
-                                        cat[5] ? <i className="fa-solid fa-caret-up"></i>
-                                            : <i className="fa-solid fa-caret-down"></i>
-                                    }
-                                </div>
-                                <div id={"userTel"} onClick={sortMethod}
-                                     className={`${style.userTel} ${style.category}`}>연락처
-                                    {
-                                        cat[6] ? <i className="fa-solid fa-caret-up"></i>
-                                            : <i className="fa-solid fa-caret-down"></i>
-                                    }
-                                </div>
-                                <div id={"deleteFlag"} onClick={sortMethod}
-                                     className={`${style.userDeleteFlag} ${style.category}`}>계정상태
-                                    {
-                                        cat[7] ? <i className="fa-solid fa-caret-up"></i>
-                                            : <i className="fa-solid fa-caret-down"></i>
-                                    }
-                                </div>
+                </div>
+                <div className={style.section}>
+                    <div className={style.table}>
+                        <div style={{position: "sticky", top: "0px", backgroundColor: "#f2f4fa"}}
+                             className={style.userInfo}>
+                            <div id={"userId"} onClick={sortMethod}
+                                 className={`${style.userId} ${style.category}`}>아이디
+                                {
+                                    cat[0] ? <i className="fa-solid fa-caret-up"></i>
+                                        : <i className="fa-solid fa-caret-down"></i>
+                                }
                             </div>
-                            {
-                                userInfo.map((el, key) => {
-                                    return (
-                                        <div key={key} className={style.userInfo}>
-                                            <div className={style.userId}>{el.userId}</div>
-                                            <div className={style.username}>{el.username}</div>
-                                            <div className={style.nickname}>{el.nickname}</div>
-                                            <div className={style.userNumber}>{el.userNumber}</div>
-                                            <div className={style.userEmail}>{el.userEmail}</div>
-                                            <div
-                                                className={style.userAddress}>{el.userAddress + " " + el.userDetailAddress}</div>
-                                            <div className={style.userTel}>{el.userTel}</div>
-                                            <div className={style.userDeleteFlag}>
-                                                <select onChange={visualizationModifyDataAndAddToArray}
-                                                        id={`select${key}`}
-                                                        defaultValue={el.deleteFlag}
-                                                >
-                                                    <option value={"N"}>활성</option>
-                                                    <option value={"Y"}>휴면</option>
-                                                    <option value={"B"}>정지</option>
-                                                </select>
-                                            </div>
+                            <div id={"username"} onClick={sortMethod}
+                                 className={`${style.username} ${style.category} `}>이름
+                                {
+                                    cat[1] ? <i className="fa-solid fa-caret-up"></i>
+                                        : <i className="fa-solid fa-caret-down"></i>
+                                }
+                            </div>
+                            <div id={"nickname"} onClick={sortMethod}
+                                 className={`${style.nickname} ${style.category}`}>닉네임
+                                {
+                                    cat[2] ? <i className="fa-solid fa-caret-up"></i>
+                                        : <i className="fa-solid fa-caret-down"></i>
+                                }
+                            </div>
+                            <div id={"userNumber"} onClick={sortMethod}
+                                 className={`${style.userNumber} ${style.category}`}>일련번호
+                                {
+                                    cat[3] ? <i className="fa-solid fa-caret-up"></i>
+                                        : <i className="fa-solid fa-caret-down"></i>
+                                }
+                            </div>
+                            <div id={"userEmail"} onClick={sortMethod}
+                                 className={`${style.userEmail} ${style.category}`}>이메일
+                                {
+                                    cat[4] ? <i className="fa-solid fa-caret-up"></i>
+                                        : <i className="fa-solid fa-caret-down"></i>
+                                }
+                            </div>
+                            <div id={"userAddress"} onClick={sortMethod}
+                                 className={`${style.userAddress} ${style.category}`}>주소
+                                {
+                                    cat[5] ? <i className="fa-solid fa-caret-up"></i>
+                                        : <i className="fa-solid fa-caret-down"></i>
+                                }
+                            </div>
+                            <div id={"userTel"} onClick={sortMethod}
+                                 className={`${style.userTel} ${style.category}`}>연락처
+                                {
+                                    cat[6] ? <i className="fa-solid fa-caret-up"></i>
+                                        : <i className="fa-solid fa-caret-down"></i>
+                                }
+                            </div>
+                            <div id={"deleteFlag"} onClick={sortMethod}
+                                 className={`${style.userDeleteFlag} ${style.category}`}>계정상태
+                                {
+                                    cat[7] ? <i className="fa-solid fa-caret-up"></i>
+                                        : <i className="fa-solid fa-caret-down"></i>
+                                }
+                            </div>
+                        </div>
+                        {loading ?
+                            userInfo.map((el, key) => {
+                                return (
+                                    <div key={key} className={style.userInfo}>
+                                        <div className={style.userId}>{el.userId}</div>
+                                        <div className={style.username}>{el.username}</div>
+                                        <div className={style.nickname}>{el.nickname}</div>
+                                        <div className={style.userNumber}>{el.userNumber}</div>
+                                        <div className={style.userEmail}>{el.userEmail}</div>
+                                        <div className={style.userAddress}>{el.userAddress + " " + el.userDetailAddress}</div>
+                                        <div className={style.userTel}>{el.userTel}</div>
+                                        <div className={style.userDeleteFlag1}>
+                                            {el.deleteFlag==="N"?returnOptionElement(el.deleteFlag,key,"#52d75f"):""}
+                                            {el.deleteFlag==="Y"?returnOptionElement(el.deleteFlag,key,"orange"):""}
+                                            {el.deleteFlag==="B"?returnOptionElement(el.deleteFlag,key,"red"):""}
                                         </div>
-                                    )
-                                })
-                            }
-                        </div>
-
+                                    </div>
+                                )
+                            })
+                            :
+                            <div className={style.loading}>
+                                <h1>Loading...</h1>
+                            </div>
+                        }
                     </div>
-                    <div className={style.pagingBtnArea}>
-                        <div className={style.leftPagingBtnArea}>
-                            <i id={"first"} onClick={startEndBtn} className="fa-solid fa-angles-left"></i>
-                            {currentPage !== "0" ?
-                                <i id={"prev"} onClick={startEndBtn} className="fa-solid fa-chevron-left"></i> : ""}
-                        </div>
-                        {renderPagination()}
-                        <div className={style.rightPagingBtnArea}>
-                            {currentPage !== (totalPage - 1) + "" ?
-                                <i id={"next"} onClick={startEndBtn} className="fa-solid fa-chevron-right"></i> :
-                                <div style={{width: "16px"}}></div>}
-                            <i id={"last"} onClick={startEndBtn} className="fa-solid fa-angles-right"></i>
-                        </div>
-                    </div>
-                </div> : ""}
-            <div style={{width:"100%", display:"flex", justifyContent:"center", marginTop:"30px"}}><button onClick={updateUserState}>수정하기</button></div>
 
+                </div>
+                <div className={style.pagingBtnArea}>
+                    <div className={style.leftPagingBtnArea}>
+                        <i id={"first"} onClick={startEndBtn} className="fa-solid fa-angles-left"></i>
+                        {currentPage !== "0" ?
+                            <i id={"prev"} onClick={startEndBtn} className="fa-solid fa-chevron-left"></i> : ""}
+                    </div>
+                    {renderPagination()}
+                    <div className={style.rightPagingBtnArea}>
+                        {currentPage !== (totalPage - 1) + "" ?
+                            <i id={"next"} onClick={startEndBtn} className="fa-solid fa-chevron-right"></i> :
+                            <div style={{width: "16px"}}></div>}
+                        <i id={"last"} onClick={startEndBtn} className="fa-solid fa-angles-right"></i>
+                    </div>
+                </div>
+            </div>
+            <div style={{width: "100%", display: "flex", justifyContent: "center", marginTop: "30px"}}>
+                {updateArrLength !== 0 ?
+                    <button className={style.updateUserStateBtn} onClick={updateUserState}>수정하기</button> : ""}
+            </div>
         </>
-
     )
 }

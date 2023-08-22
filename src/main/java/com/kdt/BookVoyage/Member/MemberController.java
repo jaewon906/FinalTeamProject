@@ -51,7 +51,7 @@ public class MemberController {
     }
 
     @GetMapping("/logIn") //로그인
-    public boolean login(MemberDTO memberDTO, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+    public Object login(MemberDTO memberDTO, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
        return memberService.login(memberDTO, request, response);
     }
 
