@@ -239,7 +239,7 @@ public class MemberServiceImpl implements MemberService {
         }
     }
 
-    @Scheduled(fixedDelay = 30 * 24 * 60 * 60 * 1000L) //한달에 한번 씩 휴면계정의 모든 리스트를 불러옴
+    @Scheduled(fixedDelay = 7 * 24 * 60 * 60 * 1000L) //일 주일에 한번 씩 휴면계정의 모든 리스트를 불러옴
     public void deleteDormantAccount() {
         dormantAccounts = memberRepository.findByDeleteFlag("Y");
     }

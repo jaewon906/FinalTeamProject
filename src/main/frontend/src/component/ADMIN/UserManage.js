@@ -167,6 +167,7 @@ export default function UserManage() {
                 case "deleteFlag":
                     setCat([false, false, false, false, false, false, false, true]);
                     break;
+                default:
             }
         }
 
@@ -202,6 +203,7 @@ export default function UserManage() {
                 case "deleteFlag":
                     idx = 7;
                     break;
+                default:
             }
 
             setCat(val => {
@@ -351,6 +353,7 @@ export default function UserManage() {
             case "last":
                 toSearchWithStartEndBtn(totalPage - 1);
                 break;
+            default:
         }
     }
 
@@ -436,6 +439,7 @@ export default function UserManage() {
                             <option value={"300"}>300개</option>
                             <option value={"500"}>500개</option>
                             <option value={"1000"}>1000개</option>
+                            <option value={"2000"}>2000개</option>
                         </select>
                     </div>
                 </div>
@@ -521,8 +525,8 @@ export default function UserManage() {
                                 )
                             })
                             :
-                            <div className={style.loading}>
-                                <h1>Loading...</h1>
+                            <div className={style.loadingBox}>
+                                <div className={style.loading}></div>
                             </div>
                         }
                     </div>

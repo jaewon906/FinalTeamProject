@@ -2,9 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import {BrowserRouter, Route, Routes} from 'react-router-dom'
-import App_Admin from "./App_Admin";
+import AppAdmin from "./AppAdmin";
 import AdminPageControl from "./js/AdminPageControl";
-import NotFound from "./js/NotFound";
 import HomeAddress from "./js/HomeAddress";
 
 
@@ -19,7 +18,7 @@ root.render(
 
         <div id={"adminOnly"}
              style={{width: "100vw", minWidth: "1296px", minHeight: "768px", height: "118vh", position: "relative"}}>
-            <App_Admin/>
+            <AppAdmin/>
         </div>
 
         <Routes>

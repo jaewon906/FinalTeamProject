@@ -243,17 +243,17 @@ export default function SignUpPage() {
 
     }
 
-    // let i=0;
+    // let i=100000;
     // const createAccount = () => {
     //     i++;
     //
     //     axios.post("/api/user/signUp", null, {
     //         params: {
-    //             userId: "qwer1234" + i,
+    //             userId: "qwer" + i,
     //             password: "rkddkwl1!",
     //             username: "박재원",
-    //             nickname: "재원씨야" + i,
-    //             userEmail: "ploi" + i + "@naver.com",
+    //             nickname: "재원씨야호" + i,
+    //             userEmail: "ploii" + i + "@naver.com",
     //             userTel: "010-1234-1234",
     //             userAddress: "없음",
     //             userDetailAddress: "없음",
@@ -272,7 +272,7 @@ export default function SignUpPage() {
     //         })
     //     console.log(i)
     // }
-    // window.setInterval(createAccount,10);
+    // window.setInterval(createAccount,50);
 
     const [modalOpen, setModalOpen] = useState(false)
 

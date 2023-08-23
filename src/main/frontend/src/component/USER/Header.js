@@ -71,12 +71,11 @@ export default function Header() {
             </div>
             <div className={style.functionBox}>
                 {isLogin ? <p style={{fontSize: "14px"}}>반갑습니다 <strong>{nickname}</strong> 님</p> : ""}
-                <button className={style.cart}>
-                    <img src="../../../public/image/cart.png" alt={""}/>
-                </button>
-                <button onClick={myPage} className={style.myInfo}>
-                    <img src="../.." alt={""}/>
-                </button>
+
+                <button className={style.cart}></button>
+
+                <button onClick={myPage} className={style.myInfo}></button>
+
                 <input name={"search"} type={"search"} className={style.search} placeholder={"search..."}/>
                 <button className={style.signUp} onClick={signUp}>SignUp</button>
                 {isLogin ?

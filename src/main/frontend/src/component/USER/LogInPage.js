@@ -59,9 +59,8 @@ export default function LogInPage() {
                         }
                     }
                         break;
-                    case "": {
-                        alert("블락된 계정입니다. 관리자에게 문의하세요")
-                    }
+                    case "": alert("블락된 계정입니다. 관리자에게 문의하세요")
+
                         break;
                     default:
                 }

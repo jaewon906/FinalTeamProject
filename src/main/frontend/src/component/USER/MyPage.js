@@ -7,7 +7,6 @@ import DaumPostcode from "react-daum-postcode";
 export default function MyPage(props) {
 
     const [myInfo, setMyInfo] = useState();
-    let userNumber = "";
 
     const nickname1 = useRef();
     const tel = useRef([]);
@@ -53,20 +52,21 @@ export default function MyPage(props) {
 
         if (myInfo !== undefined) {
             switch (myInfo.gender) {
-                case "남자" : {
+                case "남자" :
                     gender.current[0].checked = true
                     gender.current[1].checked = false
-                }
+
                     break;
-                case "여자" : {
+                case "여자" :
                     gender.current[0].checked = false
                     gender.current[1].checked = true
-                }
+
                     break;
+                default:
             }
         }
 
-    }, [props.userInfo])
+    }, [myInfo,props.userInfo])
 
 
     const validateNickname = () => {
@@ -128,7 +128,7 @@ export default function MyPage(props) {
     }
 
     const toDelete = () => {
-        const ret = window.confirm("정말 회원탈퇴를 하시겠습니까? 탈퇴하실 경우 30일동안 휴면 상태로 전환되며 " + "기간 안에 회원 복구를 진행하지 않을 경우 자동으로 탈퇴됩니다. 계속하시겠습니까?")
+        const ret = window.confirm("정말 회원탈퇴를 하시겠습니까? 탈퇴하실 경우 30일동안 휴면 상태로 전환되며 기간 안에 회원 복구를 진행하지 않을 경우 자동으로 탈퇴됩니다. 계속하시겠습니까?")
 
         if (ret) {
             const ret1 = window.prompt("암호를 입력하세요")

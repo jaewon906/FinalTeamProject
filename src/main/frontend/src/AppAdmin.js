@@ -6,7 +6,7 @@ import AdminManage from "./component/ADMIN/AdminManage";
 import UserManage from "./component/ADMIN/UserManage";
 import NotFound from "./js/NotFound";
 
-export default function App_Admin() {
+export default function AppAdmin() {
 
     return (
         <Routes>
