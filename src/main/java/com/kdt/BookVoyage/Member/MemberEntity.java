@@ -19,9 +19,9 @@ public class MemberEntity {
     private String username; //사용자 이름
     @Column(nullable = false)
     private String password; //사용자 암호
-    @Column(nullable = false ,unique = true)
+    @Column(nullable = false, unique = true)
     private String userId; //사용자 아이디
-    @Column(nullable = false ,unique = true)
+    @Column(nullable = false, unique = true)
     private String nickname; //사용자 닉네임
     @Column(nullable = false)
     private String userAddress; //사용자 주소
@@ -37,8 +37,6 @@ public class MemberEntity {
     private String userTel; // 사용자 전화번호
     @Column
     private String role; // 사용자 권한
-    @Column
-    private String interest; //사용자 관심사
     @Column(nullable = false)
     private String deleteFlag;// DB에서 완전 삭제 대신 값이 0일때 비활성화 처리. 추후 계정 복구를 위함
     @Column(nullable = false, unique = true)

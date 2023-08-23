@@ -3,10 +3,12 @@ package com.kdt.BookVoyage.Security;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 import java.security.Key;
 
 @Slf4j
+@Component
 public class TokenDecoder {
     public String accessTokenDecoder(String token, String key) {
 

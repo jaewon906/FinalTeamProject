@@ -20,7 +20,6 @@ export default function SignUpPage() {
     const age_month = useRef();
     const age_date = useRef();
     const username1 = useRef();
-    const interest = useRef();
     const verificationCode1 = useRef();
     const [deleteFlag1, setDeleteFlag1] = useState("");
     const [isEmailValidate, setIsEmailValidate] = useState(false);
@@ -202,7 +201,6 @@ export default function SignUpPage() {
                     userDetailAddress: address.current.value,
                     gender: genderValue,
                     userAge: age_year.current.value + " " + age_month.current.value + " " + age_date.current.value,
-                    interest: interest.current.value,
                     deleteFlag: deleteFlag1
                 }
             })
@@ -261,7 +259,6 @@ export default function SignUpPage() {
     //             userDetailAddress: "없음",
     //             gender: "남자",
     //             userAge: "1996-04-06",
-    //             interest: "없음",
     //             deleteFlag: "Y",
     //             role:"USER"
     //
@@ -275,7 +272,7 @@ export default function SignUpPage() {
     //         })
     //     console.log(i)
     // }
-    // window.setInterval(createAccount,100);
+    // window.setInterval(createAccount,10);
 
     const [modalOpen, setModalOpen] = useState(false)
 
@@ -446,17 +443,6 @@ export default function SignUpPage() {
                                value="여자"/>여자
                     </div>
                 </div>
-                <div> 관심사
-                    <div style={{width: "260px", height: "25px"}}>
-                        <select name={"interest"} style={{height: "25px"}} ref={interest}>
-                            <option name={"none"} value={"없음"}>없음</option>
-                            <option name={"kidsBooks"} value={"아동도서"}>아동도서</option>
-                            <option name={"worldBooks"} value={"세계도서"}>세계도서</option>
-                            <option name={"countryBooks"} value={"국내도서"}>국내도서</option>
-                        </select>
-                    </div>
-                </div>
-
                 <div>
                     <div><span>*</span> 나이</div>
                     <div style={{width: "260px", height: "25px"}}>

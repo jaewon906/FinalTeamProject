@@ -2,7 +2,7 @@
     width:100%;
     height:auto;
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
 }
 .main{
     width: 500px;
@@ -25,7 +25,7 @@
     cursor: pointer;
     transition: background-color 0.3s,color 0.3s;
     color: white;
-    margin-top: 25px;
+    margin-top: 150px;
 }
 .main button:hover{
     border: 1px solid #45b751;

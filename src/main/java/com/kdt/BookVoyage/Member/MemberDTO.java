@@ -34,8 +34,6 @@ public class MemberDTO {
 
     private String gender; // 사용자 성별
 
-    private String interest; // 사용자 관심사
-
     @Pattern(regexp = "^\\d{3}-\\d{3,4}-\\d{4}$")
     private String userTel; // 사용자 전화번호
 

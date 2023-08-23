@@ -35,7 +35,7 @@ export default function UserManage() {
             .catch((e) => {
                 console.error(e)
                 alert("Error")
-                window.location.href="../"
+                window.location.href = "../"
             })
 
 
@@ -49,7 +49,6 @@ export default function UserManage() {
         page = "0"
         setCurrentPage("0")
         dataTransfer1(size)
-        console.log(userInfo)
     }
 
     const toSearchWithUserAmount = () => {
@@ -131,7 +130,16 @@ export default function UserManage() {
         if (btn !== sort) {
             console.log("달라달라")
             setBtn(sort)
-            setIsOrder(true)
+
+            if (isOrder === true) {
+
+                setIsOrder(false)
+            }
+            if (isOrder === false) {
+
+                setIsOrder(true)
+            }
+
             console.log(isOrder)
 
             switch (sort) {
@@ -202,10 +210,13 @@ export default function UserManage() {
                     if (i !== idx) {
                         newVal[i] = false
                     }
-                    newVal[i] = !newVal[i]
+                    if (i === idx) {
+                        newVal[i] = !newVal[i]
+                    }
                 }
                 return newVal
             });
+
 
         }
 
@@ -220,6 +231,7 @@ export default function UserManage() {
         toSearch()
 
     };
+
     const renderPagination = () => {
 
         const paginationButtons = [];
@@ -238,7 +250,7 @@ export default function UserManage() {
 
                     for (let j = 0; j < 10; j++) {
                         paginationButtons.push(
-                            <p style={{margin: "0 10px"}} id={c - 5 + j + ""} key={c - 4 + j}
+                            <p style={{width:"60px", textAlign:"center"}} id={c - 5 + j + ""} key={c - 4 + j}
                                onClick={toSearchWithPage}>
                                 {currentPage === (c - 5 + j) + "" ?
                                     <span id={c - 5 + j + ""}>{c - 4 + j}</span> : c - 4 + j}
@@ -248,7 +260,7 @@ export default function UserManage() {
                 } else {
                     for (cnt; cnt < b; cnt++) {
                         paginationButtons.push(
-                            <p style={{margin: "0 10px"}} id={cnt - 5 + ""} key={cnt - 4} onClick={toSearchWithPage}>
+                            <p style={{width:"60px", textAlign:"center"}} id={cnt - 5 + ""} key={cnt - 4} onClick={toSearchWithPage}>
                                 {currentPage === (cnt - 5) + "" ? <span id={cnt - 5 + ""}>{cnt - 4}</span> : cnt - 4}
                             </p>
                         );
@@ -258,7 +270,7 @@ export default function UserManage() {
             } else {
                 for (i; i <= 10; i++) {
                     paginationButtons.push(
-                        <p style={{margin: "0 10px"}} id={i - 1 + ""} key={i} onClick={toSearchWithPage}>
+                        <p style={{width:"60px", textAlign:"center"}} id={i - 1 + ""} key={i} onClick={toSearchWithPage}>
                             {currentPage === (i - 1) + "" ? <span id={i - 1 + ""}>{i}</span> : i}
                         </p>
                     );
@@ -267,7 +279,7 @@ export default function UserManage() {
         } else {
             for (i; i <= totalPage; i++) {
                 paginationButtons.push(
-                    <p style={{margin: "0 10px"}} id={i - 1 + ""} key={i} onClick={toSearchWithPage}>
+                    <p style={{width:"60px", textAlign:"center"}} id={i - 1 + ""} key={i} onClick={toSearchWithPage}>
                         {currentPage === (i - 1) + "" ? <span id={i - 1 + ""}>{i}</span> : i}
                     </p>
                 );
@@ -385,7 +397,7 @@ export default function UserManage() {
 
         const ret = window.confirm("수정 하시겠습니까?")
 
-        if(ret){
+        if (ret) {
             axios.post("/api/admin/manage/user/update", updateDataArr
             ).then(() => {
                 alert("수정이 완료되었습니다.")
@@ -398,25 +410,21 @@ export default function UserManage() {
 
     }
 
-    const returnOptionElement=(deleteFlag,key,color)=>{
-        return(
-            <select style={{background:color}} onChange={visualizationModifyDataAndAddToArray} id={`select${key}`} defaultValue={deleteFlag}>
-            <option value={"N"}>활성</option>
-            <option value={"Y"}>휴면</option>
-            <option value={"B"}>정지</option>
-        </select>)
+    const returnOptionElement = (deleteFlag, key, color) => {
+        return (
+            <select style={{background: color}} onChange={visualizationModifyDataAndAddToArray} id={`select${key}`}
+                    defaultValue={deleteFlag}>
+                <option value={"N"}>활성</option>
+                <option value={"Y"}>휴면</option>
+                <option value={"B"}>정지</option>
+            </select>)
     }
-
-
-
-
-
 
 
     return (
         <>
             <div className={style.main}>
-                <h1 style={{margin: "200px 0 100px 0 "}}>회원정보 리스트</h1>
+                <h1 style={{margin: "200px 0 80px 0 "}}>회원정보 리스트</h1>
                 <div className={style.selectAndSearch}>
                     <div className={style.selectAndSearchBox}>
                         <p style={{lineHeight: "27px"}}>검색 결과 : <strong>{searchResultLength}개</strong></p>
@@ -484,7 +492,7 @@ export default function UserManage() {
                                         : <i className="fa-solid fa-caret-down"></i>
                                 }
                             </div>
-                            <div id={"deleteFlag"} onClick={sortMethod}
+                            <div id={"deleteFlag"} onClick={sortMethod} style={{borderRight:"none"}}
                                  className={`${style.userDeleteFlag} ${style.category}`}>계정상태
                                 {
                                     cat[7] ? <i className="fa-solid fa-caret-up"></i>
@@ -501,12 +509,13 @@ export default function UserManage() {
                                         <div className={style.nickname}>{el.nickname}</div>
                                         <div className={style.userNumber}>{el.userNumber}</div>
                                         <div className={style.userEmail}>{el.userEmail}</div>
-                                        <div className={style.userAddress}>{el.userAddress + " " + el.userDetailAddress}</div>
+                                        <div
+                                            className={style.userAddress}>{el.userAddress + " " + el.userDetailAddress}</div>
                                         <div className={style.userTel}>{el.userTel}</div>
                                         <div className={style.userDeleteFlag1}>
-                                            {el.deleteFlag==="N"?returnOptionElement(el.deleteFlag,key,"#52d75f"):""}
-                                            {el.deleteFlag==="Y"?returnOptionElement(el.deleteFlag,key,"orange"):""}
-                                            {el.deleteFlag==="B"?returnOptionElement(el.deleteFlag,key,"red"):""}
+                                            {el.deleteFlag === "N" ? returnOptionElement(el.deleteFlag, key, "#52d75f") : ""}
+                                            {el.deleteFlag === "Y" ? returnOptionElement(el.deleteFlag, key, "orange") : ""}
+                                            {el.deleteFlag === "B" ? returnOptionElement(el.deleteFlag, key, "red") : ""}
                                         </div>
                                     </div>
                                 )
@@ -519,25 +528,28 @@ export default function UserManage() {
                     </div>
 
                 </div>
-                <div className={style.pagingBtnArea}>
-                    <div className={style.leftPagingBtnArea}>
-                        <i id={"first"} onClick={startEndBtn} className="fa-solid fa-angles-left"></i>
-                        {currentPage !== "0" ?
-                            <i id={"prev"} onClick={startEndBtn} className="fa-solid fa-chevron-left"></i> : ""}
+                <div style={{width:"100%", display:"flex", alignItems:"center",flexDirection:"column"}}>
+                    <div className={style.pagingBtnArea}>
+                        <div className={style.leftPagingBtnArea}>
+                            <i id={"first"} onClick={startEndBtn} className="fa-solid fa-angles-left"></i>
+                            {currentPage !== "0" ?
+                                <i id={"prev"} onClick={startEndBtn} className="fa-solid fa-chevron-left"></i> : ""}
+                        </div>
+                        {renderPagination()}
+                        <div className={style.rightPagingBtnArea}>
+                            {currentPage !== (totalPage - 1) + "" ?
+                                <i id={"next"} onClick={startEndBtn} className="fa-solid fa-chevron-right"></i> :
+                                <div style={{width: "16px"}}></div>}
+                            <i id={"last"} onClick={startEndBtn} className="fa-solid fa-angles-right"></i>
+                        </div>
                     </div>
-                    {renderPagination()}
-                    <div className={style.rightPagingBtnArea}>
-                        {currentPage !== (totalPage - 1) + "" ?
-                            <i id={"next"} onClick={startEndBtn} className="fa-solid fa-chevron-right"></i> :
-                            <div style={{width: "16px"}}></div>}
-                        <i id={"last"} onClick={startEndBtn} className="fa-solid fa-angles-right"></i>
+                    <div style={{width: "100%", display: "flex", justifyContent: "center", marginTop: "30px"}}>
+                        {updateArrLength !== 0 ?
+                            <button className={style.updateUserStateBtn} onClick={updateUserState}>수정하기</button> : ""}
                     </div>
                 </div>
             </div>
-            <div style={{width: "100%", display: "flex", justifyContent: "center", marginTop: "30px"}}>
-                {updateArrLength !== 0 ?
-                    <button className={style.updateUserStateBtn} onClick={updateUserState}>수정하기</button> : ""}
-            </div>
+
         </>
     )
 }

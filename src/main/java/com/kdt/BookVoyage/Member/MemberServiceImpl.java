@@ -24,6 +24,7 @@ import java.io.UnsupportedEncodingException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,7 +38,8 @@ public class MemberServiceImpl implements MemberService {
     private final TokenConfig tokenConfig;
     private final CookieConfig cookieConfig;
 
-    List<MemberEntity> dormantAccounts;
+    List<MemberEntity> dormantAccounts=new ArrayList<>();
+
     @Override
     public boolean signUp(MemberDTO memberDTO) throws Exception {
 //Validation이 memberDTO를 인터셉트해서 검사를 먼저하고 엔티티에서 unique를 지정했기 때문에 예외처리 하지않음
@@ -134,10 +136,10 @@ public class MemberServiceImpl implements MemberService {
             try{
                 memberRepository.updateMyInfo(
                         memberEntity.getUsername(),
-                        memberEntity.getPassword(),
                         memberEntity.getNickname(),
                         memberEntity.getUserAddress(),
-                        memberEntity.getInterest(),
+                        memberEntity.getUserDetailAddress(),
+                        memberEntity.getGender(),
                         memberEntity.getUserTel(),
                         memberEntity.getUserNumber(),
                         LocalDateTime.now()

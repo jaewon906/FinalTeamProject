@@ -14,6 +14,7 @@ import java.util.*;
 @Slf4j
 @RequiredArgsConstructor
 public class TokenConfig {
+
     public Date expireDate(long num) {
         return new Date(System.currentTimeMillis() + num);
     }

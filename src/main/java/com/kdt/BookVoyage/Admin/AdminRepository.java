@@ -21,12 +21,11 @@ public interface AdminRepository extends JpaRepository<MemberEntity,Long> {
             "user_detail_address," +
             "user_email," +
             "gender," +
-            "interest" +
-            ",user_tel" +
-            ",role" +
-            ",delete_flag" +
-            ",user_number" +
-            ",user_age) " +
+            "user_tel," +
+            "role," +
+            "delete_flag," +
+            "user_number," +
+            "user_age) " +
             "values(" +
             "'박재원'," +
             " 'admin'," +
@@ -36,7 +35,6 @@ public interface AdminRepository extends JpaRepository<MemberEntity,Long> {
             "''," +
             "'qwer@naver.com'," +
             "'남자'," +
-            "''," +
             "'010-1231-1231'," +
             "'ADMIN'," +
             "'N'," +

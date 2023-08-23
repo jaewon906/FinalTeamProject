@@ -37,19 +37,19 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
     @Modifying
     @Query(value ="update MemberEntity m set " +
             "m.username=:username, " +
-            "m.password=:password, " +
             "m.nickname=:nickname, " +
             "m.userAddress=:userAddress, " +
-            "m.interest=:interest, " +
+            "m.userDetailAddress=:userDetailAddress, " +
+            "m.gender=:gender, " +
             "m.timeBaseEntity.UpdatedTime=:updateTime, " +
             "m.userTel=:userTel " +
             "where m.userNumber=:userNumber"
             )
     void updateMyInfo(@Param("username")String username,
-                      @Param("password")String password,
                       @Param("nickname")String nickname,
                       @Param("userAddress")String userAddress,
-                      @Param("interest")String interest,
+                      @Param("userDetailAddress")String userDetailAddress,
+                      @Param("gender")String gender,
                       @Param("userTel")String userTel,
                       @Param("userNumber")String userNumber,
                       LocalDateTime updateTime);

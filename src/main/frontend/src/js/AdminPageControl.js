@@ -1,7 +1,7 @@
 import {useEffect} from "react";
 
-export default function ControlAdminPage(){
-    useEffect(() => {
+export default function AdminPageControl(){
+    useEffect(()=>{
         document.getElementById("adminOnly").remove()
-    }, [])
+    },[])
 }
