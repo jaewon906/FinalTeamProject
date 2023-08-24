@@ -35,9 +35,13 @@ public class AdminController {
         adminService.login(adminDTO, response);
     }
 
-    @GetMapping("/manage")
-    public List<Integer> loadSummary(){
+    @GetMapping("/summary")
+    public int loadSummary(){
         return adminService.getTotalSummary();
+    }
+    @GetMapping("/summaryNewUserPerDay")
+    public Map<String, Integer> loadGetNewUserPerDaySummary(){
+        return adminService.getNewUserPerDaySummary();
     }
 
 

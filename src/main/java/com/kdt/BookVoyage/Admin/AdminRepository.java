@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDateTime;
+
 public interface AdminRepository extends JpaRepository<MemberEntity,Long> {
 
 
@@ -25,7 +27,8 @@ public interface AdminRepository extends JpaRepository<MemberEntity,Long> {
             "role," +
             "delete_flag," +
             "user_number," +
-            "user_age) " +
+            "user_age," +
+            "created_time) " +
             "values(" +
             "'박재원'," +
             " 'admin'," +
@@ -39,7 +42,8 @@ public interface AdminRepository extends JpaRepository<MemberEntity,Long> {
             "'ADMIN'," +
             "'N'," +
             "'0000000000'," +
-            "28)", nativeQuery = true)
+            "28," +
+            "'2023-01-01 00:00:00')", nativeQuery = true)
     void createAdminId();
 
     @Transactional

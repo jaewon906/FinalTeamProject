@@ -4,7 +4,7 @@
 ## 프론트엔드 
 
 ### 프레임워크 : 리액트 18 version
-### 라이브러리 : react-router-dom, react-daum-postcode, http-proxy-middleware, axios, react-modal
+### 라이브러리 : react-router-dom, react-daum-postcode, http-proxy-middleware, axios, react-modal, apexcharts
 
 
 

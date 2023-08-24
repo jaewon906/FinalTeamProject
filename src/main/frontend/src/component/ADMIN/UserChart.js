@@ -1,40 +1,124 @@
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import ApexCharts from "apexcharts";
+import axios from "axios";
+import unixToDate from "../../js/unixToDate";
 
-export default function UserChart(){
+export default function UserChart(props){
 
+    // const[user,setUser] = useState([])
+
+    const oneDay = 24 * 3600 * 1000
     const a = new Date();
+    const twoWeeks = 15 * 24 * 3600 * 1000
+    let user=[]
+    let dates = [];
+    let dateArr=[]
 
-   console.log(a.getDate() + 12)
+    for(let i=1; i<=15; i++){
+        const dateSevenDaysAgo = unixToDate(Math.floor(a-(twoWeeks-oneDay*i))/1000);
+
+        dateArr[i-1] = dateSevenDaysAgo.split("-")[1] +"/"+
+            dateSevenDaysAgo.split("-")[2].split(" ")[0]
+
+    }
 
     useEffect(()=>{
         const options = {
+            annotations: {
+                points: [
+                    {
+                        x: dateArr[dateArr.length-1],
+                        y: props.today,
+                        marker: {
+                            size: 6,
+                            fillColor: "#fff",
+                            strokeColor: "#2698FF",
+                            radius: 2
+                        },
+                        label: {
+                            borderColor: "#FF4560",
+                            offsetX: -10,
+                            offsetY: 0,
+                            style: {
+                                color: "#fff",
+                                background: "#FF4560"
+                            },
+
+                            text: "TODAY"
+                        }
+                    }
+                ]
+            },
             chart: {
                 type: 'line',
-                width:450,
-                height:250
+                width:550,
+                height:250,
+                toolbar:{
+                    show:false
+                },
             },
             series: [{
-                name: 'sales',
-                data: [30,40,35,50,49,60,70,91,1250]
+                name: 'newCustomer',
+                data: []
             }],
 
             colors: ['#0095ff'],
 
             xaxis: {
-                categories: [1993,1994,1995,1996,1997, 1998,1999]
-            },
+                type:'range',
+                categories: dateArr,
+                tickAmount:6,
+                labels: {
+                    datetimeUTC: false // UTC 시간 사용 여부 설정
+                },
+                min: dateArr[dateArr.length-8], // 초기 시작 날짜
+                max: dateArr[dateArr.length-1]
 
+            },
+            yaxis:{
+
+            },
+            markers:{
+                size:5
+            },
+            grid: {
+                padding:{
+                    right:0
+                }
+            },
 
         }
 
         const chart = new ApexCharts(document.getElementById("chart"), options);
 
+        axios.get("/api/admin/summaryNewUserPerDay").then(res=>{
+            let i=0
+
+            const dataFromServer = res.data
+
+            const datesFromServer = Object.keys(dataFromServer);
+
+            const sortedDates = datesFromServer.sort((a, b) => new Date(a) - new Date(b));
+
+            sortedDates.forEach(date => {
+                const value = dataFromServer[date];
+                dates[i] = date
+                user[i] = value
+                i++;
+            });
+
+            chart.updateSeries([{
+                name: 'newCustomer',
+                data: user
+            }]).then()
+        }).catch(e=> console.error(e))
+
         chart.render().then().catch();
-    },[])
+
+    },[props.today])
     return(
-        <>
+        <div>
             <div id={"chart"}></div>
-        </>
+        </div>
     )
 }

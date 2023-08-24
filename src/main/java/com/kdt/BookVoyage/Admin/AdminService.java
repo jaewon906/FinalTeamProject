@@ -18,11 +18,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 
 import java.io.UnsupportedEncodingException;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -35,16 +33,17 @@ public class AdminService {
     private final CookieConfig cookieConfig;
 
     @PostConstruct
-    public void createAdminAccount(){
+    public void createAdminAccount() {
         adminRepository.deleteByUserId("admin");
         adminRepository.createAdminId();
     }
+
     public void login(AdminDTO adminDTO, HttpServletResponse response) throws UnsupportedEncodingException {
         String userId = adminDTO.getAdminId();
         Optional<MemberEntity> byUserId = memberRepository.findByUserId(userId);
 
-        if(byUserId.isPresent()){
-            if(byUserId.get().getPassword().equals(adminDTO.getPassword()) && byUserId.get().getRole().equals("ADMIN")){
+        if (byUserId.isPresent()) {
+            if (byUserId.get().getPassword().equals(adminDTO.getPassword()) && byUserId.get().getRole().equals("ADMIN")) {
 
                 MemberDTO memberDTO = MemberDTO.EntityToDTO(byUserId.get());
 
@@ -56,34 +55,70 @@ public class AdminService {
 
                 response.addCookie(accessToken);
                 response.addCookie(refreshToken);
-            }
-            else throw new UserPasswordNotMatchException("비밀번호가 일치하지 않습니다.");
-        }
-        else throw new UserIdNotFoundException("아이디가 존재하지 않습니다.");
+            } else throw new UserPasswordNotMatchException("비밀번호가 일치하지 않습니다.");
+        } else throw new UserIdNotFoundException("아이디가 존재하지 않습니다.");
 
     }
 
-    public List<Integer> getTotalSummary() {
+    public int getTotalSummary() {
+
         List<MemberEntity> all = memberRepository.findAll();
 
-        List<Integer> result = new ArrayList<>();
-        result.add(all.size());
+        return all.size();
+    }
+    public Map<String, Integer> getNewUserPerDaySummary() {
+
+        List<MemberEntity> all = memberRepository.findAll();
+        Map<String, Integer> result = new HashMap<>();
+
+        long eightDays = 15 * 24 * 3600 * 1000;
+        long oneDay = 24 * 3600 * 1000;
+
+        int a[] = new int[15];
+
+        long now = new Timestamp(System.currentTimeMillis()).getTime();
+        long sevenDaysAgo = now - eightDays; // 현재 기준 15일 전
+
+        String split = new Timestamp(sevenDaysAgo).toString().split(" ")[0];
+
+        long sevenDaysAgo_0Hour = Timestamp.valueOf(split + " " + "00:00:00").getTime(); // 현재 기준 7일 전 00시 00분 00초
+
+        for (int i = 1; i <= 15; i++) {
+
+            for (int j = 0; j < all.size() - 1; j++) {
+
+                long signUpDate = all.get(j).getTimeBaseEntity().getCreatedTime().getTime();
+
+
+                if (signUpDate >= i * oneDay + sevenDaysAgo_0Hour && signUpDate < (i + 1) * oneDay + sevenDaysAgo_0Hour) {// 2주전 00시 00분 00초 ~ 23시 59분 59초
+                    a[i - 1]++;
+                }
+
+            }
+            String timestamp1 = new Timestamp(i * oneDay + sevenDaysAgo_0Hour).toString();
+            String date = timestamp1.split(" ")[0];
+
+            result.put(date, a[i-1]);
+        }
+
+        log.info("{}", all.size());
 
         return result;
     }
 
-    public Page<MemberEntity> getUserInfo(Pageable pageable){
-       return memberRepository.findAll(pageable);
+    public Page<MemberEntity> getUserInfo(Pageable pageable) {
+        return memberRepository.findAll(pageable);
     }
-    public Page<MemberEntity> searchUserInfo(String keyword,Pageable pageable){
-       return memberRepository.searchByUserIdContainingIgnoreCaseOrUsernameContainingIgnoreCaseOrNicknameContainingIgnoreCaseOrUserNumberContainingIgnoreCaseOrUserEmailContainingIgnoreCaseOrUserAddressContainingIgnoreCaseOrUserTelContainingIgnoreCase(
-               keyword,keyword,keyword,keyword,keyword,keyword,keyword,pageable
-       );
+
+    public Page<MemberEntity> searchUserInfo(String keyword, Pageable pageable) {
+        return memberRepository.searchByUserIdContainingIgnoreCaseOrUsernameContainingIgnoreCaseOrNicknameContainingIgnoreCaseOrUserNumberContainingIgnoreCaseOrUserEmailContainingIgnoreCaseOrUserAddressContainingIgnoreCaseOrUserTelContainingIgnoreCase(
+                keyword, keyword, keyword, keyword, keyword, keyword, keyword, pageable
+        );
     }
 
     public void updateUserState(List<Map<String, String>> updatedList) {
 
-        for(Map<String, String>updated : updatedList){
+        for (Map<String, String> updated : updatedList) {
             String userNumber = updated.get("userNumber");
             String deleteFlag = updated.get("deleteFlag");
 
