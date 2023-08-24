@@ -12,14 +12,17 @@ root.render(
     <BrowserRouter>
         <HomeAddress/>
 
-        <div id={"userOnly"} style={{width: "100vw", minWidth: "1296px", height: "auto", position: "relative"}}>
-            <App/>
-        </div>
 
-        <div id={"adminOnly"}
-             style={{width: "100vw", minWidth: "1440px", minHeight: "768px", height: "118vh", position: "relative"}}>
-            <AppAdmin/>
-        </div>
+            <div id={"userOnly"} style={{width: "100vw", minWidth: "1296px", height: "auto", position: "relative"}}>
+                <App/>
+            </div>
+
+            <div id={"adminOnly"}
+                 style={{width: "100vw", minWidth: "1440px", minHeight: "768px", height: "100vh", position: "relative"}}>
+                <AppAdmin/>
+            </div>
+
+
 
         <Routes>
             <Route path={"/board/*"} element={<AdminPageControl/>}/>

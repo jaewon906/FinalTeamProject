@@ -126,7 +126,7 @@ export default function AdminManage() {
                             </div>
                         </div>
                     </div>
-                    <UserChart today={user[user.length-1]}/>
+                     <UserChart today={user[user.length-1]}/>
                 </div></div>
                 <div className={style.product}>상품 표기</div>
                 <div className={style.CS}>문의사항 표기</div>

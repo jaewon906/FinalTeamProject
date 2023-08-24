@@ -45,7 +45,7 @@ export default function AdminTheme(props) {
                             window.location.href = "/admin/manage/CS/"
                         }} className={style.category}>문의 관리
                         </div>
-                        <p onClick={logout} style={{marginTop: "400px", cursor: "pointer"}}>로그아웃</p>
+                        <p onClick={logout} style={{marginTop: "300px", cursor: "pointer"}}>로그아웃</p>
                     </div>
                 </div>
                 <div className={style.main}>

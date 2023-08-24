@@ -1,7 +1,7 @@
 import style from '../../css/USER/signUpPage.module.css'
 import {Link} from "react-router-dom";
 import axios from "axios";
-import {useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import Modal from "react-modal";
 import DaumPostcode from "react-daum-postcode";
 
@@ -29,12 +29,14 @@ export default function SignUpPage() {
     const [emailState1, setEmailState1] = useState(false);
     const [timeRemaining, setTimeRemaining] = useState([{minute: 3, second: "00"}]);
     const [addressData, setAddressData] = useState(["", ""]);
+    const [reAuthenticateEmail, setReAuthenticateEmail] = useState(false)
+
+    let expireTime=180
 
     let idState = false
     let nicknameState = false
     let emailState = false
 
-    let expireTime = 180;
 
     let year = [];
     let month = [];
@@ -100,20 +102,21 @@ export default function SignUpPage() {
             })
     }
     let pause
-    let a =false;
+
     const verificationCodeExpire = () => {
+
         let minute1 = Math.floor(expireTime / 60)
         let second1 = expireTime % 60
         let formattedSecond1 = second1.toString().padStart(2, '0')
 
-        if (expireTime === -1 || a===true) {
+        if (expireTime === -1) {
 
             axios.post("/api/user/signUp/deleteExpiredVerificationCode", null, {
                 params: {
                     userEmail: email.current[0].value + "@" + email.current[1].value
                 }
             }).then(()=>{
-                alert("시간이 초과되었습니다.")
+                setReAuthenticateEmail(true)
                 window.clearInterval(pause);
             }).catch()
 
@@ -121,13 +124,16 @@ export default function SignUpPage() {
 
         }else setTimeRemaining([{minute: minute1, second: formattedSecond1}])
 
-        console.log(expireTime)
-        console.log(a)
         expireTime--
     }
 
 
     const validateEmail = () => {
+
+        expireTime=20
+        setIsEmailValidate(false)
+        setReAuthenticateEmail(false)
+
         axios.get("/api/user/signUp/emailValidation", {
             params: {
                 userEmail: email.current[0].value + "@" + email.current[1].value
@@ -137,7 +143,6 @@ export default function SignUpPage() {
                 emailState = res.data
                 if (emailState === true) {
                     alert("전송되었습니다.")
-
                     setIsEmailValidate(true);
                     const play = (() => setInterval(verificationCodeExpire, 1000))
                     pause = play();
@@ -146,6 +151,7 @@ export default function SignUpPage() {
             })
             .catch(() => alert("양식을 확인해주세요. (.com, .org, .net 만 가입 가능합니다.)"))
     }
+
 
     const confirmVerificationCode = () => {
         axios.get("/api/user/findMyInfo/byEmail/auth", {
@@ -158,7 +164,6 @@ export default function SignUpPage() {
             setDeleteFlag1("N");
             setEmailState1(true);
             alert("인증 되었습니다.")
-            a=true
 
         }).catch(err => {
             alert("인증에 실패했습니다.")
@@ -243,36 +248,36 @@ export default function SignUpPage() {
 
     }
 
-    let i=189456;
-    const createAccount = () => {
-        i++;
-
-        axios.post("/api/user/signUp", null, {
-            params: {
-                userId: "qwer" + i,
-                password: "rkddkwl1!",
-                username: "박재원",
-                nickname: "재원씨야호" + i,
-                userEmail: "ploii" + i + "@naver.com",
-                userTel: "010-1234-1234",
-                userAddress: "없음",
-                userDetailAddress: "없음",
-                gender: "남자",
-                userAge: "1996-04-06",
-                deleteFlag: "Y",
-                role:"USER"
-
-            }
-        })
-            .then(() => {
-
-            })
-            .catch(err => {
-                console.error(err)
-            })
-        console.log(i)
-    }
-    window.setInterval(createAccount,200);
+    // let i=210000;
+    // const createAccount = () => {
+    //     i++;
+    //
+    //     axios.post("/api/user/signUp", null, {
+    //         params: {
+    //             userId: "qwer" + i,
+    //             password: "rkddkwl1!",
+    //             username: "박재원",
+    //             nickname: "재원씨야호" + i,
+    //             userEmail: "ploii" + i + "@naver.com",
+    //             userTel: "010-1234-1234",
+    //             userAddress: "없음",
+    //             userDetailAddress: "없음",
+    //             gender: "남자",
+    //             userAge: "1996-04-06",
+    //             deleteFlag: "Y",
+    //             role:"USER"
+    //
+    //         }
+    //     })
+    //         .then(() => {
+    //
+    //         })
+    //         .catch(err => {
+    //             console.error(err)
+    //         })
+    //     console.log(i)
+    // }
+    // window.setInterval(createAccount,100);
 
     const [modalOpen, setModalOpen] = useState(false)
 
@@ -313,7 +318,7 @@ export default function SignUpPage() {
                     height: "30px",
                     borderRadius: "10px",
                     position: "absolute",
-                    margin: "179px 0px 0px 530px"
+                    margin: "175px 0px 0px 530px"
                 }}>중복확인
                 </button>
                 <button onClick={validateNickname} style={{
@@ -321,7 +326,7 @@ export default function SignUpPage() {
                     height: "30px",
                     borderRadius: "10px",
                     position: "absolute",
-                    margin: "420px 0px 0px 530px"
+                    margin: "412px 0px 0px 530px"
                 }}>중복확인
                 </button>
                 {!isEmailValidate ? <button onClick={validateEmail} style={{
@@ -329,27 +334,34 @@ export default function SignUpPage() {
                         height: "30px",
                         borderRadius: "10px",
                         position: "absolute",
-                        margin: "575px 0px 0px 530px"
+                        margin: "565px 0px 0px 530px"
                     }}>중복확인</button> :
                     <button onClick={confirmVerificationCode} style={{
                         width: "70px",
                         height: "30px",
                         borderRadius: "10px",
                         position: "absolute",
-                        margin: "646px 0px 0px 530px"
+                        margin: "635px 0px 0px 530px"
                     }}>인증하기</button>}
+                {reAuthenticateEmail? <button onClick={validateEmail} style={{
+                    width: "70px",
+                    height: "30px",
+                    borderRadius: "10px",
+                    position: "absolute",
+                    margin: "565px 0px 0px 530px"
+                }}>재전송하기</button>:""}
                 {!isEmailValidate ? <button onClick={openModal} style={{
                     width: "70px",
                     height: "30px",
                     borderRadius: "10px",
                     position: "absolute",
-                    margin: "716px 0px 0px 530px"
+                    margin: "706px 0px 0px 530px"
                 }}>주소검색</button> : <button onClick={openModal} style={{
                     width: "70px",
                     height: "30px",
                     borderRadius: "10px",
                     position: "absolute",
-                    margin: "802px 0px 0px 530px"
+                    margin: "787px 0px 0px 530px"
                 }}>주소검색</button>}
 
                 <p style={{fontSize: "30px", fontWeight: "600", margin: "20px 0px"}}>회원가입</p>
@@ -358,7 +370,7 @@ export default function SignUpPage() {
                     <div><span>*</span> 아이디</div>
                     <input name={"userId"} ref={id} type="text" placeholder="특수문자 & 한글 제외 6~12글자"/></div>
 
-                {idState1 ? <p style={{color: "green", fontSize: "12px"}}>사용 가능합니다.</p> : <pre> </pre>}
+                {idState1 ? <p style={{color: "green", fontSize: "12px"}}>사용 가능합니다.</p> : <div style={{height:"13px",marginTop:"0"}}></div>}
 
 
                 <div>
@@ -379,7 +391,7 @@ export default function SignUpPage() {
                     <div><span>*</span> 닉네임</div>
                     <input name={"nickname"} ref={nickname1} type="text" placeholder="특수문자 제외 4~20글자"/></div>
 
-                {nickState1 ? <p style={{color: "green", fontSize: "12px"}}>사용 가능합니다.</p> : <pre> </pre>}
+                {nickState1 ? <p style={{color: "green", fontSize: "12px"}}>사용 가능합니다.</p> : <div style={{height:"13px",marginTop:"0"}}></div>}
 
                 <div>
                     <div><span>*</span> 이름</div>
@@ -472,8 +484,8 @@ export default function SignUpPage() {
 
                 <button onClick={toSignUp} type="button">회원가입</button>
                 <div className={style.findAndSignUpArea}>
-                    <Link to="/findId">아이디 찾기</Link>
-                    <Link to="/findPw">비밀번호 찾기</Link>
+                    <Link to="/home/findId">아이디 찾기</Link>
+                    <Link to="/home/findPw">비밀번호 찾기</Link>
                 </div>
             </div>
         </div>

@@ -23,15 +23,14 @@ function App() {
             <TopBtn/>
             <Routes>
                 <Route path={"/"} element={<Outlet/>}>
-                    <Route path={"home"} element={<Main/>}/>
-                    <Route path={"home"} element={<Outlet/>}>
+                    <Route path={"home/"} element={<Main/>}/>
+                    <Route path={"home/"} element={<Outlet/>}>
                         <Route path={"login/"} element={<LogInPage/>}/>
                         <Route path={"signUp/"} element={<SignUpPage/>}/>
                         <Route path={"findId/"} element={<FindMyIdPage/>}/>
                         <Route path={"findPw/"} element={<FindMyPwPage/>}/>
                         <Route path={"myPage/"} element={<MyPageAuth/>}/>
                     </Route>
-                    <Route path={"/*"} element={<NotFound/>}/>
                 </Route>
             </Routes>
             <ScrollTop/>

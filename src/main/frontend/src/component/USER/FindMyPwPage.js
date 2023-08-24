@@ -11,11 +11,14 @@ export default function FindMyPwPage() {
     const [emailFromRepo, setEmailFromRepo] = useState("");
     const [idFromRepo, setIdFromRepo] = useState("");
     const [resetMyPw, setResetMyPw] = useState("");
+    const [loading, setLoading] = useState(false)
     const setPassword=useRef();
     const confirmPassword=useRef()
 
 
     const sendEmail = () => {
+
+        setLoading(true)
 
         axios.get("/api/user/findMyInfo/byEmailAndId", {
             params: {
@@ -25,11 +28,13 @@ export default function FindMyPwPage() {
         }).then((res) => {
             alert("인증번호가 전송되었습니다.")
             setIsEmailExist(true)
+            setLoading(false)
             setEmailFromRepo(res.data[0])
             setIdFromRepo(res.data[1])
         })
             .catch(() => {
                 alert("아이디 또는 이메일을 확인해주세요.")
+                setLoading(false)
             })
 
     }
@@ -72,7 +77,8 @@ export default function FindMyPwPage() {
 
     return (
         <div className={style.container}>
-            {resetMyPw === "" ?<div className={style.box}>
+            { loading ? <div className={style.loading}></div>:
+                (resetMyPw === "" ?<div className={style.box}>
                     <br/>
                     <br/>
                     <br/>
@@ -105,7 +111,7 @@ export default function FindMyPwPage() {
                         <button style={{marginTop:"50px", marginBottom:"100px"}} onClick={resetPassword}>비밀번호 변경하기</button>
                     </div>
                 </div>
-               }
-        </div>
+                )
+            }</div>
     )
 };

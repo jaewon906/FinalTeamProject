@@ -427,7 +427,7 @@ export default function UserManage() {
     return (
         <>
             <div className={style.main}>
-                <h1 style={{margin: "200px 0 80px 0 "}}>회원정보 리스트</h1>
+                <h1 style={{margin: "50px 0 50px 0 "}}>회원정보 리스트</h1>
                 <div className={style.selectAndSearch}>
                     <div className={style.selectAndSearchBox}>
                         <p style={{lineHeight: "27px"}}>검색 결과 : <strong>{searchResultLength}개</strong></p>
