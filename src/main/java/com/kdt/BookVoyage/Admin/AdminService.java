@@ -34,8 +34,14 @@ public class AdminService {
 
     @PostConstruct
     public void createAdminAccount() {
+
         adminRepository.deleteByUserId("admin");
         adminRepository.createAdminId();
+
+        Optional<MemberEntity> admin = memberRepository.findByUserId("admin");
+
+        admin.ifPresent(memberEntity -> log.info("INITIAL ADMIN ID, PW : {} {}", memberEntity.getUserId(), memberEntity.getPassword()));
+
     }
 
     public void login(AdminDTO adminDTO, HttpServletResponse response) throws UnsupportedEncodingException {
@@ -119,11 +125,9 @@ public class AdminService {
     public void updateUserState(List<Map<String, String>> updatedList) {
 
         for (Map<String, String> updated : updatedList) {
+
             String userNumber = updated.get("userNumber");
             String deleteFlag = updated.get("deleteFlag");
-
-            log.info(userNumber);
-            log.info(deleteFlag);
 
             memberRepository.updateUserState(userNumber, deleteFlag, LocalDateTime.now());
         }

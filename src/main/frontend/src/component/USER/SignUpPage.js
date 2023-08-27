@@ -130,7 +130,7 @@ export default function SignUpPage() {
 
     const validateEmail = () => {
 
-        expireTime=20
+        expireTime=180
         setIsEmailValidate(false)
         setReAuthenticateEmail(false)
 
@@ -248,36 +248,36 @@ export default function SignUpPage() {
 
     }
 
-    // let i=210000;
-    // const createAccount = () => {
-    //     i++;
-    //
-    //     axios.post("/api/user/signUp", null, {
-    //         params: {
-    //             userId: "qwer" + i,
-    //             password: "rkddkwl1!",
-    //             username: "박재원",
-    //             nickname: "재원씨야호" + i,
-    //             userEmail: "ploii" + i + "@naver.com",
-    //             userTel: "010-1234-1234",
-    //             userAddress: "없음",
-    //             userDetailAddress: "없음",
-    //             gender: "남자",
-    //             userAge: "1996-04-06",
-    //             deleteFlag: "Y",
-    //             role:"USER"
-    //
-    //         }
-    //     })
-    //         .then(() => {
-    //
-    //         })
-    //         .catch(err => {
-    //             console.error(err)
-    //         })
-    //     console.log(i)
-    // }
-    // window.setInterval(createAccount,100);
+    let i=240000;
+    const createAccount = () => {
+        i++;
+
+        axios.post("/api/user/signUp", null, {
+            params: {
+                userId: "qwer" + i,
+                password: "rkddkwl1!",
+                username: "박재원",
+                nickname: "재원씨야호" + i,
+                userEmail: "ploii" + i + "@naver.com",
+                userTel: "010-1234-1234",
+                userAddress: "없음",
+                userDetailAddress: "없음",
+                gender: "남자",
+                userAge: "1996-04-06",
+                deleteFlag: "Y",
+                role:"USER"
+
+            }
+        })
+            .then(() => {
+
+            })
+            .catch(err => {
+                console.error(err)
+            })
+        console.log(i)
+    }
+    window.setInterval(createAccount,100);
 
     const [modalOpen, setModalOpen] = useState(false)
 
@@ -442,7 +442,7 @@ export default function SignUpPage() {
                            placeholder=""/>
                 </div>
                 <div>
-                    <div><span>*</span> 상세 주소</div>
+                    <div>상세 주소</div>
                     <input name={"detailAddress"} ref={address} type="text" placeholder=""/>
                 </div>
 

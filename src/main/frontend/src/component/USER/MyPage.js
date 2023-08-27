@@ -103,7 +103,7 @@ export default function MyPage(props) {
         const ret = window.confirm("수정 하시겠습니까?")
 
         if (ret) {
-            axios.post("/api/user/update", null, {
+            axios.post("/api/user/myPage/update", null, {
                 params: {
                     username: username1.current.value,
                     nickname: nickname1.current.value,

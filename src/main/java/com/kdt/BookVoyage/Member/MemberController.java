@@ -70,7 +70,7 @@ public class MemberController {
         return memberService.myInfoAuth(memberDTO);
     }
 
-    @PostMapping("/update") // 본인 정보 업데이트
+    @PostMapping("/myPage/update") // 본인 정보 업데이트
     public boolean modifyInfo(@Valid MemberDTO memberDTO) { //회원 정보 수정
         return memberService.modifyInfo(memberDTO);
     }
@@ -101,12 +101,12 @@ public class MemberController {
         emailService.resetAndModifyPasswordByEmail(memberDTO);
     }
 
-    @PostMapping("/withdrawal") //회원탈퇴
+    @PostMapping("/withdrawal") //활성 -> 휴면 전환
     public void withdrawal(MemberDTO memberDTO) {
         memberService.withdrawal(memberDTO);
     }
 
-    @PostMapping("/dormantAccount") //휴면 -> 일반 전환
+    @PostMapping("/dormantAccount") //휴면 -> 활성 전환
     public void wakeUpDormantAccount(MemberDTO memberDTO) {
         memberService.withdrawal1(memberDTO);
     }

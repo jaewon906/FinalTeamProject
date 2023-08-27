@@ -359,6 +359,7 @@ export default function UserManage() {
 
 
     const visualizationModifyDataAndAddToArray = (e) => {
+
         let cnt = 0;
         let atUserNumber = e.currentTarget.parentNode.parentNode.children[3].textContent
 

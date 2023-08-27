@@ -29,7 +29,6 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize ->
                         authorize
                                 .requestMatchers("/api/user/board/**").authenticated() //게시글 관련
-                                .requestMatchers("/api/user/update").authenticated() //회원정보 수정
                                 .requestMatchers("/api/user/myPage/**").authenticated() //내 페이지 관련
                                 .requestMatchers("/api/user/withdrawal").authenticated() //회원탈퇴
                                 .requestMatchers("/api/user/findMyInfo/**").permitAll() //내정보 찾기

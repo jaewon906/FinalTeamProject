@@ -244,7 +244,8 @@ public class MemberServiceImpl implements MemberService {
         dormantAccounts = memberRepository.findByDeleteFlag("Y");
     }
 
-    @Scheduled(fixedDelay = 60 * 60 * 1000L) // 한 시간에 한번씩 휴면 계정 전환 후 30일 이후의 계정들 삭제
+
+    @Scheduled(fixedDelay = 24 * 60 * 60 * 1000L) // 하루에 한번씩 휴면 계정 전환 후 2주 이후의 계정들 삭제
     @Transactional
     public void dormantAccountManagementScheduler() {
 
@@ -255,9 +256,9 @@ public class MemberServiceImpl implements MemberService {
                 try{Timestamp deletedTime = dormantAccount.getTimeBaseEntity().getDeletedTime();
                 long now = new Timestamp(System.currentTimeMillis()).getTime();
 
-                long oneMonth = 30 * 24 * 60 * 60 * 1000L;
+                long twoWeeks = 14 * 24 * 60 * 60 * 1000L;
 
-                long deleteDate = oneMonth + deletedTime.getTime(); //지운 날짜 한달 뒤
+                long deleteDate = twoWeeks + deletedTime.getTime(); //지운 날짜 2주 뒤
 
                 if (now > deleteDate) {
                     memberRepository.deleteByUserNumber(dormantAccount.getUserNumber());
