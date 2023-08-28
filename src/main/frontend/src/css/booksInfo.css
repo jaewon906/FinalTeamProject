@@ -2,6 +2,18 @@ a {
   text-decoration: none;
   color: black;
 }
+.container{
+  width:90%;
+  min-width: 1200px;
+  max-width: 1600px;
+  display: flex;
+  flex-direction: column;
+}
+.main{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
 .hot-item {
   font-weight: bold;
   margin: 40px 0;
@@ -10,10 +22,12 @@ a {
 .hot-item-list {
   list-style: none;
   display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
 
-.hot-item-list > li {
-  width: 100%;  
+.hot-item-list >  li {
+  width: 280px;
 }
 
 .hot-item-list > li > .book-info .author, .hot-item-list > li > .book-info .publisher, 

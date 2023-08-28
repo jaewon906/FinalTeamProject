@@ -14,16 +14,16 @@
     justify-content: center;
     border-top: 1px solid #d8d8d8;
 }
-table{
+.main table{
     width:500px;
     height: 100px;
     align-content: center;
 }
-thead{
+.main thead{
     height: 30px;
 }
 
-tr > td:nth-child(2) {
+.main tr > td:nth-child(2) {
     width: 250px;
     height: 20px;
 }

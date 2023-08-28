@@ -27,7 +27,7 @@ root.render(
         <Routes>
             <Route path={"/board/*"} element={<AdminPageControl/>}/>
             <Route path={"/book/*"} element={<AdminPageControl/>}/>
-            <Route path={"/home/*"} element={<AdminPageControl/>}/>
+            <Route path={"/*"} element={<AdminPageControl/>}/>
         </Routes>
 
     </BrowserRouter>

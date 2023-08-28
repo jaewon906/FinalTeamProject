@@ -46,10 +46,8 @@ function AllBookList() {
   }, [fetch, hasNextPage, inView]);
       
   return (
-   <div>
-    <Container>
-      <Row>
-        <Col>
+   <div className="container1">
+     <div className="main1">
           <ul className='all-book-list'>
           <h1>전체 도서</h1>
             {allBookList.map((bookDetail, key) => {
@@ -100,9 +98,7 @@ function AllBookList() {
             )})}
             <li ref={ref}></li>
           </ul>
-        </Col>
-      </Row>
-    </Container>
+     </div>
    </div>
   )
 }

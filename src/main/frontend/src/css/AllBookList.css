@@ -1,4 +1,18 @@
+.container1{
+  width:100%;
+  min-width: 1296px;
+  display: flex;
+  justify-content: center;
+}
+.main1{
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .all-book-list {
+  width: 80%;
   margin-top: 50px;
 }
 
