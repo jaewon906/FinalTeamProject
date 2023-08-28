@@ -1,14 +1,21 @@
 import style from "../../css/USER/header.module.css"
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axios from "axios";
 import {getUserNumber} from "../../js/getUserNumber";
+
 
 export default function Header() {
 
     const [isLogin, setIsLogin] = useState(false)
     const [nickname, setNickname] = useState()
     const [userNumber, setUserNumber] = useState("0")
+    const [searchValue, setSearchValue] = useState("");
+    const navigate = useNavigate();
+
+    const handleChange = (e) => {
+    setSearchValue(e.target.value);
+    navigate(`/search?q=${e.target.value}`)}
 
     useEffect(() => {
         setUserNumber(getUserNumber().userNumber);
@@ -76,7 +83,7 @@ export default function Header() {
 
                 <button onClick={myPage} className={style.myInfo}></button>
 
-                <input name={"search"} type={"search"} className={style.search} placeholder={"search..."}/>
+                <input name={"search"} type={"search"} className={style.search} placeholder={"search..."} onChange={handleChange}/>
                 <button className={style.signUp} onClick={signUp}>SignUp</button>
                 {isLogin ?
                     <button className={style.logIn} onClick={logOut}>LogOut</button> :

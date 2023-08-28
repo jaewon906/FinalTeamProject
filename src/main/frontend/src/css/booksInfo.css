@@ -1,0 +1,32 @@
+a {
+  text-decoration: none;
+  color: black;
+}
+.hot-item {
+  font-weight: bold;
+  margin: 40px 0;
+}
+
+.hot-item-list {
+  list-style: none;
+  display: flex;
+}
+
+.hot-item-list > li {
+  width: 100%;  
+}
+
+.hot-item-list > li > .book-info .author, .hot-item-list > li > .book-info .publisher, 
+.hot-item-list > li > .book-info .category {
+  color: #595959;
+  font-size: 0.9rem;
+}
+
+.hot-item-list > li > .book-info {
+  width: 83%;
+
+}
+
+
+
+

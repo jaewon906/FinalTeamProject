@@ -1,0 +1,66 @@
+.all-book-list {
+  margin-top: 50px;
+}
+
+.all-book-list > .book-list {
+  display: flex;
+  position: relative;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  border-top: 1px solid #595959;
+}
+
+.all-book-list > .book-list:nth-child(1) {
+  border: none;
+}
+
+.all-book-list > .book-list > .book-cover {
+
+}
+
+.all-book-list > .book-list > .info {
+  width: 60%;
+  margin: 0 50px;
+}
+
+.all-book-list > .book-list > .info > .book-title {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.all-book-list > .book-list > .info > .author-pub {
+  font-size: 0.95rem;
+  margin: 10px 0;
+}
+
+.all-book-list > .book-list > .info > .price {
+  font-size: 0.95rem;
+}
+
+.all-book-list > .book-list > .info > .price .green {
+  color: #4DAC27;
+  font-weight: bold;
+}
+
+.all-book-list > .book-list > .info > .price .sale-price {
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.all-book-list > .book-list > .info > .desc {
+  margin: 10px 0;
+}
+
+.all-book-list > .book-list > .cart-buy {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translate(-50%, -50%);
+}
+.all-book-list > .book-list > .cart-buy .btn-cart {
+  
+}
+
+.all-book-list > .book-list > .cart-buy .btn-buy {
+  margin: 15px 0;
+}

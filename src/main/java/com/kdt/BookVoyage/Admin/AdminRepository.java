@@ -14,7 +14,7 @@ public interface AdminRepository extends JpaRepository<MemberEntity,Long> {
 
     @Modifying
     @Transactional
-    @Query(value = "insert into kdt.member_info (" +
+    @Query(value = "insert into book.member_info (" +
             "username, " +
             "user_id, " +
             "password, " +

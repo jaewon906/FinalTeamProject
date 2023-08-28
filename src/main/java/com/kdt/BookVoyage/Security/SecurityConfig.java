@@ -27,7 +27,7 @@ public class SecurityConfig {
     protected SecurityFilterChain configure(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .cors(cors -> cors.disable())
-                .csrf(csrf -> {})
+                .csrf(csrf -> csrf.disable())
                 .formLogin(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize ->
                         authorize
@@ -44,6 +44,11 @@ public class SecurityConfig {
                                 .requestMatchers("/api/user/withdrawal").hasRole("USER") //회원탈퇴
                                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
                                 .requestMatchers("/api/admin/autoLogin").hasRole("ADMIN") //로그인
+                                .requestMatchers("/api/search/**").permitAll() // api 호출 결과 db에 저장
+                                .requestMatchers("/api/books").permitAll()  // 도서 조회 결과 10개씩 페이징 처리
+                                .requestMatchers("/api/bookdetail").permitAll() // 도서 전체 조회 결과
+                                .requestMatchers("/api/search").permitAll() // 검색창에 도서 검색
+                                .requestMatchers("/api/detail/**").permitAll()  // 도서 상세 정보 표시
                 )
 
                 .addFilterBefore(new JwtFilter(tokenConfig,tokenDecoder, cookieConfig, new ModelMapper(), memberRepository), UsernamePasswordAuthenticationFilter.class)

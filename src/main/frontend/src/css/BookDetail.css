@@ -1,0 +1,88 @@
+.book-detail-page {
+  margin-top: 100px;
+  border-top: 1px solid #4DAC27;
+}
+
+.book-detail-page .title-area {
+  padding-top: 50px;
+  margin-bottom: 50px;
+}
+
+.book-detail-page .title-area > .book-detail-title {
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.book-detail-page .title-area .author-pub {
+  font-size: 0.9rem;
+}
+
+.book-detail-page .spec-area {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding-bottom: 50px;
+  border-bottom: 1px solid #4DAC27;
+
+}
+
+.book-detail-page .spec-area .img {
+
+}
+
+.book-detail-page .spec-area .price {
+  position: relative;
+}
+
+.book-detail-page .spec-area .price .price-table {
+  margin: auto;
+}
+.book-detail-page .spec-area .price .price-table tr > td {
+  width: 250px;
+  height: 70px;
+}
+
+.book-detail-page .spec-area .price .price-table tr > td > input {
+  height: 40px;
+}
+
+.book-detail-page .book-sub-spec {
+  margin-top: 50px;
+}
+
+.book-detail-page .book-sub-spec .book-sub-info {
+  width: 100%;
+}
+
+.book-detail-page .book-sub-spec .book-sub-info tr {
+  
+}
+.book-detail-page .book-sub-spec .book-sub-info th {
+  font-size: 1.5rem;
+  width: 300px;
+  vertical-align: top;
+  padding: 25px;
+}
+
+.book-detail-page .book-sub-spec .book-sub-info td {
+  border-bottom: 1px solid gray;
+  padding: 30px 0;
+  line-height: 32px;
+  font-size: 1.125rem;
+}
+.book-detail-page .book-sub-spec .book-sub-info td ul {
+  list-style: disc;
+}
+
+.book-detail-page .book-sub-spec .book-sub-info .author-info {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.book-detail-page .book-sub-spec .book-sub-info .author-info .author-intro {
+  margin-left: 30px;
+}
+
+.full-desc2 {
+  margin-top: 50px;
+}
