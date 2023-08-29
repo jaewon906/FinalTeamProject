@@ -21,7 +21,6 @@ public class SecurityConfig {
     private final TokenDecoder tokenDecoder;
     private final CookieConfig cookieConfig;
     private final MemberRepository memberRepository;
-    private final CustomCSRFRequestHandler customCSRFRequestHandler;
 
     @Bean
     protected SecurityFilterChain configure(HttpSecurity httpSecurity) throws Exception {

@@ -3,9 +3,10 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useInView } from 'react-intersection-observer';
 import Button from './common/Button';
 import '../css/AllBookList.css'
-import { Link } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 import Parser from 'html-react-parser';
 import DOMPurify from 'dompurify';
+import {getUserNumber} from "../js/getUserNumber";
 
 function AllBookList() {
   
@@ -44,18 +45,29 @@ function AllBookList() {
   }, [fetch, hasNextPage, inView]);
 
   const goToPurchase =(isbn) =>{
-    console.log(isbn)
-    const sessionStorage= window.sessionStorage;
+    const userNumber = getUserNumber().userNumber;
 
-    let item = sessionStorage.getItem(isbn);
-    if(item){
-      ++item;
-      sessionStorage.setItem(isbn,item)
+    if(userNumber){
+      const sessionStorage= window.sessionStorage;
+      let item = sessionStorage.getItem(isbn);
+
+      if(item){
+        ++item;
+        sessionStorage.setItem(isbn,item)
+      }
+      else{
+        sessionStorage.setItem(isbn,1)
+      }
+      window.location.href="/home/purchase"
     }
-    else{
-      sessionStorage.setItem(isbn,1)
+    else {
+      const ret = window.confirm("로그인이 필요한 서비스입니다. 로그인 하시겠습니까?")
+      if(ret){
+        window.location.href="/home/logIn"
+      }
+
     }
-    window.location.href="/home/purchase"
+
   }
       
   return (

@@ -67,6 +67,7 @@ export default function Header() {
                         alert("로그아웃 되셨습니다.")
                         setIsLogin(false);
                         window.location.href="/home"
+                    window.sessionStorage.clear()
                     }
                 ).catch(e => {
                 console.error(e)

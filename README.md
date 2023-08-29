@@ -12,7 +12,7 @@
 ##
 
 ### 프레임워크 : 리액트 18 ver.
-### 라이브러리 : react-router-dom, react-daum-postcode, http-proxy-middleware, axios, react-modal, apexcharts
+### 라이브러리 : react-router-dom, react-daum-postcode, http-proxy-middleware, axios, react-modal, apexcharts, react-intersection-observer, html-react-parser, dompurify, react-bootstrap
 
 #
 
@@ -117,9 +117,12 @@
 #### 6) 페이지 기능(처음 / 이전 10페이지 / 다음 10페이지 / 마지막) 추가 
 #### 7) 회원 블락 처리 추가 (관리자가 블락을 걸면 해당 사용자가 인증이 필요한 서비스에 접근이 안되도록 즉시 적용)
 
-
+#
 ## 결제기능
-
+#### 1) 결제하기 또는 장바구니에 담을 시 결제창으로 이동한다.
+#### 2) 구매하기 페이지는 서버의 부담을 덜기위해 세션스토리지에 담은 데이터를 기반으로 한다.
+#### 3) PG사는 PortOne을 활용했고 개발자 모드로 진행하기 때문에 결제는 되나 익일 자정에 환불된다.
+#### 4) 
 
 
 #

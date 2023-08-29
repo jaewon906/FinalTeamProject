@@ -6,6 +6,7 @@ import "../../css/BookDetail.css";
 import {styled} from "styled-components";
 import Parser from 'html-react-parser';
 import DOMPurify from 'dompurify';
+import {getUserNumber} from "../../js/getUserNumber";
 
 function BookDetailPage() {
     const {isbn13} = useParams(); // 리액트 라우터로부터 도서 id를 받아옴
@@ -23,13 +24,13 @@ function BookDetailPage() {
 
             switch (e.target.id) {
                 case "plus": {
-                    if(1 <= quantity && quantity <= 9)
+                    if(1 <= quantity && quantity <= 98)
                     setQuantity(val => ++val)
                     console.log("+ : ",quantity)
                 }
                     break;
                 case "minus" : {
-                    if(2 <= quantity && quantity<=10)
+                    if(2 <= quantity && quantity<=99)
                     setQuantity(val => --val)
                     console.log("- : ",quantity)
                 }
@@ -91,18 +92,30 @@ function BookDetailPage() {
 
 
     const goToPurchase =(isbn) =>{
-        console.log(isbn)
-        const sessionStorage= window.sessionStorage;
+        const userNumber = getUserNumber().userNumber;
 
-        let item = sessionStorage.getItem(isbn);
-        if(item){
-            ++item;
-            sessionStorage.setItem(isbn,item)
+        if(userNumber){
+            const sessionStorage= window.sessionStorage;
+            let item = sessionStorage.getItem(isbn);
+            let item_number = parseInt(item)
+
+            if(item_number){
+                item_number +=quantity
+                sessionStorage.setItem(isbn,item_number)
+            }
+            else{
+                sessionStorage.setItem(isbn,quantity)
+            }
+            window.location.href="/home/purchase"
         }
-        else{
-            sessionStorage.setItem(isbn,1)
+        else {
+            const ret = window.confirm("로그인이 필요한 서비스입니다. 로그인 하시겠습니까?")
+            if(ret){
+                window.location.href="/home/logIn"
+            }
+
         }
-        window.location.href="/home/purchase"
+
     }
 
     return (
