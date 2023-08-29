@@ -41,7 +41,7 @@ function ScienceBooks() {
 
                         return (
                             <li key={scienceBookDetail.bookId}>
-                                <Link to={`/bookdetail/${scienceBookDetail.isbn13}`}>
+                                <Link to={`/home/bookdetail/${scienceBookDetail.isbn13}`}>
                                     <img
                                         src={scienceBookDetail.previewImgList[0]}
                                         alt="book_image"
@@ -55,7 +55,7 @@ function ScienceBooks() {
                                     <p className="category">{trimmedCategory}</p>
                                     <p className="book-title">
                                         <strong><Link
-                                            to={`/bookdetail/${scienceBookDetail.isbn13}`}>{scienceBookDetail.title}</Link></strong>
+                                            to={`/home/bookdetail/${scienceBookDetail.isbn13}`}>{scienceBookDetail.title}</Link></strong>
                                     </p>
                                     <p className="author">
                                         <small>{scienceBookDetail.author}</small>

@@ -1,0 +1,21 @@
+.payment{
+    width: 100%;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    margin-top: 100px;
+}
+.payment > button {
+    border: 3px solid #45B751;
+    width: 200px;
+    height: 60px;
+    background-color: white;
+    transition: background-color 0.3s, color 0.3s;
+    font-size: 16px;
+    cursor: pointer;
+}
+.payment > button :hover{
+    background-color: #45B751;
+    border: 3px solid white;
+    color:white
+}

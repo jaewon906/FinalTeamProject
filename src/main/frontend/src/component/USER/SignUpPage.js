@@ -248,7 +248,7 @@ export default function SignUpPage() {
 
     }
 
-    // let i=240000;
+    // let i=10;
     // const createAccount = () => {
     //     i++;
     //

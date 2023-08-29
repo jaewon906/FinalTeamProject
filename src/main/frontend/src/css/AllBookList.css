@@ -64,6 +64,7 @@
 .all-book-list > .book-list > .info > .desc {
   margin: 10px 0;
   line-height: 27px;
+  width:calc(100% - 100px)
 }
 
 .all-book-list > .book-list > .cart-buy {

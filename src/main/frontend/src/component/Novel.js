@@ -1,6 +1,5 @@
 import axios from "axios";
 import React, {useEffect, useState} from "react";
-import {Col, Container, Row} from "react-bootstrap";
 import {Link} from "react-router-dom";
 
 function Novel() {
@@ -27,7 +26,6 @@ function Novel() {
     }, []);
 
     const novelList = novels.slice(52, 56);
-    console.log(novelList);
     return (
         <div className="container">
             <h2 className="hot-item">
@@ -42,7 +40,7 @@ function Novel() {
 
                         return (
                             <li key={novelDetail.bookId}>
-                                <Link to={`/bookdetail/${novelDetail.isbn13}`}>
+                                <Link to={`/home/bookdetail/${novelDetail.isbn13}`}>
                                     <img
                                         src={novelDetail.previewImgList[0]}
                                         alt="book_image"
@@ -56,7 +54,7 @@ function Novel() {
                                     <p className="category">{trimmedCategory}</p>
                                     <p className="book-title">
                                         <strong><Link
-                                            to={`/bookdetail/${novelDetail.isbn13}`}>{novelDetail.title}</Link></strong>
+                                            to={`/home/bookdetail/${novelDetail.isbn13}`}>{novelDetail.title}</Link></strong>
                                     </p>
                                     <p className="author">
                                         <small>{novelDetail.author}</small>

@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, {useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
+import { useParams} from "react-router-dom";
 import Button from "../../component/common/Button";
 import "../../css/BookDetail.css";
 import {styled} from "styled-components";
@@ -89,6 +89,22 @@ function BookDetailPage() {
       width: 150px;
     `;
 
+
+    const goToPurchase =(isbn) =>{
+        console.log(isbn)
+        const sessionStorage= window.sessionStorage;
+
+        let item = sessionStorage.getItem(isbn);
+        if(item){
+            ++item;
+            sessionStorage.setItem(isbn,item)
+        }
+        else{
+            sessionStorage.setItem(isbn,1)
+        }
+        window.location.href="/home/purchase"
+    }
+
     return (
         <>
             <div className="book-detail-page">
@@ -143,14 +159,14 @@ function BookDetailPage() {
                                         justifyContent: "space-between",
                                         alignItems: "center"
                                     }}>
-                                        <p id={"minus"} style={{cursor: "pointer"}} onClick={handleQuantity}>-</p>
+                                        <p id={"minus"} style={{cursor: "pointer", fontSize:"24px"}} onClick={handleQuantity}>-</p>
                                         <input
                                             type="number"
                                             name="number_select"
                                             readOnly
                                             value={quantity}  // 수량 상태를 입력값에 바인딩
                                         />
-                                        <p id={"plus"} style={{cursor: "pointer"}} onClick={handleQuantity}>+</p>
+                                        <p id={"plus"} style={{cursor: "pointer", fontSize:"24px"}} onClick={handleQuantity}>+</p>
                                     </div>
 
                                 </td>
@@ -167,7 +183,7 @@ function BookDetailPage() {
                             <ButtonWithMarginHeight violet="true">
                                 장바구니 담기
                             </ButtonWithMarginHeight>
-                            <ButtonWithMarginHeight green="true">
+                            <ButtonWithMarginHeight onClick={()=>{goToPurchase(isbn13)}} green="true">
                                 구매하기
                             </ButtonWithMarginHeight>
                         </div>

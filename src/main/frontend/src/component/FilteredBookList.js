@@ -29,6 +29,22 @@ function FilteredBookList({category}) {
             });
     }, []);
 
+
+    const goToPurchase =(isbn) =>{
+        console.log(isbn)
+        const sessionStorage= window.sessionStorage;
+
+        let item = sessionStorage.getItem(isbn);
+        if(item){
+            ++item;
+            sessionStorage.setItem(isbn,item)
+        }
+        else{
+            sessionStorage.setItem(isbn,1)
+        }
+        window.location.href="/home/purchase"
+    }
+
     return (
         <div className="container1">
             <div className="main1">
@@ -55,7 +71,7 @@ function FilteredBookList({category}) {
                             return (
                                 <li className="book-list" key={key}>
                                     <div className="book-cover">
-                                        <Link to={`/bookdetail/${bookDetail.isbn13}`}>
+                                        <Link to={`/home/bookdetail/${bookDetail.isbn13}`}>
                                             <img
                                                 src={bookDetail.previewImgList[0]}
                                                 width="180px"
@@ -67,7 +83,7 @@ function FilteredBookList({category}) {
                                     <div className="info">
                                         <div className="book-title">
                                             <Link
-                                                to={`/bookdetail/${bookDetail.isbn13}`}>{Parser(DOMPurify.sanitize(bookDetail.title))}</Link>
+                                                to={`/home/bookdetail/${bookDetail.isbn13}`}>{Parser(DOMPurify.sanitize(bookDetail.title))}</Link>
                                         </div>
                                         <div className="author-pub">
                                             {bookDetail.author} · {bookDetail.publisher} ·{" "}
@@ -91,7 +107,7 @@ function FilteredBookList({category}) {
                                             <Button violet="true" fullWidth>장바구니 담기</Button>
                                         </div>
                                         <div className="btn-buy">
-                                            <Button green="true" fullWidth>구매하기</Button>
+                                            <Button onClick={()=>{goToPurchase(bookDetail.isbn13)}} green="true" fullWidth>구매하기</Button>
                                         </div>
                                     </div>
                                 </li>

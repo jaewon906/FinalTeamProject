@@ -12,7 +12,7 @@ public interface MemberService {
 
     Object login(MemberDTO memberDTO, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException;
 
-    boolean modifyInfo(MemberDTO memberDTO) throws Exception;
+    boolean modifyInfo(MemberDTO memberDTO, HttpServletResponse response) throws Exception;
 
     MemberDTO showMyInfo(MemberDTO memberDTO);
 

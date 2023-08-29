@@ -71,8 +71,8 @@ public class MemberController {
     }
 
     @PostMapping("/myPage/update") // 본인 정보 업데이트
-    public boolean modifyInfo(@Valid MemberDTO memberDTO) { //회원 정보 수정
-        return memberService.modifyInfo(memberDTO);
+    public boolean modifyInfo(@Valid MemberDTO memberDTO, HttpServletResponse response) { //회원 정보 수정
+        return memberService.modifyInfo(memberDTO, response);
     }
 
 

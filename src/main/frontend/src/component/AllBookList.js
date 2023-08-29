@@ -1,7 +1,6 @@
 import axios from 'axios';
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useInView } from 'react-intersection-observer';
-import { Col, Container, Row } from 'react-bootstrap';
 import Button from './common/Button';
 import '../css/AllBookList.css'
 import { Link } from 'react-router-dom';
@@ -41,9 +40,23 @@ function AllBookList() {
   useEffect(() => {
     if(inView && hasNextPage) {
       fetch();
-      console.log(inView, hasNextPage);
     }
   }, [fetch, hasNextPage, inView]);
+
+  const goToPurchase =(isbn) =>{
+    console.log(isbn)
+    const sessionStorage= window.sessionStorage;
+
+    let item = sessionStorage.getItem(isbn);
+    if(item){
+      ++item;
+      sessionStorage.setItem(isbn,item)
+    }
+    else{
+      sessionStorage.setItem(isbn,1)
+    }
+    window.location.href="/home/purchase"
+  }
       
   return (
    <div className="container1">
@@ -62,7 +75,7 @@ function AllBookList() {
               return (
               <li className='book-list' key={key}>
                 <div className='book-cover'>
-                  <Link to={`/bookdetail/${bookDetail.isbn13}`}>
+                  <Link to={`/home/bookdetail/${bookDetail.isbn13}`}>
                   <img src={bookDetail.previewImgList[0]}
                    width="180px"
                    height="250px"
@@ -71,7 +84,7 @@ function AllBookList() {
                 </div>
                 <div className='info'>
                   <div className='book-title'>
-                   <Link to={`/bookdetail/${bookDetail.isbn13}`}>{Parser(DOMPurify.sanitize(bookDetail.title))}</Link>
+                   <Link to={`/home/bookdetail/${bookDetail.isbn13}`}>{Parser(DOMPurify.sanitize(bookDetail.title))}</Link>
                   </div>
                   <div className='author-pub'>
                     {bookDetail.author} · {bookDetail.publisher} · {bookDetail.pubDate}
@@ -91,7 +104,7 @@ function AllBookList() {
                     <Button violet="true" fullWidth>장바구니 담기</Button>
                   </div>
                   <div className="btn-buy">
-                    <Button green="true" fullWidth>구매하기</Button>
+                    <Button onClick={()=>{goToPurchase(bookDetail.isbn13)}} green="true" fullWidth>구매하기</Button>
                   </div>
                 </div>
               </li>

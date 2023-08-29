@@ -1,6 +1,5 @@
 import axios from "axios";
 import React, {useEffect, useState} from "react";
-import {Col, Container, Row} from "react-bootstrap";
 import "../css/booksInfo.css";
 import {Link} from "react-router-dom";
 
@@ -41,7 +40,7 @@ function SelfDevelopmentBook() {
 
                         return (
                             <li key={devBookDetail.bookId}>
-                                <Link to={`/bookdetail/${devBookDetail.isbn13}`}>
+                                <Link to={`/home/bookdetail/${devBookDetail.isbn13}`}>
                                     <img
                                         src={devBookDetail.previewImgList[0]}
                                         alt="book_image"
@@ -55,7 +54,7 @@ function SelfDevelopmentBook() {
                                     <p className="category">{trimmedCategory}</p>
                                     <p className="book-title">
                                         <strong><Link
-                                            to={`/bookdetail/${devBookDetail.isbn13}`}>{devBookDetail.title}</Link></strong>
+                                            to={`/home/bookdetail/${devBookDetail.isbn13}`}>{devBookDetail.title}</Link></strong>
                                     </p>
                                     <p className="author">
                                         <small>{devBookDetail.author}</small>

@@ -30,6 +30,9 @@ function EconomyBooks() {
 
     const ecoBooksList = ecoBookDetails.slice(9, 13);
 
+
+
+
     return (
         <div className="container">
             <h2 className="hot-item">급상승! 많이 보고 있는 경제 도서</h2>
@@ -42,7 +45,7 @@ function EconomyBooks() {
 
                         return (
                             <li key={ecoBookDetail.bookId}>
-                                <Link to={`/bookdetail/${ecoBookDetail.isbn13}`}>
+                                <Link to={`/home/bookdetail/${ecoBookDetail.isbn13}`}>
                                     <img
                                         src={ecoBookDetail.previewImgList[0]}
                                         alt="book_image"
@@ -56,7 +59,7 @@ function EconomyBooks() {
                                     <p className="category">{trimmedCategory}</p>
                                     <p className="book-title">
                                         <strong><Link
-                                            to={`/bookdetail/${ecoBookDetail.isbn13}`}>{ecoBookDetail.title}</Link></strong>
+                                            to={`/home/bookdetail/${ecoBookDetail.isbn13}`}>{ecoBookDetail.title}</Link></strong>
                                     </p>
                                     <p className="author">
                                         <small>{ecoBookDetail.author}</small>

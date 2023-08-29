@@ -41,6 +41,7 @@ export default function MyPage(props) {
 
     useEffect(() => {
 
+        console.log(props.userInfo)
         setMyInfo(props.userInfo)
 
         setAddressData(() => {
@@ -128,7 +129,7 @@ export default function MyPage(props) {
     }
 
     const toDelete = () => {
-        const ret = window.confirm("정말 회원탈퇴를 하시겠습니까? 탈퇴하실 경우 30일동안 휴면 상태로 전환되며 기간 안에 회원 복구를 진행하지 않을 경우 자동으로 탈퇴됩니다. 계속하시겠습니까?")
+        const ret = window.confirm("정말 회원탈퇴를 하시겠습니까? 탈퇴하실 경우 14일동안 휴면 상태로 전환되며 기간 안에 회원 복구를 진행하지 않을 경우 자동으로 탈퇴됩니다. 계속하시겠습니까?")
 
         if (ret) {
             const ret1 = window.prompt("암호를 입력하세요")
@@ -165,7 +166,7 @@ export default function MyPage(props) {
     }
 
     const addressResult = (data) => {
-        setAddressData([data.roadAddress, " (" + data.zonecode + ")"])
+        setAddressData([data.roadAddress+ " (" + data.zonecode + ")"])
 
         setModalOpen(val => !val)
 
