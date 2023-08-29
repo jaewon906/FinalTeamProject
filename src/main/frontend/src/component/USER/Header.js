@@ -12,10 +12,15 @@ export default function Header() {
     const [userNumber, setUserNumber] = useState("0")
     const [searchValue, setSearchValue] = useState("");
     const navigate = useNavigate();
+    
 
     const handleChange = (e) => {
     setSearchValue(e.target.value);
     navigate(`/search?q=${e.target.value}`)}
+
+    const handleClick = () => {
+        navigate("/cart");
+    }
 
     useEffect(() => {
         setUserNumber(getUserNumber().userNumber);
@@ -79,7 +84,7 @@ export default function Header() {
             <div className={style.functionBox}>
                 {isLogin ? <p style={{fontSize: "14px"}}>반갑습니다 <strong>{nickname}</strong> 님</p> : ""}
 
-                <button className={style.cart}></button>
+                <button onClick={handleClick} className={style.cart}></button>
 
                 <button onClick={myPage} className={style.myInfo}></button>
 

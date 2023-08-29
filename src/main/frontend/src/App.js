@@ -15,6 +15,7 @@ import BookDetailPage from "./pages/DetailPage/index";
 import FilteredBookList from "./component/FilteredBookList";
 import SearchResults from "./pages/SearchPage/index";
 import MainPage from "./pages/MainPage/index";
+import CartPage from './pages/CartPage';
 
 
 function App() {
@@ -35,13 +36,14 @@ function App() {
                         <Route path={"myPage/"} element={<MyPageAuth/>}/>
                     </Route>
                     <Route path="/booklist" element={<BookListPage />}></Route>
-                    <Route path="novels/" element={<FilteredBookList category="소설/시/희곡" />} />
-                    <Route path="economics/" element={<FilteredBookList category="경제경영" />} />
-                    <Route path="developments/" element={<FilteredBookList category="자기계발" />} />
-                    <Route path="children/" element={<FilteredBookList category="어린이" />} />
-                    <Route path="foreign/" element={<FilteredBookList category="외국어" />} />
-                    <Route path="search/" element={<SearchResults />} />
-                    <Route path="bookdetail/:isbn13/" element={<BookDetailPage />} />
+                    <Route path="/novels" element={<FilteredBookList category="소설/시/희곡" />} />
+                    <Route path="/economics" element={<FilteredBookList category="경제경영" />} />
+                    <Route path="/developments" element={<FilteredBookList category="자기계발" />} />
+                    <Route path="/children" element={<FilteredBookList category="어린이" />} />
+                    <Route path="/foreign" element={<FilteredBookList category="외국어" />} />
+                    <Route path="/search" element={<SearchResults />} />
+                    <Route path="/bookdetail/:isbn13" element={<BookDetailPage />} />
+                    <Route path="/cart" element={<CartPage />} />
                 </Route>
             </Routes>
             <ScrollTop/>

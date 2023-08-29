@@ -5,6 +5,7 @@
 .book-detail-page .title-area {
   padding-top: 50px;
   margin-bottom: 50px;
+  line-height: 40px;
 }
 
 .book-detail-page .title-area > .book-detail-title {
@@ -80,6 +81,11 @@
   line-height: 32px;
   font-size: 1.125rem;
 }
+
+.book-detail-page .book-sub-spec .book-sub-info .last-td {
+  border-bottom: none;
+}
+
 .book-detail-page .book-sub-spec .book-sub-info td ul {
   list-style: disc;
 }

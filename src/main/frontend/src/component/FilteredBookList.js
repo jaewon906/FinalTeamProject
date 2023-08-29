@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, {useEffect, useState} from "react";
 import Button from "./common/Button";
-import {Col, Container, Row} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import Parser from 'html-react-parser';
 import DOMPurify from 'dompurify';

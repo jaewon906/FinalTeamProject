@@ -1,6 +1,5 @@
 import axios from "axios";
 import React, {useEffect, useState} from "react";
-import {Col, Container, Row} from "react-bootstrap";
 import {useParams} from "react-router-dom";
 import Button from "../../component/common/Button";
 import "../../css/BookDetail.css";
@@ -24,13 +23,13 @@ function BookDetailPage() {
 
             switch (e.target.id) {
                 case "plus": {
-                    if(quantity >= 1&& quantity<=9)
+                    if(1 <= quantity && quantity <= 9)
                     setQuantity(val => ++val)
                     console.log("+ : ",quantity)
                 }
                     break;
                 case "minus" : {
-                    if(quantity>=2 && quantity<=10)
+                    if(2 <= quantity && quantity<=10)
                     setQuantity(val => --val)
                     console.log("- : ",quantity)
                 }
@@ -241,7 +240,7 @@ function BookDetailPage() {
                         </tr>
                         <tr>
                             <th>출판사 제공 책소개</th>
-                            <td>
+                            <td className="last-td">
                                 {bookDetails.previewImgList.length > 0 && (
                                     <>
                                         <img src={bookDetails.previewImgList[0]}

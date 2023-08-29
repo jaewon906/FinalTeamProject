@@ -45,10 +45,8 @@ function SearchResults() {
 
   if (searchResults.length > 0) {
     return (
-      <div>
-        <Container>
-          <Row>
-            <Col>
+      <div className="container1">
+        <div className="main1">
               <ul className="all-book-list">
                 <h1>검색 결과</h1>
 
@@ -98,20 +96,17 @@ function SearchResults() {
                     </div>
                     <div className="cart-buy">
                       <div className="btn-cart">
-                        <Button violet="true">장바구니 담기</Button>
+                        <Button violet="true" fullWidth>장바구니 담기</Button>
                       </div>
                       <div className="btn-buy">
-                        <Button green="true">구매하기</Button>
+                        <Button green="true" fullWidth>구매하기</Button>
                       </div>
                     </div>
                   </li>
                 </>
               )})}
-
               </ul>
-            </Col>
-          </Row>
-        </Container>
+          </div>
       </div>
     )
   } else {
