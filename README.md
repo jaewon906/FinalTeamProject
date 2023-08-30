@@ -7,6 +7,7 @@
 #### RAM : 16g
 #### IDE : Intellij
 ##sdfsdfsadfasdfdsaf
+# 123123
 #
 ## 프론트엔드 
 ##
