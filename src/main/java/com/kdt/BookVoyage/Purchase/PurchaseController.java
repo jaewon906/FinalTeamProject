@@ -6,12 +6,10 @@ import com.kdt.BookVoyage.Member.MemberServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/user/purchase")
@@ -31,5 +29,10 @@ public class PurchaseController {
     public List<ResponseEntity<BookEntity>> getBookDetails(PurchaseDTO purchaseDTO) throws Exception {
         log.info("list : {}",purchaseDTO.getIsbnList());
       return purchaseService.getBookDetails(purchaseDTO.getIsbnList());
+    }
+
+    @PostMapping("/purchasedList")
+    public void savePurchasedList(PurchaseDTO purchaseDTO) {
+        purchaseService.savePurchasedList(purchaseDTO);
     }
 }

@@ -41,7 +41,7 @@ public class SecurityConfig {
                                 .requestMatchers("/api/user/board/**").hasRole("USER") //게시글 관련
                                 .requestMatchers("/api/user/myPage/**").hasRole("USER") //내 페이지 관련
                                 .requestMatchers("/api/user/withdrawal").hasRole("USER") //회원탈퇴
-                                .requestMatchers("/api/user/purchase/**").hasRole("USER") //회원탈퇴
+                                .requestMatchers("/api/user/purchase/**").hasRole("USER") //도서 구매
                                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
                                 .requestMatchers("/api/admin/autoLogin").hasRole("ADMIN") //로그인
                                 .requestMatchers("/api/search/**").permitAll() // api 호출 결과 db에 저장

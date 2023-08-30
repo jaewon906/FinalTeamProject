@@ -32,27 +32,38 @@
 
 .book-detail-page .spec-area .price {
   position: relative;
+
 }
+.price {
+   display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+
+ }
 
 .book-detail-page {
   margin: auto;
-  width:80%
+  width:80%;
 }
 .spec-area{
   width: 100%;
+
+}
+.spec-area > img{
+  border: 1px solid gray;
 }
 .price-table{
   width: 100%;
 }
 .book-detail-page .spec-area .price .price-table tr > td {
-  width: 250px;
+  width: 150px;
   height: 70px;
 }
 
 .book-detail-page .spec-area .price .price-table tr > td > div> input {
   height: 30px;
-  width:25px;
-  padding-left: 15px;
+  width:30px;
+  text-align: center;
 
 }
 

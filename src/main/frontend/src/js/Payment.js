@@ -1,5 +1,6 @@
 
 import style from "../css/USER/payment.module.css";
+import axios from "axios";
 
 export default function Payment(props) {
 
@@ -69,10 +70,12 @@ export default function Payment(props) {
 
         if (success) {
             alert('결제 성공');
-            window.location.href =`result?userNumber=${userNumber}&merchant_uid=${merchant_uid}&paid_at=${paid_at}`
+
         } else {
             alert(`결제 실패: ${error_msg}`);
-            window.location.href =`result?userNumber=${userNumber}&merchant_uid=${merchant_uid}&paid_at=${paid_at}`
+
+            // window.sessionStorage.clear()
+            // window.location.href =`result?userNumber=${userNumber}&merchant_uid=${merchant_uid}&paid_at=${paid_at}`
             // console.log( success,
             //     merchant_uid,
             //     amount,
@@ -102,8 +105,35 @@ export default function Payment(props) {
         }
     }
 
+    const aaaa = () =>{
+        const sessionStorage = window.sessionStorage
+
+        let map = new Map();
+
+        for (let i = 0; i < sessionStorage.length; i++) {
+            let isbn = sessionStorage.key(i);
+            let amount = sessionStorage.getItem(isbn);
+            map.set(isbn,amount)
+
+        }
+
+        axios.post("/api/user/purchase/purchasedList", null,{
+            params:{
+                purchasedList : map
+
+            }
+        })
+            .then(()=>{
+                // window.location.href =`result?userNumber=${userNumber}&merchant_uid=${merchant_uid}&paid_at=${paid_at}`
+            })
+            .catch(e=>{
+                console.error(e)
+                console.error("서버로 결제 내용을 보내는데 실패했습니다.")
+            })
+    }
     return (
         <div className={style.payment}>
+            <button onClick={aaaa}>테스트</button>
             <button onClick={onClickPayment}>결제하기</button>
         </div>
     );
