@@ -1,11 +1,14 @@
 package com.kdt.BookVoyage.Member;
 
 import com.kdt.BookVoyage.Common.TimeBaseEntity;
+import com.kdt.BookVoyage.Purchase.OrderEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.bcrypt.BCrypt;
+
+import java.util.List;
 
 @Entity
 @Table(name = "MEMBER_INFO")
@@ -44,6 +47,11 @@ public class MemberEntity {
 
     @Embedded
     private TimeBaseEntity timeBaseEntity;
+
+    @OneToMany(mappedBy = "memberEntity",cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderEntity> orderEntityList;
+
+
 
     public static MemberEntity DTOToEntity(MemberDTO memberDTO) {
         ModelMapper modelMapper = new ModelMapper();

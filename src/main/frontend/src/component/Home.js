@@ -2,7 +2,6 @@ import EconomyBooks from "./EconomyBooks";
 import Novel from "./Novel";
 import ScienceBooks from "./ScienceBooks";
 import SelfDevelopmentBook from "./SelfDevelopment";
-import Payment from "../js/Payment";
 
 
 
@@ -13,7 +12,6 @@ function Home() {
       <ScienceBooks /><br/><br/><br/>
       <Novel /><br/><br/><br/>
       <SelfDevelopmentBook />
-        {/*<Payment/>*/}
     </div>
   );
 }
