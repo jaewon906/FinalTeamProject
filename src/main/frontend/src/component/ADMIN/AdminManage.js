@@ -7,7 +7,6 @@ export default function AdminManage() {
 
     const [isLoading, setIsLoading] = useState(false);
     const [totalMember, setTotalMember] = useState(0)
-    // const [signUpTrend, setSignUpTrend] = useState(0)
     const [user, setUser] = useState([])
 
     let i = 0

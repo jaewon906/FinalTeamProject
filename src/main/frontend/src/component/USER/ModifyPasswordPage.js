@@ -20,7 +20,7 @@ export default function ModifyPasswordPage() {
                         password: resetPassword.current.value
                     }
                 }).then(() => {
-                    alert("비밀번호 재설정이 완료되었습니다. 설정한 비밀번호로 로그인 해주세요")
+                    alert("비밀번호 재설정이 완료되었습니다.")
                     window.location.href = "/home"
                 }).catch(err => {
                     console.error(err)

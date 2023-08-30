@@ -1,5 +1,6 @@
 package com.kdt.BookVoyage.Member;
 
+import com.kdt.BookVoyage.Purchase.OrderEntity;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -42,6 +43,7 @@ public class MemberDTO {
     @Pattern(regexp = "^[Y,N]$")
     private String deleteFlag;// DB에서 완전 삭제 대신 값이 Y일때 비활성화 처리. 추후 계정 복구를 위함
     private String userNumber; //회원 고유번호 (난수)
+
 
     public static MemberDTO EntityToDTO(MemberEntity memberEntity) {
         ModelMapper modelMapper=new ModelMapper();

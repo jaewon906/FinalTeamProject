@@ -17,7 +17,6 @@ function SearchResults() {
   const searchTerm = query.get("q");
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (debouncedSearchTerm) {
