@@ -4,7 +4,7 @@
 # 맡은 부분 : 회원관리 & 결제 파트
 ## 사용 환경 
 #### OS : window 11 pro
-#### RAM : 16g
+#### RAM : 16glkasdjflkasdjflkasdjflkasjdfklasjflk;asjflkajsdlkfjaslkfjalksdjflk;ajs
 #### IDE : Intellij
 
 #
