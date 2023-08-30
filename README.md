@@ -6,7 +6,10 @@
 #### OS : window 11 pro
 #### RAM : 16g
 #### IDE : Intellij
+<<<<<<< HEAD
 
+=======
+>>>>>>> #Board_minji
 #
 ## 프론트엔드 
 ##
