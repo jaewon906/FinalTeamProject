@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
-import '../../css/board.css'
+import '../../css/BOARD/board.module.css'
 import {getUserNumber} from "../../js/getUserNumber";
 import EditorComponent from "../../component/BOARD/EditorComponent";
+import styles from '../../css/BOARD/board.module.css'
 
 
 const QnA_CreateBoard = () => {
@@ -127,20 +128,17 @@ const QnA_CreateBoard = () => {
                 </div>
             </div>*/}
             {loding ?
-            <div className="container"
-                 style={{width: '80vw', justifyContent: 'center', display: 'flex', flexDirection: 'column'}}>
-                <h1 className="mt-5 text-success text-center">글 작성</h1>
-                <div style={{border: '2px solid #45b751', padding: '20px'}}>
-                    <div className="row justify-content-center mt-5">
-                        <div className="col-md-12">
+            <div className={styles.createContainer}>
+                <h1 className={styles.createTitle}>글 작성</h1>
+                <div className={styles.createForm}>
+                    <div className={styles.createFormRow}>
+                        <div className={styles.createFormCol}>
                             <form onSubmit={handleInputCheck}>
-                                <div className="col-md-3 mb-4">
-                                    <div className="form-group">
-                                        {/*<p>{userNumber}</p>*/}
+                                    <div className={styles.createFormGroup}>
                                         <label htmlFor="category">카테고리를 선택하세요</label>
                                         <select
                                             id="category_input"
-                                            className="form-control"
+                                            className={styles.createSelect}
                                             value={category}
                                             onChange={(e) => {
                                                 setCategory(e.target.value);
@@ -154,17 +152,16 @@ const QnA_CreateBoard = () => {
                                             <option value="도서 예약">도서 예약</option>
                                         </select>
                                         {warn && category === "" && (
-                                            <div className="text-danger">카테고리를 선택해주세요.</div>
+                                            <div className={styles.createError} style={{color:"red"}}>카테고리를 선택해주세요.</div>
                                         )}
                                     </div>
-                                </div>
-                                <div className="col-md-6 mb-4">
-                                    <div className="form-group">
-                                        <label htmlFor="title">제목을 입력하세요</label>
+                                <div>
+                                    <div className = {styles.createFormGroup}>
+                                        <label htmlFor="title" style={{marginBottom:"10px"}}>제목을 입력하세요</label>
                                         <input
                                             type="text"
                                             id="title_input"
-                                            className="form-control"
+                                            style={{height:"25px", width:"500px", padding:"5px"}}
                                             value={title}
                                             onChange={(e) => {
                                                 setTitle(e.target.value);
@@ -172,13 +169,13 @@ const QnA_CreateBoard = () => {
                                             }}
                                         />
                                         {warn && title === "" && (
-                                            <div className="text-danger">제목을 입력해주세요.</div>
+                                            <div style={{color:"red"}}>제목을 입력해주세요.</div>
                                         )}
                                     </div>
                                 </div>
 
-                                <div className="col-md-7 mb-4">
-                                    <div className="form-group">
+                                <div>
+                                    <div>
                                         <label htmlFor="content">내용을 입력하세요</label>
                                         <EditorComponent
                                             dangerouslySetInnerHTML={{ __html: content }}
@@ -191,16 +188,17 @@ const QnA_CreateBoard = () => {
                                                 setWarn(false);
                                             }} />
 
-                                        {warn && content === "" && (<div className="text-danger">내용을 입력해주세요</div>)}
+                                        {warn && content === "" && (<div style={{color:"red"}}>내용을 입력해주세요</div>)}
                                     </div>
                                 </div>
 
-                                <div className="col-md-3 mb-4">
-                                    <div className="form-group">
+
+                                <div>
+                                    <div style={{marginTop:"25px"}}>
                                         <p>작성자 : {writer}</p>
                                     </div>
                                 </div>
-                                <button type="submit" className="btn btn-success" onClick={handleInputCheck}>글 작성
+                                <button type="submit" className={styles.createSubmitBtn} onClick={handleInputCheck}>글 작성
                                 </button>
                             </form>
                         </div>
