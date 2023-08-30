@@ -6,8 +6,10 @@
 #### OS : window 11 pro
 #### RAM : 16g
 #### IDE : Intellij
-##sdfsdfsadfasdfdsaf
-# 123123
+
+# 123123ghjghjfghjfghjhgfj
+##sffsaf
+##fsdafsdfasdfsdaf
 #
 ## 프론트엔드 
 ##
