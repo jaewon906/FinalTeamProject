@@ -16,10 +16,10 @@ export default function Header() {
 
     const handleChange = (e) => {
     setSearchValue(e.target.value);
-    navigate(`/search?q=${e.target.value}`)}
+    navigate(`/home/search?q=${e.target.value}`)}
 
     const handleClick = () => {
-        navigate("/cart");
+        navigate("/home/cart");
     }
 
     useEffect(() => {

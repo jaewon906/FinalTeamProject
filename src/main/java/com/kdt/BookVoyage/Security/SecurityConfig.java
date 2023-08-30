@@ -49,6 +49,7 @@ public class SecurityConfig {
                                 .requestMatchers("/api/bookdetail").permitAll() // 도서 전체 조회 결과
                                 .requestMatchers("/api/search").permitAll() // 검색창에 도서 검색
                                 .requestMatchers("/api/detail/**").permitAll()  // 도서 상세 정보 표시
+                                .requestMatchers("/api/cart/**").permitAll()    // 장바구니 기능
                 )
 
                 .addFilterBefore(new JwtFilter(tokenConfig,tokenDecoder, cookieConfig, new ModelMapper(), memberRepository), UsernamePasswordAuthenticationFilter.class)

@@ -61,7 +61,7 @@ function SearchResults() {
                   <>
                   <li className="book-list" key={key}>
                     <div className="book-cover">
-                      <Link to={`/bookdetail/${bookDetail.isbn13}`}>
+                      <Link to={`/home/bookdetail/${bookDetail.isbn13}/`}>
                       <img
                         src={bookDetail.previewImgList[0]}
                         width="180px"
@@ -71,8 +71,8 @@ function SearchResults() {
                       </Link>
                     </div>
                     <div className="info">
-                     
-                      <div className="book-title"><Link to={`/bookdetail/${bookDetail.isbn13}`}>{bookDetail.title}</Link></div>
+
+                      <div className="book-title"><Link to={`/home/bookdetail/${bookDetail.isbn13}/`}>{bookDetail.title}</Link></div>
                       <div className="author-pub">
                         {bookDetail.author} · {bookDetail.publisher} ·{" "}
                         {bookDetail.pubDate}
