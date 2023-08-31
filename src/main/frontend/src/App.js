@@ -21,6 +21,7 @@ import QnA_Page from "./pages/BoardPage/QnA_Page";
 import QnA_CreateBoard from "./pages/BoardPage/QnA_CreateBoard";
 import QnA_DetailBoard from "./pages/BoardPage/QnA_DetailBoard";
 import QnA_UpdateBoard from "./pages/BoardPage/QnA_UpdateBoard";
+import PurchaseResultPage from "./pages/PurchasePage/PruchaseResultPage";
 
 
 
