@@ -1,9 +1,11 @@
 package com.kdt.BookVoyage.Member;
 
+import com.kdt.BookVoyage.Cart.CartEntity;
 import com.kdt.BookVoyage.Common.TimeBaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
@@ -41,6 +43,9 @@ public class MemberEntity {
     private String deleteFlag;// DB에서 완전 삭제 대신 값이 0일때 비활성화 처리. 추후 계정 복구를 위함
     @Column(nullable = false, unique = true)
     private String userNumber; //회원 고유번호 (난수)
+    @OneToOne(mappedBy = "member")
+    @ToString.Exclude
+    private CartEntity cart;
 
     @Embedded
     private TimeBaseEntity timeBaseEntity;
