@@ -7,11 +7,73 @@
     font-weight: bold;
 }
 
-
 @font-face {
     font-family: 'kakao';
     src:url("../../fonts/KakaoRegular.ttf");
 }
+.boardMainWriteButton {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.boardMainWriteButton button {
+    width: 100px;
+    height: 35px;
+    background-color: #45B751;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+/* 게시판 메인 페이지 스타일 */
+.boardMainContainer {
+    padding-top: 100px;
+}
+
+.boardMainTitle {
+    text-align: center;
+    padding-bottom: 10px;
+    background-color: transparent;
+    border-bottom: 2px solid #45b751;
+}
+
+
+.boardMainSearch button {
+    width: 35px;
+    height: 35px;
+    background-color: #45B751;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* 게시글 목록 행 스타일 */
+.tableContainer tr:hover {
+    background-color: #e6e6e6;
+    cursor: pointer;
+}
+
+.tableContainer {
+    width: 100%;
+    border-collapse: collapse;
+    border: 2px solid #ccc;
+    font-size: 14px;
+}
+
+.tableContainer th,
+.tableContainer td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: center;
+}
+
+.tableContainer th {
+    background-color: #f2f2f2;
+}
+
 
 .createContainer {
     margin-bottom: 80px;
@@ -29,6 +91,7 @@
     border: 2px solid #45b751;
     padding: 20px;
     width: 50vw;
+    border-radius: 8px;
 }
 .createFormRow {
     display: flex;
@@ -74,109 +137,161 @@
     background-color: #3a9743;
 }
 
-/* 게시글 목록 행 스타일 */
-.table tr:hover {
-    background-color: #e6e6e6;
-    cursor: pointer;
+
+.detailContainer {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 2px solid #ccc;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+.detailHeader {
+    margin-top: 20px;
+    width: 300px;
+    text-align: center;
+    background-color: transparent;
+    border-bottom: 2px solid #45b751;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
 }
 
-.tableContainer {
-    width: 100%;
-    border-collapse: collapse;
-    border: 2px solid #ccc;
+.detailHeader h2 {
+    font-size: 18px;
+    color: #333;
+
+}
+.detailTitle {
+    margin-top: 20px;
+    width: 80px;
+    text-align: center;
+    background-color: transparent;
+    border-bottom: 2px solid #888;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+.detailContent {
+    width: 35vw;
+    margin-bottom: 15px;
+    padding: 20px;
+    background-color: #fff;
+    border: 2px solid #45b751;
+    border-radius: 8px;
+    font-size: 16px;
+    line-height: 1.6;
+    margin-top: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.detailContent a {
+    color: #007bff;
+    text-decoration: underline;
+}
+
+.detailAuthor {
+    margin-top: 10px;
+    color: #777;
     font-size: 14px;
 }
 
-.tableContainer th,
-.tableContainer td {
-    border: 1px solid #ccc;
-    padding: 8px;
-    text-align: center;
+.detailDate {
+    font-size: 14px;
+    color: #777;
+    margin-top: 10px;
 }
 
-.tableContainer th {
-    background-color: #f2f2f2;
-}
-
-.spinnerContainer {
-    text-align: center;
-    padding: 20px 0;
-}
-
-.spinnerBorder {
-    display: inline-block;
-    width: 1.5rem;
-    height: 1.5rem;
-    vertical-align: text-bottom;
-}
-
-.detailContainer {
-    border: none;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    padding: 20px;
-}
-.detailHeader {
-    background-color: transparent;
-    border-bottom: none;
-}
 .detailBtnGroup {
     margin-top: 20px;
 }
+
 .detailUpdateBtn, .detailBackBtn, .detailDeleteBtn {
-    padding: 10px 20px;
-    background-color: #45b751;
-    color: white;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-.detailUpdateBtn:hover,
-.detailBackBtn:hover,
-.detailDeleteBtn:hover{
-    background-color: #3b944e;
-}
-
-.detailReply {
-    margin-top: 30px;
-}
-.detailReplyList {
-    list-style-type: none;
-    padding: 5px;
-
-}
-.detailReplyList li {
-    width: 45vw;
-    margin-top: 15px;
-    margin-left: 10px;
-    padding: 15px;
-    border: 2px solid #45b751;
-}
-.detailReplyForm {
-    margin-top: 20px;
-
-}
-#replyInput {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-}
-#replySubmit {
     margin-top: 10px;
     padding: 8px 15px;
     background-color: #45b751;
     color: white;
     border: none;
+    border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s;
 }
-#replySubmit:hover {
+
+.detailDeleteBtn:hover {
+    background-color: red;
+}
+.detailUpdateBtn:hover {
+    background-color: blue;
+
+}
+
+.detailBackBtn:hover{
     background-color: #3b944e;
 }
 
+.reply {
+    margin-top: 30px;
+}
+
+.replyList li {
+    margin-top: 12px;
+    padding: 12px;
+    border: 2px solid #45b751;
+    width: 100%;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.replyList li div {
+    font-size: 14px;
+}
+
+.replyList li span {
+    font-size: 11px;
+    color: #888;
+
+}
+
+.replyForm {
+    width: 300px;
+    margin-top: 20px;
+
+}
+.replyInput {
+    width: 100%;
+    margin-top: 10px;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.replySubmit {
+    margin-top: 10px;
+    padding: 8px 15px;
+    background-color: #45b751;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-right: 8px;
+}
+.replySubmit:hover {
+    background-color: #3b944e;
+}
+.replyBtnGroup {
+    margin-top: 8px;
+}
 /* 스피너 컨테이너 스타일 */
 .spinnerContainer {
-    text-align: center;
-    padding: 20px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px; /* 스피너의 높이에 맞게 조정하세요 */
 }
 
 /* 스피너 스타일 */
@@ -194,4 +309,70 @@
     width: 20px;
     height: 20px;
     animation: spinnerAnimation 1s linear infinite;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.qnaContainer {
+    display:flex;
+    justify-content:center;
+    flex-direction:column;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+}
+.qnaTitle {
+    width: 80%;
+    text-align: center;
+    background-color: transparent;
+    border-bottom: 2px solid #45B751;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
+.qnaList {
+    width: 80%;
+    list-style: none;
+    text-align: center;
+    padding: 0;
+}
+
+.qnaData {
+    border: 2px solid #ccc;
+    margin-bottom: 10px;
+    background-color: #f2f2f2;
+}
+
+.qnaQuestion {
+    background-color: #f2f2f2;
+    border: none;
+    width: 100%;
+    padding: 10px;
+    text-align: left;
+    cursor: pointer;
+}
+
+.qnaQuestion.active {
+    background-color: #e0e0e0;
+}
+
+.qnaAnswer {
+    padding: 10px;
+    display: block;
+    text-align: center;
+
 }

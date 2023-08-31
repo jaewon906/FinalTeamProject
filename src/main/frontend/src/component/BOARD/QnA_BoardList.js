@@ -45,32 +45,39 @@ const QnA_BoardList = (props) => {
     console.log(props.data);
     return (
         <>
-
-            <div style={{paddingTop: ' 100px', border: '3px solid blue'}}>
-                <h1 style={{textAlign: 'center'}}>문의 게시판</h1>
+            <div className={styles.boardMainContainer}>
+                <div style={{display:"flex", justifyContent:"center"}}>
+                    <h1 style={{
+                        width:"300px",
+                        textAlign: "center",
+                        paddingBottom: "10px",
+                        backgroundColor: "transparent",
+                        borderBottom: "2px solid #45b751"
+                    }}>문의 게시판</h1>
+                </div>
                 <br/>
                 <div>
-                    <div>
-                        <div style={{marginLeft: '900px'}}>
-                        </div>
-                        <div style={{display: 'flex', justifyContent:"flex-end", margin:"20px"}}>
+                    <div className={styles.boardMainSearch}>
+                        <div style={{display: 'flex', justifyContent: "flex-end", margin: "20px"}}>
                             <input
                                 type="text"
                                 className="form-control"
-                                placeholder="Search..."
+                                placeholder=" Search..."
                                 value={searchText}
                                 style={{width: "250px", marginRight: "10px"}}
                                 onChange={(e) => setSearchText(e.target.value)}
                             />
-                            <button style={{width: "60px",
+                            <button style={{
+                                width: "60px",
                                 height: "35px",
                                 backgroundColor: "#45B751",
                                 border: "none",
                                 color: "white",
                                 borderRadius: "5px",
-                                cursor: "pointer"}}
+                                cursor: "pointer"
+                            }}
                                     onClick={() => handleSearch(searchText)}
-                                    >
+                            >
                                 Search
                             </button>
                         </div>
@@ -106,18 +113,12 @@ const QnA_BoardList = (props) => {
                                     ))
                                 ) : (
                                     <tr>
-                                        <td colSpan="8" className={styles.spinnerContainer}>
-                                            <div className={styles.spinner}></div>
-                                        </td>
-                                    </tr>
-
-/*                                    <tr>
-                                        <td colSpan="8" className={styles.spinnerContainer}>
-                                            <div className="spinner-border text-primary-emphasis" role="status">
-                                                <span className="visually-hidden">Loading...</span>
+                                        <td colSpan="8">
+                                            <div className={styles.spinnerContainer}>
+                                                <div className={`spinner ${styles.spinner}`}></div>
                                             </div>
                                         </td>
-                                    </tr>*/
+                                    </tr>
                                 )}
                                 </tbody>
                             </table>
@@ -128,17 +129,18 @@ const QnA_BoardList = (props) => {
                             onPageChange={onPageChange}
                         />
                     </div>
-                    <div
-                        style={{padding: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                    <div className={styles.boardMainWriteButton}>
                         <button
                             type="submit"
-                            style={{width: "100px",
+                            style={{
+                                width: "100px",
                                 height: "35px",
                                 backgroundColor: "#45B751",
                                 border: "none",
                                 color: "white",
                                 borderRadius: "5px",
-                                cursor: "pointer"}}
+                                cursor: "pointer"
+                            }}
                             onClick={authenticate}
                         >
                             게시글 작성하기
@@ -146,7 +148,6 @@ const QnA_BoardList = (props) => {
                     </div>
                 </div>
             </div>
-            )
         </>
     );
 };
