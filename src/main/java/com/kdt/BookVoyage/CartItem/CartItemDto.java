@@ -15,7 +15,8 @@ public class CartItemDto {
     private int quantity;
 //  private BookDto book;
     private Long bookId;
-    private CartDto cart;
+//  private CartDto cart;
+    private Long cartId;
 
     public static CartItemDto entityToDto(CartItemEntity entity) {
 
@@ -25,7 +26,7 @@ public class CartItemDto {
         dto.setQuantity(entity.getQuantity());
 //      dto.setBook(BookDto.entityToDto(entity.getBook()));
         dto.setBookId(entity.getBook().getBookId());
-//        dto.setCart(CartDto.entityToDto(entity.getCart()));
+        dto.setCartId(entity.getCart().getId());
 
         return dto;
     }

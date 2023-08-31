@@ -115,3 +115,4 @@ export default function Payment(props) {
 //   "card_quota": 0,
 //   "card_number": ""
 // }
+}
