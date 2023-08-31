@@ -41,7 +41,7 @@ public class SecurityConfig {
                                 .requestMatchers("/api/user/board/**").hasRole("USER") //게시글 관련
                                 .requestMatchers("/api/user/myPage/**").hasRole("USER") //내 페이지 관련
                                 .requestMatchers("/api/user/withdrawal").hasRole("USER") //회원탈퇴
-                                .requestMatchers("/api/user/purchase/**").hasRole("USER") //도서 구매
+                                .requestMatchers("/api/user/purchase/**").hasRole("USER") //회원탈퇴
                                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
                                 .requestMatchers("/api/admin/autoLogin").hasRole("ADMIN") //로그인
                                 .requestMatchers("/api/search/**").permitAll() // api 호출 결과 db에 저장
@@ -49,7 +49,7 @@ public class SecurityConfig {
                                 .requestMatchers("/api/bookdetail").permitAll() // 도서 전체 조회 결과
                                 .requestMatchers("/api/search").permitAll() // 검색창에 도서 검색
                                 .requestMatchers("/api/detail/**").permitAll()  // 도서 상세 정보 표시
-                                .requestMatchers("/api/cart/**").hasRole("USER")    // 장바구니 기능
+                                .requestMatchers("/api/cart/**").hasRole("USER")    // 장바구니
                 )
 
                 .addFilterBefore(new JwtFilter(tokenConfig,tokenDecoder, cookieConfig, new ModelMapper(), memberRepository), UsernamePasswordAuthenticationFilter.class)

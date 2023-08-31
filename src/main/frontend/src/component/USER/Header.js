@@ -22,7 +22,7 @@ export default function Header() {
 >>>>>>> main
 
     const handleClick = () => {
-        navigate("/home/cart");
+        navigate("/home/cart/");
     }
 
     useEffect(() => {

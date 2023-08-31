@@ -22,6 +22,17 @@ export default function PurchasePage() {
     const userAddress_R = useRef()
     let totalPrice = 0
 
+    let orderData={
+        order_name:"BookVoyage",
+        order_username:username_R,
+        order_price:totalPrice,
+        order_Address:userAddress_R,
+        order_Tel : userTel_R,
+        order_Email : userInfo.userEmail,
+        order_userNumber:userInfo.userNumber,
+
+    }
+
     useEffect(()=>{
         axios.get("/api/user/purchase/userInfo", {
             params: {
@@ -159,6 +170,12 @@ export default function PurchasePage() {
 
     }
 
+    const aaaaa =()=>{
+        console.log(userTel_R.current.value)
+        console.log(userAddress_R.current.value)
+        console.log(username_R.current.value)
+    }
+
     return (
         <div className={style.container}>
             <h1>구매하기</h1>
@@ -271,6 +288,7 @@ export default function PurchasePage() {
                                 </div>
                             </div>
                         </div>
+
                             <Payment
                             username={username_R.current}
                             userTel = {userTel_R.current}
@@ -279,6 +297,8 @@ export default function PurchasePage() {
                             userNumber = {userInfo.userNumber}
                             price = {totalPrice}
                             />
+                    <button onClick={aaaaa}>fghhgfd</button>
+
                     </>
                     : (purchaseLength <= 0 ? <div className={style.noPurchaseList}>
                         <p style={{fontSize: "150px"}}>텅</p>

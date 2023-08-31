@@ -24,6 +24,7 @@ public class CartItemEntity {
     @ToString.Exclude
     private CartEntity cart;    // 장바구니
 
+
     @ManyToOne
     @JoinColumn(name = "prod_id")
     @ToString.Exclude

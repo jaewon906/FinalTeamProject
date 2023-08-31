@@ -1,5 +1,6 @@
 package com.kdt.BookVoyage.Cart;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kdt.BookVoyage.CartItem.CartItemEntity;
 import com.kdt.BookVoyage.Member.MemberEntity;
 import jakarta.persistence.*;
@@ -26,11 +27,9 @@ public class CartEntity {
 
     @OneToOne
     @JoinColumn(name = "user_id")
-    @ToString.Exclude
     private MemberEntity member;    // 회원
 
-    @OneToMany(mappedBy = "cart")
-    @ToString.Exclude
+    @OneToMany(mappedBy = "cart", fetch = FetchType.LAZY)
     private List<CartItemEntity> cartItems = new ArrayList<>();
 
     private int quantity;   // 카트에 담긴 총 상품 개수

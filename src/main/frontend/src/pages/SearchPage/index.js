@@ -69,7 +69,7 @@ function SearchResults() {
                       </Link>
                     </div>
                     <div className="info">
-
+                     
                       <div className="book-title"><Link to={`/home/bookdetail/${bookDetail.isbn13}/`}>{bookDetail.title}</Link></div>
                       <div className="author-pub">
                         {bookDetail.author} · {bookDetail.publisher} ·{" "}
