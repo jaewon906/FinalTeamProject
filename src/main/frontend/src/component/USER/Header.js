@@ -19,7 +19,7 @@ export default function Header() {
     navigate(`/home/search?q=${e.target.value}`)}
 
     const handleClick = () => {
-        navigate("/home/cart");
+        navigate("/home/cart/");
     }
 
     useEffect(() => {

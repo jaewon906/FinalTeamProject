@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,7 +72,6 @@ public class BookEntity {
     @Column(name = "author_photo")
     private String authorPhoto;
 
-    @OneToMany(mappedBy = "book")
-    @JsonIgnore
+    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY)
     private List<CartItemEntity> cartItems = new ArrayList<>(); // cart item
 }

@@ -3,7 +3,7 @@ package com.kdt.BookVoyage.Purchase;
 import com.kdt.BookVoyage.Book.BookEntity;
 import com.kdt.BookVoyage.Book.BookRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
@@ -12,7 +12,6 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-@Slf4j
 public class PurchaseService {
 
     private final BookRepository bookRepository;
@@ -40,9 +39,5 @@ public class PurchaseService {
             // 예외 발생 시 내부 서버 에러 메시지 반환
             throw new Exception("에러");
         }
-    }
-
-    public void savePurchasedList(PurchaseDTO purchaseDTO) {
-        log.info("{}",purchaseDTO);
     }
 }
