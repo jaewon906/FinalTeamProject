@@ -1,7 +1,7 @@
 import style from '../../css/USER/signUpPage.module.css'
 import {Link} from "react-router-dom";
 import axios from "axios";
-import {useEffect, useRef, useState} from "react";
+import { useRef, useState} from "react";
 import Modal from "react-modal";
 import DaumPostcode from "react-daum-postcode";
 

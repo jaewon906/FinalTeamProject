@@ -2,13 +2,13 @@ import {Link, useLocation} from "react-router-dom";
 import {React, useEffect, useState} from "react";
 import QnA_BoardBox from "./QnA_BoardBox";
 import axios from "axios";
-import '../../css/board.css';
+import styles from '../../css/BOARD/board.module.css'
 import QnA_BoardPagination from "./QnA_BoardPagination";
 
 
 const QnA_BoardList = (props) => {
 
-    const {currentPage, totalPages, onPageChange, handleSearch , formattedCreatedTime} = props;
+    const {currentPage, totalPages, onPageChange, handleSearch, formattedCreatedTime} = props;
     const [searchText, setSearchText] = useState("");
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(false);
@@ -45,78 +45,102 @@ const QnA_BoardList = (props) => {
     console.log(props.data);
     return (
         <>
-
-            <div className="container text-center" style={{paddingTop: ' 100px', border: '2px solid black'}}>
-                <h1 className="mt-5">문의 게시판</h1>
-                <br/>
-                <div className="col-md-7" style={{marginLeft: '900px'}}>
-                    <div className="col-md-6" style={{display: 'flex'}}>
-                        <input
-                            type="text"
-                            className="form-control"
-                            placeholder="Search..."
-                            value={searchText}
-                            onChange={(e) => setSearchText(e.target.value)}
-                        />
-                        <button className="btn btn-success" style={{marginLeft: '15px'}}
-                                onClick={() => handleSearch(searchText)}>
-                            Search
-                        </button>
-                    </div>
+            <div className={styles.boardMainContainer}>
+                <div style={{display:"flex", justifyContent:"center"}}>
+                    <h1 style={{
+                        width:"300px",
+                        textAlign: "center",
+                        paddingBottom: "10px",
+                        backgroundColor: "transparent",
+                        borderBottom: "2px solid #45b751"
+                    }}>문의 게시판</h1>
                 </div>
-                <div className="row justify-content-center mt-5">
-                    <div className="col-md-12">
-                        <table className="table table-bordered table-hover shadow-lg">
-                            <thead>
-                            <tr>
-                                <th>번호</th>
-                                <th>카테고리</th>
-                                <th>제목</th>
-                                <th>내용</th>
-                                <th>작성자</th>
-                                <th>조회수</th>
-                                <th>작성 일자</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {Array.isArray(props.data) && props.data.length !== 0 ? (
-                                props.data.map((i, index) => (
-                                    <QnA_BoardBox
-                                        key={i.id}
-                                        id={i.id} //게시글 번호 역순으로 생성
-                                        title={i.title}
-                                        category={i.category}
-                                        content={i.content.replace(/<[^>]+>/g, '')}
-                                        writer={i.writer}
-                                        view={i.view}
-                                        createdTime={i.createdTime}
-                                        formattedCreatedTime={formattedCreatedTime}
-                                        currentPage={currentPage + 1}
-                                    />
-
-                                ))
-                            ) : (
+                <br/>
+                <div>
+                    <div className={styles.boardMainSearch}>
+                        <div style={{display: 'flex', justifyContent: "flex-end", margin: "20px"}}>
+                            <input
+                                type="text"
+                                className="form-control"
+                                placeholder=" Search..."
+                                value={searchText}
+                                style={{width: "250px", marginRight: "10px"}}
+                                onChange={(e) => setSearchText(e.target.value)}
+                            />
+                            <button style={{
+                                width: "60px",
+                                height: "35px",
+                                backgroundColor: "#45B751",
+                                border: "none",
+                                color: "white",
+                                borderRadius: "5px",
+                                cursor: "pointer"
+                            }}
+                                    onClick={() => handleSearch(searchText)}
+                            >
+                                Search
+                            </button>
+                        </div>
+                        <div className={styles.tableContainer}>
+                            <table className={styles.tableContainer}>
+                                <thead>
                                 <tr>
-                                    <td colSpan="8" style={{ textAlign: "center" }}>
-                                        <div className="spinner-border text-primary-emphasis" role="status">
-                                            <span className="visually-hidden">Loading...</span>
-                                        </div>
-                                    </td>
+                                    <th>번호</th>
+                                    <th>카테고리</th>
+                                    <th>제목</th>
+                                    <th>내용</th>
+                                    <th>작성자</th>
+                                    <th>조회수</th>
+                                    <th>작성 일자</th>
                                 </tr>
-                            )}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                {Array.isArray(props.data) && props.data.length !== 0 ? (
+                                    props.data.map((i, index) => (
+                                        <QnA_BoardBox
+                                            key={i.id}
+                                            id={i.id} //게시글 번호 역순으로 생성
+                                            title={i.title}
+                                            category={i.category}
+                                            content={i.content.replace(/<[^>]+>/g, '')}
+                                            writer={i.writer}
+                                            view={i.view}
+                                            createdTime={i.createdTime}
+                                            formattedCreatedTime={formattedCreatedTime}
+                                            currentPage={currentPage + 1}
+                                        />
+
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan="8">
+                                            <div className={styles.spinnerContainer}>
+                                                <div className={`spinner ${styles.spinner}`}></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                )}
+                                </tbody>
+                            </table>
+                        </div>
                         <QnA_BoardPagination
                             currentPage={currentPage}
                             totalPages={totalPages}
                             onPageChange={onPageChange}
                         />
                     </div>
-                    <div className="col-md-6 mb-4"
-                         style={{padding: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                    <div className={styles.boardMainWriteButton}>
                         <button
                             type="submit"
-                            className="btn btn-success mt-4"
+                            style={{
+                                width: "100px",
+                                height: "35px",
+                                backgroundColor: "#45B751",
+                                border: "none",
+                                color: "white",
+                                borderRadius: "5px",
+                                cursor: "pointer"
+                            }}
                             onClick={authenticate}
                         >
                             게시글 작성하기
@@ -124,7 +148,6 @@ const QnA_BoardList = (props) => {
                     </div>
                 </div>
             </div>
-            )
         </>
     );
 };
@@ -202,4 +225,5 @@ export default QnA_BoardList;
                             </button>
                         </div>
                 </div>
-            </div>*/}
+            </div>*/
+}

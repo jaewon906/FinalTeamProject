@@ -48,7 +48,7 @@ export default function PurchasePage() {
                 }
                 else goBack(-1)
             })
-    },[])
+    },[goBack])
 
     useEffect(() => {
 
@@ -125,7 +125,7 @@ export default function PurchasePage() {
 
 
         switch (cases) {
-            case "plus": {
+            case "plus":
                 if (1 <= quantity.current[listNum].value && quantity.current[listNum].value <= 98) {
                     setAmount(el => {
                         const newArr = [...el]
@@ -140,9 +140,9 @@ export default function PurchasePage() {
                     })
 
                 }
-            }
+
                 break;
-            case "minus" : {
+            case "minus" :
                 if (2 <= quantity.current[listNum].value && quantity.current[listNum].value <= 99) {
                     setAmount(el => {
                         const newArr = [...el]
@@ -156,7 +156,7 @@ export default function PurchasePage() {
                         return newArr
                     })
                 }
-            }
+
                 break;
             default:
                 console.log(cases)

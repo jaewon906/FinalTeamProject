@@ -2,19 +2,27 @@ package com.kdt.BookVoyage.Purchase;
 
 import com.kdt.BookVoyage.Book.BookEntity;
 import com.kdt.BookVoyage.Book.BookRepository;
+import com.kdt.BookVoyage.Common.UserIdNotFoundException;
+import com.kdt.BookVoyage.Member.MemberEntity;
+import com.kdt.BookVoyage.Member.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
+import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
 public class PurchaseService {
 
     private final BookRepository bookRepository;
+    private final OrderRepository orderRepository;
+    private final MemberRepository memberRepository;
+    private final OrderListRepository orderListRepository;
     public List<ResponseEntity<BookEntity>> getBookDetails(List<String> list) throws Exception {
 
         List<ResponseEntity<BookEntity>> result = new ArrayList<>();
@@ -40,4 +48,60 @@ public class PurchaseService {
             throw new Exception("에러");
         }
     }
+
+    public void savePurchasedList(PurchaseDTO purchaseDTO) {
+        List<String> isbn13 = purchaseDTO.getPurchasedList();
+        List<Integer> amount = purchaseDTO.getAmount();
+        int totalPrice = 0;
+
+        Optional<MemberEntity> allByUserNumber = memberRepository.findAllByUserNumber(purchaseDTO.getUserNumber());
+
+        if(allByUserNumber.isPresent()){
+
+            for(int i=0; i<isbn13.size(); i++) {
+                BookEntity book = bookRepository.findBookByIsbn13(isbn13.get(i));
+
+                totalPrice += Integer.parseInt(book.getPriceSales()) * amount.get(i);
+            }
+
+            MemberEntity memberEntity = allByUserNumber.get();
+
+            OrderEntity orderEntity = OrderEntity.setOrderEntity(
+                    purchaseDTO.getOrderNumber(),
+                    memberEntity.getUsername(),
+                    memberEntity.getUserEmail(),
+                    memberEntity.getUserAddress() +" "+ memberEntity.getUserDetailAddress(),
+                    memberEntity.getUserTel(),
+                    totalPrice,
+                    memberEntity
+            );
+
+            orderRepository.save(orderEntity);
+
+            for(int i=0; i<isbn13.size(); i++){
+                BookEntity book = bookRepository.findBookByIsbn13(isbn13.get(i));
+
+                totalPrice += Integer.parseInt(book.getPriceSales()) * amount.get(i);
+
+                OrderListEntity orderListEntity = OrderListEntity.builder()
+                        .title(book.getTitle())
+                        .author(book.getAuthor())
+                        .pubDate(book.getPubDate())
+                        .priceSales(book.getPriceSales())
+                        .priceStandard(book.getPriceStandard())
+                        .publisher(book.getPublisher())
+                        .isbn13(book.getIsbn13())
+                        .cover(book.getCover())
+                        .orderEntity(orderEntity)
+                        .build();
+
+                orderListRepository.save(orderListEntity);
+
+            }
+
+        }else throw new UserIdNotFoundException("아이디가 존재하지 않습니다");
+
+    }
+
+
 }
