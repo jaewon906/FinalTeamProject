@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import axios, {get, request} from "axios";
 import {Link, useLocation, useNavigate, useParams} from "react-router-dom";
 import {getUserNumber} from "../../js/getUserNumber";
-
+import styles from "../../css/BOARD/board.module.css"
 
 const QnA_DetailBoard = () => {
 
@@ -20,9 +20,6 @@ const QnA_DetailBoard = () => {
     const currentPage = location.state?.currentPage ?? 0;
     const navigate = useNavigate();
     const {id} = useParams();
-
-
-
 
 
     /** =========== 게시글 상세보기 위한 백엔드 통신 ==============  */
@@ -49,23 +46,23 @@ const QnA_DetailBoard = () => {
     }, [id]);
 
     /** =========== 게시글에 댓글 작성하기 위한 백엔드 통신 ==============  */
-        const handleReplySubmit = async () => {
-            if (reply.trim() === "") {
-                alert("댓글 입력 바람.");
-                return;
-            }
+    const handleReplySubmit = async () => {
+        if (reply.trim() === "") {
+            alert("댓글 입력 바람.");
+            return;
+        }
         try {
 
             const userNickname = getUserNumber().nickname;
             const requestData = {reply: reply, nickname: userNickname};
-           axios.post(
+            axios.post(
                 `/api/board/board-detail/reply-list/${id}`, requestData
             ).then((res) => {
-               const newReply = res.data;
-               console.log("댓글 작성 응답(newReply) = " + newReply)
-               setReplies((prevReplies) => [...prevReplies, newReply]);
-               // window.location.reload()
-               setReply("");
+                const newReply = res.data;
+                console.log("댓글 작성 응답(newReply) = " + newReply)
+                setReplies((prevReplies) => [...prevReplies, newReply]);
+                // window.location.reload()
+                setReply("");
             }).catch(e => {
                 console.error(e)
             })
@@ -112,7 +109,7 @@ const QnA_DetailBoard = () => {
                 } else if (response.status > 400) {
                     alert("게시물 삭제 실패");
                 }
-            }catch (error) {
+            } catch (error) {
                 console.log("게시물 삭제 실패:", error);
                 alert("게시물 삭제 중 에러가 발생했습니다.");
             }
@@ -130,99 +127,93 @@ const QnA_DetailBoard = () => {
     return (
         <>
             <div className="containert" style={{border: "2px solid black", marginBottom: "100px"}}>
-                <div className="row justify-content-center">
-                    <div className="col-md-8">
-                        <div className="card">
-                            <div className="card-header bg-transparent">
-                                <h2 className="card-subtitle mb-2">분야: {category}</h2>
+                <div>
+                    <div>
+                        <div className={styles.detailContainer}>
+                            <div className={styles.detailHeader}>
+                                <h2>분야: {category}</h2>
                             </div>
-                            <div className="card-body">
-                                <h4 className="card-title">{title}</h4>
-                                <p className="card-text" dangerouslySetInnerHTML={{__html: content}}></p>
-                                <p className="card-text">작성자 : {writer}</p>
-                                <p className="card-text">작성 일자 : {regDate.toLocaleDateString().replace(/\.$/, '')}</p>
+                            <div>
+                                <h4>{title}</h4>
+                                <p dangerouslySetInnerHTML={{__html: content}}></p>
+                                <p>작성자 : {writer}</p>
+                                <p>작성 일자 : {regDate.toLocaleDateString().replace(/\.$/, '')}</p>
                                 {/*replace() 메서드를 사용하여 이 마침표를 빈 문자열로 대체하여 제거*/}
-
-
-                                {writer === getUserNumber().nickname ? (
-                                    <div className="card-footer">
-                                        <div className="btn-group">
-                                            <Link
-                                                to={`/home/board/update-board/${id}`}
-                                                className="btn btn-success mr-2"
-                                                state={{
-                                                    id: id,
-                                                    title: title,
-                                                    category: category,
-                                                    content: content,
-                                                    writer: writer,
-                                                    regDate: regDate,
+                                    {writer === getUserNumber().nickname ? (
+                                        <div className={styles.detailBtnGroup}>
+                                            <button
+                                                className={styles.detailUpdateBtn}
+                                                onClick={() => {
+                                                    navigate(`/home/board/update-board/${id}`, {
+                                                        state: {
+                                                            id: id,
+                                                            title: title,
+                                                            category: category,
+                                                            content: content,
+                                                            writer: writer,
+                                                            regDate: regDate,
+                                                        },
+                                                    });
                                                 }}
                                             >
                                                 수정하기
-                                            </Link>
-                                            <input
-                                                type="button"
+                                            </button>
+                                            <button
+                                                className={styles.detailDeleteBtn}
                                                 onClick={handleDeleteBtnClick}
-                                                className="btn btn-danger mr-2"
-                                                value="삭제하기"
-                                            />
-
+                                            >
+                                                삭제하기
+                                            </button>
                                         </div>
-                                    </div>
-                                ) : " "}
-
+                                    ) : " "}
                             </div>
-
-                            <div className="card-header bg-transparent bi bi-chat-dots">
+                            <div className={styles.detailReply}>
                                 <h5>{replies.length > 0 && `${replies.length} 개의 댓글`}</h5>
                             </div>
-                            <div className="col-md-6 mb-4">
-                                <div className="card-body">
+                            <div>
+                                <div>
                                 </div>
-                                <ul className="reply-list" id="replyList">
-                                    {replies.map((reply,idx) => (
+                                <ul className={styles.detailReplyList} id="replyList">
+                                    {replies.map((reply, idx) => (
                                         <li key={idx}>
-                                            <div>{reply.id}</div>
                                             <div>{reply.reply}</div>
-                                            작성자: {reply.nickname} | 작성일: {reply.regDate}
+                                            작성자: {reply.nickname} <br/>작성일: {reply.regDate}
                                         </li>
                                     ))}
                                 </ul>
                             </div>
 
-                            <div className="card-body"
-                                 style={{display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between'}}>
-                                <div className="col-md-6 mb-4">
-                                    <div className="comment-form">
+                            <div
+                                style={{display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between'}}>
+                                <div>
+                                    <div className={styles.detailReplyForm}>
                                         <h4>댓글 작성</h4>
                                         <input
                                             type="text"
                                             value={reply}
-                                            id="commentInput"
-                                            className="form-control mb-2"
+                                            id="replyInput"
                                             placeholder="댓글을 입력하세요"
                                             onChange={(e) => setReply(e.target.value)}
                                         />
                                         <button
                                             type="submit"
-                                            id="commentSubmit"
-                                            className="btn btn-primary"
+                                            id="replySubmit"
                                             onClick={handleReplySubmit}
                                         >
                                             댓글 작성
                                         </button>
                                     </div>
                                 </div>
-
-
-                                <Link to={`/home/board`}
-                                      className="btn btn-secondary mr-2"
-                                      state={{currentPage: currentPage}}
-                                      onClick={() => setBoardListKey(new Date().getTime)}
-                                >
-                                    목록 보기
-                                </Link>
+                                <div className={styles.detailBtnGroup}>
+                                    <button
+                                        className={styles.detailBackBtn}
+                                        onClick={() => {
+                                            navigate(`/home/board`)
+                                        }}
+                                    >
+                                        목록 보기
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import ApexCharts from "apexcharts";
 import axios from "axios";
 import unixToDate from "../../js/unixToDate";

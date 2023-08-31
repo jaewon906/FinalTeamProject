@@ -1,4 +1,3 @@
-
 import style from "../css/USER/payment.module.css";
 import axios from "axios";
 
@@ -14,7 +13,7 @@ export default function Payment(props) {
     // 값을 못 불러오는거 : 주소, 이름, 전화번호
     function onClickPayment() {
         /* 1. 가맹점 식별하기 */
-        const { IMP } = window;
+        const {IMP} = window;
         const code = 'imp14397622'
         IMP.init(code);
 
@@ -105,31 +104,55 @@ export default function Payment(props) {
         }
     }
 
-    const aaaa = () =>{
+    const aaaa = () => {
         const sessionStorage = window.sessionStorage
 
-        let map = new Map();
+        let purchasedList = []
+        let amounts = []
 
         for (let i = 0; i < sessionStorage.length; i++) {
             let isbn = sessionStorage.key(i);
             let amount = sessionStorage.getItem(isbn);
-            map.set(isbn,amount)
+            purchasedList[i] = isbn
+            amounts[i] = amount
 
         }
+        const dateToString = new Date().toString()
+        const year = dateToString.split(" ")[3]
+        const hms = dateToString.split(" ")[4].split(":")[0]
+            + dateToString.split(" ")[4].split(":")[1]
+            + dateToString.split(" ")[4].split(":")[2]
 
-        axios.post("/api/user/purchase/purchasedList", null,{
-            params:{
-                purchasedList : map
 
+        axios.post("/api/user/purchase/purchasedList", {}, {
+            params: {
+                purchasedList: purchasedList.join(","),
+                amount: amounts.join(","),
+                userNumber: userNumber,
+                orderNumber: year+hms+userNumber
             }
         })
-            .then(()=>{
+            .then(() => {
                 // window.location.href =`result?userNumber=${userNumber}&merchant_uid=${merchant_uid}&paid_at=${paid_at}`
             })
-            .catch(e=>{
+            .catch(e => {
                 console.error(e)
                 console.error("서버로 결제 내용을 보내는데 실패했습니다.")
             })
+
+        // axios.post("/api/user/purchase/order", {},{
+        //     params:{
+        //         purchasedList:purchasedList.join(","),
+        //         amount:amounts.join(",")
+        //     }
+        // })
+        //     .then(() => {
+        //         // window.location.href =`result?userNumber=${userNumber}&merchant_uid=${merchant_uid}&paid_at=${paid_at}`
+        //     })
+        //     .catch(e => {
+        //         console.error(e)
+        //         console.error("서버로 결제 내용을 보내는데 실패했습니다.")
+        //     })
     }
     return (
         <div className={style.payment}>

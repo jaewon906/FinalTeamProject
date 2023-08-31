@@ -10,13 +10,16 @@ export default function Header() {
     const [isLogin, setIsLogin] = useState(false)
     const [nickname, setNickname] = useState()
     const [userNumber, setUserNumber] = useState("0")
-    const [searchValue, setSearchValue] = useState("");
     const navigate = useNavigate();
     
 
     const handleChange = (e) => {
+<<<<<<< HEAD
     setSearchValue(e.target.value);
     navigate(`/home/search?q=${e.target.value}`)}
+=======
+    navigate(`/search?q=${e.target.value}`)}
+>>>>>>> main
 
     const handleClick = () => {
         navigate("/home/cart");

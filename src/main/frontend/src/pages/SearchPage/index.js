@@ -1,6 +1,5 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Col, Container, Row } from "react-bootstrap";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import useDebounce from "../../hooks/useDebounce";
 import Button from "../../component/common/Button";
@@ -17,7 +16,6 @@ function SearchResults() {
   const searchTerm = query.get("q");
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (debouncedSearchTerm) {
@@ -112,7 +110,7 @@ function SearchResults() {
   } else {
     return (
       <>
-        <Container>
+{/*        <Container>
           <Row>
             <Col>
               <div className="no-results">
@@ -124,7 +122,7 @@ function SearchResults() {
               </div>
             </Col>
           </Row>
-        </Container>
+        </Container>*/}
       </>
     )
   }
