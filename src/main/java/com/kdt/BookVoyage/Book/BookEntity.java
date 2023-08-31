@@ -73,5 +73,6 @@ public class BookEntity {
     private String authorPhoto;
 
     @OneToMany(mappedBy = "book", fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<CartItemEntity> cartItems = new ArrayList<>(); // cart item
 }
