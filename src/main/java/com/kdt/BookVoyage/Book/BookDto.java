@@ -1,6 +1,5 @@
 package com.kdt.BookVoyage.Book;
 
-import com.kdt.BookVoyage.CartItem.CartItemDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

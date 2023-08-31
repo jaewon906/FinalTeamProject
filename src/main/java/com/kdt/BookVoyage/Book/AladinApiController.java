@@ -1,8 +1,6 @@
 package com.kdt.BookVoyage.Book;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,18 +9,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-@Slf4j
 public class AladinApiController {
 
-    @Autowired
-    private BookRepository bookRepository;
-
-
+    private final BookRepository bookRepository;
     private final AladinApiService aladinApiService;
 
-    @Autowired
-    public AladinApiController(AladinApiService aladinApiService) {
+    public AladinApiController(AladinApiService aladinApiService, BookRepository bookRepository) {
         this.aladinApiService = aladinApiService;
+        this.bookRepository = bookRepository;
     }
 
 
@@ -120,5 +114,12 @@ public class AladinApiController {
             // 예외 발생 시 내부 서버 에러 메시지 반환
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+    }
+
+    // 프론트엔드에서 bookId를 받아서 bookRepository를 조회한 뒤 결과 반환
+    @GetMapping("/bookitems")
+    public ResponseEntity<List<BookDto>> getBooksByIds(@RequestParam List<Long> ids) {
+        List<BookDto> books = aladinApiService.getBooksByIds(ids);
+        return ResponseEntity.ok(books);
     }
 }
