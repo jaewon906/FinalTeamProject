@@ -187,7 +187,7 @@
 }
 .product {
     width: 1190px;
-    height: 250px;
+    height: 350px;
     box-shadow: 0 0 10px 0 gray;
     border-radius: 10px;
     margin: 20px 0 0 20px;
@@ -196,4 +196,43 @@
     padding-top: 20px;
     flex-direction: column;
     background-color:#d5f4ff;
+}
+.orderHeader{
+    display: flex;
+    width:98%;
+    height:50px;
+
+}
+.orderNumber, .orderName, .customer, .tel, .addr, .price{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.orderNumber{
+    width: 25%;
+}
+.orderName{
+    width: 30%;
+}
+.customer{
+    width: 10%;
+}
+.tel{
+    width: 15%;
+}
+.addr{
+    width: 25%;
+}
+.price{
+    width: 10%;
+}
+.order{
+    background-color: #fdf8dc;
+    display: flex;
+    width: 98%;
+    height: 60px;
+    box-shadow: 0 0px 5px 0 gray;
+    border-radius: 10px;
+    margin-bottom: 10px;
 }

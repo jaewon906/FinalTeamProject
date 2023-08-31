@@ -17,11 +17,11 @@ import SearchResults from "./pages/SearchPage/index";
 import MainPage from "./pages/MainPage/index";
 import CartPage from './pages/CartPage';
 import PurchasePage from "./pages/PurchasePage/PurchasePage";
+import QnA_Page from "./pages/BoardPage/QnA_Page";
+import QnA_CreateBoard from "./pages/BoardPage/QnA_CreateBoard";
+import QnA_DetailBoard from "./pages/BoardPage/QnA_DetailBoard";
+import QnA_UpdateBoard from "./pages/BoardPage/QnA_UpdateBoard";
 import PurchaseResultPage from "./pages/PurchasePage/PruchaseResultPage";
-import QnA_UpdateBoard from "./pages/Board/QnA_UpdateBoard";
-import QnA_DetailBoard from "./pages/Board/QnA_DetailBoard";
-import QnA_CreateBoard from "./pages/Board/QnA_CreateBoard";
-import QnA_Page from "./pages/Board/QnA_Page";
 
 
 

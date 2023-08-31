@@ -1,5 +1,8 @@
 import style from "../../css/PurchasePage/purchseResultPage.module.css"
+import axios from "axios";
 export default function PurchaseResultPage() {
+
+    axios.get("/api/user/purchase/")
 
     return(
         <div className={style.container}>

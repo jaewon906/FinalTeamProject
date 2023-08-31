@@ -4,6 +4,7 @@ import style from "../../css/PurchasePage/purchasePage.module.css"
 import {getUserNumber} from "../../js/getUserNumber";
 import Payment from "../../js/Payment";
 import {Link, useNavigate} from "react-router-dom";
+import convertToWon from "../../js/convertToWon";
 
 export default function PurchasePage() {
 
@@ -87,37 +88,6 @@ export default function PurchasePage() {
     },[amounts])
 
 
-    const convertToWon = (val, n) => {
-        let flip = 0
-        let temp = ""
-        let result = ""
-
-        try {
-
-            if (n !== null) {
-                let val1 = (val * n).toString()
-                flip = val1.split("").reverse().join("")
-            }
-            if (n === null) flip = val.split("").reverse().join("")
-
-            for (let i = 1; i <= flip.length; i++) {
-
-                temp += flip.charAt(i - 1)
-                if (i % 3 === 0 && i<=flip.length-1) {
-                    temp += ","
-                }
-            }
-
-            result = temp.split("").reverse().join("")
-        } catch (e) {
-            console.error(e)
-        }
-
-
-        return result
-    }
-
-
     let key;
     let value;
     const handleQuantity = (e) => {
@@ -179,10 +149,10 @@ export default function PurchasePage() {
     }
 
     return (
-        <div className={style.container}>
+         <div className={style.container}>
             <h1>구매하기</h1>
-            <div className={style.main}>
-                {loading ? <>
+              <div className={style.main}>
+                {loading && userInfo ? <>
                         <div className={style.section2}>
                             <div className={style.purchaseListHeader}>
                                 <div className={style.bookCover}>책 커버</div>
