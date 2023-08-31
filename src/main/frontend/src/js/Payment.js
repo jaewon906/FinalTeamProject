@@ -70,6 +70,7 @@ export default function Payment(props) {
         if (success) {
             alert('결제 성공');
 
+
         } else {
             alert(`결제 실패: ${error_msg}`);
 
@@ -117,19 +118,12 @@ export default function Payment(props) {
             amounts[i] = amount
 
         }
-        const dateToString = new Date().toString()
-        const year = dateToString.split(" ")[3]
-        const hms = dateToString.split(" ")[4].split(":")[0]
-            + dateToString.split(" ")[4].split(":")[1]
-            + dateToString.split(" ")[4].split(":")[2]
-
 
         axios.post("/api/user/purchase/purchasedList", {}, {
             params: {
                 purchasedList: purchasedList.join(","),
                 amount: amounts.join(","),
                 userNumber: userNumber,
-                orderNumber: year+hms+userNumber,
                 totalPrice:props.price
             }
         })
@@ -137,23 +131,11 @@ export default function Payment(props) {
                 // window.location.href =`result?userNumber=${userNumber}&merchant_uid=${merchant_uid}&paid_at=${paid_at}`
             })
             .catch(e => {
+                alert("error")
                 console.error(e)
                 console.error("서버로 결제 내용을 보내는데 실패했습니다.")
             })
 
-        // axios.post("/api/user/purchase/order", {},{
-        //     params:{
-        //         purchasedList:purchasedList.join(","),
-        //         amount:amounts.join(",")
-        //     }
-        // })
-        //     .then(() => {
-        //         // window.location.href =`result?userNumber=${userNumber}&merchant_uid=${merchant_uid}&paid_at=${paid_at}`
-        //     })
-        //     .catch(e => {
-        //         console.error(e)
-        //         console.error("서버로 결제 내용을 보내는데 실패했습니다.")
-        //     })
     }
     return (
         <div className={style.payment}>

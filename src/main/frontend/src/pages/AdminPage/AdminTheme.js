@@ -38,8 +38,8 @@ export default function AdminTheme(props) {
                         }} className={style.category}>고객 관리
                         </div>
                         <div onClick={() => {
-                            window.location.href = "/admin/manage/product/"
-                        }} className={style.category}>상품 관리
+                            window.location.href = "/admin/manage/order/"
+                        }} className={style.category}>주문 관리
                         </div>
                         <div onClick={() => {
                             window.location.href = "/admin/manage/CS/"

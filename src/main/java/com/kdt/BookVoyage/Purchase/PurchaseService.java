@@ -10,10 +10,13 @@ import com.kdt.BookVoyage.Member.MemberRepository;
 import com.kdt.BookVoyage.Order.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,19 +29,20 @@ public class PurchaseService {
     private final OrderRepository orderRepository;
     private final MemberRepository memberRepository;
     private final OrderProductRepository orderProductRepository;
+
     public List<ResponseEntity<BookEntity>> getBookDetails(List<String> list) throws Exception {
 
         List<ResponseEntity<BookEntity>> result = new ArrayList<>();
 
-        if(list.size()==0){
+        if (list.size() == 0) {
             throw new Exception("구매하기의 모든 물품을 삭제했습니다.");
         }
 
         try {
-            for(String isbn13 : list ){
+            for (String isbn13 : list) {
                 BookEntity book = bookRepository.findBookByIsbn13(isbn13);
 
-                if(book != null) {
+                if (book != null) {
                     result.add(ResponseEntity.ok(book));
                 } else {
                     result.add(ResponseEntity.notFound().build());   // 도서가 존재하지 않을 경우
@@ -58,15 +62,19 @@ public class PurchaseService {
 
         Optional<MemberEntity> allByUserNumber = memberRepository.findAllByUserNumber(purchaseDTO.getUserNumber());
 
-        if(allByUserNumber.isPresent()){
+        if (allByUserNumber.isPresent()) {
+
+            SimpleDateFormat sdf =  new SimpleDateFormat("yyyyMMddhhmmss");
+            Calendar c = Calendar.getInstance();
+            String format = sdf.format(c.getTime());
 
             MemberEntity memberEntity = allByUserNumber.get();
 
             OrderEntity orderEntity = OrderEntity.setOrderEntity(
-                    purchaseDTO.getOrderNumber(),
+                    format+purchaseDTO.getUserNumber(),
                     memberEntity.getUsername(),
                     memberEntity.getUserEmail(),
-                    memberEntity.getUserAddress() +" "+ memberEntity.getUserDetailAddress(),
+                    memberEntity.getUserAddress() + " " + memberEntity.getUserDetailAddress(),
                     memberEntity.getUserTel(),
                     purchaseDTO.getTotalPrice(),
                     memberEntity
@@ -74,7 +82,7 @@ public class PurchaseService {
 
             orderRepository.save(orderEntity);
 
-            for(int i=0; i<isbn13.size(); i++){
+            for (int i = 0; i < isbn13.size(); i++) {
                 BookEntity book = bookRepository.findBookByIsbn13(isbn13.get(i));
 
                 OrderProductEntity orderProductEntity = OrderProductEntity.builder()
@@ -94,7 +102,7 @@ public class PurchaseService {
 
             }
 
-        }else throw new UserIdNotFoundException("아이디가 존재하지 않습니다");
+        } else throw new UserIdNotFoundException("아이디가 존재하지 않습니다");
 
     }
 
@@ -104,23 +112,45 @@ public class PurchaseService {
 
         Optional<MemberEntity> allByUserNumber = memberRepository.findAllByUserNumber(userNumber);
 
-        if(allByUserNumber.isPresent()){
+        if (allByUserNumber.isPresent()) {
             Long id = allByUserNumber.get().getId();
             Optional<List<OrderEntity>> allByMemberEntityId = orderRepository.findAllByMemberEntityIdOrderByOrderNumberDesc(id);
 
-            if(allByMemberEntityId.isPresent()){
+            if (allByMemberEntityId.isPresent()) {
                 log.info("주문 내역이 있습니다.");
-               return OrderDTO.EntityToDTO(allByMemberEntityId.get());
-            }
-            else
+                return OrderDTO.EntityToDTO(allByMemberEntityId.get());
+            } else
                 throw new OrderNotFoundException("회원이 주문한 내역이 없습니다.");
-        }else
+        } else
             throw new UserIdNotFoundException("회원이 존재하지 않습니다.");
 
     }
 
+    public List<OrderDTO> showRecentOrders() {
+        List<OrderDTO> lists3 = new ArrayList<>();
+        List<OrderEntity> allOrderByOrderNumberDesc = orderRepository.findAll(Sort.by(Sort.Order.desc("orderedTime")));
 
-    public OrderDTO showOrder(MemberDTO memberDTO) {
-        return null;
+        if(allOrderByOrderNumberDesc.size()!=0){
+            for (int i = 0; i < 3; i++) {
+                lists3.add(OrderDTO.EntityToDTO(allOrderByOrderNumberDesc).get(i));
+            }
+
+            return lists3;
+        }
+        else throw new OrderNotFoundException("주문 내역이 없습니다.");
+
+
+    }
+
+    public List<OrderDTO> showAllOrderLists() {
+
+        List<OrderEntity> allOrderByOrderNumberDesc = orderRepository.findAll(Sort.by(Sort.Order.desc("orderedTime")));
+
+        if (allOrderByOrderNumberDesc.size()!=0) {
+
+            return OrderDTO.EntityToDTO(allOrderByOrderNumberDesc);
+
+        } else throw new OrderNotFoundException("주문 내역이 없습니다.");
+
     }
 }
