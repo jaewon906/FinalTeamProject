@@ -68,6 +68,7 @@ const QnA_DetailBoard = () => {
             })
 
         } catch (error) {
+            alert("잠시 후 시도해주세요 , 만약 이후에도 진행되지 않을 시 , 로그 아웃 후 로그인 하여 다시 시도 해주세요");
             console.log("댓글 작성 에러" + error);
         }
     }
@@ -126,85 +127,85 @@ const QnA_DetailBoard = () => {
     /** =========== 게시글 상세보기 및 댓글작성, 삭제기능 구현 view(리액트) ==============  */
     return (
         <>
-            <div className="containert" style={{border: "2px solid black", marginBottom: "100px"}}>
-                <div>
+            <div style={{display: "flex", justifyContent: "space-around", paddingTop: "15px", paddingBottom: "25px"}}>
+                <div className={styles.detailContainer}>
+                    <div className={styles.detailHeader}>
+                        <h2> 문의 사항 : {category}</h2>
+                    </div>
                     <div>
-                        <div className={styles.detailContainer}>
-                            <div className={styles.detailHeader}>
-                                <h2>분야: {category}</h2>
+                        <h3 className={styles.detailTitle} style={{marginBottom:"15px"}}>글 제목</h3>
+                        <h4 style={{
+                            padding: "15px",
+                            border: "2px solid #45b751",
+                            borderRadius: "8px",
+                            boxShadow: "0 2px 4px rgba(0,0,0,0.1)"
+                        }}> 문의 글 제목 : {title}</h4>
+                        <h3 className={styles.detailTitle} style={{marginTop:"15px"}}>글 내용</h3>
+                        <div className={styles.detailContent} dangerouslySetInnerHTML={{__html: content}}></div>
+                        <p className={styles.detailAuthor}>작성자 : {writer}</p>
+                        <p className={styles.detailDate}>작성 일자 : {regDate.toLocaleDateString().replace(/\.$/, '')}</p>
+                        {/*replace() 메서드를 사용하여 이 마침표를 빈 문자열로 대체하여 제거*/}
+                        {writer === getUserNumber().nickname ? (
+                            <div className={styles.detailBtnGroup}>
+                                <button
+                                    className={styles.detailUpdateBtn}
+                                    style={{marginRight:"8px"}}
+                                    onClick={() => {
+                                        navigate(`/home/board/update-board/${id}`, {
+                                            state: {
+                                                id: id,
+                                                title: title,
+                                                category: category,
+                                                content: content,
+                                                writer: writer,
+                                                regDate: regDate,
+                                            },
+                                        });
+                                    }}
+                                >
+                                    수정하기
+                                </button>
+                                <button
+                                    className={styles.detailDeleteBtn}
+                                    onClick={handleDeleteBtnClick}
+                                >
+                                    삭제하기
+                                </button>
                             </div>
-                            <div>
-                                <h4>{title}</h4>
-                                <p dangerouslySetInnerHTML={{__html: content}}></p>
-                                <p>작성자 : {writer}</p>
-                                <p>작성 일자 : {regDate.toLocaleDateString().replace(/\.$/, '')}</p>
-                                {/*replace() 메서드를 사용하여 이 마침표를 빈 문자열로 대체하여 제거*/}
-                                    {writer === getUserNumber().nickname ? (
-                                        <div className={styles.detailBtnGroup}>
-                                            <button
-                                                className={styles.detailUpdateBtn}
-                                                onClick={() => {
-                                                    navigate(`/home/board/update-board/${id}`, {
-                                                        state: {
-                                                            id: id,
-                                                            title: title,
-                                                            category: category,
-                                                            content: content,
-                                                            writer: writer,
-                                                            regDate: regDate,
-                                                        },
-                                                    });
-                                                }}
-                                            >
-                                                수정하기
-                                            </button>
-                                            <button
-                                                className={styles.detailDeleteBtn}
-                                                onClick={handleDeleteBtnClick}
-                                            >
-                                                삭제하기
-                                            </button>
-                                        </div>
-                                    ) : " "}
-                            </div>
-                            <div className={styles.detailReply}>
-                                <h5>{replies.length > 0 && `${replies.length} 개의 댓글`}</h5>
-                            </div>
-                            <div>
-                                <div>
-                                </div>
-                                <ul className={styles.detailReplyList} id="replyList">
-                                    {replies.map((reply, idx) => (
-                                        <li key={idx}>
-                                            <div>{reply.reply}</div>
-                                            작성자: {reply.nickname} <br/>작성일: {reply.regDate}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
+                        ) : " "}
+                    </div>
+                    <div style={{position:"relative", right:"15px",width:"35vw",borderTop:"2px solid #888", marginTop:"80px"}}>
+                        <div className={styles.reply}>
+                            <h4>{replies.length > 0 && `${replies.length} 개의 댓글 😊`}</h4>
+                            <ul className={styles.replyList} id="replyList">
+                                {replies.map((reply, idx) => (
+                                    <li key={idx}>
+                                        <div>{reply.reply}</div>
+                                        <span>작성자: {reply.nickname} <br/>작성일: {reply.regDate}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
 
-                            <div
-                                style={{display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between'}}>
-                                <div>
-                                    <div className={styles.detailReplyForm}>
-                                        <h4>댓글 작성</h4>
-                                        <input
-                                            type="text"
-                                            value={reply}
-                                            id="replyInput"
-                                            placeholder="댓글을 입력하세요"
-                                            onChange={(e) => setReply(e.target.value)}
-                                        />
-                                        <button
-                                            type="submit"
-                                            id="replySubmit"
-                                            onClick={handleReplySubmit}
-                                        >
-                                            댓글 작성
-                                        </button>
-                                    </div>
-                                </div>
-                                <div className={styles.detailBtnGroup}>
+                        <div>
+                            <div className={styles.replyForm}>
+                                <h4 style={{marginLeft: "10px"}}>댓글 작성</h4>
+                                <input
+                                    type="text"
+                                    value={reply}
+                                    className={styles.replyInput}
+                                    placeholder="댓글을 입력하세요"
+                                    onChange={(e) => setReply(e.target.value)}
+                                />
+
+                                <div className={styles.replyBtnGroup}>
+                                    <button
+                                        type="submit"
+                                        className={styles.replySubmit}
+                                        onClick={handleReplySubmit}
+                                    >
+                                        댓글 작성
+                                    </button>
                                     <button
                                         className={styles.detailBackBtn}
                                         onClick={() => {

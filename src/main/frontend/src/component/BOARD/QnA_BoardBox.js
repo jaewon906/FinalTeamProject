@@ -28,7 +28,16 @@ const QnA_BoardBox = (props) => {
                     {props.title}
                 </Link>
             </td>
-            <td style={{ width: '35%' }}>{props.content.includes('.') ? props.content.substring(0,props.content.indexOf('.')+1) : props.content}</td>
+            <td style={{ width: '35%' }}>
+                <Link
+                    to={{
+                        pathname: `/home/board/detail/${props.id}`,
+                        state: { id: props.id, currentPage: props.currentPage }
+                    }}
+                >
+                    {props.content.includes('.') ? props.content.substring(0,props.content.indexOf('.')+1) : props.content}
+                </Link>
+            </td>
             <td>{props.writer}</td>
             <td>{props.view}</td>
             <td>{formattedCreatedTime}</td>

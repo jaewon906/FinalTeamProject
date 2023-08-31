@@ -14,12 +14,7 @@ export default function Header() {
     
 
     const handleChange = (e) => {
-<<<<<<< HEAD
-    setSearchValue(e.target.value);
     navigate(`/home/search?q=${e.target.value}`)}
-=======
-    navigate(`/search?q=${e.target.value}`)}
->>>>>>> main
 
     const handleClick = () => {
         navigate("/home/cart/");

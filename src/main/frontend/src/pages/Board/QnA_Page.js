@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 import axios from "axios";
 import '../../css/BOARD/board.module.css'
 import QnA_BoardList from "../../component/BOARD/QnA_BoardList";
+import styles from "../../css/BOARD/board.module.css";
 
 
 const QnA_Page = () => {
@@ -41,46 +42,57 @@ const QnA_Page = () => {
     };
 
 
-    const faqList = [
-        {question: '질문 1', answer: '답변 1'},
-        {question: '질문 2', answer: '답변 2'},
-        {question: '질문 3', answer: '답변 3'},
+
+    const faqData = [
+        {
+            question: "질문 asdflkansfklajnasdjaabjfnlkbmnsbm;skmsdjlfndlb",
+            answer: "sdfkasflkasfjasfdj;asfjklasjf"
+        },
+        {
+            question: "질문 asdjfansdklfmnlskdndlnlknkslnvsdlkvndlsvnlsvnav",
+            answer: "asfklnasdlkjaksdlfskdfjkljklsdfjklvjlkvjlsdjlsdk"
+        },
         // 추가적인 질문과 답변
     ];
 
-    const [showQnA, setShowQnA] = useState({});
+    // 토글 상태 관리를 위한 state 변수
+    const [activeIndex, setActiveIndex] = useState(null);
 
-    const toggleQnA = (id) => {
-        setShowQnA(prevShowQna => ({
-            ...prevShowQna,
-            [id] : !prevShowQna[id]
-        }))
-    }
+    // 토글 버튼 클릭 시 행동 함수
+    const toggleAnswer = (index) => {
+        if (activeIndex === index) {
+            setActiveIndex(null);
+        } else {
+            setActiveIndex(index);
+        }
+    };
+
+
 
     return (
         <>
-            <div style={{border: "2px solid pink", display: 'flex', justifyContent: 'center'}}>
-                <div style={{border: '5px solid red', display: 'flex', flexDirection: 'column'}}>
-                    <div style={{paddingTop: ' 80px'}}>
-                        <h1 style={{textAlign: 'center'}}>자주 묻는 질문</h1>
-                        <div style={{display: 'flex', justifyContent: 'center', border: '2px solid yellow'}}>
-                            {faqList.map((qna, index) => (
-                                <div key={index}>
-                                        <button
-                                            className={`accordionButton ${showQnA === index ? 'expanded' : ''}`}
-                                            type="button"
-                                            onClick={() => toggleQnA(qna)}
-                                        >
-                                            {qna.question}
-                                        </button>
-                                    <div>
-                                        <div className={`accordionButtonBody ${showQnA === index ? 'show' : ''}`}>
-                                            {qna.answer}
-                                        </div>
-                                    </div>
-                                </div>
+            <div style={{border: "2px solid pink", display: 'flex',flexDirection:"column",alignItems:"center"}}>
+                    <div className={styles.qnaContainer}>
+                        <h1 className={styles.qnaTitle}>자주 묻는 질문</h1>
+                        <ul className={styles.qnaList} style={{border:"2px solid #45b751", }}>
+                            {faqData.map((faq, index) => (
+                                <li key={index} className={styles.qnaData} style={{listStyleType:"none"}}>
+                                    <button
+                                        style={{
+                                            height: "35px",
+                                            border: "none",
+                                            color: "black",
+                                            borderRadius: "5px",
+                                            cursor: "pointer"}}
+                                        className={`{styles.qnaQuestion} ${activeIndex === index ? 'active' : ''}`}
+                                        onClick={() => toggleAnswer(index)}
+                                    >
+                                        {faq.question}
+                                    </button>
+                                    {activeIndex === index && <p className={styles.qnaAnswer}>{faq.answer}</p>}
+                                </li>
                             ))}
-                        </div>
+                        </ul>
                     </div>
 
                     <QnA_BoardList
@@ -144,7 +156,6 @@ const QnA_Page = () => {
                     </div>
                 </div>
 
-            </div>
 
         </>
     )
