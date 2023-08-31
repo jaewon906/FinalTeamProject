@@ -102,25 +102,26 @@ export default function Payment(props) {
             //     card_quota,
             //     card_number)
         }
+    }
 
-        const aaaa = () => {
-            const sessionStorage = window.sessionStorage
+    const aaaa = () => {
+        const sessionStorage = window.sessionStorage
 
-            let purchasedList = []
-            let amounts = []
+        let purchasedList = []
+        let amounts = []
 
-            for (let i = 0; i < sessionStorage.length; i++) {
-                let isbn = sessionStorage.key(i);
-                let amount = sessionStorage.getItem(isbn);
-                purchasedList[i] = isbn
-                amounts[i] = amount
+        for (let i = 0; i < sessionStorage.length; i++) {
+            let isbn = sessionStorage.key(i);
+            let amount = sessionStorage.getItem(isbn);
+            purchasedList[i] = isbn
+            amounts[i] = amount
 
-            }
-            const dateToString = new Date().toString()
-            const year = dateToString.split(" ")[3]
-            const hms = dateToString.split(" ")[4].split(":")[0]
-                + dateToString.split(" ")[4].split(":")[1]
-                + dateToString.split(" ")[4].split(":")[2]
+        }
+        const dateToString = new Date().toString()
+        const year = dateToString.split(" ")[3]
+        const hms = dateToString.split(" ")[4].split(":")[0]
+            + dateToString.split(" ")[4].split(":")[1]
+            + dateToString.split(" ")[4].split(":")[2]
 
 
         axios.post("/api/user/purchase/purchasedList", {}, {
@@ -135,36 +136,32 @@ export default function Payment(props) {
             .then(() => {
                 // window.location.href =`result?userNumber=${userNumber}&merchant_uid=${merchant_uid}&paid_at=${paid_at}`
             })
-                .then(() => {
-                    // window.location.href =`result?userNumber=${userNumber}&merchant_uid=${merchant_uid}&paid_at=${paid_at}`
-                })
-                .catch(e => {
-                    console.error(e)
-                    console.error("서버로 결제 내용을 보내는데 실패했습니다.")
-                })
+            .catch(e => {
+                console.error(e)
+                console.error("서버로 결제 내용을 보내는데 실패했습니다.")
+            })
 
-            // axios.post("/api/user/purchase/order", {},{
-            //     params:{
-            //         purchasedList:purchasedList.join(","),
-            //         amount:amounts.join(",")
-            //     }
-            // })
-            //     .then(() => {
-            //         // window.location.href =`result?userNumber=${userNumber}&merchant_uid=${merchant_uid}&paid_at=${paid_at}`
-            //     })
-            //     .catch(e => {
-            //         console.error(e)
-            //         console.error("서버로 결제 내용을 보내는데 실패했습니다.")
-            //     })
-        }
-        return (
-            <div className={style.payment}>
-                <button onClick={aaaa}>테스트</button>
-                <button onClick={onClickPayment}>결제하기</button>
-            </div>
-        );
+        // axios.post("/api/user/purchase/order", {},{
+        //     params:{
+        //         purchasedList:purchasedList.join(","),
+        //         amount:amounts.join(",")
+        //     }
+        // })
+        //     .then(() => {
+        //         // window.location.href =`result?userNumber=${userNumber}&merchant_uid=${merchant_uid}&paid_at=${paid_at}`
+        //     })
+        //     .catch(e => {
+        //         console.error(e)
+        //         console.error("서버로 결제 내용을 보내는데 실패했습니다.")
+        //     })
     }
-
+    return (
+        <div className={style.payment}>
+            <button onClick={aaaa}>테스트</button>
+            <button onClick={onClickPayment}>결제하기</button>
+        </div>
+    );
+}
 // {
 //   "success": true,
 //   "imp_uid": "imp_154428151131",
@@ -191,4 +188,3 @@ export default function Payment(props) {
 //   "card_quota": 0,
 //   "card_number": ""
 // }
-}

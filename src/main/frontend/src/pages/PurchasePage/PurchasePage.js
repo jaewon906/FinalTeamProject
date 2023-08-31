@@ -179,10 +179,10 @@ export default function PurchasePage() {
     }
 
     return (
-        <div className={style.container}>
+         <div className={style.container}>
             <h1>구매하기</h1>
-            <div className={style.main}>
-                {loading ? <>
+              <div className={style.main}>
+                {loading && userInfo ? <>
                         <div className={style.section2}>
                             <div className={style.purchaseListHeader}>
                                 <div className={style.bookCover}>책 커버</div>
