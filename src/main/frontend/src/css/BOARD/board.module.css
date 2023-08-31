@@ -1,0 +1,197 @@
+/* App.css */
+/* 게시판 컨테이너 스타일 */
+
+*{
+    margin: 0; padding: 0;
+    font-family: 'kakao';
+    font-weight: bold;
+}
+
+
+@font-face {
+    font-family: 'kakao';
+    src:url("../../fonts/KakaoRegular.ttf");
+}
+
+.createContainer {
+    margin-bottom: 80px;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.createTitle {
+    margin-top: 30px;
+    text-align: center;
+    color: #45b751;
+}
+.createForm {
+    border: 2px solid #45b751;
+    padding: 20px;
+    width: 50vw;
+}
+.createFormRow {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+
+}
+.createFormCol {
+    width: 100%;
+
+}
+.createFormGroup {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+
+}
+.createSelect {
+    margin-top: 10px;
+    width: 40%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.createError {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+}
+.createSubmitBtn {
+    background-color: #45b751;
+    color: white;
+    border: none;
+    margin-top: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 4px;
+}
+
+.createSubmitBtn:hover {
+    background-color: #3a9743;
+}
+
+/* 게시글 목록 행 스타일 */
+.table tr:hover {
+    background-color: #e6e6e6;
+    cursor: pointer;
+}
+
+.tableContainer {
+    width: 100%;
+    border-collapse: collapse;
+    border: 2px solid #ccc;
+    font-size: 14px;
+}
+
+.tableContainer th,
+.tableContainer td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: center;
+}
+
+.tableContainer th {
+    background-color: #f2f2f2;
+}
+
+.spinnerContainer {
+    text-align: center;
+    padding: 20px 0;
+}
+
+.spinnerBorder {
+    display: inline-block;
+    width: 1.5rem;
+    height: 1.5rem;
+    vertical-align: text-bottom;
+}
+
+.detailContainer {
+    border: none;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    padding: 20px;
+}
+.detailHeader {
+    background-color: transparent;
+    border-bottom: none;
+}
+.detailBtnGroup {
+    margin-top: 20px;
+}
+.detailUpdateBtn, .detailBackBtn, .detailDeleteBtn {
+    padding: 10px 20px;
+    background-color: #45b751;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.detailUpdateBtn:hover,
+.detailBackBtn:hover,
+.detailDeleteBtn:hover{
+    background-color: #3b944e;
+}
+
+.detailReply {
+    margin-top: 30px;
+}
+.detailReplyList {
+    list-style-type: none;
+    padding: 5px;
+
+}
+.detailReplyList li {
+    width: 45vw;
+    margin-top: 15px;
+    margin-left: 10px;
+    padding: 15px;
+    border: 2px solid #45b751;
+}
+.detailReplyForm {
+    margin-top: 20px;
+
+}
+#replyInput {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+#replySubmit {
+    margin-top: 10px;
+    padding: 8px 15px;
+    background-color: #45b751;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+#replySubmit:hover {
+    background-color: #3b944e;
+}
+
+/* 스피너 컨테이너 스타일 */
+.spinnerContainer {
+    text-align: center;
+    padding: 20px 0;
+}
+
+/* 스피너 스타일 */
+@keyframes spinnerAnimation {
+    to { transform: rotate(360deg); }
+}
+
+.spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-top: 4px solid #000;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spinnerAnimation 1s linear infinite;
+}

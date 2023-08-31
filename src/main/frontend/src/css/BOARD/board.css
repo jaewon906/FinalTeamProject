@@ -10,21 +10,25 @@
 
 @font-face {
     font-family: 'kakao';
-    src:url("../fonts/KakaoRegular.ttf");
+    src:url("../../fonts/KakaoRegular.ttf");
 }
 
-.container {
-    padding-top: 50px;
+
+.table {
+    border: 2px solid black;
+    text-align: center;
+    width: 100%;
+}
+
+.spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* 게시판 제목 스타일 */
 h1 {
     margin-bottom: 20px;
-}
-
-/* 게시판 테이블 스타일 */
-.table {
-    background-color: #f5f5f5;
 }
 
 
