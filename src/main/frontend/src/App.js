@@ -17,6 +17,10 @@ import SearchResults from "./pages/SearchPage/index";
 import MainPage from "./pages/MainPage/index";
 import CartPage from './pages/CartPage';
 import PurchasePage from "./pages/PurchasePage/PurchasePage";
+import QnA_Page from "./pages/BoardPage/QnA_Page";
+import QnA_CreateBoard from "./pages/BoardPage/QnA_CreateBoard";
+import QnA_DetailBoard from "./pages/BoardPage/QnA_DetailBoard";
+import QnA_UpdateBoard from "./pages/BoardPage/QnA_UpdateBoard";
 
 
 function App() {
@@ -35,6 +39,10 @@ function App() {
                         <Route path={"findId/"} element={<FindMyIdPage/>}/>
                         <Route path={"findPw/"} element={<FindMyPwPage/>}/>
                         <Route path={"myPage/"} element={<MyPageAuth/>}/>
+                        <Route path={"board/"} element={<QnA_Page/>} />
+                        <Route path={"board/create-board/"} element={<QnA_CreateBoard />} />
+                        <Route path={"board/detail/:id"} element={<QnA_DetailBoard />} />
+                        <Route path={"board/update-board/:id"} element={<QnA_UpdateBoard/>} />
                         <Route path="booklist" element={<BookListPage />}></Route>
                         <Route path="novels/" element={<FilteredBookList category="소설/시/희곡" />} />
                         <Route path="economics/" element={<FilteredBookList category="경제경영" />} />
