@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, {useEffect, useRef, useState} from "react";
-import style from "../../css/USER/purchasePage.module.css"
+import style from "../../css/PurchasePage/purchasePage.module.css"
 import {getUserNumber} from "../../js/getUserNumber";
 import Payment from "../../js/Payment";
 import {Link, useNavigate} from "react-router-dom";
@@ -10,7 +10,7 @@ export default function PurchasePage() {
     const [userInfo, setUserInfo] = useState([{}]);
     const [bookInfo, setBookInfo] = useState([{}]);
     const [loading, setLoading] = useState(false);
-    const [amount, setAmount] = useState([]);
+    const [amounts, setAmounts] = useState([]);
     const [purchaseLength, setPurchaseLength] = useState(window.sessionStorage.length)
     const quantity = useRef([])
     const goBack = useNavigate()
@@ -57,7 +57,7 @@ export default function PurchasePage() {
             .then(res => {
                 setBookInfo(res.data);
                 setLoading(true)
-                setAmount(() => {
+                setAmounts(() => {
                     const arr = []
 
                     for (let i = 0; i < res.data.length; i++) {
@@ -73,6 +73,18 @@ export default function PurchasePage() {
             })
 
     }, [purchaseLength])
+
+
+    useEffect(()=>{
+
+        if(amounts.length!==0){
+            for(let i=0; i<sessionStorage.length; i++){
+
+                sessionStorage.setItem(sessionStorage.key(i), amounts[i])
+            }
+        }
+
+    },[amounts])
 
 
     const convertToWon = (val, n) => {
@@ -106,6 +118,8 @@ export default function PurchasePage() {
     }
 
 
+    let key;
+    let value;
     const handleQuantity = (e) => {
 
         const id = e.target.id
@@ -116,12 +130,12 @@ export default function PurchasePage() {
         switch (cases) {
             case "plus":
                 if (1 <= quantity.current[listNum].value && quantity.current[listNum].value <= 98) {
-                    setAmount(el => {
+                    setAmounts(el => {
                         const newArr = [...el]
 
-                        for (let i = 0; i < amount.length; i++) {
+                        for (let i = 0; i < amounts.length; i++) {
                             if (i === parseInt(listNum)) {
-                                newArr[i]++
+                                ++newArr[i]
                             }
                         }
 
@@ -129,27 +143,32 @@ export default function PurchasePage() {
                     })
 
                 }
-
                 break;
+
             case "minus" :
                 if (2 <= quantity.current[listNum].value && quantity.current[listNum].value <= 99) {
-                    setAmount(el => {
+                    setAmounts(el => {
                         const newArr = [...el]
 
-                        for (let i = 0; i < amount.length; i++) {
+                        for (let i = 0; i < amounts.length; i++) {
                             if (i === parseInt(listNum)) {
-                                newArr[i]--
+                                --newArr[i]
                             }
                         }
 
                         return newArr
                     })
-                }
 
+                }
                 break;
+
             default:
                 console.log(cases)
         }
+
+        key = sessionStorage.key(listNum)
+        value = amounts[listNum]
+
 
     }
 
@@ -160,10 +179,10 @@ export default function PurchasePage() {
     }
 
     return (
-        <div className={style.container}>
+         <div className={style.container}>
             <h1>구매하기</h1>
-            <div className={style.main}>
-                {loading ? <>
+              <div className={style.main}>
+                {loading && userInfo ? <>
                         <div className={style.section2}>
                             <div className={style.purchaseListHeader}>
                                 <div className={style.bookCover}>책 커버</div>
@@ -180,7 +199,7 @@ export default function PurchasePage() {
                                 const priceSales = el.body.priceSales
                                 const isbn = el.body.isbn13
 
-                                totalPrice = totalPrice + priceSales * amount[idx]
+                                totalPrice = totalPrice + priceSales * amounts[idx]
 
                                 return (
                                     <div key={idx} className={style.purchaseList}>
@@ -208,14 +227,14 @@ export default function PurchasePage() {
                                                 type="number"
                                                 name="number_select"
                                                 readOnly
-                                                value={amount[idx]}  // 수량 상태를 입력값에 바인딩
+                                                value={amounts[idx]}  // 수량 상태를 입력값에 바인딩
                                             />
                                             <p id={"plus " + idx} style={{cursor: "pointer", fontSize:"24px"}} onClick={handleQuantity}>+</p>
                                         </div>
 
                                         <div className={style.bookTotalPrice}>
                                             <span
-                                                style={{color: "red"}}>총 금액 : {convertToWon(priceSales, amount[idx])} 원</span>
+                                                style={{color: "red"}}>총 금액 : {convertToWon(priceSales, amounts[idx])} 원</span>
                                         </div>
 
                                         <button className={style.deleteBtn} id={isbn} onClick={deleteBooks}>삭제</button>

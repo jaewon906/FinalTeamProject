@@ -1,4 +1,4 @@
-import style from "../css/USER/payment.module.css";
+import style from "../css/PurchasePage/payment.module.css";
 import axios from "axios";
 
 export default function Payment(props) {
@@ -129,7 +129,8 @@ export default function Payment(props) {
                 purchasedList: purchasedList.join(","),
                 amount: amounts.join(","),
                 userNumber: userNumber,
-                orderNumber: year+hms+userNumber
+                orderNumber: year+hms+userNumber,
+                totalPrice:props.price
             }
         })
             .then(() => {

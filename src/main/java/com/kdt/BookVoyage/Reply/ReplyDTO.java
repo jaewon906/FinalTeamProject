@@ -59,6 +59,7 @@ public class ReplyDTO {
             this.regDate = replyEntity.getRegDate();
             this.modDate = replyEntity.getModDate();
             this.boardId = replyEntity.getBoardEntity().getId();
+
             if(replyEntity.getMemberEntity() != null) {
                 this.nickname = replyEntity.getMemberEntity().getNickname();
             }

@@ -1,27 +1,27 @@
 import {Outlet, Route, Routes} from 'react-router-dom'
-import LogInPage from "./component/USER/LogInPage";
-import SignUpPage from "./component/USER/SignUpPage";
-import FindMyIdPage from "./component/USER/FindMyIdPage";
-import FindMyPwPage from "./component/USER/FindMyPwPage";
+import LogInPage from "./pages/LogInPage/LogInPage";
+import SignUpPage from "./pages/SignUpPage/SignUpPage";
+import FindMyIdPage from "./pages/MyPage/FindMyIdPage";
+import FindMyPwPage from "./pages/MyPage/FindMyPwPage";
 import React from "react";
-import Header from "./component/USER/Header";
-import CategoryHeader from "./component/USER/CategoryHeader";
+import Header from "./component/common/Header";
+import CategoryHeader from "./component/common/CategoryHeader";
 import TopBtn from "./js/jw_topBtn";
 import ScrollTop from "./js/ScrollTop";
-import Footer from "./component/USER/Footer";
-import MyPageAuth from "./component/USER/MyPageAuth";
+import Footer from "./component/common/Footer";
+import MyPageAuth from "./pages/MyPage/MyPageAuth";
 import BookListPage from "./pages/ListPage/index";
 import BookDetailPage from "./pages/DetailPage/index";
-import FilteredBookList from "./component/FilteredBookList";
+import FilteredBookList from "./pages/FilteredBookPage/FilteredBookList";
 import SearchResults from "./pages/SearchPage/index";
 import MainPage from "./pages/MainPage/index";
 import CartPage from './pages/CartPage';
 import PurchasePage from "./pages/PurchasePage/PurchasePage";
+import QnA_Page from "./pages/BoardPage/QnA_Page";
+import QnA_CreateBoard from "./pages/BoardPage/QnA_CreateBoard";
+import QnA_DetailBoard from "./pages/BoardPage/QnA_DetailBoard";
+import QnA_UpdateBoard from "./pages/BoardPage/QnA_UpdateBoard";
 import PurchaseResultPage from "./pages/PurchasePage/PruchaseResultPage";
-import QnA_UpdateBoard from "./pages/Board/QnA_UpdateBoard";
-import QnA_DetailBoard from "./pages/Board/QnA_DetailBoard";
-import QnA_CreateBoard from "./pages/Board/QnA_CreateBoard";
-import QnA_Page from "./pages/Board/QnA_Page";
 
 
 

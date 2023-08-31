@@ -1,5 +1,5 @@
 import React from 'react'
-import AllBookList from '../../component/AllBookList'
+import AllBookList from './AllBookList'
 
 function BookListPage() {
   return (

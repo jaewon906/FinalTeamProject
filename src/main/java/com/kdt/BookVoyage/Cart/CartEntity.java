@@ -1,11 +1,13 @@
 package com.kdt.BookVoyage.Cart;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kdt.BookVoyage.CartItem.CartItemEntity;
 import com.kdt.BookVoyage.Member.MemberEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -16,6 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(name = "cart")
 public class CartEntity {
 
     @Id

@@ -1,4 +1,4 @@
-import style from "../../css/USER/purchseResultPage.module.css"
+import style from "../../css/PurchasePage/purchseResultPage.module.css"
 export default function PurchaseResultPage() {
 
     return(

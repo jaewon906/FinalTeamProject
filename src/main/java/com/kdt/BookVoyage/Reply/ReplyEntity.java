@@ -31,7 +31,7 @@ public class ReplyEntity extends BaseEntity {
     private BoardEntity boardEntity;
 
     @ManyToOne
-    @JoinColumn(name = "MEMBER_USERNAME")
+    @JoinColumn(name = "MEMBER_ID")
     private MemberEntity memberEntity;
 
     @Transient

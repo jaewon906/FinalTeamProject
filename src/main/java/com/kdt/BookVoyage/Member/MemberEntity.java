@@ -1,10 +1,13 @@
 package com.kdt.BookVoyage.Member;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.kdt.BookVoyage.Cart.CartEntity;
 import com.kdt.BookVoyage.Common.TimeBaseEntity;
-import com.kdt.BookVoyage.Purchase.OrderEntity;
+import com.kdt.BookVoyage.Order.OrderEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
@@ -44,10 +47,14 @@ public class MemberEntity {
     private String deleteFlag;// DB에서 완전 삭제 대신 값이 0일때 비활성화 처리. 추후 계정 복구를 위함
     @Column(nullable = false, unique = true)
     private String userNumber; //회원 고유번호 (난수)
+    @OneToOne(mappedBy = "member")
+    @ToString.Exclude
+    private CartEntity cart;
 
     @Embedded
     private TimeBaseEntity timeBaseEntity;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "memberEntity",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderEntity> orderEntityList;
 
