@@ -32,7 +32,7 @@ public interface AdminRepository extends JpaRepository<MemberEntity,Long> {
             "values(" +
             "'박재원'," +
             " 'admin'," +
-            "'EKgiLEB3935gh3'," +
+            "'0000'," +
             "'재원이야'," +
             "''," +
             "''," +

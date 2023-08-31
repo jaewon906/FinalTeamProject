@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Button from "../../component/common/Button";
-import "../../css/BookDetail.css";
+import "../../css/DetailPage/BookDetail.css";
 import { styled } from "styled-components";
 import Parser from "html-react-parser";
 import DOMPurify from "dompurify";
