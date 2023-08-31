@@ -30,7 +30,7 @@ function SelfDevelopmentBook() {
 
     return (
         <div className="container">
-            <h2 className="hot-item">자기개발은 언제나 옳다.</h2>
+            <h2 className="hot-item">자기계발은 언제나 옳다.</h2>
             <div style={{width: "100%", display: "flex", justifyContent: "space-between"}}>
                 <ul className="hot-item-list">
                     {devBooksList.map((devBookDetail) => {
