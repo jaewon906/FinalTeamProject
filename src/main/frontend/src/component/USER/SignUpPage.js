@@ -251,7 +251,7 @@ export default function SignUpPage() {
     // let i=10;
     // const createAccount = () => {
     //     i++;
-    //
+    
     //     axios.post("/api/user/signUp", null, {
     //         params: {
     //             userId: "qwer" + i,
@@ -266,11 +266,11 @@ export default function SignUpPage() {
     //             userAge: "1996-04-06",
     //             deleteFlag: "Y",
     //             role:"USER"
-    //
+    
     //         }
     //     })
     //         .then(() => {
-    //
+    
     //         })
     //         .catch(err => {
     //             console.error(err)
