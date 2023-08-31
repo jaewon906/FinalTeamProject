@@ -17,78 +17,79 @@ export default function Payment(props) {
         const code = 'imp14397622'
         IMP.init(code);
 
-    let random = ""
-    let idx=0;
+        let random = ""
+        let idx = 0;
 
-    while(idx<=7){
-        let num =String.fromCharCode(Math.floor(Math.random()*122));
-        let arr =[num]
-        const pattern=/^[a-zA-Z0-9]+$/
-        let filteredData = arr.filter(el=>pattern.test(el));
+        while (idx <= 7) {
+            let num = String.fromCharCode(Math.floor(Math.random() * 122));
+            let arr = [num]
+            const pattern = /^[a-zA-Z0-9]+$/
+            let filteredData = arr.filter(el => pattern.test(el));
 
-        if(filteredData[0]!==undefined){
-            random += filteredData[0]
-            idx++
-        }
-    }
-
-    const aaaa = () => {
-        const sessionStorage = window.sessionStorage
-
-        let purchasedList = []
-        let amounts = []
-
-        for (let i = 0; i < sessionStorage.length; i++) {
-            let isbn = sessionStorage.key(i);
-            let amount = sessionStorage.getItem(isbn);
-            purchasedList[i] = isbn
-            amounts[i] = amount
-
-        }
-        const dateToString = new Date().toString()
-        const year = dateToString.split(" ")[3]
-        const hms = dateToString.split(" ")[4].split(":")[0]
-            + dateToString.split(" ")[4].split(":")[1]
-            + dateToString.split(" ")[4].split(":")[2]
-
-
-        axios.post("/api/user/purchase/purchasedList", {}, {
-            params: {
-                purchasedList: purchasedList.join(","),
-                amount: amounts.join(","),
-                userNumber: userNumber,
-                orderNumber: year+hms+userNumber
+            if (filteredData[0] !== undefined) {
+                random += filteredData[0]
+                idx++
             }
-        })
-            .then(() => {
-                // window.location.href =`result?userNumber=${userNumber}&merchant_uid=${merchant_uid}&paid_at=${paid_at}`
-            })
-            .catch(e => {
-                console.error(e)
-                console.error("서버로 결제 내용을 보내는데 실패했습니다.")
-            })
+        }
 
-        // axios.post("/api/user/purchase/order", {},{
-        //     params:{
-        //         purchasedList:purchasedList.join(","),
-        //         amount:amounts.join(",")
-        //     }
-        // })
-        //     .then(() => {
-        //         // window.location.href =`result?userNumber=${userNumber}&merchant_uid=${merchant_uid}&paid_at=${paid_at}`
-        //     })
-        //     .catch(e => {
-        //         console.error(e)
-        //         console.error("서버로 결제 내용을 보내는데 실패했습니다.")
-        //     })
+        const aaaa = () => {
+            const sessionStorage = window.sessionStorage
+
+            let purchasedList = []
+            let amounts = []
+
+            for (let i = 0; i < sessionStorage.length; i++) {
+                let isbn = sessionStorage.key(i);
+                let amount = sessionStorage.getItem(isbn);
+                purchasedList[i] = isbn
+                amounts[i] = amount
+
+            }
+            const dateToString = new Date().toString()
+            const year = dateToString.split(" ")[3]
+            const hms = dateToString.split(" ")[4].split(":")[0]
+                + dateToString.split(" ")[4].split(":")[1]
+                + dateToString.split(" ")[4].split(":")[2]
+
+
+            axios.post("/api/user/purchase/purchasedList", {}, {
+                params: {
+                    purchasedList: purchasedList.join(","),
+                    amount: amounts.join(","),
+                    userNumber: userNumber,
+                    orderNumber: year + hms + userNumber
+                }
+            })
+                .then(() => {
+                    // window.location.href =`result?userNumber=${userNumber}&merchant_uid=${merchant_uid}&paid_at=${paid_at}`
+                })
+                .catch(e => {
+                    console.error(e)
+                    console.error("서버로 결제 내용을 보내는데 실패했습니다.")
+                })
+
+            // axios.post("/api/user/purchase/order", {},{
+            //     params:{
+            //         purchasedList:purchasedList.join(","),
+            //         amount:amounts.join(",")
+            //     }
+            // })
+            //     .then(() => {
+            //         // window.location.href =`result?userNumber=${userNumber}&merchant_uid=${merchant_uid}&paid_at=${paid_at}`
+            //     })
+            //     .catch(e => {
+            //         console.error(e)
+            //         console.error("서버로 결제 내용을 보내는데 실패했습니다.")
+            //     })
+        }
+        return (
+            <div className={style.payment}>
+                <button onClick={aaaa}>테스트</button>
+                <button onClick={onClickPayment}>결제하기</button>
+            </div>
+        );
     }
-    return (
-        <div className={style.payment}>
-            <button onClick={aaaa}>테스트</button>
-            <button onClick={onClickPayment}>결제하기</button>
-        </div>
-    );
-}
+
 // {
 //   "success": true,
 //   "imp_uid": "imp_154428151131",
@@ -115,3 +116,4 @@ export default function Payment(props) {
 //   "card_quota": 0,
 //   "card_number": ""
 // }
+}
