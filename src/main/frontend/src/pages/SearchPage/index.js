@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import useDebounce from "../../hooks/useDebounce";
 import Button from "../../component/common/Button";
-import '../../css/SearchResults.css'
+import '../../css/SearchPage/SearchResults.css'
 
 function SearchResults() {
   const [searchResults, setSearchResults] = useState([]);
@@ -59,7 +59,7 @@ function SearchResults() {
                   <>
                   <li className="book-list" key={key}>
                     <div className="book-cover">
-                      <Link to={`/home/bookdetail/${bookDetail.isbn13}/`}>
+                      <Link to={`/bookdetail/${bookDetail.isbn13}`}>
                       <img
                         src={bookDetail.previewImgList[0]}
                         width="180px"
@@ -70,7 +70,7 @@ function SearchResults() {
                     </div>
                     <div className="info">
                      
-                      <div className="book-title"><Link to={`/home/bookdetail/${bookDetail.isbn13}/`}>{bookDetail.title}</Link></div>
+                      <div className="book-title"><Link to={`/bookdetail/${bookDetail.isbn13}`}>{bookDetail.title}</Link></div>
                       <div className="author-pub">
                         {bookDetail.author} · {bookDetail.publisher} ·{" "}
                         {bookDetail.pubDate}
