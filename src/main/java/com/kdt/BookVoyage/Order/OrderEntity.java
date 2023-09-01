@@ -38,6 +38,9 @@ public class OrderEntity {
     @Column(nullable = false)
     private Integer totalPrice;
 
+    @Column(nullable = false)
+    private String orderState;
+
     @CreationTimestamp
     @Column(updatable = false)
     private Timestamp orderedTime;
@@ -50,7 +53,7 @@ public class OrderEntity {
     @OneToMany(mappedBy = "orderEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderProductEntity> orderProductEntity;
 
-    public static OrderEntity setOrderEntity(String orderNumber,String username, String email, String addr, String tel, Integer totalPrice, MemberEntity memberEntity) {
+    public static OrderEntity setOrderEntity(String orderNumber, String username, String email, String addr, String tel, Integer totalPrice, String orderState, MemberEntity memberEntity) {
         OrderEntity orderEntity = new OrderEntity();
         orderEntity.setOrderNumber(orderNumber);
         orderEntity.setUsername(username);
@@ -58,6 +61,7 @@ public class OrderEntity {
         orderEntity.setUserAddress(addr);
         orderEntity.setUserTel(tel);
         orderEntity.setTotalPrice(totalPrice);
+        orderEntity.setOrderState(orderState);
         orderEntity.setMemberEntity(memberEntity);
 
         return orderEntity;

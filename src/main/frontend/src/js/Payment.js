@@ -67,9 +67,40 @@ export default function Payment(props) {
             card_number
         } = response;
 
-        if (success) {
+        if (!success) {
             alert('결제 성공');
 
+            const sessionStorage = window.sessionStorage
+
+            let purchasedList = []
+            let amounts = []
+
+            for (let i = 0; i < sessionStorage.length; i++) {
+                let isbn = sessionStorage.key(i);
+                let amount = sessionStorage.getItem(isbn);
+                purchasedList[i] = isbn
+                amounts[i] = amount
+
+            }
+
+            axios.post("/api/user/purchase/purchasedList", {}, {
+                params: {
+                    purchasedList: purchasedList.join(","),
+                    amount: amounts.join(","),
+                    userNumber: userNumber,
+                    totalPrice:props.price,
+                    orderNumber:new Date().getTime()
+                }
+            })
+                .then(() => {
+                    window.sessionStorage.clear()
+                    window.location.href =`purchase/result?userNumber=${userNumber}&merchant_uid=${merchant_uid}&paid_at=${paid_at}`
+                })
+                .catch(e => {
+                    alert("error")
+                    console.error(e)
+                    console.error("서버로 결제 내용을 보내는데 실패했습니다.")
+                })
 
         } else {
             alert(`결제 실패: ${error_msg}`);
@@ -105,41 +136,9 @@ export default function Payment(props) {
         }
     }
 
-    const aaaa = () => {
-        const sessionStorage = window.sessionStorage
 
-        let purchasedList = []
-        let amounts = []
-
-        for (let i = 0; i < sessionStorage.length; i++) {
-            let isbn = sessionStorage.key(i);
-            let amount = sessionStorage.getItem(isbn);
-            purchasedList[i] = isbn
-            amounts[i] = amount
-
-        }
-
-        axios.post("/api/user/purchase/purchasedList", {}, {
-            params: {
-                purchasedList: purchasedList.join(","),
-                amount: amounts.join(","),
-                userNumber: userNumber,
-                totalPrice:props.price
-            }
-        })
-            .then(() => {
-                // window.location.href =`result?userNumber=${userNumber}&merchant_uid=${merchant_uid}&paid_at=${paid_at}`
-            })
-            .catch(e => {
-                alert("error")
-                console.error(e)
-                console.error("서버로 결제 내용을 보내는데 실패했습니다.")
-            })
-
-    }
     return (
         <div className={style.payment}>
-            <button onClick={aaaa}>테스트</button>
             <button onClick={onClickPayment}>결제하기</button>
         </div>
     );

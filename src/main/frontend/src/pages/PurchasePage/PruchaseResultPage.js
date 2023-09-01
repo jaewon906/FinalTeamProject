@@ -1,8 +1,19 @@
 import style from "../../css/PurchasePage/purchseResultPage.module.css"
 import axios from "axios";
+import {useParams} from "react-router-dom";
+import {useEffect} from "react";
 export default function PurchaseResultPage() {
 
-    axios.get("/api/user/purchase/")
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    const orderNumber = urlSearchParams.get('userNumber');
+    console.log(orderNumber)
+
+    // useEffect(()=>{
+    //
+    //     axios.get("/api/user/purchase/result?")
+    //         .then()
+    //         .catch()
+    // },[])
 
     return(
         <div className={style.container}>

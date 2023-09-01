@@ -27,6 +27,8 @@ public class OrderDTO {
 
     private Integer totalPrice;
 
+    private String orderState;
+
     public static List<OrderDTO> EntityToDTO(List<OrderEntity> orderEntityList) {
         List<OrderDTO> result = new ArrayList<>();
         ModelMapper modelMapper = new ModelMapper();
@@ -35,6 +37,7 @@ public class OrderDTO {
 
             OrderDTO orderDTO = modelMapper.map(orderEntity, OrderDTO.class);
             orderDTO.setOrderName(orderEntity.getOrderProductEntity().get(0).getTitle() + " 외" + " " + (orderEntity.getOrderProductEntity().size() - 1) + "건");
+
             result.add(orderDTO);
         }
 

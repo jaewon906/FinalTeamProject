@@ -8,6 +8,7 @@ import com.kdt.BookVoyage.Member.MemberDTO;
 import com.kdt.BookVoyage.Member.MemberEntity;
 import com.kdt.BookVoyage.Member.MemberRepository;
 import com.kdt.BookVoyage.Order.*;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
@@ -64,19 +65,16 @@ public class PurchaseService {
 
         if (allByUserNumber.isPresent()) {
 
-            SimpleDateFormat sdf =  new SimpleDateFormat("yyyyMMddhhmmss");
-            Calendar c = Calendar.getInstance();
-            String format = sdf.format(c.getTime());
-
             MemberEntity memberEntity = allByUserNumber.get();
 
             OrderEntity orderEntity = OrderEntity.setOrderEntity(
-                    format+purchaseDTO.getUserNumber(),
+                    purchaseDTO.getOrderNumber(),
                     memberEntity.getUsername(),
                     memberEntity.getUserEmail(),
                     memberEntity.getUserAddress() + " " + memberEntity.getUserDetailAddress(),
                     memberEntity.getUserTel(),
                     purchaseDTO.getTotalPrice(),
+                    "주문 완료",
                     memberEntity
             );
 
@@ -151,6 +149,26 @@ public class PurchaseService {
             return OrderDTO.EntityToDTO(allOrderByOrderNumberDesc);
 
         } else throw new OrderNotFoundException("주문 내역이 없습니다.");
+
+    }
+
+    @Transactional
+    public void cancelOrder(OrderDTO orderDTO) {
+        Optional<OrderEntity> byOrderNumber = orderRepository.findByOrderNumber(orderDTO.getOrderNumber());
+
+        if(byOrderNumber.isPresent()){
+
+            Long orderEntityId = byOrderNumber.get().getId();
+
+            try{
+                orderProductRepository.deleteAllByOrderEntityId(orderEntityId);
+                orderRepository.deleteById(orderEntityId);
+            }catch (Exception e){
+                log.error("주문을 삭제하는 도중 에러가 발생했습니다.",e);
+            }
+
+        }
+        else throw new OrderNotFoundException("찾고자 하는 주문이 존재하지 않습니다.");
 
     }
 }

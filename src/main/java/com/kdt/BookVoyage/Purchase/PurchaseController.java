@@ -45,5 +45,12 @@ public class PurchaseController {
         return purchaseService.showAllOrders(memberDTO);
     }
 
+    @PostMapping("/cancel")
+    public void cancelOrder(OrderDTO orderDTO) {
+        purchaseService.cancelOrder(orderDTO);
+
+    }
+
+
 }
 
