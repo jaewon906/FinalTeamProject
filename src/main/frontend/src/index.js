@@ -18,7 +18,7 @@ root.render(
             </div>
 
             <div id={"adminOnly"}
-                 style={{maxWidth: "100vw", minWidth: "1440px", minHeight: "1024px", height: "120vh", position: "relative"}}>
+                 style={{maxWidth: "100vw", minWidth: "1440px", height: "auto", position: "relative"}}>
                 <AppAdmin/>
             </div>
 

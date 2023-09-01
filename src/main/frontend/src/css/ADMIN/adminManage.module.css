@@ -3,11 +3,12 @@
     height: 100%;
     background-color: #f2f4fa;
     display: flex;
-    align-items: center;
 }
 .leftSide{
+    position: sticky;
+    top:0;
     width: 200px;
-    height: 100%;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     background-color: #ffffff;
@@ -65,6 +66,7 @@
     display: flex;
     align-items: center;
     flex-direction: column;
+    margin-bottom: 20px;
 
 }
 .totalMember{
@@ -174,7 +176,7 @@
 }
 .CS{
     width:1190px;
-    height:250px;
+    height:350px;
     box-shadow: 0 0 10px 0 gray;
     border-radius: 10px;
     margin: 20px 0 0 20px;
@@ -210,7 +212,7 @@
     justify-content: center;
 }
 .orderNumber{
-    width: 25%;
+    width: 20%;
 }
 .orderName{
     width: 30%;
@@ -222,7 +224,7 @@
     width: 15%;
 }
 .addr{
-    width: 25%;
+    width: 30%;
 }
 .price{
     width: 10%;
@@ -235,4 +237,5 @@
     box-shadow: 0 0px 5px 0 gray;
     border-radius: 10px;
     margin-bottom: 10px;
+    cursor: pointer;
 }

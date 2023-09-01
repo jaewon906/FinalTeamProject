@@ -64,14 +64,16 @@ public class AdminController {
 
     }
 
-    @GetMapping("/showAllOrders")
+    @GetMapping("/showAllOrders") //모든 주문 내역
     public List<OrderDTO> showOrderLists() {
-        return purchaseService.showAllOrderLists();
+        return adminService.showAllOrderLists();
     }
 
-    @GetMapping("/showRecentOrders")
+    @GetMapping("/showRecentOrders") //최근 읽지않은 4개 주문 내역
     public List<OrderDTO> showRecentOrders() {
-        return purchaseService.showRecentOrders();
+        return adminService.showRecentOrders();
     }
+
+
 
 }

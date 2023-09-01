@@ -1,11 +1,15 @@
 package com.kdt.BookVoyage.Admin;
 
 import com.kdt.BookVoyage.Common.CookieConfig;
+import com.kdt.BookVoyage.Common.OrderNotFoundException;
 import com.kdt.BookVoyage.Common.UserIdNotFoundException;
 import com.kdt.BookVoyage.Common.UserPasswordNotMatchException;
 import com.kdt.BookVoyage.Member.MemberDTO;
 import com.kdt.BookVoyage.Member.MemberEntity;
 import com.kdt.BookVoyage.Member.MemberRepository;
+import com.kdt.BookVoyage.Order.OrderDTO;
+import com.kdt.BookVoyage.Order.OrderEntity;
+import com.kdt.BookVoyage.Order.OrderRepository;
 import com.kdt.BookVoyage.Security.TokenConfig;
 import com.kdt.BookVoyage.Security.TokenDTO;
 import jakarta.annotation.PostConstruct;
@@ -15,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 
 import java.io.UnsupportedEncodingException;
@@ -31,16 +36,19 @@ public class AdminService {
     private final MemberRepository memberRepository;
     private final TokenConfig tokenConfig;
     private final CookieConfig cookieConfig;
+    private final OrderRepository orderRepository;
 
     @PostConstruct
     public void createAdminAccount() {
 
-        adminRepository.deleteByUserId("admin");
-        adminRepository.createAdminId();
-
         Optional<MemberEntity> admin = memberRepository.findByUserId("admin");
 
-        admin.ifPresent(memberEntity -> log.info("INITIAL ADMIN ID, PW : {} {}", memberEntity.getUserId(), memberEntity.getPassword()));
+        if(admin.isEmpty()){
+
+            adminRepository.createAdminId();
+        }
+
+        admin.ifPresent(memberEntity -> log.info("INITIAL ADMIN id : {}, password : {}", memberEntity.getUserId(), memberEntity.getPassword()));
 
     }
 
@@ -131,5 +139,49 @@ public class AdminService {
 
             memberRepository.updateUserState(userNumber, deleteFlag, LocalDateTime.now());
         }
+    }
+
+    public List<OrderDTO> showRecentOrders() {
+        List<OrderDTO> lists4 = new ArrayList<>();
+        List<OrderEntity> orderEntityLists4 = orderRepository.findAll(Sort.by(
+                Sort.Order.asc("isRead"),
+                Sort.Order.desc("orderedTime")
+        ));
+
+        if(orderEntityLists4.size()!=0){
+
+            if(orderEntityLists4.size() >=4){
+
+                for (int i = 0; i < 4; i++) {
+
+                    lists4.add(OrderDTO.EntityToDTO(orderEntityLists4).get(i));
+                }
+
+            }
+            else{
+
+                for (int i = 0; i < orderEntityLists4.size(); i++) {
+
+                    lists4.add(OrderDTO.EntityToDTO(orderEntityLists4).get(i));
+                }
+            }
+
+
+        }
+
+        return lists4;
+    }
+
+    public List<OrderDTO> showAllOrderLists() {
+
+        List<OrderEntity> allOrderByOrderNumberDesc = orderRepository.findAll(Sort.by(Sort.Order.desc("orderedTime")));
+
+        if (allOrderByOrderNumberDesc.size()!=0) {
+
+            return OrderDTO.EntityToDTO(allOrderByOrderNumberDesc);
+
+        }
+        else return null;
+
     }
 }

@@ -1,15 +1,111 @@
-.container{
+.container {
     width: 100%;
-    height:768px;
+    min-height: 768px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-}
-.main {
-    width:80%;
-    height:90%;
-    border: 1px solid gray;
-    display: flex;
-    justify-content: center;
+    margin-top: -50px;
+    margin-bottom: 100px;
 }
 
+.container > h1 {
+    letter-spacing: 3px;
+    font-size: 36px;
+    margin-top: 60px;
+    margin-bottom: 100px;
+}
+
+.main {
+    width: 80%;
+    height: 100%;
+    border: 3px solid #45b751;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+
+}
+
+.result {
+    width: 100%;
+    height: 300px;
+}
+
+.homeBtn {
+    width: 300px;
+    height: 60px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    border: none;
+    background-color: #45b751;
+    color: white;
+    margin-top: 100px;
+}
+
+.homeBtn:hover {
+    background-color: #ffffff;
+    border: 1px solid #45b751;
+    color: black;
+}
+.shoppingBtn {
+    width: 300px;
+    height: 60px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    border: none;
+    background-color: #45b751;
+    color: white;
+    margin-top: 100px;
+}
+
+.shoppingBtn:hover {
+    background-color: #ffffff;
+    border: 1px solid #45b751;
+    color: black;
+
+}
+.btnBox{
+    width:50%;
+    display: flex;
+    justify-content: space-between;
+}
+.orderProductHeader {
+    display: flex;
+    width: 100%;
+    height: 30px;
+    border: 2px solid #bab9b9;
+    margin-bottom: 30px;
+}
+.orderProduct {
+    display: flex;
+    width: 100%;
+    height: 200px;
+    align-items: center;
+    border: 1px solid #b7b7b7;
+}
+ .orderName, .username, .address, .orderNumber, .totalPrice {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    border-right: 1px solid #cacaca;
+}
+
+.orderNumber{
+    width: 15%;
+}
+
+.orderName {
+    width: 35%;
+}
+.username {
+    width:10%
+}
+.address{
+    width: 30%;
+}
+.totalPrice{
+    width: 10%;
+    border-right:none;
+}

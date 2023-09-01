@@ -2,6 +2,7 @@ package com.kdt.BookVoyage.Purchase;
 
 import com.kdt.BookVoyage.Book.BookEntity;
 import com.kdt.BookVoyage.Book.BookRepository;
+import com.kdt.BookVoyage.Common.ExpiredViewTimeException;
 import com.kdt.BookVoyage.Common.OrderNotFoundException;
 import com.kdt.BookVoyage.Common.UserIdNotFoundException;
 import com.kdt.BookVoyage.Member.MemberDTO;
@@ -11,13 +12,10 @@ import com.kdt.BookVoyage.Order.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -75,6 +73,8 @@ public class PurchaseService {
                     memberEntity.getUserTel(),
                     purchaseDTO.getTotalPrice(),
                     "주문 완료",
+                    0,
+                    0,
                     memberEntity
             );
 
@@ -107,48 +107,24 @@ public class PurchaseService {
     public List<OrderDTO> showAllOrders(MemberDTO memberDTO) {
 
         String userNumber = memberDTO.getUserNumber();
-
         Optional<MemberEntity> allByUserNumber = memberRepository.findAllByUserNumber(userNumber);
 
         if (allByUserNumber.isPresent()) {
+
             Long id = allByUserNumber.get().getId();
             Optional<List<OrderEntity>> allByMemberEntityId = orderRepository.findAllByMemberEntityIdOrderByOrderNumberDesc(id);
 
             if (allByMemberEntityId.isPresent()) {
+
                 log.info("주문 내역이 있습니다.");
+
                 return OrderDTO.EntityToDTO(allByMemberEntityId.get());
+
             } else
                 throw new OrderNotFoundException("회원이 주문한 내역이 없습니다.");
+
         } else
             throw new UserIdNotFoundException("회원이 존재하지 않습니다.");
-
-    }
-
-    public List<OrderDTO> showRecentOrders() {
-        List<OrderDTO> lists3 = new ArrayList<>();
-        List<OrderEntity> allOrderByOrderNumberDesc = orderRepository.findAll(Sort.by(Sort.Order.desc("orderedTime")));
-
-        if(allOrderByOrderNumberDesc.size()!=0){
-            for (int i = 0; i < 3; i++) {
-                lists3.add(OrderDTO.EntityToDTO(allOrderByOrderNumberDesc).get(i));
-            }
-
-            return lists3;
-        }
-        else throw new OrderNotFoundException("주문 내역이 없습니다.");
-
-
-    }
-
-    public List<OrderDTO> showAllOrderLists() {
-
-        List<OrderEntity> allOrderByOrderNumberDesc = orderRepository.findAll(Sort.by(Sort.Order.desc("orderedTime")));
-
-        if (allOrderByOrderNumberDesc.size()!=0) {
-
-            return OrderDTO.EntityToDTO(allOrderByOrderNumberDesc);
-
-        } else throw new OrderNotFoundException("주문 내역이 없습니다.");
 
     }
 
@@ -156,19 +132,46 @@ public class PurchaseService {
     public void cancelOrder(OrderDTO orderDTO) {
         Optional<OrderEntity> byOrderNumber = orderRepository.findByOrderNumber(orderDTO.getOrderNumber());
 
-        if(byOrderNumber.isPresent()){
+        if (byOrderNumber.isPresent()) {
 
             Long orderEntityId = byOrderNumber.get().getId();
 
-            try{
+            try {
                 orderProductRepository.deleteAllByOrderEntityId(orderEntityId);
                 orderRepository.deleteById(orderEntityId);
-            }catch (Exception e){
-                log.error("주문을 삭제하는 도중 에러가 발생했습니다.",e);
+            } catch (Exception e) {
+                log.error("주문을 삭제하는 도중 에러가 발생했습니다.", e);
             }
 
-        }
-        else throw new OrderNotFoundException("찾고자 하는 주문이 존재하지 않습니다.");
+        } else throw new OrderNotFoundException("찾고자 하는 주문이 존재하지 않습니다.");
 
+    }
+
+    public List<OrderDTO> purchasedResult(String userNumber, String orderNumber) {
+
+        Optional<MemberEntity> allByUserNumber = memberRepository.findAllByUserNumber(userNumber);
+
+        if (allByUserNumber.isPresent()) {
+
+            Long id = allByUserNumber.get().getId();
+            Optional<List<OrderEntity>> byMemberEntityIdAndOrderNumber = orderRepository.findByMemberEntityIdAndOrderNumber(id, orderNumber);
+
+            if (byMemberEntityIdAndOrderNumber.isPresent()) {
+
+                OrderEntity orderEntity = byMemberEntityIdAndOrderNumber.get().get(0);
+
+                if (orderEntity.getOrderNoticed() == 0) {
+
+                    orderEntity.setOrderNoticed(1);
+                    orderRepository.save(orderEntity);
+
+                    return OrderDTO.EntityToDTO(byMemberEntityIdAndOrderNumber.get());
+                }
+                else throw new RuntimeException("이미 읽은 주문 결과입니다.");
+
+            } else
+                throw new OrderNotFoundException("주문 결과가 존재하지 않습니다.");
+        } else
+            throw new UserIdNotFoundException("회원이 존재하지 않습니다.");
     }
 }
