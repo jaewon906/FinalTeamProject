@@ -39,14 +39,10 @@ public class PurchaseController {
         purchaseService.savePurchasedList(purchaseDTO);
     }
 
+
     @GetMapping("/showAllOrders")
     public List<OrderDTO> showAllOrders(MemberDTO memberDTO) {
         return purchaseService.showAllOrders(memberDTO);
-    }
-
-    @GetMapping("/showOrder")
-    public OrderDTO showOrder(MemberDTO memberDTO){
-        return purchaseService.showOrder(memberDTO);
     }
 
 }

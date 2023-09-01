@@ -34,7 +34,7 @@ public class OrderDTO {
         for (OrderEntity orderEntity : orderEntityList) {
 
             OrderDTO orderDTO = modelMapper.map(orderEntity, OrderDTO.class);
-            orderDTO.setOrderName(orderEntity.getOrderProductEntity().get(0).getTitle() + "외" + " " + (orderEntity.getOrderProductEntity().size() - 1) + "건");
+            orderDTO.setOrderName(orderEntity.getOrderProductEntity().get(0).getTitle() + " 외" + " " + (orderEntity.getOrderProductEntity().size() - 1) + "건");
             result.add(orderDTO);
         }
 
