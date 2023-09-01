@@ -78,14 +78,15 @@ const QnA_Page = () => {
 
     return (
         <>
-            <div style={{border: "2px solid pink", display: 'flex',flexDirection:"column",alignItems:"center"}}>
+            <div style={{border: "2px solid pink",padding:"30px 0px 30px 0px", display: 'flex',flexDirection:"column",alignItems:"center"}}>
                     <div className={styles.qnaContainer}>
                         <h1 className={styles.qnaTitle}>자주 묻는 질문</h1>
-                        <ul className={styles.qnaList} style={{border:"2px solid #45b751", }}>
+                        <ul className={styles.qnaList}>
                             {faqData.map((faq, index) => (
                                 <li key={index} className={styles.qnaData} style={{listStyleType:"none"}}>
                                     <button
                                         style={{
+                                            fontSize: "20px",
                                             height: "35px",
                                             border: "none",
                                             color: "black",
@@ -171,76 +172,3 @@ const QnA_Page = () => {
 
 
 export default QnA_Page;
-
-
-/*
-
-
-
-    const [data, setData] = useState([]);
-    const [isCollapsed, setIsCollapsed] = useState(true);
-    const [currentPage, setCurrentPage] = useState(0);
-    const [totalPages, setTotalPages] = useState(0);
-    const [searchText, setSearchText] = useState("");
-
-
-    // 데이터를 가져오는 함수
-    const fetchBoardData = async () => {
-        try {
-            const response = await axios.get("/api/board/board-list?page=0&size=10");
-            setData(response.data.content);
-        } catch (error) {
-            console.error("게시글 데이터 가져오기 실패:", error);
-
-        }
-    };
-
-    // 컴포넌트가 마운트되었을 때 데이터 가져오기
-    useEffect(() => {
-        fetchBoardData();
-    }, []);
-
-
-    useEffect((page, search) => {
-        const getBoardList = async () => {
-            console.log('게시글 목록 가져오는 메서드 실행');
-            let response = await axios.get(
-                `/api/board/board-list?page=${currentPage}&size=10&sort=id, DESC`);
-            setData(response.data.data);
-            setTotalPages(response.data.totalPages);
-            console.log('board/response = ', response.data);
-        };
-        getBoardList();
-    },[currentPage, searchText])
-
-    const fetchData = async (page, search) => {
-        try {
-            const response = await axios.get(`/api/board/board-list`, {
-                params: {
-                    page,
-                    size: 10,
-                    search,
-                },
-            });
-            setData(response.data.content);
-            setTotalPages(response.data.totalPages);
-        } catch (error) {
-            console.error("페이징 데이터", error);
-        }
-    };
-
-    useEffect(() => {
-        fetchData(currentPage, searchText);
-    }, [currentPage,  searchText]);
-
-
-    const onPageChange = (page) => {
-        setCurrentPage(page);
-    };
-
-    const handleSearch = (text) => {
-        setSearchText(text);
-        setCurrentPage(0);
-    };
-*/
-

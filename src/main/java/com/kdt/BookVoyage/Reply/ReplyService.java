@@ -42,6 +42,31 @@ public class ReplyService {
     }
 
 
+    public List<ReplyEntity> findReplyList(Long boardId) {
+        return replyRepository.findByBoardEntity_Id(boardId);
+    }
+    /** findAll 메서드를 사용하여 댓글을 조회하는 것도 가능하지만, findAll 메서드는 모든 댓글을 가져오기 때문에 해당 게시글에 속한 댓글만 가져와야 하는 상황에서는 사용하지 않는 것이 좋습니다.
+     *  따라서 findByBoardEntity_Id를 사용하여 해당 게시글에 속한 댓글만 가져오는 것이 효율적입니다.
+     *  이 방식은 데이터베이스 레벨에서 필요한 데이터만을 선택적으로 가져오기 때문에 더 빠르고 효율적인 방법입니다.
+     *  */
+
+    public ReplyEntity findOneReply(Long id) {
+        //id에 해당하는 board가 repository에 존재하지 않을 경우 NullPointerException이 발생하면
+        //서버가 죽을 수 있기 때문에, 예외처리를 함께 작성
+        return replyRepository.findById(id).orElseThrow(NullPointerException::new);
+    }
+
+    @Transactional
+    public void deleteReply(Long id) {
+        try {
+            replyRepository.findById(id).ifPresent(replyRepository::delete);
+        } catch (Exception exception) {
+            System.out.println("댓글 삭제 실패: " + exception);
+            throw new RuntimeException("댓글 삭제 중 에러 발생");
+        }
+    }
+
+
 
 
 
@@ -102,20 +127,6 @@ public class ReplyService {
 
 
 
-
-    public List<ReplyEntity> findReplyList(Long boardId) {
-        return replyRepository.findByBoardEntity_Id(boardId);
-    }
-    /** findAll 메서드를 사용하여 댓글을 조회하는 것도 가능하지만, findAll 메서드는 모든 댓글을 가져오기 때문에 해당 게시글에 속한 댓글만 가져와야 하는 상황에서는 사용하지 않는 것이 좋습니다.
-     *  따라서 findByBoardEntity_Id를 사용하여 해당 게시글에 속한 댓글만 가져오는 것이 효율적입니다.
-     *  이 방식은 데이터베이스 레벨에서 필요한 데이터만을 선택적으로 가져오기 때문에 더 빠르고 효율적인 방법입니다.
-     *  */
-
-    public ReplyEntity findOneReply(Long id) {
-        //id에 해당하는 board가 repository에 존재하지 않을 경우 NullPointerException이 발생하면
-        //서버가 죽을 수 있기 때문에, 예외처리를 함께 작성
-        return replyRepository.findById(id).orElseThrow(NullPointerException::new);
-    }
 
 }
 

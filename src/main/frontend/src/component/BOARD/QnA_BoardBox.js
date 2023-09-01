@@ -17,7 +17,7 @@ const QnA_BoardBox = (props) => {
     return (
         <tr>
             <td style={{ width: '5%' }}>{props.id}</td>
-            <td style={{ width: '15%' }}>{props.category}</td>
+            <td style={{ width: '10%' }}>{props.category}</td>
             <td style={{ width: '18%' }}>
                 <Link
                     to={{

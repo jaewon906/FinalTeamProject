@@ -50,6 +50,7 @@ public class SecurityConfig {
                                 .requestMatchers("/api/board/delete-board").permitAll()
                                 .requestMatchers("/api/board/update-board").permitAll()
                                 .requestMatchers("/api/board/create-board/**").authenticated()
+                                .requestMatchers("/api/board/board-detail/reply-delete/**").permitAll()
                                 .requestMatchers("/api/book/**").authenticated()
                                 .requestMatchers("/api/search/**").permitAll() // api 호출 결과 db에 저장
                                 .requestMatchers("/api/books").permitAll()  // 도서 조회 결과 10개씩 페이징 처리

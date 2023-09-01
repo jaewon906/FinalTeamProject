@@ -12,7 +12,7 @@
 ##
 
 ### 프레임워크 : 리액트 18 ver.
-### 라이브러리 : react-router-dom, react-daum-postcode, http-proxy-middleware, axios, react-modal, apexcharts, react-intersection-observer, html-react-parser, dompurify, react-bootstrap
+### 라이브러리 : react-router-dom, react-daum-postcode, http-proxy-middleware, axios, react-modal, apexcharts, react-intersection-observer, html-react-parser, dompurify, @ckeditor/ckeditor5-react @ckeditor/ckeditor5-build-classic,react-quill
 
 #
 

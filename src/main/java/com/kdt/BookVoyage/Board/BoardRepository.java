@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface BoardRepository extends JpaRepository<BoardEntity, Long> {
 
-    List<BoardEntity> findByTitleContaining(String keyword);
+    List<BoardEntity> findByTitleContaining(String keyword); //특정 키워드를 포함한 게시물 조회
 
 /*    @Query(value = "SELECT MAX(ID) FROM BoardEntity WHERE deleted = true", nativeQuery = true)
     Long findMaxDeleteId();

@@ -9,8 +9,9 @@ import QnA_BoardPagination from "./QnA_BoardPagination";
 const QnA_BoardList = (props) => {
 
     const {currentPage, totalPages, onPageChange, handleSearch, formattedCreatedTime} = props;
-    const [searchText, setSearchText] = useState("");
     const [data, setData] = useState([])
+    const [searchText, setSearchText] = useState("");
+    const [searchResults, setSearchResults] = useState([]);
     const [loading, setLoading] = useState(false);
 
     const authenticate = () => {
@@ -46,9 +47,9 @@ const QnA_BoardList = (props) => {
     return (
         <>
             <div className={styles.boardMainContainer}>
-                <div style={{display:"flex", justifyContent:"center"}}>
+                <div style={{display: "flex", justifyContent: "center"}}>
                     <h1 style={{
-                        width:"300px",
+                        width: "300px",
                         textAlign: "center",
                         paddingBottom: "10px",
                         backgroundColor: "transparent",
@@ -56,12 +57,12 @@ const QnA_BoardList = (props) => {
                     }}>문의 게시판</h1>
                 </div>
                 <br/>
-                <div>
+
+                <div style={{width:"100%"}}>
                     <div className={styles.boardMainSearch}>
                         <div style={{display: 'flex', justifyContent: "flex-end", margin: "20px"}}>
                             <input
                                 type="text"
-                                className="form-control"
                                 placeholder=" Search..."
                                 value={searchText}
                                 style={{width: "250px", marginRight: "10px"}}
@@ -81,54 +82,54 @@ const QnA_BoardList = (props) => {
                                 Search
                             </button>
                         </div>
-                        <div className={styles.tableContainer}>
-                            <table className={styles.tableContainer}>
-                                <thead>
-                                <tr>
-                                    <th>번호</th>
-                                    <th>카테고리</th>
-                                    <th>제목</th>
-                                    <th>내용</th>
-                                    <th>작성자</th>
-                                    <th>조회수</th>
-                                    <th>작성 일자</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {Array.isArray(props.data) && props.data.length !== 0 ? (
-                                    props.data.map((i, index) => (
-                                        <QnA_BoardBox
-                                            key={i.id}
-                                            id={i.id} //게시글 번호 역순으로 생성
-                                            title={i.title}
-                                            category={i.category}
-                                            content={i.content.replace(/<[^>]+>/g, '')}
-                                            writer={i.writer}
-                                            view={i.view}
-                                            createdTime={i.createdTime}
-                                            formattedCreatedTime={formattedCreatedTime}
-                                            currentPage={currentPage + 1}
-                                        />
-
-                                    ))
-                                ) : (
-                                    <tr>
-                                        <td colSpan="8">
-                                            <div className={styles.spinnerContainer}>
-                                                <div className={`spinner ${styles.spinner}`}></div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                )}
-                                </tbody>
-                            </table>
-                        </div>
-                        <QnA_BoardPagination
-                            currentPage={currentPage}
-                            totalPages={totalPages}
-                            onPageChange={onPageChange}
-                        />
                     </div>
+                    <div>
+                        <table className={styles.tableContainer}>
+                            <thead>
+                            <tr>
+                                <th>번호</th>
+                                <th>카테고리</th>
+                                <th>제목</th>
+                                <th>내용</th>
+                                <th>작성자</th>
+                                <th>조회수</th>
+                                <th>작성 일자</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {Array.isArray(props.data) && props.data.length !== 0 ? (
+                                props.data.map((i, index) => (
+                                    <QnA_BoardBox
+                                        key={i.id}
+                                        id={i.id} //게시글 번호 역순으로 생성
+                                        title={i.title}
+                                        category={i.category}
+                                        content={i.content.replace(/<[^>]+>/g, '')}
+                                        writer={i.writer}
+                                        view={i.view}
+                                        createdTime={i.createdTime}
+                                        formattedCreatedTime={formattedCreatedTime}
+                                        currentPage={currentPage + 1}
+                                    />
+
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan="8">
+                                        <div className={styles.spinnerContainer}>
+                                            <div className={`spinner ${styles.spinner}`}></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            )}
+                            </tbody>
+                        </table>
+                    </div>
+                    <QnA_BoardPagination
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        onPageChange={onPageChange}
+                    />
                     <div className={styles.boardMainWriteButton}>
                         <button
                             type="submit"

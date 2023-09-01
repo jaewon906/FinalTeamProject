@@ -20,7 +20,7 @@ const QnA_BoardPagination = ({currentPage, totalPages, onPageChange}) => {
     /*<div className={style.main}>*/
 
     return (
-        <div className="container text-center">
+        <div>
             <div className="button-container mt-3 d-flex justify-content-center">
                 <button
                     className="page-button"
