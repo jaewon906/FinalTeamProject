@@ -1,8 +1,9 @@
 package com.kdt.BookVoyage.Member;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kdt.BookVoyage.Cart.CartEntity;
 import com.kdt.BookVoyage.Common.TimeBaseEntity;
-import com.kdt.BookVoyage.Purchase.OrderEntity;
+import com.kdt.BookVoyage.Order.OrderEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -53,6 +54,7 @@ public class MemberEntity {
     @Embedded
     private TimeBaseEntity timeBaseEntity;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "memberEntity",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderEntity> orderEntityList;
 

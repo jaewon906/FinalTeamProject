@@ -1,6 +1,5 @@
 package com.kdt.BookVoyage.Member;
 
-import com.kdt.BookVoyage.Purchase.OrderEntity;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
