@@ -328,6 +328,7 @@
 
 
 .qnaContainer {
+    border: 2px solid red;
     display:flex;
     justify-content:center;
     flex-direction:column;
@@ -336,7 +337,7 @@
     padding: 20px;
 }
 .qnaTitle {
-    width: 80%;
+    width: 300px;
     text-align: center;
     background-color: transparent;
     border-bottom: 2px solid #45B751;
@@ -345,7 +346,7 @@
     margin-top: 20px;
 }
 .qnaList {
-    width: 80%;
+    width: 50%;
     list-style: none;
     text-align: center;
     padding: 0;
@@ -358,6 +359,7 @@
 }
 
 .qnaQuestion {
+    font-size: 24px;
     background-color: #f2f2f2;
     border: none;
     width: 100%;

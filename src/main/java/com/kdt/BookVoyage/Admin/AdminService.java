@@ -107,7 +107,7 @@ public class AdminService {
             result.put(date, a[i-1]);
         }
 
-        log.info("{}", all.size());
+        log.info("회원 수 : {}", all.size());
 
         return result;
     }

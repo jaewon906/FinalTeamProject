@@ -3,11 +3,12 @@ package com.kdt.BookVoyage.Purchase;
 import com.kdt.BookVoyage.Book.BookEntity;
 import com.kdt.BookVoyage.Member.MemberDTO;
 import com.kdt.BookVoyage.Member.MemberServiceImpl;
+import com.kdt.BookVoyage.Order.OrderDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,5 +33,21 @@ public class PurchaseController {
         log.info("list : {}",purchaseDTO.getIsbnList());
       return purchaseService.getBookDetails(purchaseDTO.getIsbnList());
     }
+
+    @PostMapping("/purchasedList")
+    public void savePurchasedList(PurchaseDTO purchaseDTO) {
+        purchaseService.savePurchasedList(purchaseDTO);
+    }
+
+    @GetMapping("/showAllOrders")
+    public List<OrderDTO> showAllOrders(MemberDTO memberDTO) {
+        return purchaseService.showAllOrders(memberDTO);
+    }
+
+    @GetMapping("/showOrder")
+    public OrderDTO showOrder(MemberDTO memberDTO){
+        return purchaseService.showOrder(memberDTO);
+    }
+
 }
 
