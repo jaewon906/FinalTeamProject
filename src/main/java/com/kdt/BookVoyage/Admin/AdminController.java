@@ -3,6 +3,7 @@ package com.kdt.BookVoyage.Admin;
 import com.kdt.BookVoyage.Member.MemberDTO;
 import com.kdt.BookVoyage.Member.MemberEntity;
 import com.kdt.BookVoyage.Order.OrderDTO;
+import com.kdt.BookVoyage.Order.OrderEntity;
 import com.kdt.BookVoyage.Purchase.PurchaseService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -72,6 +73,19 @@ public class AdminController {
     @GetMapping("/showRecentOrders") //최근 읽지않은 4개 주문 내역
     public List<OrderDTO> showRecentOrders() {
         return adminService.showRecentOrders();
+    }
+
+    @GetMapping("/manage/order")
+    public Page<OrderEntity> loadOrderInfo(Pageable pageable){
+        log.info("pageable : {}",pageable);
+        return adminService.getOrderInfo(pageable);
+    }
+
+    @GetMapping("/manage/order/search")
+    public Page<OrderEntity> searchOrderInfo(String keyword, Pageable pageable){
+        log.info("keyword : {}",keyword);
+        log.info("pageable : {}",pageable);
+        return adminService.searchOrderInfo(keyword,pageable);
     }
 
 

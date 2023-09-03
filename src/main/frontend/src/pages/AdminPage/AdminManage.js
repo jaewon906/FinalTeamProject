@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import UserChart from "./UserChart";
 import convertToWon from "../../js/convertToWon";
+import {Link} from "react-router-dom";
 
 export default function AdminManage() {
 
@@ -79,10 +80,6 @@ export default function AdminManage() {
     const gapDay = user[user.length - 1] - user[user.length - 2]
     const gapWeeks = weeksAgo - twoWeeksAgo
 
-
-    const manageOrder = () => {
-
-    }
 
     const orderNoticeDot = (v) => {
 
@@ -236,37 +233,37 @@ export default function AdminManage() {
             </div>
             {recentOrders.map((el, idx) => {
 
-                return (<div
-                    onClick={manageOrder}
-                    className={style.order}
-                    key={idx}>
-                    {orderNoticeDot(el.isRead)}
-                    <div
-                        className={style.orderNumber}>
-                        {el.orderNumber}
-                    </div>
-                    <div
-                        className={style.orderName}>
-                        {el.orderName}
-                    </div>
-                    <div
-                        className={style.customer}>
-                        {el.username}
-                    </div>
-                    <div
-                        className={style.tel}>
-                        {el.userTel}
-                    </div>
-                    <div className={style.addr}>
-                        {el.userAddress}
-                    </div>
-                    {el.totalPrice !== undefined ?
+                return (
+                    <Link to={`order/orderDetail?orderNumber=${el.orderNumber}`}><div id={el.orderNumber}
+                         className={style.order}
+                         key={idx}>
+                        {orderNoticeDot(el.isRead)}
                         <div
-                            className={style.price}>
-                            {convertToWon(el.totalPrice + "", null)}
-                        </div> :
-                        ""}
-                </div>)
+                            className={style.orderNumber}>
+                            {el.orderNumber}
+                        </div>
+                        <div
+                            className={style.orderName}>
+                            {el.orderName}
+                        </div>
+                        <div
+                            className={style.customer}>
+                            {el.username}
+                        </div>
+                        <div
+                            className={style.tel}>
+                            {el.userTel}
+                        </div>
+                        <div className={style.addr}>
+                            {el.userAddress}
+                        </div>
+                        {el.totalPrice !== undefined ?
+                            <div
+                                className={style.price}>
+                                {convertToWon(el.totalPrice + "", null)}
+                            </div> :
+                            ""}
+                    </div></Link>)
             })}
 
         </div>

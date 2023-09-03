@@ -5,6 +5,7 @@ import React from "react";
 import AdminManage from "./pages/AdminPage/AdminManage";
 import UserManage from "./pages/AdminPage/UserManage";
 import NotFound from "./js/NotFound";
+import OrderManage from "./pages/AdminPage/OrderManage";
 
 export default function AppAdmin() {
 
@@ -17,7 +18,7 @@ export default function AppAdmin() {
                 <Route path={"manage/"} element={<AdminTheme page={<AdminManage/>}/>}/>
                 <Route path={"manage/"} element={<Outlet/>}>
                     <Route path={"user/"} element={<AdminTheme page={<UserManage/>}/>}/>
-                    <Route path={"order/"} element={<AdminTheme page={<UserManage/>}/>}/>
+                    <Route path={"order/"} element={<AdminTheme page={<OrderManage/>}/>}/>
                 </Route>
             </Route>
         </Routes>

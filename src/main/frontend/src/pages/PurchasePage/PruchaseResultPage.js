@@ -24,9 +24,9 @@ export default function PurchaseResultPage() {
             })
     }, [])
 
+
     return (
         <div className={style.container}>
-            {purchasedResult[0].toString()!== "[object Object]"?
                 <>
                     <h1>결제가 완료되었습니다.</h1>
                     <div
@@ -72,7 +72,6 @@ export default function PurchaseResultPage() {
                         </div>
                     </div>
                 </>
-                : ""}
             <div className={style.btnBox}>
                 <button onClick={() => {
                     window.location.href = "/home"
