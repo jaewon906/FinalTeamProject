@@ -50,15 +50,13 @@ public class ReplyController {
         }
 
         ReplyDTO.ReplyResponseDTO responseDTO = replyService.replyCreate(id, dto, nickname);
+        log.info("닉네임이 무엇임 = {}",responseDTO);
         return ResponseEntity.ok(responseDTO);
-
     }
 
     @GetMapping("/board-detail/reply-list/{id}")
     public ResponseEntity<List<ReplyDTO.ReplyResponseDTO>> reply_list(@PathVariable Long id) {
-
         List<ReplyEntity> replyList = replyService.findReplyList(id);
-
         List<ReplyDTO.ReplyResponseDTO> responseDTOList = replyList.stream()
                 .map(reply -> {
                     ReplyDTO.ReplyResponseDTO responseDTO = new ReplyDTO.ReplyResponseDTO(reply);
@@ -72,14 +70,13 @@ public class ReplyController {
                     return responseDTO;
                 })
                 .collect(Collectors.toList());
-
         return ResponseEntity.ok(responseDTOList);
 
     }
 
 
 
-    @DeleteMapping("/board-detail/reply-delete/")
+/*    @DeleteMapping("/board-detail/reply-delete")
     public ResponseEntity<String> deleteReply(@RequestBody ReplyDTO.ReplyResponseDTO responseDTO) {
 
         System.out.println("댓글 삭제 컨트롤러 실행 DTO = " + responseDTO);
@@ -89,13 +86,13 @@ public class ReplyController {
 
         try {
             ReplyEntity replyEntity = replyService.findOneReply(responseDTO.getId());
-            replyService.deleteReply(replyEntity.getId());
+            replyService.deleteReply(replyEntity.getId(), replyEntity.getMemberNickname());
         } catch (Exception exception) {
             status = HttpStatus.BAD_REQUEST;
             return new ResponseEntity<>("댓글 삭제 실패", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity(body, headers, status);
-    }
+    }*/
 
 /*    @DeleteMapping("/board-detail/reply-delete/{id}")
     public ResponseEntity<String> deleteReply(@PathVariable Long id) {

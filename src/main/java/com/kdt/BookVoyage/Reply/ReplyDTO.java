@@ -3,6 +3,7 @@ package com.kdt.BookVoyage.Reply;
 
 
 import com.kdt.BookVoyage.Board.BoardEntity;
+import com.kdt.BookVoyage.Member.MemberEntity;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -22,6 +23,7 @@ public class ReplyDTO {
         private String regDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm"));
         private String modDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm"));
         private BoardEntity boardEntity;
+        private MemberEntity memberEntity; //memberEntity추가
 
         /* Dto -> Entity */
         public ReplyEntity toEntity() {
@@ -30,6 +32,7 @@ public class ReplyDTO {
                     .reply(reply)
                     .nickname(nickname)
                     .boardEntity(boardEntity)
+                    .memberEntity(memberEntity)
                     .build();
 
             return replyEntity;

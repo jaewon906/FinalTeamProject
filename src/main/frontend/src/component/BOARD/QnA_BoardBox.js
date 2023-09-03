@@ -16,9 +16,9 @@ const QnA_BoardBox = (props) => {
 
     return (
         <tr>
-            <td style={{ width: '5%' }}>{props.id}</td>
-            <td style={{ width: '10%' }}>{props.category}</td>
-            <td style={{ width: '18%' }}>
+            <td>{props.id}</td>
+            <td>{props.category}</td>
+            <td>
                 <Link
                     to={{
                         pathname: `/home/board/detail/${props.id}`,
@@ -28,7 +28,7 @@ const QnA_BoardBox = (props) => {
                     {props.title}
                 </Link>
             </td>
-            <td style={{ width: '35%' }}>
+            <td>
                 <Link
                     to={{
                         pathname: `/home/board/detail/${props.id}`,

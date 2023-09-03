@@ -1,4 +1,3 @@
-import {Link, useLocation} from "react-router-dom";
 import {React, useEffect, useState} from "react";
 import QnA_BoardBox from "./QnA_BoardBox";
 import axios from "axios";

@@ -17,7 +17,7 @@ const QnA_BoardPagination = ({currentPage, totalPages, onPageChange}) => {
     for (let i = startPage; i <= endPage; i++) {
         showPageNumber.push(i);
     }
-    /*<div className={style.main}>*/
+
 
     return (
         <div>
