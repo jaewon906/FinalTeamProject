@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, {useEffect, useState} from "react";
-import "../../css/MainPage/booksInfo.css";
+import styles from "../../css/MainPage/Main.module.css";
 import {Link} from "react-router-dom";
 
 function EconomyBooks() {
@@ -33,10 +33,10 @@ function EconomyBooks() {
 
 
     return (
-        <div className="container">
-            <h2 className="hot-item">급상승! 많이 보고 있는 경제 도서</h2>
-            <div style={{width: "100%", display: "flex", justifyContent: "space-between"}}>
-                <ul className="hot-item-list">
+        <div className={styles.container}>
+            <h2 className={styles.hotItem}>급상승! 많이 보고 있는 경제 도서</h2>
+            <div>
+                <ul className={styles.hotItemList}>
                     {ecoBooksList.map((ecoBookDetail) => {
                         // 카테고리를 ">" 기준으로 잘라내서 보여준다.
                         const categoryArray = ecoBookDetail.categoryName.split(">");
@@ -54,13 +54,13 @@ function EconomyBooks() {
                                 </Link>
                                 <br/>
                                 <br/>
-                                <div className="book-info">
-                                    <p className="category">{trimmedCategory}</p>
-                                    <p className="book-title">
-                                        <strong><Link
+                                <div className={styles.bookInfo}>
+                                    <p className={styles.category}>{trimmedCategory}</p>
+                                    <p className={styles.bookTitle}>
+                                        <strong><Link className={styles.link}
                                             to={`/home/bookdetail/${ecoBookDetail.isbn13}`}>{ecoBookDetail.title}</Link></strong>
                                     </p>
-                                    <p className="author">
+                                    <p className={styles.author}>
                                         <small>{ecoBookDetail.author}</small>
                                     </p>
                                 </div>

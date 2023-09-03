@@ -1,0 +1,49 @@
+.tblItemWrap {
+  width: 90%;
+  
+}
+
+.tblItem {
+  border: 1px solid gray;
+  width: 100%;
+}
+
+caption {
+  font-size: 2rem;
+  text-align: left;
+}
+
+.tblItemWrap > .tblItem > tbody > tr > td {
+  padding: 30px;
+  border: 1px solid green;
+}
+
+.checkbox {
+  width: 80px;
+  text-align: center;
+ 
+}
+
+.checkbox input {
+  transform: scale(1.5);
+
+}
+
+.itemArea {
+  display: flex;
+}
+
+.green {
+  color: #4DAC27;
+  margin-right: 10px;
+}
+
+.itemInfoBox {
+  margin: 0 20px;
+  line-height: 30px;
+}
+
+.del {
+  font-size: 0.8rem;
+  color: #595959;
+}

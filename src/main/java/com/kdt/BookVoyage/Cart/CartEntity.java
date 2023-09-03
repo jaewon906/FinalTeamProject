@@ -29,7 +29,7 @@ public class CartEntity {
     @JoinColumn(name = "user_id")
     private MemberEntity member;    // 회원
 
-    @OneToMany(mappedBy = "cart")
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.REMOVE)
     private List<CartItemEntity> cartItems = new ArrayList<>();
 
     private int quantity;   // 카트에 담긴 총 상품 개수

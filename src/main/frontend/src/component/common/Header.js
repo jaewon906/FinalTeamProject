@@ -1,5 +1,5 @@
 import style from "../../css/Common/header.module.css"
-import {Link, useNavigate} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axios from "axios";
 import {getUserNumber} from "../../js/getUserNumber";
@@ -11,13 +11,25 @@ export default function Header() {
     const [nickname, setNickname] = useState()
     const [userNumber, setUserNumber] = useState("0")
     const navigate = useNavigate();
+    const location = useLocation();
     
 
-    const handleChange = (e) => {
-    navigate(`/search?q=${e.target.value}`)}
+    const handleChangeSearchValue = (e) => {
+    navigate(`/home/search?q=${e.target.value}`)}
 
-    const handleClick = () => {
-        navigate("/home/cart");
+    const handleClickToCart = () => {
+        
+        if(isLogin) {
+          navigate("/home/cart");
+        } else {
+            const ret = window.confirm("로그인이 필요한 기능입니다. 로그인 하시겠습니까?");
+            if(ret) {
+                navigate("/home/logIn", {state : {returnUrl : "/home/cart/"}});
+            } else{
+                return;
+            }
+        }
+        
     }
 
     useEffect(() => {
@@ -29,7 +41,7 @@ export default function Header() {
 
         } else setIsLogin(false);
 
-    }, [userNumber])
+    }, [userNumber, location.state?.returnUrl])
 
     const myPage = () => {
 
@@ -83,11 +95,16 @@ export default function Header() {
             <div className={style.functionBox}>
                 {isLogin ? <p style={{fontSize: "14px"}}>반갑습니다 <strong>{nickname}</strong> 님</p> : ""}
 
-                <button onClick={handleClick} className={style.cart}></button>
+                <button onClick={handleClickToCart} className={style.cart}></button>
 
                 <button onClick={myPage} className={style.myInfo}></button>
 
-                <input name={"search"} type={"search"} className={style.search} placeholder={"search..."} onChange={handleChange}/>
+                <input name={"search"} 
+                type={"search"} 
+                className={style.search} 
+                placeholder={"search..."} 
+                onChange={handleChangeSearchValue}
+                />
                 <button className={style.signUp} onClick={signUp}>SignUp</button>
                 {isLogin ?
                     <button className={style.logIn} onClick={logOut}>LogOut</button> :
