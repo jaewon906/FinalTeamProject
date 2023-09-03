@@ -1,11 +1,13 @@
 package com.kdt.BookVoyage.Member;
 
 import com.kdt.BookVoyage.Common.CookieConfig;
+import com.kdt.BookVoyage.Common.OrderProductNotFoundException;
 import com.kdt.BookVoyage.Common.UserIdNotFoundException;
 import com.kdt.BookVoyage.Common.UserPasswordNotMatchException;
 import com.kdt.BookVoyage.EmailVerification.EmailDTO;
 import com.kdt.BookVoyage.EmailVerification.EmailRepository;
 import com.kdt.BookVoyage.EmailVerification.EmailService;
+import com.kdt.BookVoyage.Order.*;
 import com.kdt.BookVoyage.Security.TokenConfig;
 import com.kdt.BookVoyage.Security.TokenDTO;
 import jakarta.mail.AuthenticationFailedException;
@@ -33,12 +35,14 @@ import java.util.Optional;
 @Slf4j
 public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
-    private final EmailService emailService;
     private final EmailRepository emailRepository;
+    private final OrderRepository orderRepository;
+    private final OrderProductRepository orderProductRepository;
+    private final EmailService emailService;
     private final TokenConfig tokenConfig;
     private final CookieConfig cookieConfig;
 
-    List<MemberEntity> dormantAccounts=new ArrayList<>();
+    List<MemberEntity> dormantAccounts = new ArrayList<>();
 
     @Override
     public boolean signUp(MemberDTO memberDTO) throws Exception {
@@ -61,8 +65,7 @@ public class MemberServiceImpl implements MemberService {
             log.info("회원가입에 성공했습니다.");
 
             return true;
-        }
-        else {
+        } else {
             throw new SQLIntegrityConstraintViolationException("회원가입에 실패했습니다.");
         }
 
@@ -76,9 +79,9 @@ public class MemberServiceImpl implements MemberService {
         MemberEntity memberEntity = MemberEntity.DTOToEntity(memberDTO);
         Optional<MemberEntity> byUserId = memberRepository.findByUserId(memberEntity.getUserId());
 
-        if(byUserId.isPresent()){ // 예외 -> id or 비번 문제 / true -> 로그인 / false -> 휴면 계정 or 비활성화 계정
+        if (byUserId.isPresent()) { // 예외 -> id or 비번 문제 / true -> 로그인 / false -> 휴면 계정 or 비활성화 계정
 
-            if(BCrypt.checkpw(plainText,byUserId.get().getPassword()) && byUserId.get().getRole().equals("USER")){
+            if (BCrypt.checkpw(plainText, byUserId.get().getPassword()) && byUserId.get().getRole().equals("USER")) {
 
                 switch (byUserId.get().getDeleteFlag()) {
                     case "N" -> {
@@ -111,10 +114,8 @@ public class MemberServiceImpl implements MemberService {
                         log.error("계정 상태 유형을 벗어났습니다.");
                     }
                 }
-            }
-            else throw new UserPasswordNotMatchException("비밀번호가 일치하지 않습니다.");
-        }
-        else{
+            } else throw new UserPasswordNotMatchException("비밀번호가 일치하지 않습니다.");
+        } else {
             throw new UserIdNotFoundException("아이디가 존재하지 않습니다.");
         }
         return null;
@@ -128,12 +129,12 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional
-    public boolean modifyInfo(MemberDTO memberDTO,HttpServletResponse response) { //회원 정보 수정
+    public boolean modifyInfo(MemberDTO memberDTO, HttpServletResponse response) { //회원 정보 수정
         MemberEntity memberEntity = MemberEntity.DTOToEntity(memberDTO);
         Optional<MemberEntity> byUserNumber = memberRepository.findByUserNumber(memberEntity.getUserNumber());
 
-        if(byUserNumber.isPresent()){
-            try{
+        if (byUserNumber.isPresent()) {
+            try {
                 memberRepository.updateMyInfo(
                         memberEntity.getUsername(),
                         memberEntity.getNickname(),
@@ -146,8 +147,8 @@ public class MemberServiceImpl implements MemberService {
                 );
                 log.info("회원정보 수정에 성공했습니다.");
 
-                String [] cookieKey = {"accessToken"};
-                cookieConfig.deleteCookie(response,cookieKey);
+                String[] cookieKey = {"accessToken"};
+                cookieConfig.deleteCookie(response, cookieKey);
 
                 MemberDTO memberDTO1 = MemberDTO.EntityToDTO(memberEntity);
                 TokenDTO generateAccessToken = tokenConfig.generateAccessToken(memberDTO1);
@@ -157,13 +158,11 @@ public class MemberServiceImpl implements MemberService {
 
                 return true;
 
-            }
-            catch(Exception e){
-                log.error("error {}","",e);
+            } catch (Exception e) {
+                log.error("error {}", "", e);
                 return false;
             }
-        }
-        else{
+        } else {
             throw new InvalidDataAccessApiUsageException("회원정보 수정에 실패했습니다.");
         }
 
@@ -258,21 +257,23 @@ public class MemberServiceImpl implements MemberService {
     @Transactional
     public void dormantAccountManagementScheduler() {
 
-        if(dormantAccounts.size()!=0){ //휴면 계정이 존재할 때
+        if (dormantAccounts.size() != 0) { //휴면 계정이 존재할 때
 
             for (MemberEntity dormantAccount : dormantAccounts) {
 
-                try{Timestamp deletedTime = dormantAccount.getTimeBaseEntity().getDeletedTime();
-                long now = new Timestamp(System.currentTimeMillis()).getTime();
+                try {
+                    Timestamp deletedTime = dormantAccount.getTimeBaseEntity().getDeletedTime();
+                    long now = new Timestamp(System.currentTimeMillis()).getTime();
 
-                long twoWeeks = 14 * 24 * 60 * 60 * 1000L;
+                    long twoWeeks = 14 * 24 * 60 * 60 * 1000L;
 
-                long deleteDate = twoWeeks + deletedTime.getTime(); //지운 날짜 2주 뒤
+                    long deleteDate = twoWeeks + deletedTime.getTime(); //지운 날짜 2주 뒤
 
-                if (now > deleteDate) {
-                    memberRepository.deleteByUserNumber(dormantAccount.getUserNumber());
-                }}catch (NullPointerException e){
-                    log.error("",e);
+                    if (now > deleteDate) {
+                        memberRepository.deleteByUserNumber(dormantAccount.getUserNumber());
+                    }
+                } catch (NullPointerException e) {
+                    log.error("", e);
                 }
             }
         }
@@ -284,25 +285,38 @@ public class MemberServiceImpl implements MemberService {
         MemberEntity memberEntity = MemberEntity.DTOToEntity(memberDTO);
         Optional<MemberEntity> byUserNumber = memberRepository.findByUserNumber(memberEntity.getUserNumber());
 
-        if(byUserNumber.isPresent()){ // 예외 -> id or 비번 문제 / true -> 로그인 / false -> 휴면 계정 or 비활성화 계정
-            if(BCrypt.checkpw(plainText,byUserNumber.get().getPassword())){
-                if(byUserNumber.get().getDeleteFlag().equals("N")){
+        if (byUserNumber.isPresent()) { // 예외 -> id or 비번 문제 / true -> 로그인 / false -> 휴면 계정 or 비활성화 계정
+            if (BCrypt.checkpw(plainText, byUserNumber.get().getPassword())) {
+                if (byUserNumber.get().getDeleteFlag().equals("N")) {
 
                     log.info("회원정보 열람 인증 성공");
 
                     return true;
-                }
-                else {
+                } else {
 
                     log.info("휴면 계정");
 
                     return false;
                 }
-            }
-            else throw new UserPasswordNotMatchException("비밀번호가 일치하지 않습니다.");
-        }
-        else{
+            } else throw new UserPasswordNotMatchException("비밀번호가 일치하지 않습니다.");
+        } else {
             throw new UserIdNotFoundException("아이디가 존재하지 않습니다.");
         }
+    }
+
+    @Override
+    public List<OrderProductDTO> showMyOrderDetail(String orderNumber) {
+
+        Optional<OrderEntity> byOrderNumber = orderRepository.findByOrderNumber(orderNumber);
+
+        if (byOrderNumber.isPresent()) {
+
+            Long id = byOrderNumber.get().getId();
+            List<OrderProductEntity> allByOrderEntityId = orderProductRepository.findAllByOrderEntityId(id);
+
+            return OrderProductDTO.EntityToDTO(allByOrderEntityId);
+
+        }
+        else throw new OrderProductNotFoundException("주문 상품이 존재하지 않습니다.");
     }
 }

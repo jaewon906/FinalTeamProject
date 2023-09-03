@@ -6,7 +6,9 @@ import com.kdt.BookVoyage.Member.MemberEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @Entity
@@ -36,8 +38,18 @@ public class OrderEntity {
     @Column(nullable = false)
     private Integer totalPrice;
 
-    @Embedded
-    private TimeBaseEntity timeBaseEntity;
+    @Column(nullable = false)
+    private String orderState;
+
+    @Column(nullable = false)
+    private Integer isRead; // 관리자가 읽지 않은 주문들을 표기하기 위한 플래그
+
+    @Column(nullable = false)
+    private Integer orderNoticed; // 결제완료 시 해당 페이지를 한 번만 띄우기 위한 플래그
+
+    @CreationTimestamp
+    @Column(updatable = false)
+    private Timestamp orderedTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_ID")
@@ -47,7 +59,17 @@ public class OrderEntity {
     @OneToMany(mappedBy = "orderEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderProductEntity> orderProductEntity;
 
-    public static OrderEntity setOrderEntity(String orderNumber,String username, String email, String addr, String tel, Integer totalPrice, MemberEntity memberEntity) {
+    public static OrderEntity setOrderEntity(
+            String orderNumber,
+            String username,
+            String email,
+            String addr,
+            String tel,
+            Integer totalPrice,
+            String orderState,
+            Integer isRead,
+            Integer orderNoticed,
+            MemberEntity memberEntity) {
         OrderEntity orderEntity = new OrderEntity();
         orderEntity.setOrderNumber(orderNumber);
         orderEntity.setUsername(username);
@@ -55,6 +77,9 @@ public class OrderEntity {
         orderEntity.setUserAddress(addr);
         orderEntity.setUserTel(tel);
         orderEntity.setTotalPrice(totalPrice);
+        orderEntity.setOrderState(orderState);
+        orderEntity.setIsRead(isRead);
+        orderEntity.setOrderNoticed(orderNoticed);
         orderEntity.setMemberEntity(memberEntity);
 
         return orderEntity;
