@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import axios from "axios";
-import styles from "../../css/BOARD/board.module.css";
+import styles from "../../css/BOARD/reply.module.css";
 import {getUserNumber} from "../../js/getUserNumber";
 import {useNavigate, useParams} from "react-router-dom";
 

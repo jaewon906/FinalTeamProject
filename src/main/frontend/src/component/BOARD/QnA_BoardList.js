@@ -12,6 +12,8 @@ const QnA_BoardList = (props) => {
     const [searchText, setSearchText] = useState("");
     const [searchResults, setSearchResults] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [selectedCategory, setSelectedCategory] = useState('all'); // 초기 카테고리 선택은 'all'로 설정
+
 
     const authenticate = () => {
         axios.get("/api/board/create-board/authenticate").then(() => {
@@ -22,6 +24,7 @@ const QnA_BoardList = (props) => {
             console.error(e);
         })
     }
+
 
     const refreshData = async (page, search) => {
         try {
@@ -41,6 +44,15 @@ const QnA_BoardList = (props) => {
         refreshData(currentPage, searchText)
     }, [currentPage, searchText]);
 
+    const handleCategoryToggle = (category) => {
+        if (selectedCategory === category) {
+            // 이미 선택된 카테고리를 다시 클릭한 경우, 선택 해제
+            setSelectedCategory('all'); // 또는 원하는 다른 초기 카테고리 선택
+        } else {
+            // 다른 카테고리를 선택한 경우, 해당 카테고리로 설정
+            setSelectedCategory(category);
+        }
+    }
 
     console.log(props.data);
     return (
@@ -57,29 +69,58 @@ const QnA_BoardList = (props) => {
                 </div>
                 <br/>
 
-                <div style={{width:"100%"}}>
+                <div style={{width: "100%"}}>
                     <div className={styles.boardMainSearch}>
                         <div style={{display: 'flex', justifyContent: "flex-end", margin: "20px"}}>
-                            <input
-                                type="text"
-                                placeholder=" Search..."
-                                value={searchText}
-                                style={{width: "250px", marginRight: "10px"}}
-                                onChange={(e) => setSearchText(e.target.value)}
-                            />
-                            <button style={{
-                                width: "60px",
-                                height: "35px",
-                                backgroundColor: "#45B751",
-                                border: "none",
-                                color: "white",
-                                borderRadius: "5px",
-                                cursor: "pointer"
-                            }}
-                                    onClick={() => handleSearch(searchText)}
-                            >
-                                Search
-                            </button>
+                            <div className={styles.categoryContainer} style={{border:"1px solid red"}}>
+                                <button
+                                    className={`${styles.categoryButton} ${
+                                        selectedCategory === 'all' ? styles.active : ''
+                                    }`}
+                                    onClick={() => handleCategoryToggle('all')}
+                                >
+                                    전체
+                                </button>
+                                <button
+                                    className={`${styles.categoryButton} ${
+                                        selectedCategory === '회원 가입' ? styles.active : ''
+                                    }`}
+                                    onClick={() => handleCategoryToggle('category1')}
+                                >
+                                    회원 가입
+                                </button>
+                                <button
+                                    className={`${styles.categoryButton} ${
+                                        selectedCategory === 'category2' ? styles.active : ''
+                                    }`}
+                                    onClick={() => handleCategoryToggle('category2')}
+                                >
+                                    카테고리2
+                                </button>
+                                {/* 원하는 다른 카테고리 버튼들을 추가할 수 있습니다 */}
+                            </div>
+                            <div style={{border:"1px solid black"}}>
+                                <input
+                                    type="text"
+                                    placeholder=" Search..."
+                                    value={searchText}
+                                    style={{width: "250px", marginRight: "10px"}}
+                                    onChange={(e) => setSearchText(e.target.value)}
+                                />
+                                <button style={{
+                                    width: "60px",
+                                    height: "35px",
+                                    backgroundColor: "#45B751",
+                                    border: "none",
+                                    color: "white",
+                                    borderRadius: "5px",
+                                    cursor: "pointer"
+                                }}
+                                        onClick={() => handleSearch(searchText)}
+                                >
+                                    Search
+                                </button>
+                            </div>
                         </div>
                     </div>
                     <div>

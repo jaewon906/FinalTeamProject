@@ -112,52 +112,33 @@ const QnA_Page = () => {
                     />
 
 
-                    <div style={{
-                        border: "2px solid red",
-                        display: 'flex',
-                        justifyContent: 'center',
-                        flexDirection: "column",
-                        alignItems: "center"
-                    }}>
-                        <h2 style={{textAlign: 'center'}}>도서 구매 관련 공지사항</h2>
-                        <div className="col-md-6 mb-4">
-                            <div className="alert alert-info">
+                    <div className={styles.noticeContainer}>
+                        <h2 className={styles.noticeTitle}>도서 구매 관련 공지사항</h2>
+                            <div className={styles.noticeContent}>
                                 <h5 className="alert-heading">중요 공지</h5>
                                 <p>도서 구매 시 할인 프로모션을 진행합니다. 기간: 2023년 8월 21일부터 8월 31일까지. 놓치지 마세요!</p>
                             </div>
-                        </div>
-                        <div className="col-md-6 mb-4">
-                            <div className="alert alert-warning">
-                                <h5 className="alert-heading">주의 사항</h5>
+                        <div className={styles.noticeContent}>
+                                <h5>주의 사항</h5>
                                 <p>예약 구매한 도서는 발매일에 자동으로 배송됩니다. 주문 취소는 발매일 전에만 가능합니다.</p>
                             </div>
-                        </div>
-                        <div className="col-md-6 mb-4">
-                            <div className="alert alert-danger">
-                                <h5 className="alert-heading">환불 정책 변경</h5>
+                        <div className={styles.noticeContent}>
+                                <h5>환불 정책 변경</h5>
                                 <p>구매한 도서의 환불은 구매 후 7일 이내에만 가능합니다. 자세한 내용은 '환불 정책' 페이지에서 확인하세요.</p>
-                            </div>
                         </div>
-                        <div className="col-md-6 mb-4">
-                            <div className="alert alert-success">
-                                <h5 className="alert-heading">새로운 기능 추가</h5>
+                        <div className={styles.noticeContent}>
+                                <h5>새로운 기능 추가</h5>
                                 <p>이제부터 회원 리워드 프로그램을 시작합니다. 도서 구매 시 포인트가 적립되며, 다음 구매에 사용할 수 있습니다.</p>
-                            </div>
                         </div>
-                        <button style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}
-                                className="btn btn-secondary mt-3"
+                        <button
+                                className={styles.noticeHelpBtn}
                                 onClick={() => setIsCollapsed(!isCollapsed)}
                                 type="button"
-                                data-toggle="collapse"
-                                data-target="#collapseExample"
-                                aria-expanded={!isCollapsed}
-                                aria-controls="collapseExample"
                         > 도움말
                         </button>
                         <div className="col-md-6 mb-4">
                             <div className={`collapse mt-3 ${isCollapsed ? '' : 'show'}`} id="collapseExample">
-                                <div className="card card-body">
-                                    공지사항 이외에 도움 제공
+                                <div className={styles.noticeCollapseText}>
                                 </div>
                             </div>
                         </div>

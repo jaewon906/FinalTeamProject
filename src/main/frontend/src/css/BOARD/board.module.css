@@ -29,11 +29,11 @@
 }
 /* 게시판 메인 페이지 스타일 */
 .boardMainContainer {
-    width: 85vw;
+    width: 1200px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
+    padding: 30px;
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -257,80 +257,6 @@
     background-color: #3b944e;
 }
 
-.reply {
-    margin-top: 30px;
-}
-
-.replyList li {
-    margin-top: 12px;
-    padding: 12px;
-    border: 2px solid #45b751;
-    background-color: #f5f5f5;
-    border-radius: 8px;
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
-    align-items: stretch;
-    line-height: 1.5;
-
-}
-
-.replyContent {
-    margin-bottom:5px;
-    font-size:14px;
-    word-wrap: break-word; /* 단어 단위로 자동 줄바꿈 */
-
-}
-.replyInfo {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    margin-top: 8px;
-}
-.replyInfo {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    margin-top: 8px;
-}
-
-.replyAuthor,
-.replyDate {
-    font-size: 11px;
-    color: #888;
-}
-
-.replyForm {
-    width: 400px;
-    margin-top: 20px;
-
-}
-.replyInput {
-    width: 100%;
-    margin-top: 10px;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-.replySubmit {
-    margin-top: 10px;
-    padding: 8px 15px;
-    background-color: #45b751;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    margin-right: 8px;
-}
-.replySubmit:hover {
-    background-color: #3b944e;
-}
-.replyBtnGroup {
-    margin-top: 8px;
-}
 /* 스피너 컨테이너 스타일 */
 .spinnerContainer {
     display: flex;
@@ -355,19 +281,6 @@
     height: 20px;
     animation: spinnerAnimation 1s linear infinite;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -422,5 +335,106 @@
     font-size: 14px;
     padding-left: 15px;
     display: block;
+}
 
+/* 공지사항 컨테이너 스타일 */
+.noticeContainer {
+/*    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    width: 85vw;
+    padding: 20px 0px 30px 0px;
+    border: 2px solid #45B751; !* 원하는 스타일에 맞게 수정 *!
+    border-radius: 8px; !* 원하는 스타일에 맞게 수정 *!
+    background-color: #fff; !* 원하는 배경색에 맞게 수정 *!
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); !* 그림자 스타일 *!
+    margin-bottom: 20px;*/
+    margin-top: 12px;
+    padding: 12px;
+    border: 2px solid #45b751;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: stretch;
+    line-height: 1.5;
+
+}
+
+.noticeTitle {
+    width: 300px;
+    text-align: center;
+    background-color: transparent;
+    border-bottom: 2px solid #45B751;
+    padding-bottom: 10px;
+    margin: 0 auto 20px;
+    font-size: 24px;
+}
+.noticeContent {
+    border: 2px solid #ccc;
+    margin-bottom: 20px;
+    background-color: #f2f2f2; /* 원하는 배경색에 맞게 수정 */
+    border-radius: 8px; /* 원하는 스타일에 맞게 수정 */
+    padding: 20px; /* 원하는 패딩값에 맞게 수정 */
+}
+
+.noticeContent h5 {
+    font-size: 16px;
+    color: #333;
+}
+
+.noticeContent p {
+    font-size: 14px;
+    color: #555;
+    margin-top: 10px;
+}
+
+.noticeBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+.noticeHelpBtn {
+    background-color: #45b751; /* 원하는 버튼 색상에 맞게 수정 */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.noticeHelpBtn:hover {
+    background-color: #3a9743; /* 마우스 호버 시 색상 변화 */
+}
+
+.noticeCollapseText {
+    font-size: 14px;
+    color: #333;
+}
+
+.categoryContainer {
+    display: flex;
+    justify-content: center;
+    margin: 20px; /* 카테고리 버튼과 검색 입력 필드 사이의 여백 조절 */
+}
+
+.categoryButton {
+    width: 50%;
+    padding: 10px 20px;
+    background-color: #f2f2f2; /* 카테고리 버튼 배경색 */
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    margin-right: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.categoryButton.active {
+    background-color: #45b751; /* 선택된 카테고리 버튼 배경색 */
+    color: white; /* 선택된 카테고리 버튼 글자색 */
 }
