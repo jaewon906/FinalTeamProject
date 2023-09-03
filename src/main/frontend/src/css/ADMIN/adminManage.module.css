@@ -199,6 +199,9 @@
     flex-direction: column;
     background-color:#d5f4ff;
 }
+.product > a{
+    width:98%;
+}
 .orderHeader{
     display: flex;
     width:98%;
@@ -232,7 +235,7 @@
 .order{
     background-color: #fdf8dc;
     display: flex;
-    width: 98%;
+    width: 100%;
     height: 60px;
     box-shadow: 0 0px 5px 0 gray;
     border-radius: 10px;

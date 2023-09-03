@@ -184,4 +184,16 @@ public class AdminService {
         else return null;
 
     }
+
+    public Page<OrderEntity> searchOrderInfo(String keyword, Pageable pageable) {
+        return orderRepository.searchByOrderNumberContainingIgnoreCaseOrUsernameContainingIgnoreCaseOrUserAddressContainingIgnoreCaseOrUserTelContainingIgnoreCaseOrUserEmailContainingIgnoreCase(
+                keyword,keyword,keyword,keyword,keyword,pageable
+        );
+
+    }
+
+    public Page<OrderEntity> getOrderInfo(Pageable pageable) {
+        return orderRepository.findAll(pageable);
+    }
+
 }
