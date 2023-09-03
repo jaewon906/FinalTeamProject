@@ -62,11 +62,17 @@
     height: 100%;
 }
 
+
 .orderInfo {
-    width: 99.5%;
+    width: calc(100% - 2px);
     height: 50px;
     border: 1px solid gray;
     display: flex;
+    transition :  background-color 0.3s;
+}
+
+.orderInfo:hover{
+    background-color: #cedbfb;
 }
 
 .orderInfo > div {
@@ -79,11 +85,12 @@
     text-overflow: fade;
     padding: 0 10px;
     border-right: 1px solid gray;
-    line-height: 25px;
+    display: flex;
+    align-items: center;
 }
 
 .orderInfo > .orderNumber {
-    width: 10%;
+    width: 12%;
 }
 
 .orderInfo > .username {
@@ -91,11 +98,12 @@
 }
 
 .orderInfo > .orderName {
-    width: 16%;
+    width: 20%;
 }
 
 .orderInfo > .orderState {
-    width: 10%;
+    width: 8%;
+    border-right: none;
 }
 
 .table ::-webkit-scrollbar {
@@ -104,19 +112,17 @@
 
 .orderInfo > .address {
     width: 30%;
-    border-right: 1px solid gray;
 
 }
 
 .orderInfo > .totalPrice {
-    width: 7%;
-    border-right: 1px solid gray;
+    width: 6%;
 
 }
 
 .orderInfo > .userTel {
-    width: 10%;
-    border-right: 1px solid gray;
+    width: 12%;
+
 
 }
 

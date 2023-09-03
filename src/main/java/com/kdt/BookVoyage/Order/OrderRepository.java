@@ -15,6 +15,6 @@ public interface OrderRepository extends JpaRepository<OrderEntity,Long> {
 
     Optional<List<OrderEntity>> findByMemberEntityIdAndOrderNumber(Long id, String orderNumber);
 
-    Page<OrderEntity> searchByOrderNumberContainingIgnoreCaseOrUsernameContainingIgnoreCaseOrUserAddressContainingIgnoreCaseOrUserTelContainingIgnoreCaseOrUserEmailContainingIgnoreCase(
-            String orderName, String username, String address,String tel, String email, Pageable pageable);
+    Page<OrderEntity> searchByOrderNumberContainingIgnoreCaseOrOrderNameContainingIgnoreCaseOrUsernameContainingIgnoreCaseOrUserAddressContainingIgnoreCaseOrUserTelContainingIgnoreCaseOrTotalPriceContainingIgnoreCase(
+           String orderNumber, String orderName, String username, String address, String tel, Integer totalPrice, Pageable pageable);
 }

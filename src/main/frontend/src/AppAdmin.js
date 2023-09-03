@@ -6,6 +6,7 @@ import AdminManage from "./pages/AdminPage/AdminManage";
 import UserManage from "./pages/AdminPage/UserManage";
 import NotFound from "./js/NotFound";
 import OrderManage from "./pages/AdminPage/OrderManage";
+import OrderManageDetail from "./pages/AdminPage/OrderManageDetail";
 
 export default function AppAdmin() {
 
@@ -19,6 +20,7 @@ export default function AppAdmin() {
                 <Route path={"manage/"} element={<Outlet/>}>
                     <Route path={"user/"} element={<AdminTheme page={<UserManage/>}/>}/>
                     <Route path={"order/"} element={<AdminTheme page={<OrderManage/>}/>}/>
+                    <Route path={"orderDetail/:orderNumber"} element={<AdminTheme page={<OrderManageDetail/>}/>}/>
                 </Route>
             </Route>
         </Routes>

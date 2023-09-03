@@ -18,6 +18,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
@@ -43,7 +44,7 @@ public class AdminService {
 
         Optional<MemberEntity> admin = memberRepository.findByUserId("admin");
 
-        if(admin.isEmpty()){
+        if (admin.isEmpty()) {
 
             adminRepository.createAdminId();
         }
@@ -80,6 +81,7 @@ public class AdminService {
 
         return all.size();
     }
+
     public Map<String, Integer> getNewUserPerDaySummary() {
 
         List<MemberEntity> all = memberRepository.findAll();
@@ -112,7 +114,7 @@ public class AdminService {
             String timestamp1 = new Timestamp(i * oneDay + sevenDaysAgo_0Hour).toString();
             String date = timestamp1.split(" ")[0];
 
-            result.put(date, a[i-1]);
+            result.put(date, a[i - 1]);
         }
 
         log.info("회원 수 : {}", all.size());
@@ -148,17 +150,16 @@ public class AdminService {
                 Sort.Order.desc("orderedTime")
         ));
 
-        if(orderEntityLists4.size()!=0){
+        if (orderEntityLists4.size() != 0) {
 
-            if(orderEntityLists4.size() >=4){
+            if (orderEntityLists4.size() >= 4) {
 
                 for (int i = 0; i < 4; i++) {
 
                     lists4.add(OrderDTO.EntityToDTO(orderEntityLists4).get(i));
                 }
 
-            }
-            else{
+            } else {
 
                 for (int i = 0; i < orderEntityLists4.size(); i++) {
 
@@ -176,24 +177,51 @@ public class AdminService {
 
         List<OrderEntity> allOrderByOrderNumberDesc = orderRepository.findAll(Sort.by(Sort.Order.desc("orderedTime")));
 
-        if (allOrderByOrderNumberDesc.size()!=0) {
+        if (allOrderByOrderNumberDesc.size() != 0) {
 
             return OrderDTO.EntityToDTO(allOrderByOrderNumberDesc);
 
-        }
-        else return null;
+        } else return null;
 
     }
 
-    public Page<OrderEntity> searchOrderInfo(String keyword, Pageable pageable) {
-        return orderRepository.searchByOrderNumberContainingIgnoreCaseOrUsernameContainingIgnoreCaseOrUserAddressContainingIgnoreCaseOrUserTelContainingIgnoreCaseOrUserEmailContainingIgnoreCase(
-                keyword,keyword,keyword,keyword,keyword,pageable
+    public Page<OrderDTO> searchOrderInfo(String keyword, Pageable pageable) {
+
+        Integer totalPrice = Integer.valueOf(keyword);
+
+        Page<OrderEntity> orderEntities = orderRepository.searchByOrderNumberContainingIgnoreCaseOrOrderNameContainingIgnoreCaseOrUsernameContainingIgnoreCaseOrUserAddressContainingIgnoreCaseOrUserTelContainingIgnoreCaseOrTotalPriceContainingIgnoreCase(
+               keyword, keyword, keyword, keyword, keyword, totalPrice, pageable
         );
 
+        List<OrderDTO> orderDTO = OrderDTO.EntityToDTO(orderEntities.stream().toList());
+
+        return new PageImpl<>(orderDTO, pageable, 1L);
     }
 
-    public Page<OrderEntity> getOrderInfo(Pageable pageable) {
-        return orderRepository.findAll(pageable);
+    public Page<OrderDTO> getOrderInfo(Pageable pageable) {
+
+        Page<OrderEntity> all = orderRepository.findAll(pageable);
+
+        List<OrderDTO> orderDTO = OrderDTO.EntityToDTO(all.stream().toList());
+
+        return new PageImpl<>(orderDTO, pageable, 1L);
+
+
     }
 
+    public List<OrderDTO> getOrderDetailAndSetIsRead(OrderDTO orderDTO) {
+        Optional<OrderEntity> byOrderNumber = orderRepository.findByOrderNumber(orderDTO.getOrderNumber());
+
+        if(byOrderNumber.isPresent()){
+            List<OrderEntity> result = new ArrayList<>();
+            result.add(byOrderNumber.get());
+
+            OrderEntity orderEntity = byOrderNumber.get();
+            orderEntity.setIsRead(orderDTO.getIsRead());
+
+            orderRepository.save(orderEntity);
+
+            return OrderDTO.EntityToDTO(result);
+        } else throw new OrderNotFoundException("주문 내역이 존재하지 않습니다.");
+    }
 }

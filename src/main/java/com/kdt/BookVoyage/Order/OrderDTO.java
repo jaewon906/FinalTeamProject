@@ -3,6 +3,8 @@ package com.kdt.BookVoyage.Order;
 import lombok.Getter;
 import lombok.Setter;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +22,8 @@ public class OrderDTO {
     private String username;
 
     private String userAddress;
+
+    private String orderedTime;
 
     private String userTel;
 
@@ -40,12 +44,12 @@ public class OrderDTO {
         for (OrderEntity orderEntity : orderEntityList) {
 
             OrderDTO orderDTO = modelMapper.map(orderEntity, OrderDTO.class);
-            orderDTO.setOrderName(orderEntity.getOrderProductEntity().get(0).getTitle() + " 외" + " " + (orderEntity.getOrderProductEntity().size() - 1) + "건");
 
             result.add(orderDTO);
         }
 
         return result;
     }
+
 
 }

@@ -1,6 +1,8 @@
 import style from "../../css/ADMIN/orderManage.module.css"
 import axios from "axios";
 import {useEffect, useRef, useState} from "react";
+import convertToWon from "../../js/convertToWon";
+import {Link} from "react-router-dom";
 
 
 let sort = "id";
@@ -88,7 +90,7 @@ export default function OrderManage() {
         page = e.target.id
         setCurrentPage(e.target.id)
 
-        axios.get("/api/admin/manage/user/search?page=" + page + "&size=" + size + "&sort=" + sort + "," + order, {
+        axios.get("/api/admin/manage/order/search?page=" + page + "&size=" + size + "&sort=" + sort + "," + order, {
             params: {
                 keyword: keyword.current.value
             }
@@ -115,14 +117,13 @@ export default function OrderManage() {
     // true = ASC
     const sortMethod = (e) => {
 
-        document.getElementById("userId").style.background = "#f2f4fa"
+        document.getElementById("orderNumber").style.background = "#f2f4fa"
+        document.getElementById("orderName").style.background = "#f2f4fa"
         document.getElementById("username").style.background = "#f2f4fa"
-        document.getElementById("nickname").style.background = "#f2f4fa"
-        document.getElementById("userNumber").style.background = "#f2f4fa"
-        document.getElementById("userEmail").style.background = "#f2f4fa"
         document.getElementById("userAddress").style.background = "#f2f4fa"
         document.getElementById("userTel").style.background = "#f2f4fa"
-        document.getElementById("deleteFlag").style.background = "#f2f4fa"
+        document.getElementById("totalPrice").style.background = "#f2f4fa"
+        document.getElementById("orderState").style.background = "#f2f4fa"
 
         e.target.style.backgroundColor = "#cbdfff"
         sort = e.target.id;
@@ -302,7 +303,7 @@ export default function OrderManage() {
         const size = userAmount.current.value;
         page = val
 
-        axios.get("/api/admin/manage/user/search?page=" + page + "&size=" + size + "&sort=" + sort + "," + order, {
+        axios.get("/api/admin/manage/order/search?page=" + page + "&size=" + size + "&sort=" + sort + "," + order, {
             params: {
                 keyword: keyword.current.value
             }
@@ -428,7 +429,7 @@ export default function OrderManage() {
     return (
         <>
             <div className={style.main}>
-                <h1 style={{margin: "100px 0 50px 0 "}}>회원정보 리스트</h1>
+                <h1 style={{margin: "100px 0 50px 0 "}}>주문 리스트</h1>
                 <div className={style.selectAndSearch}>
                     <div className={style.selectAndSearchBox}>
                         <p style={{lineHeight: "27px"}}>검색 결과 : <strong>{searchResultLength}개</strong></p>
@@ -501,16 +502,18 @@ export default function OrderManage() {
                         {loading ?
                             orderInfo.map((el, key) => {
                                 return (
-                                    <div key={key} className={style.orderInfo}>
-                                        <div className={style.orderNumber}>{el.userId}</div>
-                                        <div className={style.orderName}>{el.username}</div>
-                                        <div className={style.username}>{el.nickname}</div>
-                                        <div className={style.address}>{el.userNumber}</div>
-                                        <div className={style.userTel}>{el.userEmail}</div>
+                                    <Link to={`/admin/manage/orderDetail/order?orderNumber=${el.orderNumber}`}>
+                                        <div key={key} className={style.orderInfo}>
+                                        <div className={style.orderNumber}>{el.orderNumber}</div>
+                                        <div className={style.orderName}>{el.orderName}</div>
+                                        <div className={style.username}>{el.username}</div>
+                                        <div className={style.address}>{el.userAddress}</div>
+                                        <div className={style.userTel}>{el.userTel}</div>
                                         <div
-                                            className={style.totalPrice}>{el.userAddress + " " + el.userDetailAddress}</div>
-                                        <div className={style.orderState}>{el.userTel}</div>
+                                            className={style.totalPrice}>{convertToWon(el.totalPrice.toString(),null)}</div>
+                                        <div className={style.orderState}>{el.orderState}</div>
                                     </div>
+                                    </Link>
                                 )
                             })
                             :

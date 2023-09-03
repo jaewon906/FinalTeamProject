@@ -28,21 +28,21 @@ export default function AdminTheme(props) {
                 <div className={style.leftSide}>
                     <div className={style.logo}>
                         <h2 style={{cursor: "pointer", fontWeight: "bolder"}} onClick={() => {
-                            window.location.href = "/admin/manage/"
+                            window.location.href = "/admin/manage"
                         }}>BookVoyage</h2>
                         <p>관리 페이지</p>
                     </div>
                     <div className={style.categories}>
                         <div onClick={() => {
-                            window.location.href = "/admin/manage/user/"
+                            window.location.href = "/admin/manage/user"
                         }} className={style.category}>고객 관리
                         </div>
                         <div onClick={() => {
-                            window.location.href = "/admin/manage/order/"
+                            window.location.href = "/admin/manage/order"
                         }} className={style.category}>주문 관리
                         </div>
                         <div onClick={() => {
-                            window.location.href = "/admin/manage/CS/"
+                            window.location.href = "/admin/manage/CS"
                         }} className={style.category}>문의 관리
                         </div>
                         <p onClick={logout} style={{marginTop: "300px", cursor: "pointer"}}>로그아웃</p>

@@ -234,36 +234,38 @@ export default function AdminManage() {
             {recentOrders.map((el, idx) => {
 
                 return (
-                    <Link to={`order/orderDetail?orderNumber=${el.orderNumber}`}><div id={el.orderNumber}
-                         className={style.order}
-                         key={idx}>
-                        {orderNoticeDot(el.isRead)}
-                        <div
-                            className={style.orderNumber}>
-                            {el.orderNumber}
-                        </div>
-                        <div
-                            className={style.orderName}>
-                            {el.orderName}
-                        </div>
-                        <div
-                            className={style.customer}>
-                            {el.username}
-                        </div>
-                        <div
-                            className={style.tel}>
-                            {el.userTel}
-                        </div>
-                        <div className={style.addr}>
-                            {el.userAddress}
-                        </div>
-                        {el.totalPrice !== undefined ?
+                    <Link to={`/admin/manage/orderDetail/order?orderNumber=${el.orderNumber}`}>
+                        <div id={el.orderNumber}
+                             className={style.order}
+                             key={idx}>
+                            {orderNoticeDot(el.isRead)}
                             <div
-                                className={style.price}>
-                                {convertToWon(el.totalPrice + "", null)}
-                            </div> :
-                            ""}
-                    </div></Link>)
+                                className={style.orderNumber}>
+                                {el.orderNumber}
+                            </div>
+                            <div
+                                className={style.orderName}>
+                                {el.orderName}
+                            </div>
+                            <div
+                                className={style.customer}>
+                                {el.username}
+                            </div>
+                            <div
+                                className={style.tel}>
+                                {el.userTel}
+                            </div>
+                            <div className={style.addr}>
+                                {el.userAddress}
+                            </div>
+                            {el.totalPrice !== undefined ?
+                                <div
+                                    className={style.price}>
+                                    {convertToWon(el.totalPrice + "", null)}
+                                </div> :
+                                ""}
+                        </div>
+                    </Link>)
             })}
 
         </div>

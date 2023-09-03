@@ -76,18 +76,23 @@ public class AdminController {
     }
 
     @GetMapping("/manage/order")
-    public Page<OrderEntity> loadOrderInfo(Pageable pageable){
-        log.info("pageable : {}",pageable);
+    public Page<OrderDTO> loadOrderInfo(Pageable pageable){
+
         return adminService.getOrderInfo(pageable);
     }
 
     @GetMapping("/manage/order/search")
-    public Page<OrderEntity> searchOrderInfo(String keyword, Pageable pageable){
+    public Page<OrderDTO> searchOrderInfo(String keyword, Pageable pageable){
         log.info("keyword : {}",keyword);
         log.info("pageable : {}",pageable);
         return adminService.searchOrderInfo(keyword,pageable);
     }
 
+    @PostMapping("/manage/orderDetail")
+    public List<OrderDTO> loadOrderDetailInfo(OrderDTO orderDTO){
+
+        return adminService.getOrderDetailAndSetIsRead(orderDTO);
+    }
 
 
 }

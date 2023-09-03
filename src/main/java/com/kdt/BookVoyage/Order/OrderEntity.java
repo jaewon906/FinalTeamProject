@@ -24,6 +24,9 @@ public class OrderEntity {
     private String orderNumber;
 
     @Column(nullable = false)
+    private String orderName;
+
+    @Column(nullable = false)
     private String username;
 
     @Column(nullable = false)
@@ -61,6 +64,7 @@ public class OrderEntity {
 
     public static OrderEntity setOrderEntity(
             String orderNumber,
+            String orderName,
             String username,
             String email,
             String addr,
@@ -72,6 +76,7 @@ public class OrderEntity {
             MemberEntity memberEntity) {
         OrderEntity orderEntity = new OrderEntity();
         orderEntity.setOrderNumber(orderNumber);
+        orderEntity.setOrderName(orderName);
         orderEntity.setUsername(username);
         orderEntity.setUserEmail(email);
         orderEntity.setUserAddress(addr);
