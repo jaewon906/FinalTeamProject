@@ -5,6 +5,7 @@ import com.kdt.BookVoyage.Board.BoardEntity;
 import com.kdt.BookVoyage.Board.BoardRepository;
 import com.kdt.BookVoyage.Member.MemberEntity;
 import com.kdt.BookVoyage.Member.MemberRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,18 +48,14 @@ public class ReplyService {
         return responseDTO;
     }
 
-/*    // 댓글 삭제 API
     @Transactional
-    public void deleteReply(Long id, String logInUserNickname) {
-        ReplyEntity replyEntity = replyRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 ID의 댓글을 찾을 수 없습니다."));
-
-        if (!replyEntity.getMemberEntity().getNickname().equals(logInUserNickname)) {
-            throw new IllegalArgumentException("댓글 삭제 권한이 없습니다.");
-        }
-
-        replyRepository.delete(replyEntity);
-    }*/
+    public void updataReply(Long replyId, String updatedText) {
+        //댓글을 DB에서 업데이트 하도록 합니다
+        ReplyEntity replyEntity = replyRepository.findById(replyId)
+                .orElseThrow(() -> new EntityNotFoundException("댓글을 찾을 수 없습니다."));
+        replyEntity.setReply(updatedText);
+        replyRepository.save(replyEntity);
+    }
 
     @Transactional
     public void deleteReply(Long replyId) {

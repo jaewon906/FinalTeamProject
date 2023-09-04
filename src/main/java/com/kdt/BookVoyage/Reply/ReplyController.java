@@ -80,7 +80,18 @@ public class ReplyController {
         }
     }
 
-
+    @PutMapping("/board-detail/reply-update/{replyId}")
+    public ResponseEntity<Void> updateReply (@PathVariable Long replyId, @RequestBody Map<String, String> request) {
+        try {
+            String updateText = request.get("text");
+            //댓글 데이터를 업데이트
+            replyService.updataReply(replyId, updateText);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
     
 
 }

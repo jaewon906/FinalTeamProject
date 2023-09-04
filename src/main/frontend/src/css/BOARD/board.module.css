@@ -12,7 +12,7 @@
     src:url("../../fonts/KakaoRegular.ttf");
 }
 .boardMainWriteButton {
-    padding: 20px;
+    padding-top: 30px;
     display: flex;
     flex-direction: column;
     align-items: center;

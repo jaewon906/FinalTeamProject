@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import axios from "axios";
+import axios, {HttpStatusCode} from "axios";
 import styles from "../../css/BOARD/reply.module.css";
 import {getUserNumber} from "../../js/getUserNumber";
 import {useNavigate, useParams} from "react-router-dom";
@@ -10,6 +10,8 @@ const ReplySection = () => {
     const [replies, setReplies] = useState([]);
     const navigate = useNavigate();
     const {id} = useParams();
+    const [isEditing, setIsEditing] = useState(false);
+    const [updatedReply, setUpdatedReply] = useState(reply.text);
 
 
     /** =========== 게시글에 댓글 작성하기 위한 백엔드 통신 ==============  */
@@ -32,9 +34,10 @@ const ReplySection = () => {
                     const newReply = res.data;
                     console.log("댓글 작성 응답(newReply) = " + newReply)
                     setReplies((prevReplies) => [...prevReplies, newReply]);
-                    // window.location.reload()
                     setReply("");
                 }).catch(e => {
+                    alert("로그인이 필요한 서비스입니다.")
+                    navigate("/home/login")
                     console.error(e)
                 })
 
@@ -44,6 +47,7 @@ const ReplySection = () => {
             }
         }
 
+    /** =========== 게시글에 댓글 목록 조회 통신 ==============  */
 
     useEffect(() => {
         const getReplies = async () => {
@@ -60,7 +64,8 @@ const ReplySection = () => {
         };
         getReplies();
     }, [id]);
-
+    
+    /** =========== 게시글에 댓글 삭제하기 위한 백엔드 통신 ==============  */
 
     const handleDeleteReply = async (replyId) => {
         try {
@@ -68,11 +73,47 @@ const ReplySection = () => {
             await axios.delete(`/api/board/board-detail/reply-delete/${replyId}`);
             // 댓글 삭제 후 프론트엔드에서도 삭제
             setReplies((prevReplies) => prevReplies.filter((reply) => reply.id !== replyId));
+            alert("댓글을 삭제하시겠습니까?")
         } catch (error) {
             console.error('댓글 삭제 에러', error);
         }
     };
 
+    /** =========== 게시글에 댓글 수정하기 위한 백엔드 통신 ==============  */
+    const handleUpdate = async (replyId) => {
+        try {
+            // 서버로 댓글 수정 요청 보내기
+            await axios.put(`/api/board/board-detail/reply-update/${replyId}`, {text:updatedReply});
+
+            // 댓글 수정 성공 시 업데이트 콜백 호출
+            onUpdateReply(replyId, updatedReply);
+
+            setIsEditing(false);
+            setUpdatedReply("");
+        } catch (error) {
+            console.log("댓글 수정 에러", error);
+        }
+    }
+
+    const onUpdateReply = (replyId, updatedText) => {
+        setUpdatedReply((prevReplies) => ({
+            ...prevReplies,
+            [replyId]: updatedText,
+        }));
+    };
+
+/*    const handleEdit = () => {
+        setIsEditing(true);
+    };
+
+    const handleCancel = () => {
+        setIsEditing(false);
+        setUpdatedReply(reply.text);
+    };
+
+    const handleChange = (e) => {
+        setUpdatedReply(e.target.value);
+    };*/
 
     return (
         <>
@@ -93,16 +134,16 @@ const ReplySection = () => {
                                         작성일: {reply.regDate}
                                     </div>
                                 </div>
+                                {reply.nickname === getUserNumber().nickname ? (
                                 <div className={styles.replyActions}>
-                                    <button className={styles.detailUpdateBtn} style={{fontSize:"11px", padding:"7px", marginRight:"3px"}}>수정</button>
-
-                                    {/*
-                                    <button onClick={() => handleEditReply(idx)}>수정</button>
-*/}
+                                    {/*수정 버튼 클릭 시 해당 댓글의 ID를 전달*/}
+                                    <button className={styles.detailUpdateBtn} style={{fontSize:"11px", padding:"7px", marginRight:"3px"}}
+                                            onClick={() => handleUpdate(reply.id)}>수정</button>
                                     <button style={{fontSize: "11px", padding: "7px"}}
                                             className={styles.detailDeleteBtn}  onClick={() => handleDeleteReply(reply.id)} >삭제
                                     </button>
                                 </div>
+                                    ) : " " }
                             </li>
                         ))}
                     </ul>

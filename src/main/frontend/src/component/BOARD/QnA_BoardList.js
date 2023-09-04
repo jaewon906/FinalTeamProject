@@ -26,8 +26,9 @@ const QnA_BoardList = (props) => {
             window.location.href = "/home/logIn"
             console.error(e);
         })
-    }/*
+    }
 
+/*
     const refreshData = async (page, search) => {
         try {
             setLoading(true);
@@ -47,6 +48,7 @@ const QnA_BoardList = (props) => {
         refreshData(selectedCategory === "all" ? currentPage : currentPageFiltered, searchText);
     }, [currentPage, searchText,currentPageFiltered,selectedCategory]);
 */
+
 
     // 페이지 변경 및 카테고리 선택 시 데이터 업데이트
     useEffect(() => {
@@ -95,10 +97,6 @@ const QnA_BoardList = (props) => {
     const totalFilteredItems = filterCategory.length;
     const totalFilteredPages = Math.ceil(totalFilteredItems / itemsPerPage);
 
-    console.log("itemsper = " + itemsPerPage);
-    console.log("startIDX = " + startIdxFiltered, "end = " + endIdxFiltered, "page  = " + pagedFilteredData );
-    console.log("totalitem = " + totalFilteredItems, "totalFilpage = " + totalFilteredPages)
-    console.log(props.data)
     return (
         <>
             <div className={styles.boardMainContainer}>
@@ -108,7 +106,7 @@ const QnA_BoardList = (props) => {
                 <br/>
 
                 <div style={{width: "100%"}}>
-                    <div style={{padding: "10px"}}>
+                    <div style={{paddingBottom:"25px"}}>
                         <div className={styles.categoryContainer} style={{marginBottom: "80px"}}>
                             <button
                                 className={`${styles.categoryButton} ${selectedCategory === 'all' ? styles.active : ''}`}
