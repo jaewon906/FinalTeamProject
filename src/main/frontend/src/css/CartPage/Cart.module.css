@@ -1,11 +1,11 @@
 .tblItemWrap {
   width: 90%;
-  
 }
 
 .tblItem {
   border: 1px solid gray;
-  width: 100%;
+  width: 80%;
+  margin: 50px auto;
 }
 
 caption {
@@ -16,6 +16,7 @@ caption {
 .tblItemWrap > .tblItem > tbody > tr > td {
   padding: 30px;
   border: 1px solid green;
+  box-sizing: border-box;
 }
 
 .checkbox {
@@ -46,4 +47,16 @@ caption {
 .del {
   font-size: 0.8rem;
   color: #595959;
+}
+
+.center {
+  text-align: center;
+}
+
+.btnBox {
+  display: flex;
+}
+
+.btn {
+  margin: 15px 10px;
 }
