@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,7 +19,7 @@ public class CartDto {
     private Long id;
     private int quantity;
     private Long userId;
-    private List<CartItemDto> cartItems;
+    private List<CartItemDto> cartItems = new ArrayList<>();
     private LocalDate create_at;
 
     public static CartDto entityToDto(CartEntity entity) {

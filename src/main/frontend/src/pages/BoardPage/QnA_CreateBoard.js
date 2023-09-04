@@ -105,28 +105,6 @@ const QnA_CreateBoard = () => {
 
     return (
         <>
-{/*
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                Launch demo modal
-            </button>
-
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            ...
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
-                        </div>
-                    </div>
-                </div>
-            </div>*/}
             {loding ?
             <div className={styles.createContainer}>
                 <h1 className={styles.createTitle}>글 작성</h1>
@@ -151,9 +129,7 @@ const QnA_CreateBoard = () => {
                                             <option value="회원 가입">회원 가입</option>
                                             <option value="도서 예약">도서 예약</option>
                                         </select>
-                                        {warn && category === "" && (
-                                            <div className={styles.createError} style={{color:"red"}}>카테고리를 선택해주세요.</div>
-                                        )}
+                                        {warn && category === "" && (<div className={styles.createError}>카테고리를 선택해주세요.</div>)}
                                     </div>
                                 <div>
                                     <div className = {styles.createFormGroup}>
@@ -168,15 +144,15 @@ const QnA_CreateBoard = () => {
                                                 setWarn(false)
                                             }}
                                         />
-                                        {warn && title === "" && (
-                                            <div style={{color:"red"}}>제목을 입력해주세요.</div>
-                                        )}
+                                        {warn && title === "" && (<div className={styles.createError} >제목을 입력해주세요.</div> )}
                                     </div>
                                 </div>
 
                                 <div>
                                     <div>
                                         <label htmlFor="content">내용을 입력하세요</label>
+                                        {warn && content === "" && (<div className={styles.createError}>내용을 입력해주세요</div>)}
+
                                         <EditorComponent
                                             dangerouslySetInnerHTML={{ __html: content }}
                                             id="content_text"
@@ -187,8 +163,6 @@ const QnA_CreateBoard = () => {
                                                 onEditorChange(newContent);
                                                 setWarn(false);
                                             }} />
-
-                                        {warn && content === "" && (<div style={{color:"red"}}>내용을 입력해주세요</div>)}
                                     </div>
                                 </div>
 

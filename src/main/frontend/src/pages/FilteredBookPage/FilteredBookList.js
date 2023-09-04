@@ -115,9 +115,9 @@ function FilteredBookList({category}) {
                                         </div>
                                     </div>
                                     <div className="cart-buy">
-                                        <div className="btn-cart">
+                                        {/* <div className="btn-cart">
                                             <Button violet="true" fullWidth>장바구니 담기</Button>
-                                        </div>
+                                        </div> */}
                                         <div className="btn-buy">
                                             <Button onClick={()=>{goToPurchase(bookDetail.isbn13)}} green="true" fullWidth>구매하기</Button>
                                         </div>

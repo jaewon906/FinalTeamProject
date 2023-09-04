@@ -86,6 +86,10 @@ public class BoardService {
         return boardRepository.findAll(pageable);
     }
 
+    @Transactional
+    public List<BoardEntity> search(String keyword) {
+        return boardRepository.findByTitleContaining(keyword);
+    }
 }
 
 /**

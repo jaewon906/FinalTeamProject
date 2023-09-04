@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Button from "../../common/Button";
 import "../../css/DetailPage/BookDetail.css";
 import { styled } from "styled-components";
@@ -19,6 +19,9 @@ function BookDetailPage() {
   const [showFullToc, setShowFullToc] = useState(false);
   const [showFullAuthor, setShowFullAuthor] = useState(false);
   const [quantity, setQuantity] = useState(1);
+  const navigate = useNavigate();
+  const userNumber = getUserNumber().userNumber;
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const handleQuantity = (e) => {
     switch (e.target.id) {
@@ -113,27 +116,46 @@ function BookDetailPage() {
     }
   };
 
+
+
+
+
   const AddToCart = async (bookId, quantity) => {
     try {
-      const userNumber = getUserNumber().userNumber;
+      console.log(userNumber);
+      if(userNumber === undefined) {
+        const ret = window.confirm(
+          "로그인이 필요한 서비스입니다. 로그인 하시겠습니까?"
+        );
+        if(ret) {
+          navigate("/home/logIn", {state : { returnUrl: `/home/bookdetail/${bookDetails.isbn13}`}});
+          return;
+        } else {
+          navigate(`/home/bookdetail/${bookDetails.isbn13}`);
+          return;
+        }
+      }
       const response = await axios.post("/api/cart/add", {
         userNumber: userNumber,
         bookId: bookId,
         quantity: quantity,
       });
-
+    
       if (response.status === 200) {
-        alert("상품이 장바구니에 추가되었습니다!");
+        const ret = window.confirm("상품이 장바구니에 추가되었습니다! 장바구니로 이동할까요?");
+        if(ret) {
+          navigate('/home/cart/')
+        }
       } else {
         alert("상품 추가에 실패했습니다.");
       }
-    } catch (error) {
+    } 
+   
+    catch (error) {
       console.log(error);
       alert("오류가 발생했습니다.");
     }
   };
-
-  console.log(bookDetails.bookId);
 
   return (
     <>

@@ -71,8 +71,8 @@ export default function Payment(props) {
 
             const sessionStorage = window.sessionStorage
 
-            let purchasedList = []
-            let amounts = []
+        let purchasedList = []
+        let amounts = []
 
             for (let i = 0; i < sessionStorage.length; i++) {
 

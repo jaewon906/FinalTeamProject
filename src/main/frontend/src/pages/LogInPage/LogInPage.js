@@ -1,5 +1,5 @@
 import style from "../../css/LogInPage/logInPage.module.css"
-import {Link} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import {useRef} from "react";
 import axios from "axios";
 
@@ -8,6 +8,8 @@ export default function LogInPage() {
 
     const userId = useRef();
     const password = useRef();
+    const location = useLocation();
+    const navigate = useNavigate();
     let userState ;
 
     const toLogIn = () => {
@@ -23,7 +25,8 @@ export default function LogInPage() {
                 switch (userState) {
                     case true:
 
-                        window.location.href = "/home";
+                        const returnUrl = location.state?.returnUrl || '/home';
+                        navigate(returnUrl);
 
                         break;
 
@@ -76,6 +79,8 @@ export default function LogInPage() {
             toLogIn()
         }
     }
+
+
 
     return (
         <div className={style.container}>
