@@ -1,4 +1,4 @@
-a {
+.link {
   text-decoration: none;
   color: black;
 }
@@ -14,31 +14,34 @@ a {
   display: flex;
   justify-content: space-between;
 }
-.hot-item {
+.hotItem {
   font-weight: bold;
   margin: 40px 0;
 }
 
-.hot-item-list {
+.hotItemList {
   list-style: none;
   display: flex;
   justify-content: space-between;
   width: 100%;
 }
 
-.hot-item-list >  li {
+.hotItemList >  li {
   width: 280px;
 }
 
-.hot-item-list > li > .book-info .author, .hot-item-list > li > .book-info .publisher, 
-.hot-item-list > li > .book-info .category {
+.author, .category {
   color: #595959;
   font-size: 0.9rem;
 }
 
-.hot-item-list > li > .book-info {
-  width: 83%;
+.bookInfo {
+  width: 90%;
+}
 
+.bookTitle {
+  font-size: 1.1rem;
+  padding: 10px 0;
 }
 
 
