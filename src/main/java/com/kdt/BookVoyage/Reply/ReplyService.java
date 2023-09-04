@@ -35,14 +35,14 @@ public class ReplyService {
 
 
         ReplyEntity replyEntity = dto.toEntity();
-        replyEntity.setMemberEntity(memberEntity); // Set the MemberEntity
+        replyEntity.setMemberEntity(memberEntity);
 
 
         replyRepository.save(replyEntity);
 
 
         ReplyDTO.ReplyResponseDTO responseDTO = new ReplyDTO.ReplyResponseDTO(replyEntity);
-        responseDTO.setNickname(logInUserNickname); // Set the nickname in the response DTO
+        responseDTO.setNickname(logInUserNickname);
 
         return responseDTO;
     }

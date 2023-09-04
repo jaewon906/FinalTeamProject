@@ -42,6 +42,25 @@ public class ReplyController {
         String accessToken = "";
         String nickname = "";
         for (Cookie cookie : cookies) {
+            switch(cookie.getName()){
+                case "accessToken" : accessToken = cookie.getValue();
+            }
+            nickname = tokenDecoder.accessTokenDecoder(accessToken, "nickname");
+        }
+
+        ReplyDTO.ReplyResponseDTO responseDTO = replyService.replyCreate(id, dto, nickname);
+
+        return ResponseEntity.ok(responseDTO);
+
+    }
+
+/*    @PostMapping("/board-detail/reply-list/{id}")
+    public ResponseEntity<ReplyDTO.ReplyResponseDTO> replyCreate(@PathVariable Long id, @RequestBody ReplyDTO.ReplyRequestDTO dto, HttpServletRequest request) {
+
+        Cookie[] cookies = request.getCookies();
+        String accessToken = "";
+        String nickname = "";
+        for (Cookie cookie : cookies) {
             switch (cookie.getName()) {
                 case "accessToken":
                     accessToken = cookie.getValue();
@@ -52,7 +71,7 @@ public class ReplyController {
         ReplyDTO.ReplyResponseDTO responseDTO = replyService.replyCreate(id, dto, nickname);
         log.info("닉네임이 무엇임 = {}",responseDTO);
         return ResponseEntity.ok(responseDTO);
-    }
+    }*/
 
     @GetMapping("/board-detail/reply-list/{id}")
     public ResponseEntity<List<ReplyDTO.ReplyResponseDTO>> reply_list(@PathVariable Long id) {
