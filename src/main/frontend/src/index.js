@@ -9,8 +9,8 @@ import HomeAddress from "./js/HomeAddress";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <BrowserRouter>
-        <HomeAddress/>
+        <BrowserRouter>
+            <HomeAddress/>
 
             <div id={"userOnly"} style={{maxWidth: "100vw", minWidth: "1296px", height: "auto", position: "relative"}}>
                 <App/>
@@ -21,14 +21,12 @@ root.render(
                 <AppAdmin/>
             </div>
 
+            <Routes>
+                <Route path={"/board/*"} element={<AdminPageControl/>}/>
+                <Route path={"/book/*"} element={<AdminPageControl/>}/>
+                <Route path={"/*"} element={<AdminPageControl/>}/>
+            </Routes>
 
-
-        <Routes>
-            <Route path={"/board/*"} element={<AdminPageControl/>}/>
-            <Route path={"/book/*"} element={<AdminPageControl/>}/>
-            <Route path={"/*"} element={<AdminPageControl/>}/>
-        </Routes>
-
-    </BrowserRouter>
+        </BrowserRouter>
 );
 

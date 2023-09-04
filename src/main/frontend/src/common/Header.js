@@ -11,7 +11,7 @@ export default function Header() {
     const [nickname, setNickname] = useState()
     const [userNumber, setUserNumber] = useState("0")
     const navigate = useNavigate();
-    
+
 
     const handleChange = (e) => {
     navigate(`/search?q=${e.target.value}`)}
@@ -88,10 +88,10 @@ export default function Header() {
                 <button onClick={myPage} className={style.myInfo}></button>
 
                 <input name={"search"} type={"search"} className={style.search} placeholder={"search..."} onChange={handleChange}/>
-                <button className={style.signUp} onClick={signUp}>SignUp</button>
+                <button className={style.signUp} onClick={signUp}>회원가입</button>
                 {isLogin ?
-                    <button className={style.logIn} onClick={logOut}>LogOut</button> :
-                    <button className={style.logIn} onClick={logIn}>LogIn</button>
+                    <button className={style.logIn} onClick={logOut}>로그아웃</button> :
+                    <button className={style.logIn} onClick={logIn}>로그인</button>
                 }
             </div>
         </div>

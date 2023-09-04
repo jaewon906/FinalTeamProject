@@ -81,6 +81,7 @@ a {
     transition: color 0.3s, background-color 0.3s;
     cursor: pointer;
     margin:0 20px;
+    font-size: 16px;
 }
 
 .signUp:hover {
@@ -99,6 +100,7 @@ a {
     margin-right: 20px;
     transition: color 0.3s, background-color 0.3s;
     cursor: pointer;
+    font-size: 16px;
 }
 
 .logIn:hover {

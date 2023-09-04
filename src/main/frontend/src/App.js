@@ -25,7 +25,6 @@ import PurchaseResultPage from "./pages/PurchasePage/PruchaseResultPage";
 import OrderDetailPage from "./pages/MyPage/OrderDetailPage";
 
 
-
 function App() {
 
     return (

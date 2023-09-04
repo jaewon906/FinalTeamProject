@@ -65,8 +65,12 @@ export default function OrderDetailPage() {
 
                             return (
                                 <div className={style.orderProduct} key={idx}>
-                                    <div className={style.cover}>
-                                        <img src={el.cover}/>
+                                    <div
+                                        onClick={()=>{
+                                            window.location.href=`/home/bookdetail/${el.isbn13}`
+                                        }}
+                                        style={{backgroundImage:`url(${el.cover})`}}
+                                        className={style.cover}>
                                     </div>
                                     <div className={style.title}>
                                         <Link to={`/home/bookdetail/${el.isbn13}`}>{el.title}</Link>
@@ -149,7 +153,7 @@ export default function OrderDetailPage() {
                 </div>
                 <div className={style.section1}>
                     {totalPrice ?
-                        <h1>총 금액 : <span style={{color: "red"}}>{convertToWon(totalPrice.toString(), null)}</span>
+                        <h1>총 금액 : <span style={{color: "red"}}>{convertToWon(totalPrice.toString(), null)} 원</span>
                         </h1> : ""}
                     {
                         (orderData.orderState === "주문 완료" ||
