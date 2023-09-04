@@ -123,9 +123,12 @@ const ReplySection = () => {
                                     </div>
                                 </div>
                                 <div className={styles.replyActions}>
+                                    <button className={styles.detailUpdateBtn} style={{fontSize:"11px", padding:"7px", marginRight:"3px"}}>수정</button>
+
                                     {/*
                                     <button onClick={() => handleEditReply(idx)}>수정</button>
 */}
+
                                     <button style={{fontSize: "11px", padding: "7px"}}
                                             className={styles.detailDeleteBtn}>삭제
                                     </button>
