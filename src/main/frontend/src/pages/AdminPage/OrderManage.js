@@ -45,8 +45,6 @@ export default function OrderManage() {
 
     const toSearch = () => {
 
-        console.log(page)
-
         const size = userAmount.current.value;
         page = "0"
         setCurrentPage("0")
@@ -129,7 +127,6 @@ export default function OrderManage() {
         sort = e.target.id;
 
         if (btn !== sort) {
-            console.log("달라달라")
             setBtn(sort)
 
             if (isOrder === true) {
@@ -141,7 +138,6 @@ export default function OrderManage() {
                 setIsOrder(true)
             }
 
-            console.log(isOrder)
 
             switch (sort) {
                 case "orderNumber":
@@ -173,9 +169,7 @@ export default function OrderManage() {
         }
 
         if (btn === sort) {
-            console.log("같아같아")
             setIsOrder(val => !val)
-            console.log(isOrder)
 
             let idx = 0
 
@@ -253,7 +247,7 @@ export default function OrderManage() {
 
                     for (let j = 0; j < 10; j++) {
                         paginationButtons.push(
-                            <p style={{width:"60px", textAlign:"center"}} id={c - 5 + j + ""} key={c - 4 + j}
+                            <p style={{width: "60px", textAlign: "center"}} id={c - 5 + j + ""} key={c - 4 + j}
                                onClick={toSearchWithPage}>
                                 {currentPage === (c - 5 + j) + "" ?
                                     <span id={c - 5 + j + ""}>{c - 4 + j}</span> : c - 4 + j}
@@ -263,7 +257,8 @@ export default function OrderManage() {
                 } else {
                     for (cnt; cnt < b; cnt++) {
                         paginationButtons.push(
-                            <p style={{width:"60px", textAlign:"center"}} id={cnt - 5 + ""} key={cnt - 4} onClick={toSearchWithPage}>
+                            <p style={{width: "60px", textAlign: "center"}} id={cnt - 5 + ""} key={cnt - 4}
+                               onClick={toSearchWithPage}>
                                 {currentPage === (cnt - 5) + "" ? <span id={cnt - 5 + ""}>{cnt - 4}</span> : cnt - 4}
                             </p>
                         );
@@ -273,7 +268,8 @@ export default function OrderManage() {
             } else {
                 for (i; i <= 10; i++) {
                     paginationButtons.push(
-                        <p style={{width:"60px", textAlign:"center"}} id={i - 1 + ""} key={i} onClick={toSearchWithPage}>
+                        <p style={{width: "60px", textAlign: "center"}} id={i - 1 + ""} key={i}
+                           onClick={toSearchWithPage}>
                             {currentPage === (i - 1) + "" ? <span id={i - 1 + ""}>{i}</span> : i}
                         </p>
                     );
@@ -282,7 +278,7 @@ export default function OrderManage() {
         } else {
             for (i; i <= totalPage; i++) {
                 paginationButtons.push(
-                    <p style={{width:"60px", textAlign:"center"}} id={i - 1 + ""} key={i} onClick={toSearchWithPage}>
+                    <p style={{width: "60px", textAlign: "center"}} id={i - 1 + ""} key={i} onClick={toSearchWithPage}>
                         {currentPage === (i - 1) + "" ? <span id={i - 1 + ""}>{i}</span> : i}
                     </p>
                 );
@@ -362,11 +358,11 @@ export default function OrderManage() {
     const visualizationModifyDataAndAddToArray = (e) => {
 
         let cnt = 0;
-        let atUserNumber = e.currentTarget.parentNode.parentNode.children[3].textContent
+        let atOrderNumber = e.currentTarget.parentNode.parentNode.children[0].textContent
 
 
         for (let i = 0; i < updateDataArr.length; i++) {
-            if (updateDataArr[i].userNumber === atUserNumber) {
+            if (updateDataArr[i].orderNumber === atOrderNumber) {
                 cnt++;
             }
         }
@@ -374,24 +370,22 @@ export default function OrderManage() {
         if (cnt === 0) {
             updateDataArr.push(
                 {
-                    userNumber: atUserNumber,
-                    deleteFlag: e.currentTarget.value
+                    orderNumber: atOrderNumber,
+                    orderState: e.currentTarget.value
                 });
-            console.log("저장됨")
             setUpdateArrLength(updateDataArr.length)
         }
 
         if (cnt === 1) {
-            let filter = updateDataArr.filter(el => el.userNumber !== atUserNumber);
+            let filter = updateDataArr.filter(el => el.userNumber !== atOrderNumber);
 
             filter.push({
-                userNumber: atUserNumber,
-                deleteFlag: e.currentTarget.value
+                orderNumber: atOrderNumber,
+                orderState: e.currentTarget.value
             })
 
             updateDataArr = filter
 
-            console.log("수정됨")
             setUpdateArrLength(updateDataArr.length)
         }
 
@@ -403,7 +397,7 @@ export default function OrderManage() {
         const ret = window.confirm("수정 하시겠습니까?")
 
         if (ret) {
-            axios.post("/api/admin/manage/user/update", updateDataArr
+            axios.post("/api/admin/manage/order/update", updateDataArr
             ).then(() => {
                 alert("수정이 완료되었습니다.")
                 window.location.reload()
@@ -415,13 +409,15 @@ export default function OrderManage() {
 
     }
 
-    const returnOptionElement = (deleteFlag, key, color) => {
+    const returnOptionElement = (orderState, key) => {
         return (
-            <select style={{background: color}} onChange={visualizationModifyDataAndAddToArray} id={`select${key}`}
-                    defaultValue={deleteFlag}>
-                <option value={"N"}>활성</option>
-                <option value={"Y"}>휴면</option>
-                <option value={"B"}>정지</option>
+            <select onChange={visualizationModifyDataAndAddToArray} id={`select${key}`}
+                    defaultValue={orderState}>
+                <option value={"주문 완료"}>주문 완료</option>
+                <option value={"배송 준비중"}>배송 준비중</option>
+                <option value={"배송중"}>배송중</option>
+                <option value={"배송 완료"}>배송 완료</option>
+                <option value={"교환/환불"}>교환/환불</option>
             </select>)
     }
 
@@ -501,19 +497,28 @@ export default function OrderManage() {
                         </div>
                         {loading ?
                             orderInfo.map((el, key) => {
+
+                                const toOrderDetail = () =>
+
+                                {
+                                    window.location.href = `/admin/manage/orderDetail/order?orderNumber=${el.orderNumber}`
+                                }
+
                                 return (
-                                    <Link to={`/admin/manage/orderDetail/order?orderNumber=${el.orderNumber}`}>
-                                        <div key={key} className={style.orderInfo}>
-                                        <div className={style.orderNumber}>{el.orderNumber}</div>
+                                    <div key={key} className={style.orderInfo}>
+                                        <div onClick={toOrderDetail} style={{color:"red"}} className={style.orderNumber}>{el.orderNumber}</div>
                                         <div className={style.orderName}>{el.orderName}</div>
                                         <div className={style.username}>{el.username}</div>
                                         <div className={style.address}>{el.userAddress}</div>
                                         <div className={style.userTel}>{el.userTel}</div>
                                         <div
-                                            className={style.totalPrice}>{convertToWon(el.totalPrice.toString(),null)}</div>
-                                        <div className={style.orderState}>{el.orderState}</div>
+                                            className={style.totalPrice}>{convertToWon(el.totalPrice.toString(), null)} 원
+                                        </div>
+                                        <div style={{padding:"0px", width:"calc(10% + 23px)"}} className={style.orderState}>
+                                            {returnOptionElement(el.orderState, key)}
+                                        </div>
                                     </div>
-                                    </Link>
+
                                 )
                             })
                             :
@@ -524,7 +529,7 @@ export default function OrderManage() {
                     </div>
 
                 </div>
-                <div style={{width:"100%", display:"flex", alignItems:"center",flexDirection:"column"}}>
+                <div style={{width: "100%", display: "flex", alignItems: "center", flexDirection: "column"}}>
                     <div className={style.pagingBtnArea}>
                         <div className={style.leftPagingBtnArea}>
                             <i id={"first"} onClick={startEndBtn} className="fa-solid fa-angles-left"></i>

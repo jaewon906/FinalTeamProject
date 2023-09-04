@@ -1,3 +1,8 @@
+.container [class *=Box] > p{
+    font-size: 20px;
+    color: #4f84ff;
+    margin: 50px 0 20px 0;
+}
 .container {
     width: 100%;
     height: 100%;
@@ -27,6 +32,7 @@
     height: auto;
     display: flex;
     flex-direction: column;
+
 }
 .orderDetailHeader {
     width: 100%;
@@ -39,6 +45,7 @@
     height: 100%;
     line-height: 50px;
     text-align: center;
+    border-bottom: 1px solid #c1c1c1;
 }
 .orderDetailNumber {
     width: 15%;
@@ -75,6 +82,7 @@
     height: 100%;
     line-height: 50px;
     text-align: center;
+    border-bottom: 1px solid #c1c1c1;
 }
 .delivery{
     width: 10%;
@@ -108,6 +116,7 @@
     height: 100%;
     line-height: 50px;
     text-align: center;
+    border-bottom: 1px solid #c1c1c1;
 }
 .receiverName{
     width: 20%;
@@ -136,6 +145,7 @@
     height: 100%;
     line-height: 50px;
     text-align: center;
+    border-bottom: 1px solid #c1c1c1;
 }
 .paymentTotal{
     width: 15%;
@@ -179,6 +189,7 @@
     height: 100%;
     line-height: 50px;
     text-align: center;
+    border-bottom: 1px solid #c1c1c1;
 }
 .customerId{
     width: 15%;

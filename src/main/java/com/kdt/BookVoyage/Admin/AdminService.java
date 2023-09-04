@@ -7,9 +7,7 @@ import com.kdt.BookVoyage.Common.UserPasswordNotMatchException;
 import com.kdt.BookVoyage.Member.MemberDTO;
 import com.kdt.BookVoyage.Member.MemberEntity;
 import com.kdt.BookVoyage.Member.MemberRepository;
-import com.kdt.BookVoyage.Order.OrderDTO;
-import com.kdt.BookVoyage.Order.OrderEntity;
-import com.kdt.BookVoyage.Order.OrderRepository;
+import com.kdt.BookVoyage.Order.*;
 import com.kdt.BookVoyage.Security.TokenConfig;
 import com.kdt.BookVoyage.Security.TokenDTO;
 import jakarta.annotation.PostConstruct;
@@ -187,10 +185,9 @@ public class AdminService {
 
     public Page<OrderDTO> searchOrderInfo(String keyword, Pageable pageable) {
 
-        Integer totalPrice = Integer.valueOf(keyword);
 
         Page<OrderEntity> orderEntities = orderRepository.searchByOrderNumberContainingIgnoreCaseOrOrderNameContainingIgnoreCaseOrUsernameContainingIgnoreCaseOrUserAddressContainingIgnoreCaseOrUserTelContainingIgnoreCaseOrTotalPriceContainingIgnoreCase(
-               keyword, keyword, keyword, keyword, keyword, totalPrice, pageable
+                keyword, keyword, keyword, keyword, keyword, keyword, pageable
         );
 
         List<OrderDTO> orderDTO = OrderDTO.EntityToDTO(orderEntities.stream().toList());
@@ -209,19 +206,41 @@ public class AdminService {
 
     }
 
-    public List<OrderDTO> getOrderDetailAndSetIsRead(OrderDTO orderDTO) {
+    public OrderDetailDTO getOrderDetailAndSetIsRead(OrderDTO orderDTO) {
+
         Optional<OrderEntity> byOrderNumber = orderRepository.findByOrderNumber(orderDTO.getOrderNumber());
 
-        if(byOrderNumber.isPresent()){
+        if (byOrderNumber.isPresent()) {
+            MemberEntity memberEntity = byOrderNumber.get().getMemberEntity();
+            List<OrderProductEntity> orderProductEntity = byOrderNumber.get().getOrderProductEntity();
+            OrderEntity orderEntity = byOrderNumber.get();
+
             List<OrderEntity> result = new ArrayList<>();
             result.add(byOrderNumber.get());
 
-            OrderEntity orderEntity = byOrderNumber.get();
             orderEntity.setIsRead(orderDTO.getIsRead());
 
             orderRepository.save(orderEntity);
 
-            return OrderDTO.EntityToDTO(result);
+            return OrderDetailDTO.getOrderDetailDTO(memberEntity, orderProductEntity, orderEntity);
+
         } else throw new OrderNotFoundException("주문 내역이 존재하지 않습니다.");
+    }
+
+    public void updateOrderState(List<Map<String, String>> updatedList) {
+        for (Map<String, String> updated : updatedList) {
+
+            String orderNumber = updated.get("orderNumber");
+            String orderState = updated.get("orderState");
+
+            if (orderState.equals("배송중"))
+                orderRepository.updateDeliveryStart(orderState, orderNumber, LocalDateTime.now().toString());
+
+            else if (orderState.equals("배송 완료")) {
+                orderRepository.updateDeliveryEnd(orderState, orderNumber, LocalDateTime.now().toString());
+            }
+            else
+                orderRepository.updateUserState(orderNumber, orderState);
+        }
     }
 }

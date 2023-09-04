@@ -39,7 +39,7 @@ public class OrderEntity {
     private String userEmail;
 
     @Column(nullable = false)
-    private Integer totalPrice;
+    private String totalPrice;
 
     @Column(nullable = false)
     private String orderState;
@@ -54,7 +54,13 @@ public class OrderEntity {
     @Column(updatable = false)
     private Timestamp orderedTime;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @Column(updatable = false)
+    private String deliveryStart;
+
+    @Column(updatable = false)
+    private String deliveryEnd;
+
+    @ManyToOne()
     @JoinColumn(name = "member_ID")
     private MemberEntity memberEntity;
 
@@ -65,11 +71,13 @@ public class OrderEntity {
     public static OrderEntity setOrderEntity(
             String orderNumber,
             String orderName,
+            String deliveryStart,
+            String deliveryEnd,
             String username,
             String email,
             String addr,
             String tel,
-            Integer totalPrice,
+            String totalPrice,
             String orderState,
             Integer isRead,
             Integer orderNoticed,
@@ -77,6 +85,8 @@ public class OrderEntity {
         OrderEntity orderEntity = new OrderEntity();
         orderEntity.setOrderNumber(orderNumber);
         orderEntity.setOrderName(orderName);
+        orderEntity.setDeliveryStart(deliveryStart);
+        orderEntity.setDeliveryEnd(deliveryEnd);
         orderEntity.setUsername(username);
         orderEntity.setUserEmail(email);
         orderEntity.setUserAddress(addr);

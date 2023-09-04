@@ -1,5 +1,6 @@
 package com.kdt.BookVoyage.Order;
 
+import com.kdt.BookVoyage.Member.MemberEntity;
 import lombok.Getter;
 import lombok.Setter;
 import org.modelmapper.ModelMapper;
@@ -37,6 +38,10 @@ public class OrderDTO {
 
     private Integer orderNoticed; // 결제완료 시 해당 페이지를 한 번만 띄우기 위한 플래그
 
+    private MemberEntity memberEntity;
+
+    private List<OrderProductEntity> orderProductEntities;
+
     public static List<OrderDTO> EntityToDTO(List<OrderEntity> orderEntityList) {
         List<OrderDTO> result = new ArrayList<>();
         ModelMapper modelMapper = new ModelMapper();
@@ -49,6 +54,13 @@ public class OrderDTO {
         }
 
         return result;
+    }
+
+    public static OrderDTO EntityToDTO(OrderEntity orderEntity) {
+        ModelMapper modelMapper = new ModelMapper();
+
+        return modelMapper.map(orderEntity, OrderDTO.class);
+
     }
 
 

@@ -13,7 +13,7 @@ public class PurchaseDTO {
     private List<String> isbnList;
     private List<String> purchasedList;
     private List<Integer> amount;
-    private Integer totalPrice;
+    private String totalPrice;
     private String orderNumber;
     private String userNumber;
 

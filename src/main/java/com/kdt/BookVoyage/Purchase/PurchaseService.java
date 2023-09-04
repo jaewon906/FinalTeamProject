@@ -69,13 +69,15 @@ public class PurchaseService {
             String title = book1.getTitle();
 
             if (isbn13.size() > 1) {
-                title +=  " 외" + (isbn13.size()-1) +" 건" ;
+                title +=  " 외 " + (isbn13.size()-1) +"건" ;
             }
 
 
             OrderEntity orderEntity = OrderEntity.setOrderEntity(
                     purchaseDTO.getOrderNumber(),
                     title,
+                    "-",
+                    "-",
                     memberEntity.getUsername(),
                     memberEntity.getUserEmail(),
                     memberEntity.getUserAddress() + " " + memberEntity.getUserDetailAddress(),
