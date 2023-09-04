@@ -12,13 +12,12 @@ root.render(
     <BrowserRouter>
         <HomeAddress/>
 
-
-            <div id={"userOnly"} style={{width: "100vw", minWidth: "1296px", height: "auto", position: "relative"}}>
+            <div id={"userOnly"} style={{maxWidth: "100vw", minWidth: "1296px", height: "auto", position: "relative"}}>
                 <App/>
             </div>
 
             <div id={"adminOnly"}
-                 style={{width: "100vw", minWidth: "1440px", minHeight: "1024px", height: "100vh", position: "relative"}}>
+                 style={{maxWidth: "100vw", minWidth: "1440px", height: "auto", position: "relative"}}>
                 <AppAdmin/>
             </div>
 

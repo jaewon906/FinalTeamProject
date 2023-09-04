@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
+import styles from "../../css/MainPage/Main.module.css";
 
 function Novel() {
     const [novels, setNovels] = useState([]);
@@ -27,12 +28,12 @@ function Novel() {
 
     const novelList = novels.slice(52, 56);
     return (
-        <div className="container">
-            <h2 className="hot-item">
+        <div className={styles.container}>
+            <h2 className={styles.hotItem}>
                 마음이 따뜻해지는 소설/시
             </h2>
-            <div style={{width: "100%", display: "flex", justifyContent: "space-between"}}>
-                <ul className="hot-item-list">
+            <div>
+                <ul className={styles.hotItemList}>
                     {novelList.map((novelDetail) => {
                         // 카테고리를 ">" 기준으로 잘라내서 보여준다.
                         const categoryArray = novelDetail.categoryName.split(">");
@@ -50,13 +51,13 @@ function Novel() {
                                 </Link>
                                 <br/>
                                 <br/>
-                                <div className="book-info">
-                                    <p className="category">{trimmedCategory}</p>
-                                    <p className="book-title">
-                                        <strong><Link
+                                <div className={styles.bookInfo}>
+                                    <p className={styles.category}>{trimmedCategory}</p>
+                                    <p className={styles.bookTitle}>
+                                        <strong><Link className={styles.link}
                                             to={`/home/bookdetail/${novelDetail.isbn13}`}>{novelDetail.title}</Link></strong>
                                     </p>
-                                    <p className="author">
+                                    <p className={styles.author}>
                                         <small>{novelDetail.author}</small>
                                     </p>
                                 </div>

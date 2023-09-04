@@ -26,23 +26,19 @@
 
 }
 
-.book-detail-page .spec-area .img {
-
-}
-
 .book-detail-page .spec-area .price {
     position: relative;
 
 }
 
 .price {
-    margin: 30px 0;
+    margin-top: -20px;
 
 }
 
 .book-detail-page {
     margin: auto;
-    width: 80%;
+    width: 60%;
 }
 
 .spec-area {

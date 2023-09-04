@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useInView } from 'react-intersection-observer';
-import Button from '../../component/common/Button';
+import Button from '../../common/Button';
 import '../../css/ListPage/AllBookList.css'
 import { Link} from 'react-router-dom';
 import Parser from 'html-react-parser';
@@ -112,9 +112,9 @@ function AllBookList() {
                   </div>
                 </div>
                 <div className="cart-buy">
-                  <div className="btn-cart">
+                  {/* <div className="btn-cart">
                     <Button violet="true" fullWidth>장바구니 담기</Button>
-                  </div>
+                  </div> */}
                   <div className="btn-buy">
                     <Button onClick={()=>{goToPurchase(bookDetail.isbn13)}} green="true" fullWidth>구매하기</Button>
                   </div>

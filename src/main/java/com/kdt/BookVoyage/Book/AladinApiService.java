@@ -14,6 +14,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AladinApiService {
@@ -152,9 +153,19 @@ public class AladinApiService {
 //        }
 //    }
 
+    // 페이징 처리하여 프론트엔드로 반환
     public List<BookEntity> getBooksByPage(int page, int limit) {
         Pageable pageable = PageRequest.of(page, limit);    // 페이지 번호는 0부터 시작
         Page<BookEntity> bookPage = bookRepository.findAll(pageable);
         return bookPage.getContent();
+    }
+
+    // 프론트엔드에서 받은 bookId 값들로 책 조회하여 반환
+    public List<BookDto> getBooksByIds(List<Long> ids) {
+        List<BookEntity> bookEntities = bookRepository.findByBookIdIn(ids);
+
+        return bookEntities.stream()
+                .map(BookDto::entityToDto)
+                .collect(Collectors.toList());
     }
 }

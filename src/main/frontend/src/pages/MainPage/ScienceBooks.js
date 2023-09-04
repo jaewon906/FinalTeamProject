@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
+import styles from "../../css/MainPage/Main.module.css";
 
 function ScienceBooks() {
     const [scienceBooks, setScienceBooks] = useState([]);
@@ -28,11 +29,11 @@ function ScienceBooks() {
     const scienceBooksList = scienceBooks.slice(24, 28);
 
     return (
-        <div className="container">
+        <div className={styles.container}>
 
-            <h2 className="hot-item">원자력의 아버지, 오펜하이머 & 과학 도서</h2>
-            <div style={{width: "100%", display: "flex", justifyContent: "space-between"}}>
-                <ul className="hot-item-list">
+            <h2 className={styles.hotItem}>원자력의 아버지, 오펜하이머 & 과학 도서</h2>
+            <div>
+                <ul className={styles.hotItemList}>
                     {scienceBooksList.map((scienceBookDetail) => {
                         // 카테고리를 ">" 기준으로 잘라내서 보여준다.
                         const categoryArray = scienceBookDetail.categoryName.split(">");
@@ -50,13 +51,13 @@ function ScienceBooks() {
                                 </Link>
                                 <br/>
                                 <br/>
-                                <div className="book-info">
-                                    <p className="category">{trimmedCategory}</p>
-                                    <p className="book-title">
-                                        <strong><Link
+                                <div className={styles.bookInfo}>
+                                    <p className={styles.category}>{trimmedCategory}</p>
+                                    <p className={styles.bookTitle}>
+                                        <strong><Link className={styles.link}
                                             to={`/home/bookdetail/${scienceBookDetail.isbn13}`}>{scienceBookDetail.title}</Link></strong>
                                     </p>
-                                    <p className="author">
+                                    <p className={styles.author}>
                                         <small>{scienceBookDetail.author}</small>
                                     </p>
                                 </div>

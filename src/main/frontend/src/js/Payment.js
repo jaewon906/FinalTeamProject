@@ -68,123 +68,50 @@ export default function Payment(props) {
         } = response;
 
         if (success) {
-            alert('결제 성공');
 
-        } else {
-            alert(`결제 실패: ${error_msg}`);
-
-            // window.sessionStorage.clear()
-            // window.location.href =`result?userNumber=${userNumber}&merchant_uid=${merchant_uid}&paid_at=${paid_at}`
-            // console.log( success,
-            //     merchant_uid,
-            //     amount,
-            //     error_msg,
-            //     imp_uid,
-            //     pay_method,
-            //     name,
-            //     paid_amount,
-            //     currency,
-            //     pg_provider,
-            //     pg_type,
-            //     pg_tid,
-            //     apply_num,
-            //     buyer_nane,
-            //     buyer_email,
-            //     buyer_tel,
-            //     buyer_addr,
-            //     buyer_postcode,
-            //     custom_data,
-            //     status,
-            //     paid_at,
-            //     receipt_url,
-            //     card_name,
-            //     bank_name,
-            //     card_quota,
-            //     card_number)
-        }
-    }
-
-    const aaaa = () => {
-        const sessionStorage = window.sessionStorage
+            const sessionStorage = window.sessionStorage
 
         let purchasedList = []
         let amounts = []
 
-        for (let i = 0; i < sessionStorage.length; i++) {
-            let isbn = sessionStorage.key(i);
-            let amount = sessionStorage.getItem(isbn);
-            purchasedList[i] = isbn
-            amounts[i] = amount
+            for (let i = 0; i < sessionStorage.length; i++) {
 
-        }
-        const dateToString = new Date().toString()
-        const year = dateToString.split(" ")[3]
-        const hms = dateToString.split(" ")[4].split(":")[0]
-            + dateToString.split(" ")[4].split(":")[1]
-            + dateToString.split(" ")[4].split(":")[2]
+                let isbn = sessionStorage.key(i);
+                let amount = sessionStorage.getItem(isbn);
+                purchasedList[i] = isbn
+                amounts[i] = amount
 
-
-        axios.post("/api/user/purchase/purchasedList", {}, {
-            params: {
-                purchasedList: purchasedList.join(","),
-                amount: amounts.join(","),
-                userNumber: userNumber,
-                orderNumber: year+hms+userNumber,
-                totalPrice:props.price
             }
-        })
-            .then(() => {
-                // window.location.href =`result?userNumber=${userNumber}&merchant_uid=${merchant_uid}&paid_at=${paid_at}`
-            })
-            .catch(e => {
-                console.error(e)
-                console.error("서버로 결제 내용을 보내는데 실패했습니다.")
-            })
 
-        // axios.post("/api/user/purchase/order", {},{
-        //     params:{
-        //         purchasedList:purchasedList.join(","),
-        //         amount:amounts.join(",")
-        //     }
-        // })
-        //     .then(() => {
-        //         // window.location.href =`result?userNumber=${userNumber}&merchant_uid=${merchant_uid}&paid_at=${paid_at}`
-        //     })
-        //     .catch(e => {
-        //         console.error(e)
-        //         console.error("서버로 결제 내용을 보내는데 실패했습니다.")
-        //     })
+            axios.post("/api/user/purchase/purchasedList", {}, {
+                params: {
+                    purchasedList: purchasedList.join(","),
+                    amount: amounts.join(","),
+                    userNumber: userNumber,
+                    totalPrice:props.price,
+                    orderNumber:merchant_uid.split("_")[1]
+                }
+            })
+                .then(() => {
+                    window.sessionStorage.clear()
+                    window.location.href =`purchase/result?userNumber=${userNumber}&merchant_uid=${merchant_uid}`
+                })
+                .catch(e => {
+                    alert("error")
+                    console.error(e)
+                    console.error("서버로 결제 내용을 보내는데 실패했습니다.")
+                })
+
+        } else {
+            alert(`결제 실패: ${error_msg}`);
+        }
     }
+
+
     return (
         <div className={style.payment}>
-            <button onClick={aaaa}>테스트</button>
             <button onClick={onClickPayment}>결제하기</button>
         </div>
     );
 }
-// {
-//   "success": true,
-//   "imp_uid": "imp_154428151131",
-//   "pay_method": "point",
-//   "merchant_uid": "test_llx3wiqs",
-//   "name": "테스트 결제",
-//   "paid_amount": 100,
-//   "currency": "KRW",
-//   "pg_provider": "kakaopay",
-//   "pg_type": "payment",
-//   "pg_tid": "T4eed00c2a5910121a36",
-//   "apply_num": "",
-//   "buyer_name": "",
-//   "buyer_email": "",
-//   "buyer_tel": "010-0000-0000",
-//   "buyer_addr": "",
-//   "buyer_postcode": "",
-//   "custom_data": null,
-//   "status": "paid",
-//   "paid_at": 1693372448,
-//   "receipt_url": "https://mockup-pg-web.kakao.com/v1/confirmation/p/T4eed00c2a5910121a36/ea8251135346f17e836a9c0d569c286f4e717d117ed574e479389482b97a9fbd",
-//   "card_name": null,
-//   "bank_name": null,
-//   "card_quota": 0,
-//   "card_number": ""
-// }
+
