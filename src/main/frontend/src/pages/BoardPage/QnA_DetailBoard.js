@@ -3,6 +3,8 @@ import axios, {get, request} from "axios";
 import {Link, useLocation, useNavigate, useParams} from "react-router-dom";
 import {getUserNumber} from "../../js/getUserNumber";
 import styles from "../../css/BOARD/board.module.css"
+import ReplySection from "../../component/BOARD/QnA_Reply";
+import QnA_Reply from "../../component/BOARD/QnA_Reply";
 
 const QnA_DetailBoard = () => {
 
@@ -15,7 +17,7 @@ const QnA_DetailBoard = () => {
     const [regDate, setRegDate] = useState(new Date());
     const [editorModules, setEditorModules] = useState(null);
     const [editorFormats, setEditorFormats] = useState(null);
-    const [boardListKey, setBoardListKey] = useState(0); // 상태 초기값 설정
+    const [loading, setLoading] = useState(true); // 초기 로딩 상태 설정
     const location = useLocation();
     const currentPage = location.state?.currentPage ?? 0;
     const navigate = useNavigate();
@@ -38,56 +40,14 @@ const QnA_DetailBoard = () => {
                 setEditorModules(response.data.data.modules);
                 setEditorFormats(response.data.data.formats);
 
+                // 데이터를 가져오는 데 성공하면 로딩 상태를 false로 변경
+                setLoading(false)
             } catch (error) {
                 console.log("게시글 정보 or 댓글 데이터 불러오기 실패", error);
             }
         }
         getDetailBoard();
     }, [id]);
-
-    /** =========== 게시글에 댓글 작성하기 위한 백엔드 통신 ==============  */
-    const handleReplySubmit = async () => {
-        if (reply.trim() === "") {
-            alert("댓글 입력 바람.");
-            return;
-        }
-        try {
-
-            const userNickname = getUserNumber().nickname;
-            const requestData = {reply: reply, nickname: userNickname};
-            axios.post(
-                `/api/board/board-detail/reply-list/${id}`, requestData
-            ).then((res) => {
-                const newReply = res.data;
-                console.log("댓글 작성 응답(newReply) = " + newReply)
-                setReplies((prevReplies) => [...prevReplies, newReply]);
-                // window.location.reload()
-                setReply("");
-            }).catch(e => {
-                console.error(e)
-            })
-
-        } catch (error) {
-            alert("잠시 후 시도해주세요 , 만약 이후에도 진행되지 않을 시 , 로그 아웃 후 로그인 하여 다시 시도 해주세요");
-            console.log("댓글 작성 에러" + error);
-        }
-    }
-
-    useEffect(() => {
-        const getReplies = async () => {
-            try {
-                const response = await axios.get(
-                    `/api/board/board-detail/reply-list/${id}`
-                );
-                const replyList = response.data;
-                console.log("댓글 작성 응답(replyList) = ", replyList);
-                setReplies(replyList);
-            } catch (error) {
-                console.log("댓글 목록 조회 에러", error);
-            }
-        };
-        getReplies();
-    }, []);
 
 
     /** =========== 게시글 삭제위한 백엔드 통신 ==============  */
@@ -127,24 +87,30 @@ const QnA_DetailBoard = () => {
     /** =========== 게시글 상세보기 및 댓글작성, 삭제기능 구현 view(리액트) ==============  */
     return (
         <>
-            <div style={{display: "flex", justifyContent: "space-around", paddingTop: "15px", paddingBottom: "25px"}}>
+            {loading ? ( // 로딩 중인 경우
+                <div className={styles.spinnerContainer}>
+                    <div className={`spinner ${styles.spinner}`}></div>
+                </div>
+            ) : (
+            <div style={{display: "flex", justifyContent: "space-around", paddingTop: "15px", paddingBottom: "25px", padding:"50px 0 30px 0"}}>
                 <div className={styles.detailContainer}>
                     <div className={styles.detailHeader}>
                         <h2> 문의 사항 : {category}</h2>
                     </div>
-                    <div>
-                        <h3 className={styles.detailTitle} style={{marginBottom:"15px"}}>글 제목</h3>
+                    <div style={{marginTop:"50px", width:"100%"}}>
+                        <h3 className={styles.detailTitle}>글 제목</h3>
                         <h4 style={{
                             padding: "15px",
                             border: "2px solid #45b751",
                             borderRadius: "8px",
                             boxShadow: "0 2px 4px rgba(0,0,0,0.1)"
-                        }}> 문의 글 제목 : {title}</h4>
+                        }}> " {title} "</h4>
                         <h3 className={styles.detailTitle} style={{marginTop:"15px"}}>글 내용</h3>
                         <div className={styles.detailContent} dangerouslySetInnerHTML={{__html: content}}></div>
                         <p className={styles.detailAuthor}>작성자 : {writer}</p>
                         <p className={styles.detailDate}>작성 일자 : {regDate.toLocaleDateString().replace(/\.$/, '')}</p>
                         {/*replace() 메서드를 사용하여 이 마침표를 빈 문자열로 대체하여 제거*/}
+
                         {writer === getUserNumber().nickname ? (
                             <div className={styles.detailBtnGroup}>
                                 <button
@@ -174,52 +140,10 @@ const QnA_DetailBoard = () => {
                             </div>
                         ) : " "}
                     </div>
-                    <div style={{position:"relative", right:"15px",width:"35vw",borderTop:"2px solid #888", marginTop:"80px"}}>
-                        <div className={styles.reply}>
-                            <h4>{replies.length > 0 && `${replies.length} 개의 댓글 😊`}</h4>
-                            <ul className={styles.replyList} id="replyList">
-                                {replies.map((reply, idx) => (
-                                    <li key={idx}>
-                                        <div>{reply.reply}</div>
-                                        <span>작성자: {reply.nickname} <br/>작성일: {reply.regDate}</span>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-
-                        <div>
-                            <div className={styles.replyForm}>
-                                <h4 style={{marginLeft: "10px"}}>댓글 작성</h4>
-                                <input
-                                    type="text"
-                                    value={reply}
-                                    className={styles.replyInput}
-                                    placeholder="댓글을 입력하세요"
-                                    onChange={(e) => setReply(e.target.value)}
-                                />
-
-                                <div className={styles.replyBtnGroup}>
-                                    <button
-                                        type="submit"
-                                        className={styles.replySubmit}
-                                        onClick={handleReplySubmit}
-                                    >
-                                        댓글 작성
-                                    </button>
-                                    <button
-                                        className={styles.detailBackBtn}
-                                        onClick={() => {
-                                            navigate(`/home/board`)
-                                        }}
-                                    >
-                                        목록 보기
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <QnA_Reply boardId = {id}  />
                 </div>
             </div>
+            )}
         </>
     );
 

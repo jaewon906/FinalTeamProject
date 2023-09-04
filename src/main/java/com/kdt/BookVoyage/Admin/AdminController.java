@@ -1,21 +1,20 @@
 package com.kdt.BookVoyage.Admin;
 
+import com.kdt.BookVoyage.Member.MemberDTO;
 import com.kdt.BookVoyage.Member.MemberEntity;
-import jakarta.servlet.http.HttpServletRequest;
+import com.kdt.BookVoyage.Order.OrderDTO;
+import com.kdt.BookVoyage.Order.OrderEntity;
+import com.kdt.BookVoyage.Purchase.PurchaseService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -24,6 +23,7 @@ import java.util.stream.Collectors;
 public class AdminController {
 
     private final AdminService adminService;
+    private final PurchaseService purchaseService;
 
     @GetMapping("/autoLogin")
     public void autoLogin() {
@@ -63,7 +63,36 @@ public class AdminController {
 
         adminService.updateUserState(updatedList);
 
-
     }
+
+    @GetMapping("/showAllOrders") //모든 주문 내역
+    public List<OrderDTO> showOrderLists() {
+        return adminService.showAllOrderLists();
+    }
+
+    @GetMapping("/showRecentOrders") //최근 읽지않은 4개 주문 내역
+    public List<OrderDTO> showRecentOrders() {
+        return adminService.showRecentOrders();
+    }
+
+    @GetMapping("/manage/order")
+    public Page<OrderDTO> loadOrderInfo(Pageable pageable){
+
+        return adminService.getOrderInfo(pageable);
+    }
+
+    @GetMapping("/manage/order/search")
+    public Page<OrderDTO> searchOrderInfo(String keyword, Pageable pageable){
+        log.info("keyword : {}",keyword);
+        log.info("pageable : {}",pageable);
+        return adminService.searchOrderInfo(keyword,pageable);
+    }
+
+    @PostMapping("/manage/orderDetail")
+    public List<OrderDTO> loadOrderDetailInfo(OrderDTO orderDTO){
+
+        return adminService.getOrderDetailAndSetIsRead(orderDTO);
+    }
+
 
 }

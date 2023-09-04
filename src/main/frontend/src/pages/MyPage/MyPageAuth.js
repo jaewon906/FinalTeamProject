@@ -11,9 +11,6 @@ export default function MyPageAuth() {
     const password = useRef();
     const [myInfoAuthentication, setMyInfoAuthentication] = useState(false)
 
-
-
-
     const getMyInfo = () => {
 
         axios.get("/api/user/myPage", {

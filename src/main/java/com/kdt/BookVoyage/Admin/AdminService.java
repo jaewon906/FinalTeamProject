@@ -1,11 +1,15 @@
 package com.kdt.BookVoyage.Admin;
 
 import com.kdt.BookVoyage.Common.CookieConfig;
+import com.kdt.BookVoyage.Common.OrderNotFoundException;
 import com.kdt.BookVoyage.Common.UserIdNotFoundException;
 import com.kdt.BookVoyage.Common.UserPasswordNotMatchException;
 import com.kdt.BookVoyage.Member.MemberDTO;
 import com.kdt.BookVoyage.Member.MemberEntity;
 import com.kdt.BookVoyage.Member.MemberRepository;
+import com.kdt.BookVoyage.Order.OrderDTO;
+import com.kdt.BookVoyage.Order.OrderEntity;
+import com.kdt.BookVoyage.Order.OrderRepository;
 import com.kdt.BookVoyage.Security.TokenConfig;
 import com.kdt.BookVoyage.Security.TokenDTO;
 import jakarta.annotation.PostConstruct;
@@ -14,7 +18,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 
 import java.io.UnsupportedEncodingException;
@@ -31,16 +37,19 @@ public class AdminService {
     private final MemberRepository memberRepository;
     private final TokenConfig tokenConfig;
     private final CookieConfig cookieConfig;
+    private final OrderRepository orderRepository;
 
     @PostConstruct
     public void createAdminAccount() {
 
-        adminRepository.deleteByUserId("admin");
-        adminRepository.createAdminId();
-
         Optional<MemberEntity> admin = memberRepository.findByUserId("admin");
 
-        admin.ifPresent(memberEntity -> log.info("INITIAL ADMIN ID, PW : {} {}", memberEntity.getUserId(), memberEntity.getPassword()));
+        if (admin.isEmpty()) {
+
+            adminRepository.createAdminId();
+        }
+
+        admin.ifPresent(memberEntity -> log.info("INITIAL ADMIN id : {}, password : {}", memberEntity.getUserId(), memberEntity.getPassword()));
 
     }
 
@@ -72,6 +81,7 @@ public class AdminService {
 
         return all.size();
     }
+
     public Map<String, Integer> getNewUserPerDaySummary() {
 
         List<MemberEntity> all = memberRepository.findAll();
@@ -104,7 +114,7 @@ public class AdminService {
             String timestamp1 = new Timestamp(i * oneDay + sevenDaysAgo_0Hour).toString();
             String date = timestamp1.split(" ")[0];
 
-            result.put(date, a[i-1]);
+            result.put(date, a[i - 1]);
         }
 
         log.info("회원 수 : {}", all.size());
@@ -131,5 +141,87 @@ public class AdminService {
 
             memberRepository.updateUserState(userNumber, deleteFlag, LocalDateTime.now());
         }
+    }
+
+    public List<OrderDTO> showRecentOrders() {
+        List<OrderDTO> lists4 = new ArrayList<>();
+        List<OrderEntity> orderEntityLists4 = orderRepository.findAll(Sort.by(
+                Sort.Order.asc("isRead"),
+                Sort.Order.desc("orderedTime")
+        ));
+
+        if (orderEntityLists4.size() != 0) {
+
+            if (orderEntityLists4.size() >= 4) {
+
+                for (int i = 0; i < 4; i++) {
+
+                    lists4.add(OrderDTO.EntityToDTO(orderEntityLists4).get(i));
+                }
+
+            } else {
+
+                for (int i = 0; i < orderEntityLists4.size(); i++) {
+
+                    lists4.add(OrderDTO.EntityToDTO(orderEntityLists4).get(i));
+                }
+            }
+
+
+        }
+
+        return lists4;
+    }
+
+    public List<OrderDTO> showAllOrderLists() {
+
+        List<OrderEntity> allOrderByOrderNumberDesc = orderRepository.findAll(Sort.by(Sort.Order.desc("orderedTime")));
+
+        if (allOrderByOrderNumberDesc.size() != 0) {
+
+            return OrderDTO.EntityToDTO(allOrderByOrderNumberDesc);
+
+        } else return null;
+
+    }
+
+    public Page<OrderDTO> searchOrderInfo(String keyword, Pageable pageable) {
+
+        Integer totalPrice = Integer.valueOf(keyword);
+
+        Page<OrderEntity> orderEntities = orderRepository.searchByOrderNumberContainingIgnoreCaseOrOrderNameContainingIgnoreCaseOrUsernameContainingIgnoreCaseOrUserAddressContainingIgnoreCaseOrUserTelContainingIgnoreCaseOrTotalPriceContainingIgnoreCase(
+               keyword, keyword, keyword, keyword, keyword, totalPrice, pageable
+        );
+
+        List<OrderDTO> orderDTO = OrderDTO.EntityToDTO(orderEntities.stream().toList());
+
+        return new PageImpl<>(orderDTO, pageable, 1L);
+    }
+
+    public Page<OrderDTO> getOrderInfo(Pageable pageable) {
+
+        Page<OrderEntity> all = orderRepository.findAll(pageable);
+
+        List<OrderDTO> orderDTO = OrderDTO.EntityToDTO(all.stream().toList());
+
+        return new PageImpl<>(orderDTO, pageable, 1L);
+
+
+    }
+
+    public List<OrderDTO> getOrderDetailAndSetIsRead(OrderDTO orderDTO) {
+        Optional<OrderEntity> byOrderNumber = orderRepository.findByOrderNumber(orderDTO.getOrderNumber());
+
+        if(byOrderNumber.isPresent()){
+            List<OrderEntity> result = new ArrayList<>();
+            result.add(byOrderNumber.get());
+
+            OrderEntity orderEntity = byOrderNumber.get();
+            orderEntity.setIsRead(orderDTO.getIsRead());
+
+            orderRepository.save(orderEntity);
+
+            return OrderDTO.EntityToDTO(result);
+        } else throw new OrderNotFoundException("주문 내역이 존재하지 않습니다.");
     }
 }

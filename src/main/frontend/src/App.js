@@ -4,11 +4,11 @@ import SignUpPage from "./pages/SignUpPage/SignUpPage";
 import FindMyIdPage from "./pages/MyPage/FindMyIdPage";
 import FindMyPwPage from "./pages/MyPage/FindMyPwPage";
 import React from "react";
-import Header from "./component/common/Header";
-import CategoryHeader from "./component/common/CategoryHeader";
+import Header from "./common/Header";
+import CategoryHeader from "./common/CategoryHeader";
 import TopBtn from "./js/jw_topBtn";
 import ScrollTop from "./js/ScrollTop";
-import Footer from "./component/common/Footer";
+import Footer from "./common/Footer";
 import MyPageAuth from "./pages/MyPage/MyPageAuth";
 import BookListPage from "./pages/ListPage/index";
 import BookDetailPage from "./pages/DetailPage/index";
@@ -22,6 +22,7 @@ import QnA_CreateBoard from "./pages/BoardPage/QnA_CreateBoard";
 import QnA_DetailBoard from "./pages/BoardPage/QnA_DetailBoard";
 import QnA_UpdateBoard from "./pages/BoardPage/QnA_UpdateBoard";
 import PurchaseResultPage from "./pages/PurchasePage/PruchaseResultPage";
+import OrderDetailPage from "./pages/MyPage/OrderDetailPage";
 
 
 
@@ -41,6 +42,9 @@ function App() {
                         <Route path={"findId/"} element={<FindMyIdPage/>}/>
                         <Route path={"findPw/"} element={<FindMyPwPage/>}/>
                         <Route path={"myPage/"} element={<MyPageAuth/>}/>
+                        <Route path={"myPage/"} element={<Outlet/>}>
+                            <Route path="orderDetail/:orderNumber" element={<OrderDetailPage />} />
+                        </Route>
                         <Route path={"board/"} element={<QnA_Page/>} />
                         <Route path={"board/create-board/"} element={<QnA_CreateBoard />} />
                         <Route path={"board/detail/:id"} element={<QnA_DetailBoard />} />
@@ -54,7 +58,7 @@ function App() {
                         <Route path="search/" element={<SearchResults />} />
                         <Route path="purchase/" element={<PurchasePage />} />
                         <Route path="purchase/" element={<Outlet />} >
-                            <Route path="result/" element={<PurchaseResultPage />} />
+                            <Route path=":userNumber" element={<PurchaseResultPage />} />
                         </Route>
                         <Route path="bookdetail/:isbn13" element={<BookDetailPage />} />
                         <Route path="cart/" element={<CartPage />} />

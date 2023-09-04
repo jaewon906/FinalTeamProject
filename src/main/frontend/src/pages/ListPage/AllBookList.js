@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useInView } from 'react-intersection-observer';
-import Button from '../../component/common/Button';
+import Button from '../../common/Button';
 import '../../css/ListPage/AllBookList.css'
 import { Link} from 'react-router-dom';
 import Parser from 'html-react-parser';

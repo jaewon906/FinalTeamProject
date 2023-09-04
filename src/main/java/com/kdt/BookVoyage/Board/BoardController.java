@@ -12,10 +12,12 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -126,6 +128,18 @@ public class BoardController {
         return new ResponseEntity(body, headers, status);
     }
 
+    @GetMapping("/board-list/search")
+    public String search(String keyword, Model model) {
+        try {
+            List<BoardEntity> searchList = boardService.search(keyword);
+            model.addAttribute("searchList", searchList);
+        } catch (Exception exception) {
+            System.out.println("검색이 안되요 = " + exception);
+        }
+        return null;
+    }
+
+
     @GetMapping("/create-board/authenticate")
     public void createBoardAuthenticate() {
         log.info("성공");
@@ -135,6 +149,7 @@ public class BoardController {
     public void updateBoardAuthenticate() {
         log.info("============================= 수정 권한 메서드 ok =================================");
     }
+
 
 
 }

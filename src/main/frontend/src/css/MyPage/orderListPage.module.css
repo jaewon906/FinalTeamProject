@@ -27,7 +27,7 @@
 
 }
 
-.orderNumber, .customer, .tel, .addr, .orderName, .price {
+.orderNumber, .customer, .orderState, .addr, .orderName, .price {
     height: 100%;
     display: flex;
     align-items: center;
@@ -37,15 +37,16 @@
 }
 
 .orderNumber {
-    width: 22%;
+    width: 20%;
+
 }
 
 .customer {
     width: 10%;
 }
 
-.tel {
-    width: 15%;
+.orderState {
+    width: 10%;
 }
 
 .addr {
@@ -53,7 +54,7 @@
 }
 
 .orderName {
-    width: 20%;
+    width: 27%;
 }
 
 .price {

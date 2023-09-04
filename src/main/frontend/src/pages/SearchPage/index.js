@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import useDebounce from "../../hooks/useDebounce";
-import Button from "../../component/common/Button";
+import Button from "../../common/Button";
 import '../../css/SearchPage/SearchResults.css'
 
 function SearchResults() {
