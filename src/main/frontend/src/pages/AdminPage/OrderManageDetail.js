@@ -47,14 +47,14 @@ export default function OrderManageDetail() {
                     {orderList.orderProductDTOList !==undefined ?
                         orderList.orderProductDTOList.map((el,idx)=>{
                             return(
-                                <div style={{display:"flex"}} key={idx}>
+                                <div style={{display:"flex", height:"100px"}} key={idx}>
                                     <div className={style.orderDetailNumber}>{orderList.orderNumber}</div>
                                     <div className={style.orderDetailIsbn}>{el.isbn13}</div>
                                     <div className={style.orderDetailImg}>
                                         <img src={el.cover} alt={""}/>
                                     </div>
                                     <div className={style.orderDetailTitle}>{el.title}</div>
-                                    <div className={style.orderDetailPrice}>{el.priceSales}</div>
+                                    <div className={style.orderDetailPrice}>{convertToWon(el.priceSales, null)} 원</div>
                                     <div className={style.orderDetailAmount}>{el.amount}</div>
                                 </div>
                             )

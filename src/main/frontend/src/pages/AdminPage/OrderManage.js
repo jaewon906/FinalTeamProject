@@ -415,7 +415,7 @@ export default function OrderManage() {
                     defaultValue={orderState}>
                 <option value={"주문 완료"}>주문 완료</option>
                 <option value={"배송 준비중"}>배송 준비중</option>
-                <option value={"배송중"}>배송중</option>
+                <option value={"배송 중"}>배송 중</option>
                 <option value={"배송 완료"}>배송 완료</option>
                 <option value={"교환/환불"}>교환/환불</option>
             </select>)

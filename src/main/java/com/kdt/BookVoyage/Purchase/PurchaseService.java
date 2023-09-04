@@ -145,14 +145,19 @@ public class PurchaseService {
 
         if (byOrderNumber.isPresent()) {
 
+            String orderState = byOrderNumber.get().getOrderState();
             Long orderEntityId = byOrderNumber.get().getId();
 
-            try {
-                orderProductRepository.deleteAllByOrderEntityId(orderEntityId);
-                orderRepository.deleteById(orderEntityId);
-            } catch (Exception e) {
-                log.error("주문을 삭제하는 도중 에러가 발생했습니다.", e);
+            if(orderState.equals("주문 완료") || orderState.equals("배송 준비중")){
+
+                try {
+                    orderProductRepository.deleteAllByOrderEntityId(orderEntityId);
+                    orderRepository.deleteById(orderEntityId);
+                } catch (Exception e) {
+                    log.error("주문을 삭제하는 도중 에러가 발생했습니다.", e);
+                }
             }
+
 
         } else throw new OrderNotFoundException("찾고자 하는 주문이 존재하지 않습니다.");
 

@@ -233,7 +233,7 @@ public class AdminService {
             String orderNumber = updated.get("orderNumber");
             String orderState = updated.get("orderState");
 
-            if (orderState.equals("배송중"))
+            if (orderState.equals("배송 중"))
                 orderRepository.updateDeliveryStart(orderState, orderNumber, LocalDateTime.now().toString());
 
             else if (orderState.equals("배송 완료")) {
