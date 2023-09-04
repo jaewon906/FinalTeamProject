@@ -5,7 +5,13 @@ import axios from "axios";
 export default function AdminTheme(props) {
 
     useEffect(() => {
-        document.getElementById("userOnly").remove()
+
+        const a = document.getElementById("userOnly")
+
+        if(a!==null){
+        a.remove()
+        }
+
     }, [])
 
     const logout = () => {

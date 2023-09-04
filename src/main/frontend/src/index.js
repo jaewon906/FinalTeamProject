@@ -12,7 +12,6 @@ root.render(
     <BrowserRouter>
         <HomeAddress/>
 
-
             <div id={"userOnly"} style={{maxWidth: "100vw", minWidth: "1296px", height: "auto", position: "relative"}}>
                 <App/>
             </div>
