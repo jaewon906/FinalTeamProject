@@ -1,8 +1,8 @@
-import style from "../../css/Common/header.module.css"
+import style from "../css/Common/header.module.css"
 import {Link, useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axios from "axios";
-import {getUserNumber} from "../../js/getUserNumber";
+import {getUserNumber} from "../js/getUserNumber";
 
 
 export default function Header() {

@@ -30,27 +30,28 @@ public class SecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize ->
                         authorize
+
+                                .requestMatchers("/api/admin/autoLogin").hasRole("ADMIN") //로그인
+                                .requestMatchers("/api/admin/login/**").permitAll() // 관리자 로그인
+                                .requestMatchers("/api/admin/**").hasRole("ADMIN")
                                 .requestMatchers("/api/user/logIn").permitAll() //로그인
-                                .requestMatchers("/api/admin/login").permitAll() // 관리자 로그인
                                 .requestMatchers("/api/user/signUp/**").permitAll() //회원 가입
                                 .requestMatchers("/api/user/logOut").permitAll() //로그아웃
                                 .requestMatchers("/api/user/findMyInfo/**").permitAll() //내정보 찾기
                                 .requestMatchers("/api/user/dormantAccount").permitAll() //휴면계정
-                                .requestMatchers("/api/board/**").hasRole("USER")
-                                .requestMatchers("/api/book/**").hasRole("USER")
                                 .requestMatchers("/api/user/board/**").hasRole("USER") //게시글 관련
                                 .requestMatchers("/api/user/myPage/**").hasRole("USER") //내 페이지 관련
                                 .requestMatchers("/api/user/withdrawal").hasRole("USER") //회원탈퇴
-                                .requestMatchers("/api/user/purchase/**").hasRole("USER") //회원탈퇴
-                                .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                                .requestMatchers("/api/admin/autoLogin").hasRole("ADMIN") //로그인
+                                .requestMatchers("/api/user/purchase/**").hasRole("USER") //도서구매
+                                .requestMatchers("/api/board/**").hasRole("USER")
                                 .requestMatchers("/api/board/board-list").permitAll()
                                 .requestMatchers("/api/board/board-detail/**").permitAll()
-                                .requestMatchers("/api/board/board-detail/reply-list/**").authenticated()
-                                .requestMatchers("/api/board/delete-board").permitAll()
-                                .requestMatchers("/api/board/update-board").permitAll()
-                                .requestMatchers("/api/board/create-board/**").authenticated()
-                                .requestMatchers("/api/book/**").authenticated()
+                                .requestMatchers("/api/board/board-detail/reply-list/**").hasRole("USER")
+                                .requestMatchers("/api/board/delete-board").hasRole("USER")
+                                .requestMatchers("/api/board/update-board").hasRole("USER")
+                                .requestMatchers("/api/board/create-board/**").hasRole("USER")
+                                .requestMatchers("/api/book/**").hasRole("USER")
+                                .requestMatchers("/api/book/**").hasRole("USER")
                                 .requestMatchers("/api/search/**").permitAll() // api 호출 결과 db에 저장
                                 .requestMatchers("/api/books").permitAll()  // 도서 조회 결과 10개씩 페이징 처리
                                 .requestMatchers("/api/bookdetail").permitAll() // 도서 전체 조회 결과

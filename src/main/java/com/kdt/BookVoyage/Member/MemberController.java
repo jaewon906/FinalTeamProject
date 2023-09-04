@@ -2,16 +2,16 @@ package com.kdt.BookVoyage.Member;
 
 import com.kdt.BookVoyage.EmailVerification.EmailDTO;
 import com.kdt.BookVoyage.EmailVerification.EmailService;
+import com.kdt.BookVoyage.Order.OrderProductDTO;
+import com.kdt.BookVoyage.Purchase.PurchaseDTO;
 import jakarta.mail.AuthenticationFailedException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
@@ -73,6 +73,11 @@ public class MemberController {
     @PostMapping("/myPage/update") // 본인 정보 업데이트
     public boolean modifyInfo(@Valid MemberDTO memberDTO, HttpServletResponse response) { //회원 정보 수정
         return memberService.modifyInfo(memberDTO, response);
+    }
+
+    @GetMapping("/myPage/orderDetail/{orderNumber}") // 본인 주문 조회
+    public List<OrderProductDTO> showMyOrderDetail(@PathVariable("orderNumber") String orderNumber) {
+        return memberService.showMyOrderDetail(orderNumber);
     }
 
 
