@@ -47,7 +47,7 @@ public class ReplyService {
         return responseDTO;
     }
 
-    // 댓글 삭제 API
+/*    // 댓글 삭제 API
     @Transactional
     public void deleteReply(Long id, String logInUserNickname) {
         ReplyEntity replyEntity = replyRepository.findById(id)
@@ -58,6 +58,12 @@ public class ReplyService {
         }
 
         replyRepository.delete(replyEntity);
+    }*/
+
+    @Transactional
+    public void deleteReply(Long replyId) {
+        // 댓글을 데이터베이스에서 삭제
+        replyRepository.deleteById(replyId);
     }
 
 
@@ -74,21 +80,6 @@ public class ReplyService {
         //서버가 죽을 수 있기 때문에, 예외처리를 함께 작성
         return replyRepository.findById(id).orElseThrow(NullPointerException::new);
     }
-
-/*    @Transactional
-    public void deleteReply(Long id) {
-        try {
-            replyRepository.findById(id).ifPresent(replyRepository::delete);
-        } catch (Exception exception) {
-            System.out.println("댓글 삭제 실패: " + exception);
-            throw new RuntimeException("댓글 삭제 중 에러 발생");
-        }
-    }*/
-
-
-
-
-
 
 
 

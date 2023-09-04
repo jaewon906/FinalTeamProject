@@ -1,6 +1,8 @@
 package com.kdt.BookVoyage.Reply;
 
 
+import com.kdt.BookVoyage.Board.BoardDeleteDTO;
+import com.kdt.BookVoyage.Board.BoardEntity;
 import com.kdt.BookVoyage.Security.TokenDecoder;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,15 +27,7 @@ public class ReplyController {
     private final TokenDecoder tokenDecoder;
     private final ReplyService replyService;
 
-/*    @PostMapping("/board-detail/reply-list/{id}")
-    public ResponseEntity<ReplyDTO.ReplyResponseDTO> replyCreate(@PathVariable Long id, @RequestBody ReplyDTO.ReplyRequestDTO dto, Principal principal) {
 
-        Long replyId = replyService.replyCreate(id, dto);
-        ReplyEntity createdReply = replyService.findOneReply(replyId);
-        ReplyDTO.ReplyResponseDTO responseDTO = new ReplyDTO.ReplyResponseDTO(createdReply);
-
-        return ResponseEntity.ok(responseDTO);
-    }*/
 
     @PostMapping("/board-detail/reply-list/{id}")
     public ResponseEntity<ReplyDTO.ReplyResponseDTO> replyCreate(@PathVariable Long id, @RequestBody ReplyDTO.ReplyRequestDTO dto, HttpServletRequest request) {
@@ -53,25 +47,6 @@ public class ReplyController {
         return ResponseEntity.ok(responseDTO);
 
     }
-
-/*    @PostMapping("/board-detail/reply-list/{id}")
-    public ResponseEntity<ReplyDTO.ReplyResponseDTO> replyCreate(@PathVariable Long id, @RequestBody ReplyDTO.ReplyRequestDTO dto, HttpServletRequest request) {
-
-        Cookie[] cookies = request.getCookies();
-        String accessToken = "";
-        String nickname = "";
-        for (Cookie cookie : cookies) {
-            switch (cookie.getName()) {
-                case "accessToken":
-                    accessToken = cookie.getValue();
-            }
-            nickname = tokenDecoder.accessTokenDecoder(accessToken, "nickname");
-        }
-
-        ReplyDTO.ReplyResponseDTO responseDTO = replyService.replyCreate(id, dto, nickname);
-        log.info("닉네임이 무엇임 = {}",responseDTO);
-        return ResponseEntity.ok(responseDTO);
-    }*/
 
     @GetMapping("/board-detail/reply-list/{id}")
     public ResponseEntity<List<ReplyDTO.ReplyResponseDTO>> reply_list(@PathVariable Long id) {
@@ -93,34 +68,19 @@ public class ReplyController {
 
     }
 
-
-
-/*    @DeleteMapping("/board-detail/reply-delete")
-    public ResponseEntity<String> deleteReply(@RequestBody ReplyDTO.ReplyResponseDTO responseDTO) {
-
-        System.out.println("댓글 삭제 컨트롤러 실행 DTO = " + responseDTO);
-        HttpHeaders headers = new HttpHeaders();
-        Map<String, String> body = new HashMap<>();
-        HttpStatus status = HttpStatus.NO_CONTENT;
-
+    @DeleteMapping("/board-detail/reply-delete/{replyId}")
+    public ResponseEntity<Void> deleteReply(@PathVariable Long replyId) {
         try {
-            ReplyEntity replyEntity = replyService.findOneReply(responseDTO.getId());
-            replyService.deleteReply(replyEntity.getId(), replyEntity.getMemberNickname());
-        } catch (Exception exception) {
-            status = HttpStatus.BAD_REQUEST;
-            return new ResponseEntity<>("댓글 삭제 실패", HttpStatus.BAD_REQUEST);
+            //댓글 데이터를 DB에서 삭제
+            replyService.deleteReply(replyId);
+            return ResponseEntity.noContent().build(); //삭제 성공 응답
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-        return new ResponseEntity(body, headers, status);
-    }*/
+    }
 
-/*    @DeleteMapping("/board-detail/reply-delete/{id}")
-    public ResponseEntity<String> deleteReply(@PathVariable Long id) {
-        try {
-            replyService.deleteReply(id);
-            return new ResponseEntity<>("댓글 삭제 완료", HttpStatus.NO_CONTENT);
-        } catch (Exception exception) {
-            return new ResponseEntity<>("댓글 삭제 실패", HttpStatus.BAD_REQUEST);
-        }
-    }*/
+
+    
 
 }

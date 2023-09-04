@@ -41,6 +41,14 @@
     border: 2px solid #45b751;
 }
 
+.boardMainContainer h1 {
+    width: 300px;
+    text-align: center;
+    padding-bottom:10px;
+    background-color: transparent;
+    border-bottom: 2px solid #45b751;
+}
+
 .boardMainTitle {
     width: 300px;
     text-align: center;

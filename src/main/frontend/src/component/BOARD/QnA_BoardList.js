@@ -16,12 +16,6 @@ const QnA_BoardList = (props) => {
     const [currentPageFiltered, setCurrentPageFiltered] = useState(0); // 필터링된 데이터의 현재 페이지
     const itemsPerPage = 10; // 페이지당 아이템 수
 
-    const onPageChangeFiltered = (page) => {
-        setCurrentPageFiltered(page);
-    };
-
-
-
 
 
     const authenticate = () => {
@@ -32,8 +26,7 @@ const QnA_BoardList = (props) => {
             window.location.href = "/home/logIn"
             console.error(e);
         })
-    }
-
+    }/*
 
     const refreshData = async (page, search) => {
         try {
@@ -42,6 +35,7 @@ const QnA_BoardList = (props) => {
                 params: {page, size: 10, search,},
             });
             setData(response.data.data);
+            console.log(response.data.data)
         } catch (error) {
             console.error("페이징 데이터", error);
         } finally {
@@ -50,53 +44,72 @@ const QnA_BoardList = (props) => {
     };
 
     useEffect(() => {
-        refreshData(currentPage, searchText)
-    }, [currentPage, searchText]);
+        refreshData(selectedCategory === "all" ? currentPage : currentPageFiltered, searchText);
+    }, [currentPage, searchText,currentPageFiltered,selectedCategory]);
+*/
 
+    // 페이지 변경 및 카테고리 선택 시 데이터 업데이트
+    useEffect(() => {
+        // 필터링된 데이터 생성
+        let filteredData = props.data;
+        if (selectedCategory !== 'all') {
+            filteredData = props.data.filter((option) => option.category === selectedCategory);
+        }
+
+
+        // 전체 필터링된 아이템 수 및 페이지 수 계산
+        const totalFilteredItems = filteredData.length;
+        const totalFilteredPages = Math.ceil(totalFilteredItems / itemsPerPage);
+
+        // currentPage가 범위를 벗어날 경우 조정
+        const adjustedCurrentPage = Math.min(currentPage, Math.max(0, totalFilteredPages - 1));
+
+        setCurrentPageFiltered(adjustedCurrentPage);
+
+        // 필터링된 데이터를 페이징하여 출력
+        const startIdxFiltered = adjustedCurrentPage * itemsPerPage;
+        const endIdxFiltered = startIdxFiltered + itemsPerPage;
+        const pagedFilteredData = filteredData.slice(startIdxFiltered, endIdxFiltered);
+
+        setData(pagedFilteredData);
+    }, [ currentPageFiltered, props.data, selectedCategory]);
+
+    const onPageChangeFiltered = (page) => {
+        setCurrentPageFiltered(page);
+    };
 
     const handleCategoryToggle = (category) => {
         setSelectedCategory(category);
-        if (category === 'all') {
-            setCurrentPageFiltered(0);
-        }
+        // 카테고리 변경 시, 현재 페이지를 0으로 초기화
+        setCurrentPageFiltered(0);
     };
 
-    const filterCategory = props.data.filter((option) => {
-        return selectedCategory === "all" || option.category === selectedCategory;
-
-    });
-
-    /*    const filterCategory = props.data.filter((option) => {
-            if (selectedCategory === "all") {
-                return true;
-            }
-            return option.category === selectedCategory;
-        })*/
+    const filterCategory = selectedCategory === 'all'
+        ? props.data
+        : props.data.filter((option) => option.category === selectedCategory);
 
     const startIdxFiltered = currentPageFiltered * itemsPerPage;
     const endIdxFiltered = startIdxFiltered + itemsPerPage;
     const pagedFilteredData = filterCategory.slice(startIdxFiltered, endIdxFiltered);
+
     const totalFilteredItems = filterCategory.length;
     const totalFilteredPages = Math.ceil(totalFilteredItems / itemsPerPage);
 
-    console.log(props.data);
+    console.log("itemsper = " + itemsPerPage);
+    console.log("startIDX = " + startIdxFiltered, "end = " + endIdxFiltered, "page  = " + pagedFilteredData );
+    console.log("totalitem = " + totalFilteredItems, "totalFilpage = " + totalFilteredPages)
+    console.log(props.data)
     return (
         <>
             <div className={styles.boardMainContainer}>
                 <div style={{display: "flex", justifyContent: "center"}}>
-                    <h1 style={{
-                        width: "300px",
-                        textAlign: "center",
-                        paddingBottom: "10px",
-                        backgroundColor: "transparent",
-                        borderBottom: "2px solid #45b751"
-                    }}>문의 게시판</h1>
+                    <h1>문의 게시판</h1>
                 </div>
                 <br/>
 
                 <div style={{width: "100%"}}>
-                    <div style={{padding:"10px"}}>
-                        <div className={styles.categoryContainer} style={{marginBottom:"80px"}}>
+                    <div style={{padding: "10px"}}>
+                        <div className={styles.categoryContainer} style={{marginBottom: "80px"}}>
                             <button
                                 className={`${styles.categoryButton} ${selectedCategory === 'all' ? styles.active : ''}`}
                                 onClick={() => handleCategoryToggle('all')}
@@ -129,12 +142,12 @@ const QnA_BoardList = (props) => {
                             </button>
                         </div>
                         <div className={styles.boardMainSearch}>
-                            <div style={{display:"flex", alignItems:"center", justifyContent:"flex-end"}}>
+                            <div style={{display: "flex", alignItems: "center", justifyContent: "flex-end"}}>
                                 <input
                                     type="text"
                                     placeholder=" 검색어를 입력하세요 "
                                     value={searchText}
-                                    style={{width: "250px", marginRight: "10px", height:"40px"}}
+                                    style={{width: "250px", marginRight: "10px", height: "40px"}}
                                     onChange={(e) => setSearchText(e.target.value)}
                                 />
                                 <button style={{
@@ -180,7 +193,7 @@ const QnA_BoardList = (props) => {
                                         view={i.view}
                                         createdTime={i.createdTime}
                                         formattedCreatedTime={formattedCreatedTime}
-                                        currentPage={currentPageFiltered + 1}
+                                        currentPage={selectedCategory === 'all' ? currentPage + 1 : currentPageFiltered + 1}
                                     />
 
                                 ))
@@ -188,11 +201,11 @@ const QnA_BoardList = (props) => {
                                 <tr>
                                     <td colSpan="8">
                                         {selectedCategory !== 'all' ? (
+                                            '데이터가 없습니다.'
+                                        ) : (
                                             <div className={styles.spinnerContainer}>
                                                 <div className={`spinner ${styles.spinner}`}></div>
                                             </div>
-                                        ) : (
-                                            '데이터가 없습니다.'
                                         )}
                                     </td>
                                 </tr>

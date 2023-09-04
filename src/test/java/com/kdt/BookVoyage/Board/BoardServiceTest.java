@@ -37,10 +37,10 @@ public class BoardServiceTest {
     @Test
     public void writeBoard() {
 
-        IntStream.rangeClosed(1,150).forEach(i -> {
+        IntStream.rangeClosed(1,25).forEach(i -> {
 
             BoardEntity boardEntity = BoardEntity.builder()
-                    .category("샘플 카테고리..." + i)
+                    .category("주문 및 배송")
                     .title("샘플 제목..." + i)
                     .content("샘플 내용..." + i)
                     .writer("샘플 작성자..." + i)
@@ -124,7 +124,6 @@ public class BoardServiceTest {
 
         boardService.delete(boardEntity);
 
-        // TODO: assert statements to verify the result
     }
 
     @Test
