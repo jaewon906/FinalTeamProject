@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import styles from "../../css/CartPage/Cart.module.css";
 import { getUserNumber } from "../../js/getUserNumber";
 import axios from "axios";
-import Button from "../../component/common/Button";
+import Button from "../../common/Button";
+
 
 function CartPage() {
   const [cart, setCart] = useState({ cartItems: [] });
