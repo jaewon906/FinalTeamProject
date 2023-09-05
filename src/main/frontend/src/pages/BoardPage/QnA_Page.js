@@ -11,13 +11,13 @@ const QnA_Page = () => {
     const [isCollapsed, setIsCollapsed] = useState(true);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
-    const [searchText, setSearchText] = useState("");
+    const [searchText, setSearchText] = useState(0);
 
 
     // 데이터를 가져오는 함수
     const fetchBoardData = async () => {
         try {
-            const response = await axios.get(`/api/board/board-list?page=${currentPage}&size=10&sort=id, DESC&search=${searchText}`);
+            const response = await axios.get(`/api/board/board-list?page=${currentPage}&size=10&sort=id, DESC`);
             setData(response.data.content);
             setTotalPages(response.data.totalPages);
         } catch (error) {
@@ -78,7 +78,7 @@ const QnA_Page = () => {
 
     return (
         <>
-            <div style={{border: "2px solid pink",padding:"30px 0px 30px 0px", display: 'flex',flexDirection:"column",alignItems:"center"}}>
+            <div style={{padding:"30px 0px 30px 0px", display: 'flex',flexDirection:"column",alignItems:"center"}}>
                     <div className={styles.qnaContainer}>
                         <h1 className={styles.qnaTitle}>자주 묻는 질문</h1>
                         <ul className={styles.qnaList}>
@@ -144,8 +144,6 @@ const QnA_Page = () => {
                         </div>
                     </div>
                 </div>
-
-
         </>
     )
         ;

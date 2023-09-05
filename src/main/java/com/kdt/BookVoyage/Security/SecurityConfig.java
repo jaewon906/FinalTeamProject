@@ -61,6 +61,7 @@ public class SecurityConfig {
                                 .requestMatchers("/api/board/create-board/**").authenticated()
                                 .requestMatchers("/api/board/board-detail/reply-list/**").permitAll()
                                 .requestMatchers("/api/board/board-detail/reply-delete/**").permitAll()
+                                .requestMatchers("/api/board/board-detail/reply-update/**").permitAll()
                                 .requestMatchers("/api/board/**").hasRole("USER")
                 )
 

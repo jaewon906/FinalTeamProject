@@ -22,15 +22,20 @@ a {
     justify-content: space-between;
     border-bottom: 1px solid #45b751;
     top: 0;
-    background-color: white;
     z-index: 10;
 
 }
-
-.logo {
+.logo{
+    width: 300px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.logo > a {
     margin-left: 50px;
-    color: #45B751;
+    color: #45B751 !important;
     font-size: 32px;
+    text-decoration: none;
 }
 
 .functionBox {
@@ -45,21 +50,23 @@ a {
 .cart {
     width: 40px;
     height: 40px;
-    background-image: url("../../../public/image/cart.png");
-    background-size: contain;
     border: none;
     cursor: pointer;
     margin:0 20px;
+    background-color: transparent;
+    font-size: 30px;
+    color: #b0b0b0;
 }
 
 .myInfo {
     width: 40px;
     height: 40px;
-    background-image: url("../../../public/image/myInfo.png");
-    background-size: contain;
     border: none;
     cursor: pointer;
     margin:0 20px 0 10px;
+    background-color: transparent;
+    font-size: 30px;
+    color: #b0b0b0;
 }
 
 .search {
@@ -81,6 +88,7 @@ a {
     transition: color 0.3s, background-color 0.3s;
     cursor: pointer;
     margin:0 20px;
+    font-size: 16px;
 }
 
 .signUp:hover {
@@ -99,6 +107,7 @@ a {
     margin-right: 20px;
     transition: color 0.3s, background-color 0.3s;
     cursor: pointer;
+    font-size: 16px;
 }
 
 .logIn:hover {

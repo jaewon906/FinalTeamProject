@@ -2,6 +2,7 @@ package com.kdt.BookVoyage.Member;
 
 import com.kdt.BookVoyage.EmailVerification.EmailDTO;
 import com.kdt.BookVoyage.EmailVerification.EmailService;
+import com.kdt.BookVoyage.Order.OrderDetailDTO;
 import com.kdt.BookVoyage.Order.OrderProductDTO;
 import com.kdt.BookVoyage.Purchase.PurchaseDTO;
 import jakarta.mail.AuthenticationFailedException;
@@ -76,7 +77,7 @@ public class MemberController {
     }
 
     @GetMapping("/myPage/orderDetail/{orderNumber}") // 본인 주문 조회
-    public List<OrderProductDTO> showMyOrderDetail(@PathVariable("orderNumber") String orderNumber) {
+    public OrderDetailDTO showMyOrderDetail(@PathVariable("orderNumber") String orderNumber) {
         return memberService.showMyOrderDetail(orderNumber);
     }
 

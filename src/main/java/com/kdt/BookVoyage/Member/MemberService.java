@@ -1,6 +1,7 @@
 package com.kdt.BookVoyage.Member;
 
 import com.kdt.BookVoyage.EmailVerification.EmailDTO;
+import com.kdt.BookVoyage.Order.OrderDetailDTO;
 import com.kdt.BookVoyage.Order.OrderProductDTO;
 import jakarta.mail.AuthenticationFailedException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,5 +35,5 @@ public interface MemberService {
 
     boolean myInfoAuth(MemberDTO memberDTO);
 
-    List<OrderProductDTO> showMyOrderDetail(String orderNumber);
+    OrderDetailDTO showMyOrderDetail(String orderNumber);
 }

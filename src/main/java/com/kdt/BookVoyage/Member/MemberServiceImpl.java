@@ -305,16 +305,17 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public List<OrderProductDTO> showMyOrderDetail(String orderNumber) {
+    public OrderDetailDTO showMyOrderDetail(String orderNumber) {
 
         Optional<OrderEntity> byOrderNumber = orderRepository.findByOrderNumber(orderNumber);
 
         if (byOrderNumber.isPresent()) {
 
-            Long id = byOrderNumber.get().getId();
-            List<OrderProductEntity> allByOrderEntityId = orderProductRepository.findAllByOrderEntityId(id);
+            MemberEntity memberEntity = byOrderNumber.get().getMemberEntity();
+            List<OrderProductEntity> orderProductEntity = byOrderNumber.get().getOrderProductEntity();
+            OrderEntity orderEntity = byOrderNumber.get();
 
-            return OrderProductDTO.EntityToDTO(allByOrderEntityId);
+            return OrderDetailDTO.getOrderDetailDTO(memberEntity, orderProductEntity, orderEntity);
 
         }
         else throw new OrderProductNotFoundException("주문 상품이 존재하지 않습니다.");

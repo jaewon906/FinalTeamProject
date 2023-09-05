@@ -1,5 +1,6 @@
 package com.kdt.BookVoyage.Order;
 
+import com.kdt.BookVoyage.Member.MemberEntity;
 import lombok.Getter;
 import lombok.Setter;
 import org.modelmapper.ModelMapper;
@@ -49,6 +50,13 @@ public class OrderDTO {
         }
 
         return result;
+    }
+
+    public static OrderDTO EntityToDTO(OrderEntity orderEntity) {
+        ModelMapper modelMapper = new ModelMapper();
+
+        return modelMapper.map(orderEntity, OrderDTO.class);
+
     }
 
 
