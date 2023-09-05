@@ -38,10 +38,6 @@ public class OrderDTO {
 
     private Integer orderNoticed; // 결제완료 시 해당 페이지를 한 번만 띄우기 위한 플래그
 
-    private MemberEntity memberEntity;
-
-    private List<OrderProductEntity> orderProductEntities;
-
     public static List<OrderDTO> EntityToDTO(List<OrderEntity> orderEntityList) {
         List<OrderDTO> result = new ArrayList<>();
         ModelMapper modelMapper = new ModelMapper();

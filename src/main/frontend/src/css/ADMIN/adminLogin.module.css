@@ -5,6 +5,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    color: black;
 }
 .container h2{
     margin-top: 60px;

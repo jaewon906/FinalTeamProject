@@ -120,14 +120,24 @@ public class AdminService {
         return result;
     }
 
-    public Page<MemberEntity> getUserInfo(Pageable pageable) {
-        return memberRepository.findAll(pageable);
+    public Page<MemberDTO> getUserInfo(Pageable pageable) {
+        Page<MemberEntity> all = memberRepository.findAll(pageable);
+
+        List<MemberDTO> memberDTOS = AdminDTO.EntityToDTO(all.stream().toList());
+
+
+        return new PageImpl<>(memberDTOS, pageable, 1L);
     }
 
-    public Page<MemberEntity> searchUserInfo(String keyword, Pageable pageable) {
-        return memberRepository.searchByUserIdContainingIgnoreCaseOrUsernameContainingIgnoreCaseOrNicknameContainingIgnoreCaseOrUserNumberContainingIgnoreCaseOrUserEmailContainingIgnoreCaseOrUserAddressContainingIgnoreCaseOrUserTelContainingIgnoreCase(
+    public Page<MemberDTO> searchUserInfo(String keyword, Pageable pageable) {
+        Page<MemberEntity> memberEntities = memberRepository.searchByUserIdContainingIgnoreCaseOrUsernameContainingIgnoreCaseOrNicknameContainingIgnoreCaseOrUserNumberContainingIgnoreCaseOrUserEmailContainingIgnoreCaseOrUserAddressContainingIgnoreCaseOrUserTelContainingIgnoreCase(
                 keyword, keyword, keyword, keyword, keyword, keyword, keyword, pageable
         );
+
+        List<MemberDTO> memberDTOS = AdminDTO.EntityToDTO(memberEntities.stream().toList());
+
+        return new PageImpl<>(memberDTOS, pageable,1L);
+
     }
 
     public void updateUserState(List<Map<String, String>> updatedList) {

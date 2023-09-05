@@ -47,13 +47,13 @@ public class AdminController {
 
 
     @GetMapping("manage/user")
-    public Page<MemberEntity> loadUserInfo(Pageable pageable){
+    public Page<MemberDTO> loadUserInfo(Pageable pageable){
         log.info("pageable : {}",pageable);
        return adminService.getUserInfo(pageable);
     }
 
     @GetMapping("manage/user/search")
-    public Page<MemberEntity> searchUserInfo(String keyword, Pageable pageable){
+    public Page<MemberDTO> searchUserInfo(String keyword, Pageable pageable){
         log.info("keyword : {}",keyword);
         log.info("pageable : {}",pageable);
         return adminService.searchUserInfo(keyword,pageable);

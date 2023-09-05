@@ -1,5 +1,6 @@
 package com.kdt.BookVoyage.Order;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kdt.BookVoyage.Member.MemberEntity;
 import lombok.Builder;
 import lombok.Getter;
