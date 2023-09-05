@@ -9,7 +9,8 @@ import lombok.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class ReplyDTO {
+public class
+ReplyDTO {
 
     @Data
     @AllArgsConstructor

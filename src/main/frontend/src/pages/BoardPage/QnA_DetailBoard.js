@@ -12,7 +12,6 @@ const QnA_DetailBoard = () => {
     const [category, setCategory] = useState("");
     const [content, setContent] = useState("");
     const [writer, setWriter] = useState("");
-    const [reply, setReply] = useState("");
     const [replies, setReplies] = useState([]);
     const [regDate, setRegDate] = useState(new Date());
     const [editorModules, setEditorModules] = useState(null);
@@ -51,7 +50,7 @@ const QnA_DetailBoard = () => {
 
 
     /** =========== 게시글 삭제위한 백엔드 통신 ==============  */
-    const handleDeleteBtnClick = async (e) => {
+    const boardDeleteBtnClick = async (e) => {
         e.preventDefault();
         if (window.confirm("게시글을 삭제하시겟습니까?")) {
             const request_data = {id: id};
@@ -103,7 +102,9 @@ const QnA_DetailBoard = () => {
                             padding: "15px",
                             border: "2px solid #45b751",
                             borderRadius: "8px",
-                            boxShadow: "0 2px 4px rgba(0,0,0,0.1)"
+                            boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+                            backgroundColor:"white",
+                            color:"black"
                         }}> " {title} "</h4>
                         <h3 className={styles.detailTitle} style={{marginTop:"15px"}}>글 내용</h3>
                         <div className={styles.detailContent} dangerouslySetInnerHTML={{__html: content}}></div>
@@ -133,7 +134,7 @@ const QnA_DetailBoard = () => {
                                 </button>
                                 <button
                                     className={styles.detailDeleteBtn}
-                                    onClick={handleDeleteBtnClick}
+                                    onClick={boardDeleteBtnClick}
                                 >
                                     삭제하기
                                 </button>

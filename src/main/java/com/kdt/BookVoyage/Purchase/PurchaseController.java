@@ -40,6 +40,7 @@ public class PurchaseController {
 
     @GetMapping("/showAllOrders")
     public List<OrderDTO> showAllOrders(MemberDTO memberDTO) {
+
         return purchaseService.showAllOrders(memberDTO);
     }
 

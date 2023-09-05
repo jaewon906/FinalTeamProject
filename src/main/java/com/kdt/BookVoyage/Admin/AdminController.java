@@ -3,6 +3,7 @@ package com.kdt.BookVoyage.Admin;
 import com.kdt.BookVoyage.Member.MemberDTO;
 import com.kdt.BookVoyage.Member.MemberEntity;
 import com.kdt.BookVoyage.Order.OrderDTO;
+import com.kdt.BookVoyage.Order.OrderDetailDTO;
 import com.kdt.BookVoyage.Order.OrderEntity;
 import com.kdt.BookVoyage.Purchase.PurchaseService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -46,13 +47,13 @@ public class AdminController {
 
 
     @GetMapping("manage/user")
-    public Page<MemberEntity> loadUserInfo(Pageable pageable){
+    public Page<MemberDTO> loadUserInfo(Pageable pageable){
         log.info("pageable : {}",pageable);
        return adminService.getUserInfo(pageable);
     }
 
     @GetMapping("manage/user/search")
-    public Page<MemberEntity> searchUserInfo(String keyword, Pageable pageable){
+    public Page<MemberDTO> searchUserInfo(String keyword, Pageable pageable){
         log.info("keyword : {}",keyword);
         log.info("pageable : {}",pageable);
         return adminService.searchUserInfo(keyword,pageable);
@@ -89,9 +90,16 @@ public class AdminController {
     }
 
     @PostMapping("/manage/orderDetail")
-    public List<OrderDTO> loadOrderDetailInfo(OrderDTO orderDTO){
+    public OrderDetailDTO loadOrderDetailInfo(OrderDTO orderDTO){
 
         return adminService.getOrderDetailAndSetIsRead(orderDTO);
+    }
+
+    @PostMapping("manage/order/update")
+    public void updateOrderState(@RequestBody List<Map<String, String>> updatedList) {
+
+        adminService.updateOrderState(updatedList);
+
     }
 
 

@@ -36,6 +36,7 @@ public class BoardController {
     public ResponseEntity<Page<BoardDTO>> board_list (
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
+
     ) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
         Page<BoardEntity> boardPage = boardService.boardList(pageable);
@@ -43,6 +44,25 @@ public class BoardController {
 
         return ResponseEntity.ok(boardDTOPage);
     }
+
+/*
+
+    @GetMapping("/board-list/category")
+    public ResponseEntity<Page<BoardDTO>> board_listCategory (
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String category // 선택된 카테고리를 받음
+
+    ) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+        Page<BoardEntity> boardPage = boardService.boardListByCategory(category, pageable);
+        Page<BoardDTO> boardDTOPage = boardPage.map(BoardDTO::new);
+
+        return ResponseEntity.ok(boardDTOPage);
+    }
+
+
+*/
 
 
     @GetMapping("/board-detail/{boardId}")
@@ -111,6 +131,8 @@ public class BoardController {
         return new ResponseEntity(body, headers, status);
     }
 
+
+
     @DeleteMapping("/delete-board")
     public ResponseEntity delete_board(@RequestBody BoardDeleteDTO boardDeleteDTO) {
         System.out.println("게시글 삭제 컨트롤러 실행 DTO = " + boardDeleteDTO);
@@ -127,6 +149,8 @@ public class BoardController {
         }
         return new ResponseEntity(body, headers, status);
     }
+
+
 
     @GetMapping("/board-list/search")
     public String search(String keyword, Model model) {

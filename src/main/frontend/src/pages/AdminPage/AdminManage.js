@@ -261,7 +261,7 @@ export default function AdminManage() {
                             {el.totalPrice !== undefined ?
                                 <div
                                     className={style.price}>
-                                    {convertToWon(el.totalPrice + "", null)}
+                                    {convertToWon(el.totalPrice + "", null)} 원
                                 </div> :
                                 ""}
                         </div>
