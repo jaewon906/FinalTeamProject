@@ -1,22 +1,25 @@
 .tblItemWrap {
-  width: 90%;
+  width: 100%;
 }
 
 .tblItem {
-  border: 1px solid gray;
-  width: 80%;
+  /* border: 1px solid gray; */
+  width: 70%;
   margin: 50px auto;
 }
 
 caption {
   font-size: 2rem;
   text-align: left;
+  margin-bottom: 50px;
 }
+
 
 .tblItemWrap > .tblItem > tbody > tr > td {
   padding: 30px;
-  border: 1px solid green;
-  box-sizing: border-box;
+  box-sizing: content-box;
+  white-space: nowrap;
+
 }
 
 .checkbox {
@@ -55,8 +58,25 @@ caption {
 
 .btnBox {
   display: flex;
+  justify-content: center;
+  margin: 20px 0;
 }
 
 .btn {
-  margin: 15px 10px;
+  margin: 0 10px;
+}
+
+.num {
+  width: 40px;
+  height: 20px;
+  text-align: center;
+}
+
+.empty {
+
+  font-size: 100px;
+}
+
+.title {
+  font-size: 1.2rem;
 }

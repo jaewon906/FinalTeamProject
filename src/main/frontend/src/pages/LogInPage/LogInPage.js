@@ -24,11 +24,10 @@ export default function LogInPage() {
 
                 switch (userState) {
                     case true:
-
-                        // const returnUrl = location.state?.returnUrl || '/home';
-                        // navigate(returnUrl);
-                        window.location.href = location.state?.returnUrl || '/home';
-
+                        
+                        const returnUrl = location.state?.returnUrl || '/home';
+                        navigate(returnUrl);
+                        window.location.reload();
                         break;
 
                     case false: {

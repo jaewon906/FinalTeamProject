@@ -1,5 +1,5 @@
 import style from "../css/Common/header.module.css"
-import {Link, useNavigate} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axios from "axios";
 import {getUserNumber} from "../js/getUserNumber";
@@ -14,14 +14,26 @@ export default function Header(props) {
     const [nickname, setNickname] = useState()
     const [userNumber, setUserNumber] = useState("0")
     const navigate = useNavigate();
+    const location = useLocation();
+    
     const dispatch = useDispatch();
 
-    const handleChange = (e) => {
-        navigate(`/search?q=${e.target.value}`)
-    }
+    const handleChangeSearchValue = (e) => {
+        navigate(`/home/search?q=${e.target.value}`)}
 
-    const handleClick = () => {
-        navigate("/home/cart");
+    const handleClickToCart = () => {
+        
+        if(isLogin) {
+          navigate("/home/cart");
+        } else {
+            const ret = window.confirm("로그인이 필요한 기능입니다. 로그인 하시겠습니까?");
+            if(ret) {
+                navigate("/home/logIn", {state : {returnUrl : "/home/cart/"}});
+            } else{
+                return;
+            }
+        }
+        
     }
 
     useEffect(() => {
@@ -33,7 +45,7 @@ export default function Header(props) {
 
         } else setIsLogin(false);
 
-    }, [userNumber])
+    }, [userNumber, location.state?.returnUrl])
 
     const myPage = () => {
 
@@ -43,22 +55,22 @@ export default function Header(props) {
             }
         })
             .then(() => {
-                window.location.href = "/home/myPage"
+                navigate("/home/myPage")
             })
             .catch(err => {
                 console.error(err);
                 const ret = window.confirm("로그인이 필요한 서비스입니다. 로그인 하시겠습니까?")
 
                 if (ret) {
-                    window.location.href = "/home/logIn"
+                    navigate("/home/logIn")
                 }
             })
     }
     const signUp = () => {
-        window.location.href = "/home/signUp"
+         navigate("/home/signUp")
     }
     const logIn = () => {
-        window.location.href = "/home/logIn"
+        navigate("/home/logIn")
     }
     const logOut = () => {
         const ret = window.confirm("로그아웃 하시겠습니까?")
@@ -68,8 +80,8 @@ export default function Header(props) {
                 .then(() => {
                         alert("로그아웃 되셨습니다.")
                         setIsLogin(false);
-                        window.location.href = "/home"
-                        window.sessionStorage.clear()
+                        navigate("/home")
+                    window.sessionStorage.clear()
                     }
                 ).catch(e => {
                 console.error(e)
@@ -106,7 +118,7 @@ export default function Header(props) {
                         <p style={{marginLeft:"20px"}}>{nickname} 님</p>
                     </div> : ""}
 
-                <button onClick={handleClick} className={style.cart}>
+                <button onClick={handleClickToCart} className={style.cart}>
                     <i className="fa-solid fa-cart-shopping"></i>
                 </button>
 
@@ -114,8 +126,12 @@ export default function Header(props) {
                     <i className="fa-solid fa-user-pen"></i>
                 </button>
 
-                <input name={"search"} type={"search"} className={style.search} placeholder={"search..."}
-                       onChange={handleChange}/>
+                <input name={"search"} 
+                type={"search"} 
+                className={style.search} 
+                placeholder={"search..."} 
+                onChange={handleChangeSearchValue}
+                />
                 <button className={style.signUp} onClick={signUp}>회원가입</button>
                 {isLogin ?
                     <button className={style.logIn} onClick={logOut}>로그아웃</button> :

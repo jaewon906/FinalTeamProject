@@ -12,7 +12,7 @@ import Footer from "./common/Footer";
 import MyPageAuth from "./pages/MyPage/MyPageAuth";
 import BookListPage from "./pages/ListPage/index";
 import BookDetailPage from "./pages/DetailPage/index";
-import FilteredBookList from "./pages/FilteredBookPage/FilteredBookList";
+import FilteredBookListPage from "./pages/FilteredBookPage/index";
 import SearchResults from "./pages/SearchPage/index";
 import MainPage from "./pages/MainPage/index";
 import CartPage from './pages/CartPage';
@@ -67,20 +67,20 @@ function App() {
                         <Route path={"myPage/"} element={<Outlet/>}>
                             <Route path="orderDetail/:orderNumber" element={<OrderDetailPage/>}/>
                         </Route>
-                        <Route path={"board/"} element={<QnA_Page/>}/>
-                        <Route path={"board/create-board/"} element={<QnA_CreateBoard/>}/>
-                        <Route path={"board/detail/:id"} element={<QnA_DetailBoard/>}/>
-                        <Route path={"board/update-board/:id"} element={<QnA_UpdateBoard/>}/>
-                        <Route path="booklist" element={<BookListPage/>}></Route>
-                        <Route path="novels/" element={<FilteredBookList category="소설/시/희곡"/>}/>
-                        <Route path="economics/" element={<FilteredBookList category="경제경영"/>}/>
-                        <Route path="developments/" element={<FilteredBookList category="자기계발"/>}/>
-                        <Route path="children/" element={<FilteredBookList category="어린이"/>}/>
-                        <Route path="foreign/" element={<FilteredBookList category="외국어"/>}/>
-                        <Route path="search/" element={<SearchResults/>}/>
-                        <Route path="purchase/" element={<PurchasePage/>}/>
-                        <Route path="purchase/" element={<Outlet/>}>
-                            <Route path=":userNumber" element={<PurchaseResultPage/>}/>
+                        <Route path={"board/"} element={<QnA_Page/>} />
+                        <Route path={"board/create-board/"} element={<QnA_CreateBoard />} />
+                        <Route path={"board/detail/:id"} element={<QnA_DetailBoard />} />
+                        <Route path={"board/update-board/:id"} element={<QnA_UpdateBoard/>} />
+                        <Route path="booklist" element={<BookListPage />}></Route>
+                        <Route path="novels/" element={<FilteredBookListPage category="소설/시/희곡" />} />
+                        <Route path="economics/" element={<FilteredBookListPage category="경제경영" />} />
+                        <Route path="developments/" element={<FilteredBookListPage category="자기계발" />} />
+                        <Route path="children/" element={<FilteredBookListPage category="어린이" />} />
+                        <Route path="foreign/" element={<FilteredBookListPage category="외국어" />} />
+                        <Route path="search/" element={<SearchResults />} />
+                        <Route path="purchase/" element={<PurchasePage />} />
+                        <Route path="purchase/" element={<Outlet />} >
+                            <Route path=":userNumber" element={<PurchaseResultPage />} />
                         </Route>
                         <Route path="bookdetail/:isbn13" element={<BookDetailPage/>}/>
                         <Route path="cart/" element={<CartPage/>}/>
