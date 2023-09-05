@@ -28,36 +28,18 @@ public class ReplyController {
 
     //private final TokenDecoder tokenDecoder;
     private final ReplyService replyService;
-    private final EntityManager em;
 
 
     @PostMapping("/board-detail/reply-list/{id}")
     public ResponseEntity<ReplyDTO.ReplyResponseDTO> replyCreate(@PathVariable Long id, ReplyDTO.ReplyRequestDTO dto) {
 
         ReplyDTO.ReplyResponseDTO responseDTO = replyService.replyCreate(id, dto);
+        log.info("=========================={}", id);
 
         return ResponseEntity.ok(responseDTO);
 
     }
 
-//    @PostMapping("/board-detail/reply-list/{id}")
-//    public ResponseEntity<ReplyDTO.ReplyResponseDTO> replyCreate(@PathVariable Long id, @RequestBody ReplyDTO.ReplyRequestDTO dto, HttpServletRequest request) {
-//
-//        Cookie[] cookies = request.getCookies();
-//        String accessToken = "";
-//        String nickname = "";
-//        for (Cookie cookie : cookies) {
-//            switch(cookie.getName()){
-//                case "accessToken" : accessToken = cookie.getValue();
-//            }
-//            nickname = tokenDecoder.accessTokenDecoder(accessToken, "nickname");
-//        }
-//
-//        ReplyDTO.ReplyResponseDTO responseDTO = replyService.replyCreate(id, dto, nickname);
-//
-//        return ResponseEntity.ok(responseDTO);
-//
-//    }
 
     @GetMapping("/board-detail/reply-list/{id}")
     public ResponseEntity<List<ReplyDTO.ReplyResponseDTO>> reply_list(@PathVariable Long id) {
@@ -79,34 +61,6 @@ public class ReplyController {
 
     }
 
-/*
-    @DeleteMapping("/board-detail/reply-delete/{replyId}")
-    public ResponseEntity<Void> deleteReply(@PathVariable("replyId") Long replyId) {
-        try {
-            replyService.deleteReply(replyId);
-            return ResponseEntity.noContent().build();
-        } catch (EntityNotFoundException e) {
-            // 댓글을 찾을 수 없는 경우 404 Not Found 반환
-            return ResponseEntity.notFound().build();
-        } catch (Exception e) {
-            // 다른 예외 발생 시 500 Internal Server Error 반환
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-    }
-
-
-    @DeleteMapping("/board-detail/reply-delete/{replyId}")
-    public ResponseEntity<Void> deleteReply(@PathVariable("replyId") Long replyId) {
-        try {
-            replyService.deleteReply(replyId);
-            log.info("======================{}",replyId);
-            return ResponseEntity.noContent().build();
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-    }
-*/
-
 
     @DeleteMapping("/board-detail/reply-delete/{replyId}")
     public ResponseEntity<Void> deleteReply(@PathVariable("replyId") Long replyId) {
@@ -122,17 +76,12 @@ public class ReplyController {
     }
 
     @PutMapping("/board-detail/reply-update/{replyId}")
-    public ResponseEntity<Void> updateReply (@PathVariable Long replyId, @RequestBody Map<String, String> request) {
-        try {
-            String updateText = request.get("text");
-            //댓글 데이터를 업데이트
-            replyService.updataReply(replyId, updateText);
-            return ResponseEntity.noContent().build();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+    public ResponseEntity<ReplyDTO.ReplyResponseDTO> updateReply (@PathVariable("replyId") Long replyId, @RequestBody ReplyDTO.ReplyRequestDTO dto) {
+
+        ReplyDTO.ReplyResponseDTO responseDTO = replyService.updateReply(replyId, dto);
+        return ResponseEntity.ok(responseDTO);
     }
-    
+
+
 
 }

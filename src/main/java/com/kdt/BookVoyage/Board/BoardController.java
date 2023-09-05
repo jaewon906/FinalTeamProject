@@ -3,6 +3,7 @@ package com.kdt.BookVoyage.Board;
 
 import com.kdt.BookVoyage.Member.MemberRepository;
 import com.kdt.BookVoyage.Member.MemberService;
+import com.kdt.BookVoyage.Reply.ReplyEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -75,8 +76,6 @@ public class BoardController {
         return new WrapperClass(boardDTO);
 
     }
-
-
 
 
     @PostMapping("/create-board")
