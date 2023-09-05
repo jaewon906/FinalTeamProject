@@ -34,7 +34,6 @@
     flex-direction: column;
     align-items: center;
     padding: 30px;
-    background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin-bottom: 50px;
@@ -76,7 +75,6 @@
     border-collapse: collapse;
     border: 2px solid #ccc;
     font-size: 14px;
-    background-color: #fff; /* 배경색을 설정합니다 */
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -175,10 +173,10 @@
     align-items: center;
     border: 2px solid #45b751;
     padding: 40px;
-    background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
+
 }
 .detailHeader {
     width: 300px;
@@ -191,7 +189,6 @@
 
 .detailHeader h2 {
     font-size: 18px;
-    color: #333;
 
 }
 .detailTitle {
@@ -214,6 +211,7 @@
     line-height: 1.6;
     margin-top: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color:black;
 }
 
 .detailContent a {
@@ -314,6 +312,7 @@
     background-color: #f2f2f2;
     border-radius: 8px;
     padding-left: 15px;
+    color: black;
 }
 
 .qnaQuestion {

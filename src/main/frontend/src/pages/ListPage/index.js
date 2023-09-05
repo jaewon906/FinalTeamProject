@@ -1,9 +1,12 @@
 import React from 'react'
-import AllBookList from './AllBookList'
+import AllBookList from '../../component/Book/BookList/AllBookList'
 
 function BookListPage() {
+  
   return (
-    <AllBookList />
+    
+      <AllBookList />
+    
   )
 }
 

@@ -43,7 +43,6 @@ export default function UserManage() {
 
     const toSearch = () => {
 
-        console.log(page)
 
         const size = userAmount.current.value;
         page = "0"
@@ -128,7 +127,6 @@ export default function UserManage() {
         sort = e.target.id;
 
         if (btn !== sort) {
-            console.log("달라달라")
             setBtn(sort)
 
             if (isOrder === true) {
@@ -140,7 +138,6 @@ export default function UserManage() {
                 setIsOrder(true)
             }
 
-            console.log(isOrder)
 
             switch (sort) {
                 case "userId":
@@ -172,9 +169,7 @@ export default function UserManage() {
         }
 
         if (btn === sort) {
-            console.log("같아같아")
             setIsOrder(val => !val)
-            console.log(isOrder)
 
             let idx = 0
 
@@ -376,7 +371,6 @@ export default function UserManage() {
                     userNumber: atUserNumber,
                     deleteFlag: e.currentTarget.value
                 });
-            console.log("저장됨")
             setUpdateArrLength(updateDataArr.length)
         }
 
@@ -390,7 +384,6 @@ export default function UserManage() {
 
             updateDataArr = filter
 
-            console.log("수정됨")
             setUpdateArrLength(updateDataArr.length)
         }
 

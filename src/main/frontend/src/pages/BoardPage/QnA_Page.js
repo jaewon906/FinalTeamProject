@@ -78,7 +78,7 @@ const QnA_Page = () => {
 
     return (
         <>
-            <div style={{border: "2px solid pink",padding:"30px 0px 30px 0px", display: 'flex',flexDirection:"column",alignItems:"center"}}>
+            <div style={{padding:"30px 0px 30px 0px", display: 'flex',flexDirection:"column",alignItems:"center"}}>
                     <div className={styles.qnaContainer}>
                         <h1 className={styles.qnaTitle}>자주 묻는 질문</h1>
                         <ul className={styles.qnaList}>

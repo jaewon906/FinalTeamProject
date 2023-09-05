@@ -46,7 +46,7 @@ public class OrderProductEntity {
     @Column
     private Integer amount;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "order_ID")
     private OrderEntity orderEntity;
 

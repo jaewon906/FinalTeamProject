@@ -43,7 +43,6 @@
 
 .spec-area {
     width: 100%;
-
 }
 
 .spec-area > img {
@@ -112,4 +111,26 @@
 
 .full-desc2 {
     margin-top: 50px;
+}
+
+.image-container {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.image-container.zoomed {
+    transform: scale(1.5);
+}
+
+.zoomed-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: 200%;
+    pointer-events: none;
 }

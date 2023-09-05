@@ -14,6 +14,7 @@
 .all-book-list {
   width: 80%;
   margin-top: 50px;
+  list-style: none;
 }
 
 .all-book-list > .book-list {
@@ -77,4 +78,16 @@
 
 .all-book-list > .book-list > .cart-buy .btn-buy {
   margin: 15px 0;
+}
+
+.loading {
+  height: 500px;
+  position: relative;
+}
+
+.loading > img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

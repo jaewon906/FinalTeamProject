@@ -102,7 +102,9 @@ const QnA_DetailBoard = () => {
                             padding: "15px",
                             border: "2px solid #45b751",
                             borderRadius: "8px",
-                            boxShadow: "0 2px 4px rgba(0,0,0,0.1)"
+                            boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+                            backgroundColor:"white",
+                            color:"black"
                         }}> " {title} "</h4>
                         <h3 className={styles.detailTitle} style={{marginTop:"15px"}}>글 내용</h3>
                         <div className={styles.detailContent} dangerouslySetInnerHTML={{__html: content}}></div>
