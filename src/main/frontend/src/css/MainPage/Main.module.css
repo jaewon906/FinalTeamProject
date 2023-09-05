@@ -6,13 +6,7 @@
   width:90%;
   min-width: 1200px;
   max-width: 1600px;
-  display: flex;
-  flex-direction: column;
-}
-.main{
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
+  margin: 50px auto;
 }
 .hotItem {
   font-weight: bold;
@@ -42,6 +36,18 @@
 .bookTitle {
   font-size: 1.1rem;
   padding: 10px 0;
+}
+
+.loading {
+  height: 500px;
+  position: relative;
+}
+
+.loading > img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 

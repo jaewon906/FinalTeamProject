@@ -72,8 +72,8 @@ public class CartService {
 
         if(cart != null) {
             List<CartItemEntity> cartItems = cart.getCartItems();
-            System.out.println("----------------개수-----------" + cartItems);
-            cart.setQuantity(cartItems.size());
+            int totalQuantity = cartItems.stream().mapToInt(CartItemEntity::getQuantity).sum();
+            cart.setQuantity(totalQuantity);
         }
         }
 
