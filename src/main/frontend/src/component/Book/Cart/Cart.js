@@ -333,7 +333,9 @@ function Cart() {
           </table>
         </div>
         <div className={styles.btnBox}>
-          <div className={styles.btn}>
+          {cart.cartItems.length > 0 ? (
+            <>
+            <div className={styles.btn}>         
             <Button 
             green="true" 
             fullWidth
@@ -347,6 +349,10 @@ function Cart() {
               삭제하기
             </Button>
           </div>
+          </>
+          ) : (
+            ''
+          )}
         </div>
       </div>
     </div>

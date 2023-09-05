@@ -11,11 +11,9 @@
 caption {
   font-size: 2rem;
   text-align: left;
+  margin-bottom: 50px;
 }
 
-.tblItemWrap > .tblItem > tbody > tr {
-
-}
 
 .tblItemWrap > .tblItem > tbody > tr > td {
   padding: 30px;
@@ -75,6 +73,7 @@ caption {
 }
 
 .empty {
+
   font-size: 100px;
 }
 

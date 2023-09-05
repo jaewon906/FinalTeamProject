@@ -4,10 +4,11 @@ import useDebounce from "../../../hooks/useDebounce";
 import axios from "axios";
 import Button from "../../../common/Button";
 import Loading from "../../../js/Loading";
+import { getUserNumber } from "../../../js/getUserNumber";
 
 function SearchBook() {
   const [searchResults, setSearchResults] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const usernumber = getUserNumber().usernumber;
 
   const useQuery = () => {
     return new URLSearchParams(useLocation().search);
@@ -39,6 +40,30 @@ function SearchBook() {
 
     } catch (error) {
       setSearchResults([]);
+    }
+  };
+
+  const goToPurchase = (isbn) => {
+    const userNumber = getUserNumber().userNumber;
+
+    if (userNumber) {
+      const sessionStorage = window.sessionStorage;
+      let item = sessionStorage.getItem(isbn);
+
+      if (item) {
+        ++item;
+        sessionStorage.setItem(isbn, item);
+      } else {
+        sessionStorage.setItem(isbn, 1);
+      }
+      window.location.href = "/home/purchase";
+    } else {
+      const ret = window.confirm(
+        "로그인이 필요한 서비스입니다. 로그인 하시겠습니까?"
+      );
+      if (ret) {
+        window.location.href = "/home/logIn";
+      }
     }
   };
 
@@ -96,13 +121,14 @@ function SearchBook() {
                       </div>
                     </div>
                     <div className="cart-buy">
-                      <div className="btn-cart">
-                        <Button violet="true" fullWidth>
-                          장바구니 담기
-                        </Button>
-                      </div>
                       <div className="btn-buy">
-                        <Button green="true" fullWidth>
+                        <Button 
+                        green="true" 
+                        fullWidth
+                        onClick={() => {
+                          goToPurchase(bookDetail.isbn13);
+                        }}
+                        >
                           구매하기
                         </Button>
                       </div>
