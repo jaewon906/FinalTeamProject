@@ -16,36 +16,39 @@ const ReplySection = () => {
 
     /** =========== 게시글에 댓글 작성하기 위한 백엔드 통신 ==============  */
 
-        const handleReplySubmit = async () => {
+    const replySubmit = async () => {
 
-            if (reply.trim() === "") {
-                alert("댓글 입력 바람.");
-                return;
-            }
-            try {
-
-                const userNickname = getUserNumber().nickname;
-                const requestData = {reply: reply, nickname: userNickname};
-                console.log(userNickname);
-
-                axios.post(
-                    `/api/board/board-detail/reply-list/${id}`, requestData
-                ).then((res) => {
-                    const newReply = res.data;
-                    console.log("댓글 작성 응답(newReply) = " + newReply)
-                    setReplies((prevReplies) => [...prevReplies, newReply]);
-                    setReply("");
-                }).catch(e => {
-                    alert("로그인이 필요한 서비스입니다.")
-                    navigate("/home/login")
-                    console.error(e)
-                })
-
-            } catch (error) {
-                alert("잠시 후 시도해주세요 , 만약 이후에도 진행되지 않을 시 , 로그 아웃 후 로그인 하여 다시 시도 해주세요");
-                console.log("댓글 작성 에러" + error);
-            }
+        if (reply.trim() === "") {
+            alert("댓글 입력 바람.");
+            return;
         }
+        try {
+
+            const userNickname = getUserNumber().nickname;
+
+            axios.post(
+                `/api/board/board-detail/reply-list/${id}`,null, {
+                    params:{
+                        reply:reply,
+                        nickname:userNickname
+                    }
+                }
+            ).then((res) => {
+                const newReply = res.data;
+                console.log("댓글 작성 응답(newReply) = " + newReply)
+                setReplies((prevReplies) => [...prevReplies, newReply]);
+                // window.location.reload()
+                setReply("");
+            }).catch(e => {
+                console.error(e)
+            })
+
+        } catch (error) {
+            alert("잠시 후 시도해주세요 , 만약 이후에도 진행되지 않을 시 , 로그 아웃 후 로그인 하여 다시 시도 해주세요");
+            console.log("댓글 작성 에러" + error);
+        }
+    }
+
 
     /** =========== 게시글에 댓글 목록 조회 통신 ==============  */
 
@@ -64,128 +67,94 @@ const ReplySection = () => {
         };
         getReplies();
     }, [id]);
-    
+
     /** =========== 게시글에 댓글 삭제하기 위한 백엔드 통신 ==============  */
-
-    const handleDeleteReply = async (replyId) => {
-        try {
-            // 서버로 댓글 삭제 요청 보내기
-            await axios.delete(`/api/board/board-detail/reply-delete/${replyId}`);
-            // 댓글 삭제 후 프론트엔드에서도 삭제
-            setReplies((prevReplies) => prevReplies.filter((reply) => reply.id !== replyId));
-            alert("댓글을 삭제하시겠습니까?")
-        } catch (error) {
-            console.error('댓글 삭제 에러', error);
-        }
-    };
-
-    /** =========== 게시글에 댓글 수정하기 위한 백엔드 통신 ==============  */
-    const handleUpdate = async (replyId) => {
-        try {
-            // 서버로 댓글 수정 요청 보내기
-            await axios.put(`/api/board/board-detail/reply-update/${replyId}`, {text:updatedReply});
-
-            // 댓글 수정 성공 시 업데이트 콜백 호출
-            onUpdateReply(replyId, updatedReply);
-
-            setIsEditing(false);
-            setUpdatedReply("");
-        } catch (error) {
-            console.log("댓글 수정 에러", error);
+    const deleteReply = async (replyId) => {
+        if (window.confirm("댓글을 삭제하시겟습니까?")) {
+            try {
+                await axios.delete(`/api/board/board-detail/reply-delete/${replyId}`);
+                setReplies((prevReplies) => prevReplies.filter((reply) => reply.id !== replyId));
+            } catch (error) {
+                console.error("댓글 삭제 에러 발생 = ", error);
+            }
         }
     }
 
-    const onUpdateReply = (replyId, updatedText) => {
-        setUpdatedReply((prevReplies) => ({
-            ...prevReplies,
-            [replyId]: updatedText,
-        }));
-    };
 
-/*    const handleEdit = () => {
-        setIsEditing(true);
-    };
-
-    const handleCancel = () => {
-        setIsEditing(false);
-        setUpdatedReply(reply.text);
-    };
-
-    const handleChange = (e) => {
-        setUpdatedReply(e.target.value);
-    };*/
-
-    return (
-        <>
-            <div style={{width: "100%", borderTop: "2px solid #888", marginTop: "50px"}}>
-                <div className={styles.reply}>
-                    <h4>{replies.length > 0 && `${replies.length} 개의 댓글 😊`}</h4>
-                    <ul className={styles.replyList} id="replyList">
-                        {replies.map((reply, idx) => (
-                            <li key={idx}>
-                                <div className={styles.replyContent}>
-                                    {reply.reply}
-                                </div>
-                                <div className={styles.replyInfo}>
-                                    <div className={styles.replyAuthor}>
-                                        작성자: {reply.nickname}
+        return (
+            <>
+                <div style={{width: "100%", borderTop: "2px solid #888", marginTop: "50px"}}>
+                    <div className={styles.reply}>
+                        <h4>{replies.length > 0 && `${replies.length} 개의 댓글 😊`}</h4>
+                        <ul className={styles.replyList} id="replyList">
+                            {replies.map((reply, idx) => (
+                                <li key={idx}>
+                                    <div className={styles.replyContent}>
+                                        {reply.reply}
                                     </div>
-                                    <div className={styles.replyDate}>
-                                        작성일: {reply.regDate}
+                                    <div className={styles.replyInfo}>
+                                        <div className={styles.replyAuthor}>
+                                            작성자: {reply.nickname}
+                                        </div>
+                                        <div className={styles.replyDate}>
+                                            작성일: {reply.regDate}
+                                        </div>
                                     </div>
-                                </div>
-                                {reply.nickname === getUserNumber().nickname ? (
-                                <div className={styles.replyActions}>
-                                    {/*수정 버튼 클릭 시 해당 댓글의 ID를 전달*/}
-                                    <button className={styles.detailUpdateBtn} style={{fontSize:"11px", padding:"7px", marginRight:"3px"}}
-                                            onClick={() => handleUpdate(reply.id)}>수정</button>
-                                    <button style={{fontSize: "11px", padding: "7px"}}
-                                            className={styles.detailDeleteBtn}  onClick={() => handleDeleteReply(reply.id)} >삭제
-                                    </button>
-                                </div>
-                                    ) : " " }
-                            </li>
-                        ))}
-                    </ul>
-                </div>
+                                    {reply.nickname === getUserNumber().nickname ? (
+                                        <div className={styles.replyActions}>
+                                            {/*수정 버튼 클릭 시 해당 댓글의 ID를 전달*/}
+                                            {/*   <button className={styles.detailUpdateBtn} style={{fontSize:"11px", padding:"7px", marginRight:"3px"}}
+                                            onClick={() => updateReply(reply.id)}>수정</button>*/}
+                                            <button style={{fontSize: "11px", padding: "7px"}}
+                                                    className={styles.detailDeleteBtn}
+                                                    onClick={() => deleteReply(reply.id)}>삭제
+                                            </button>
+                                        </div>
+                                    ) : " "}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
 
-                <div>
-                    <div className={styles.replyForm}>
-                        <h4 style={{marginLeft: "10px"}}>댓글 작성</h4>
-                        <input
-                            type="text"
-                            value={reply}
-                            className={styles.replyInput}
-                            placeholder="댓글을 입력하세요"
-                            onChange={(e) => setReply(e.target.value)}
-                        />
+                    <div>
+                        <div className={styles.replyForm}>
+                            <h4 style={{marginLeft: "10px"}}>댓글 작성</h4>
+                            <input
+                                type="text"
+                                value={reply}
+                                className={styles.replyInput}
+                                placeholder="댓글을 입력하세요"
+                                onChange={(e) => setReply(e.target.value)}
+                            />
 
-                        <div className={styles.replyBtnGroup}>
-                            <button
-                                type="submit"
-                                className={styles.replySubmit}
-                                onClick={handleReplySubmit}
-                            >
-                                댓글 작성
-                            </button>
-                            <button
-                                className={styles.detailBackBtn}
-                                onClick={() => {
-                                    navigate(`/home/board`)
-                                }}
-                            >
-                                목록 보기
-                            </button>
+                            <div className={styles.replyBtnGroup}>
+                                <button
+                                    type="submit"
+                                    className={styles.replySubmit}
+                                    onClick={replySubmit}
+                                >
+                                    댓글 작성
+                                </button>
+                                <button
+                                    className={styles.detailBackBtn}
+                                    onClick={() => {
+                                        navigate(`/home/board`)
+                                    }}
+                                >
+                                    목록 보기
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </>
-    )
-
+            </>
+        )
 }
 
 export default ReplySection;
+
+
+
 
 /*import React, {useState, useEffect} from "react";
 import axios from "axios";
@@ -268,9 +237,9 @@ const ReplySection = () => {
                 if (response.status === 204) {
                     alert("댓글 삭제 완료");
                     // 댓글 삭제 후, 해당 댓글을 replies에서 제거해주어야 합니다.
-                    /!*
+
                                         const reply = replies.find((reply) => reply.id === replyId);
-                    *!/
+
 
                     setReplies((prevReplies) =>
                         prevReplies.filter((reply) => reply.id !== replyId)
@@ -363,3 +332,120 @@ const ReplySection = () => {
 
 export default ReplySection;*/
 
+
+
+// const replySubmit = async () => {
+//
+//     if (reply.trim() === "") {
+//         alert("댓글 입력 바람.");
+//         return;
+//     }
+//     try {
+//
+//         const userNickname = getUserNumber().nickname;
+//         const requestData = {reply: reply, nickname: userNickname};
+//         console.log(userNickname);
+//
+//         axios.post(
+//             `/api/board/board-detail/reply-list/${id}`, requestData
+//         ).then((res) => {
+//             const newReply = res.data;
+//             console.log("댓글 작성 응답(newReply) = " + newReply)
+//             setReplies((prevReplies) => [...prevReplies, newReply]);
+//             // window.location.reload()
+//             setReply("");
+//         }).catch(e => {
+//             console.error(e)
+//         })
+//
+//     } catch (error) {
+//         alert("잠시 후 시도해주세요 , 만약 이후에도 진행되지 않을 시 , 로그 아웃 후 로그인 하여 다시 시도 해주세요");
+//         console.log("댓글 작성 에러" + error);
+//     }
+// }
+
+/*        const replySubmit = async () => {
+
+            if (reply.trim() === "") {
+                alert("댓글 입력 바람.");
+                return;
+            }
+            try {
+
+                const userNickname = getUserNumber().nickname;
+                const requestData = {reply: reply, nickname: userNickname};
+                console.log(userNickname);
+
+                axios.post(
+                    `/api/board/board-detail/reply-list/${id}`, requestData
+                ).then((res) => {
+                    const newReply = res.data;
+                    console.log("댓글 작성 응답(newReply) = " + newReply)
+                    setReplies((prevReplies) => [...prevReplies, newReply]);
+                    setReply("");
+                }).catch(e => {
+                    alert("로그인이 필요한 서비스입니다.")
+                    navigate("/home/login")
+                    console.error(e)
+                })
+
+            } catch (error) {
+                alert("잠시 후 시도해주세요 , 만약 이후에도 진행되지 않을 시 , 로그 아웃 후 로그인 하여 다시 시도 해주세요");
+                console.log("댓글 작성 에러" + error);
+            }
+        }*/
+
+
+
+/*
+/!** =========== 게시글에 댓글 삭제하기 위한 백엔드 통신 ==============  *!/
+
+const deleteReply = async (replyId) => {
+    try {
+        // 서버로 댓글 삭제 요청 보내기
+        const ret = window.confirm("댓글을 삭제하시겠습니까?")
+        // 댓글 삭제 후 프론트엔드에서도 삭제
+        if(ret) {
+            await axios.delete(`/api/board/board-detail/reply-delete/${replyId}`);
+            setReplies((prevReplies) => prevReplies.filter((reply) => reply.id !== replyId));
+        }
+    } catch (error) {
+        console.error('댓글 삭제 에러', error);
+    }
+};*/
+
+/** =========== 게시글에 댓글 수정하기 위한 백엔드 통신 ==============  */
+/*    const updateReply = async (replyId) => {
+        try {
+            // 서버로 댓글 수정 요청 보내기
+            await axios.put(`/api/board/board-detail/reply-update/${replyId}`, {text:updatedReply});
+
+            // 댓글 수정 성공 시 업데이트 콜백 호출
+            onUpdateReply(replyId, updatedReply);
+
+            setIsEditing(false);
+            setUpdatedReply("");
+        } catch (error) {
+            console.log("댓글 수정 에러", error);
+        }
+    }
+
+    const onUpdateReply = (replyId, updatedText) => {
+        setUpdatedReply((prevReplies) => ({
+            ...prevReplies,
+            [replyId]: updatedText,
+        }));
+    };*/
+
+/*    const handleEdit = () => {
+        setIsEditing(true);
+    };
+
+    const handleCancel = () => {
+        setIsEditing(false);
+        setUpdatedReply(reply.text);
+    };
+
+    const handleChange = (e) => {
+        setUpdatedReply(e.target.value);
+    };*/

@@ -427,7 +427,6 @@
 }
 
 .categoryButton.active {
-
     background-color: #45b751; /* 선택된 카테고리 버튼 배경색 */
     color: white; /* 선택된 카테고리 버튼 글자색 */
 }

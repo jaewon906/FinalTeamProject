@@ -124,10 +124,11 @@ const QnA_CreateBoard = () => {
                                             }}
                                         >
                                             <option value="">카테고리 선택</option>
-                                            <option value="주문 및 배송">주문 및 배송</option>
-                                            <option value="교환 및 환불">교환 및 환불</option>
                                             <option value="회원 가입">회원 가입</option>
                                             <option value="도서 예약">도서 예약</option>
+                                            <option value="주문 및 배송">주문 및 배송</option>
+                                            <option value="교환 및 환불">교환 및 환불</option>
+                                            <option value="계정 관련 문의">계정 관련 문의</option>
                                         </select>
                                         {warn && category === "" && (<div className={styles.createError}>카테고리를 선택해주세요.</div>)}
                                     </div>
