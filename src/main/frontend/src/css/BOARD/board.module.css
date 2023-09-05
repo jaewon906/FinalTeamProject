@@ -12,7 +12,7 @@
     src:url("../../fonts/KakaoRegular.ttf");
 }
 .boardMainWriteButton {
-    padding: 20px;
+    padding-top: 30px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -38,6 +38,14 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin-bottom: 50px;
     border: 2px solid #45b751;
+}
+
+.boardMainContainer h1 {
+    width: 300px;
+    text-align: center;
+    padding-bottom:10px;
+    background-color: transparent;
+    border-bottom: 2px solid #45b751;
 }
 
 .boardMainTitle {
@@ -418,7 +426,6 @@
 }
 
 .categoryButton.active {
-
     background-color: #45b751; /* 선택된 카테고리 버튼 배경색 */
     color: white; /* 선택된 카테고리 버튼 글자색 */
 }
