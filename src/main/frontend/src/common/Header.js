@@ -3,18 +3,22 @@ import {Link, useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axios from "axios";
 import {getUserNumber} from "../js/getUserNumber";
+import {useDispatch} from "react-redux";
+import {modeRdc} from "../js/ThemeReducer";
+import ThemeToggleBtn from "../js/ThemeToggleBtn";
 
 
-export default function Header() {
+export default function Header(props) {
 
     const [isLogin, setIsLogin] = useState(false)
     const [nickname, setNickname] = useState()
     const [userNumber, setUserNumber] = useState("0")
     const navigate = useNavigate();
-
+    const dispatch = useDispatch();
 
     const handleChange = (e) => {
-    navigate(`/search?q=${e.target.value}`)}
+        navigate(`/search?q=${e.target.value}`)
+    }
 
     const handleClick = () => {
         navigate("/home/cart");
@@ -64,8 +68,8 @@ export default function Header() {
                 .then(() => {
                         alert("로그아웃 되셨습니다.")
                         setIsLogin(false);
-                        window.location.href="/home"
-                    window.sessionStorage.clear()
+                        window.location.href = "/home"
+                        window.sessionStorage.clear()
                     }
                 ).catch(e => {
                 console.error(e)
@@ -74,20 +78,44 @@ export default function Header() {
         }
     }
 
+    const themeChange = () => {
+
+        const localStorage = window.localStorage
+        const themeState = localStorage.getItem("theme");
+
+        if (themeState === "0" || themeState === null) {
+            localStorage.setItem("theme", "1");
+        }
+        if (themeState === "1")
+            localStorage.setItem("theme", "0")
+
+        dispatch(modeRdc())
+    }
+
 
     return (
-        <div className={style.container}>
+        <div style={props.style} className={style.container}>
             <div className={style.logo}>
-                <Link style={{color: "#45b751", textDecoration: "none"}} to={"/home"}>BookVoyage</Link>
+                <Link to={"/home"}>BookVoyage</Link>
+                <div onClick={themeChange}><ThemeToggleBtn/></div>
             </div>
             <div className={style.functionBox}>
-                {isLogin ? <p style={{fontSize: "14px"}}>반갑습니다 <strong>{nickname}</strong> 님</p> : ""}
+                {isLogin ?
+                    <div style={{display:"flex"}}>
+                        <p>반갑습니다</p>
+                        <p style={{marginLeft:"20px"}}>{nickname} 님</p>
+                    </div> : ""}
 
-                <button onClick={handleClick} className={style.cart}></button>
+                <button onClick={handleClick} className={style.cart}>
+                    <i className="fa-solid fa-cart-shopping"></i>
+                </button>
 
-                <button onClick={myPage} className={style.myInfo}></button>
+                <button onClick={myPage} className={style.myInfo}>
+                    <i className="fa-solid fa-user-pen"></i>
+                </button>
 
-                <input name={"search"} type={"search"} className={style.search} placeholder={"search..."} onChange={handleChange}/>
+                <input name={"search"} type={"search"} className={style.search} placeholder={"search..."}
+                       onChange={handleChange}/>
                 <button className={style.signUp} onClick={signUp}>회원가입</button>
                 {isLogin ?
                     <button className={style.logIn} onClick={logOut}>로그아웃</button> :

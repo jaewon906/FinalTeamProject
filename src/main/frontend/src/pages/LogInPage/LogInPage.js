@@ -25,8 +25,9 @@ export default function LogInPage() {
                 switch (userState) {
                     case true:
 
-                        const returnUrl = location.state?.returnUrl || '/home';
-                        navigate(returnUrl);
+                        // const returnUrl = location.state?.returnUrl || '/home';
+                        // navigate(returnUrl);
+                        window.location.href = location.state?.returnUrl || '/home';
 
                         break;
 

@@ -12,7 +12,7 @@
 ##
 
 ### 프레임워크 : 리액트 18 ver.
-### 라이브러리 : react-router-dom, react-daum-postcode, http-proxy-middleware, axios, react-modal, apexcharts, react-intersection-observer, html-react-parser, dompurify, react-bootstrap, react-quill
+### 라이브러리 : react-router-dom, react-daum-postcode, http-proxy-middleware, axios, react-modal, apexcharts, react-intersection-observer, html-react-parser, dompurify, react-bootstrap, react-quill, react-redux, @reduxjs/toolkit
 #
 
 ## 백엔드
@@ -107,7 +107,7 @@
 
 #
 ### 2. 관리자 메인 페이지의 요약기능
-#### 1) 회원수, 최근 주문건, 읽지 않은 문의글 수를 화면에 띄워 데이터가 한 눈에 볼 수 있게 한다. △ (회원수만 기능 구현)
+#### 1) 회원수, 최근 주문건, 읽지 않은 문의글 수를 화면에 띄워 데이터가 한 눈에 볼 수 있게 한다. △ (회원수, 주문만 기능 구현)
 #### 2) 각 요약 페이지 또는 왼쪽 메뉴 클릭시 해당하는 데이터 관리 페이지로 이동한다. o
 #### 3) 신규 회원 동향을 한 눈에 알 수 있는 그래프를 만들어 전일, 전 7일을 기준으로 회원가입수 증감을 알 수 있다.
 #### 4) 최근 주문건은 읽지 않은 주문 건, 생성시간을 기준으로 내림차순으로 상위 4개의 데이터를 보여준다. o
