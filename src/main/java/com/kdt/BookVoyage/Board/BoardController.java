@@ -6,10 +6,7 @@ import com.kdt.BookVoyage.Member.MemberService;
 import com.kdt.BookVoyage.Reply.ReplyEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +14,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -36,6 +35,32 @@ public class BoardController {
     @GetMapping("/board-list")
     public ResponseEntity<Page<BoardDTO>> board_list (
             @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String category
+    ) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+
+        Page<BoardEntity> boardPage;
+        if ("all".equalsIgnoreCase(category)) {
+            boardPage = boardService.boardList(pageable);
+        } else {
+            boardPage = boardService.getBoardListByCategory(category, pageable);
+        }
+
+        log.info("asdfsadfasfasdfasfasfasfsaf{}", boardPage);
+
+
+        Page<BoardDTO> boardDTOPage = boardPage.map(BoardDTO::new);
+        log.info("asfasfasfsafasfsafd====={}", category);
+        return ResponseEntity.ok(boardDTOPage);
+    }
+
+
+
+
+/*    @GetMapping("/board-list")
+    public ResponseEntity<Page<BoardDTO>> board_list (
+            @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
 
     ) {
@@ -44,26 +69,7 @@ public class BoardController {
         Page<BoardDTO> boardDTOPage = boardPage.map(BoardDTO::new);
 
         return ResponseEntity.ok(boardDTOPage);
-    }
-
-/*
-
-    @GetMapping("/board-list/category")
-    public ResponseEntity<Page<BoardDTO>> board_listCategory (
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @RequestParam(required = false) String category // 선택된 카테고리를 받음
-
-    ) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
-        Page<BoardEntity> boardPage = boardService.boardListByCategory(category, pageable);
-        Page<BoardDTO> boardDTOPage = boardPage.map(BoardDTO::new);
-
-        return ResponseEntity.ok(boardDTOPage);
-    }
-
-
-*/
+    }*/
 
 
     @GetMapping("/board-detail/{boardId}")
@@ -76,6 +82,7 @@ public class BoardController {
         return new WrapperClass(boardDTO);
 
     }
+
 
 
     @PostMapping("/create-board")
@@ -172,9 +179,6 @@ public class BoardController {
     public void updateBoardAuthenticate() {
         log.info("============================= 수정 권한 메서드 ok =================================");
     }
-
-
-
 }
 
 /**
