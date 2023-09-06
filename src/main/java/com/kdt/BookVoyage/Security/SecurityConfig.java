@@ -48,7 +48,6 @@ public class SecurityConfig {
                                 .requestMatchers("/api/books").permitAll()  // 도서 조회 결과 10개씩 페이징 처
                                 .requestMatchers("/api/bookdetail").permitAll() // 도서 전체 조회 결과
                                 .requestMatchers("/api/bookitems").permitAll()  // id로 도서 검색
-                                .requestMatchers("/api/search").permitAll() // 검색창에 도서 검색
                                 .requestMatchers("/api/detail/**").permitAll()  // 도서 상세 정보 표시
                                 .requestMatchers("/api/cart/**").hasRole("USER")    // 장바구니
                                 .requestMatchers("/api/board/board-list").permitAll()

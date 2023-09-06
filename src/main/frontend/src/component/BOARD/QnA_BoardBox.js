@@ -25,7 +25,11 @@ const QnA_BoardBox = (props) => {
                         state: { id: props.id, currentPage: props.currentPage }
                     }}
                 >
-                    {props.title}
+                    {props.searchResults.length > 0 ? 
+                    props.searchResults.map((result) => (
+                        <div key={result.id}>{result.title}</div>
+                    ))    : props.title
+                }
                 </Link>
             </td>
             <td>

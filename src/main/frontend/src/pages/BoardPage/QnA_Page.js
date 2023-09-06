@@ -7,6 +7,7 @@ import styles from "../../css/BOARD/board.module.css";
 
 const QnA_Page = () => {
 
+    const [selectedCategory, setSelectedCategory] = useState("all");    // 초기 카테고리 선택은 'all'로 설정
     const [data, setData] = useState([]);
     const [isCollapsed, setIsCollapsed] = useState(true);
     const [currentPage, setCurrentPage] = useState(0);
@@ -35,12 +36,6 @@ const QnA_Page = () => {
     const onPageChange = (page) => {
         setCurrentPage(page);
     };
-
-    const handleSearch = (text) => {
-        setSearchText(text);
-        setCurrentPage(0);
-    };
-
 
 
     const faqData = [
@@ -74,6 +69,11 @@ const QnA_Page = () => {
         }
     };
 
+    // 카테고리 변경 시 실행되는 함수
+    const categoryChange = (category) => {
+        setSelectedCategory(category);
+        setCurrentPage(0);  // 페이지를 0으로 리셋
+    }
 
 
     return (
@@ -104,11 +104,12 @@ const QnA_Page = () => {
                     </div>
 
                     <QnA_BoardList
+                        selectedCategory={selectedCategory} // 선택한 카테고리를 전달
+                        categoryChange={categoryChange} // 카테고리 변경 함수를 props로 전달
                         data={data}
                         currentPage={currentPage}
                         totalPages={totalPages}
                         onPageChange={onPageChange}
-                        handleSearch={handleSearch}
                     />
 
 

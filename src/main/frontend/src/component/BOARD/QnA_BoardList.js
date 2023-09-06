@@ -7,10 +7,17 @@ import QnA_BoardPagination from "./QnA_BoardPagination";
 
 const QnA_BoardList = (props) => {
 
-    const {currentPage, totalPages, onPageChange, handleSearch, formattedCreatedTime, data} = props;
+    const {currentPage, 
+        totalPages, 
+        onPageChange, 
+        formattedCreatedTime, 
+        data, 
+        selectedCategory,
+        categoryChange
+    } = props;
+   
     const [searchText, setSearchText] = useState("");
     const [searchResults, setSearchResults] = useState([]);
-    const [selectedCategory, setSelectedCategory] = useState("all"); // 초기 카테고리 선택은 'all'로 설정
 
 
     const authenticate = () => {
@@ -23,13 +30,13 @@ const QnA_BoardList = (props) => {
         })
     }
 
-
-    //카테고리 버튼 클릭 시 실행되는 함수
-    const categoryChange = (category) => {
-        setSelectedCategory(category);
-
-    }
-
+    const handleSearch = (searchText) => {
+        // 검색어에 해당하는 결과를 찾아 setSearchResults로 업데이트
+        const filteredResults = data.filter((item) => 
+            item.title.toLowerCase().includes(searchText.toLowerCase())
+        );
+        setSearchResults(filteredResults);
+    };
 
     return (
         <>
@@ -137,6 +144,7 @@ const QnA_BoardList = (props) => {
                                         createdTime={i.createdTime}
                                         formattedCreatedTime={formattedCreatedTime}
                                         currentPage={currentPage + 1}
+                                        searchResults={searchResults}
                                     />
 
                                 ))
