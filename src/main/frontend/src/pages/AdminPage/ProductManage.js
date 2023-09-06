@@ -503,7 +503,6 @@ export default function ProductManage() {
                                 const imgUrl = el.previewImgList
                                 const urlPattern = /https?:\/\/[^\s]+/g;
                                 const urls = imgUrl.match(urlPattern)[0].split("\"")[0];
-                                console.log(urls)
 
                                 const toOrderDetail = () =>
 

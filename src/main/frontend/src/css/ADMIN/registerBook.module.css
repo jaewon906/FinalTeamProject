@@ -5,7 +5,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    border: 1px solid red;
 }
 .main > h1{
     margin: 100px 0;
@@ -14,29 +13,37 @@
     width: 800px;
     min-height: 400px;
     max-height: 800px;
-    border: 1px solid red;
     display: flex;
+    box-shadow: 0 0 3px 0 gray;
+    margin-top: 50px;
 }
 .section1, .section2 {
     display: flex;
     flex-direction: column;
     align-items: center;
-    border: 1px solid red;
 }
+.section2{
+    justify-content: center;
+}
+.section2  tr{
+}
+
 .section1{
     width: 40%;
+    border-right: 1px solid gray;
 }
 .section1 > input {
     outline: none;
     border: 3px solid #98b6ff;
     height: 35px;
-    width: 200px;
+    width: 193px;
     margin-bottom: 50px;
+    padding-left: 5px;
 }
-.section1 > h3{
+.section1 > h2, .section2 > h2{
     margin: 80px 0;
 }
-.section1 > button {
+.section1  button, .section2 > button {
     width: 200px;
     height: 50px;
     border: 1px solid #f2f4fa;
@@ -45,8 +52,14 @@
     border-radius: 3px;
     cursor: pointer;
 }
-
-.section1 > button:hover {
+.section2 > button{
+    margin-top: 90px;
+}
+.section2  img{
+    width: 150px;
+    height: 210px;
+}
+.section1 > button:hover, .section2 > button:hover  {
     background-color: #ffffff;
     border: 1px solid #b0c6fd;
 }

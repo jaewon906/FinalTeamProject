@@ -1,6 +1,7 @@
 package com.kdt.BookVoyage.Book;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
+@Slf4j
 public class AladinApiController {
 
     private final BookRepository bookRepository;
@@ -57,6 +59,7 @@ public class AladinApiController {
     // 알라딘에서 책 조회(db에 저장x)
     @GetMapping("/search/{isbn}")
     public AdminBookSearchRes searchBookResult(@PathVariable("isbn") String isbn) {
+
         try {
             AladinBookDetailReq aladinBookDetailReq = new AladinBookDetailReq();
             aladinBookDetailReq.setItemId(isbn);

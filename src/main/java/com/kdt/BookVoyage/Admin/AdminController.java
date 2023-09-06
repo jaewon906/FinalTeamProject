@@ -1,6 +1,7 @@
 package com.kdt.BookVoyage.Admin;
 
-import com.kdt.BookVoyage.Book.BookDto;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.kdt.BookVoyage.Book.*;
 import com.kdt.BookVoyage.Member.MemberDTO;
 import com.kdt.BookVoyage.Member.MemberEntity;
 import com.kdt.BookVoyage.Order.OrderDTO;
@@ -12,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
@@ -26,6 +29,7 @@ public class AdminController {
 
     private final AdminService adminService;
 
+    private final AladinApiService aladinApiService;
 
     @GetMapping("autoLogin")
     public void autoLogin() {
@@ -108,7 +112,24 @@ public class AdminController {
 
     @GetMapping("manage/product/search")
     public Page<BookDto> searchProductInfo(String keyword, Pageable pageable) {
+
         return adminService.searchProductInfo(keyword, pageable);
     }
 
+    @GetMapping("manage/product/duplicateValidation")
+    public BookDto duplicateValidation(String isbn13) {
+
+        return adminService.duplicateValidation(isbn13);
+    }
+
+    @PostMapping("manage/product/register")
+    public void registerBook(String isbn13) throws JsonProcessingException {
+
+        log.info("sdfsdfsdfsdf : {}", isbn13);
+        AladinBookDetailReq aladinBookDetailReq = new AladinBookDetailReq();
+        aladinBookDetailReq.setItemId(isbn13);
+
+        aladinApiService.saveBookFromDetailApi(aladinBookDetailReq);
+
+    }
 }

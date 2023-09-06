@@ -3,10 +3,7 @@ package com.kdt.BookVoyage.Admin;
 import com.kdt.BookVoyage.Book.BookDto;
 import com.kdt.BookVoyage.Book.BookEntity;
 import com.kdt.BookVoyage.Book.BookRepository;
-import com.kdt.BookVoyage.Common.CookieConfig;
-import com.kdt.BookVoyage.Common.OrderNotFoundException;
-import com.kdt.BookVoyage.Common.UserIdNotFoundException;
-import com.kdt.BookVoyage.Common.UserPasswordNotMatchException;
+import com.kdt.BookVoyage.Common.*;
 import com.kdt.BookVoyage.Member.MemberDTO;
 import com.kdt.BookVoyage.Member.MemberEntity;
 import com.kdt.BookVoyage.Member.MemberRepository;
@@ -257,4 +254,26 @@ public class AdminService {
 
         return new PageImpl<>(bookDtos, pageable, productEntities.getTotalElements());
     }
+
+    public BookDto duplicateValidation(String isbn13) {
+
+        BookDto bookDto = new BookDto();
+
+        if(isbn13.length()==13){
+
+            BookEntity bookByIsbn13 = bookRepository.findBookByIsbn13(isbn13);
+
+            try{
+              return  BookDto.entityToDto(bookByIsbn13);
+            }
+
+            catch (Exception e){
+                return bookDto;
+            }
+
+        }
+        else throw new InvalidIsbn13Exception("13자리가 아닙니다.");
+    }
+
+
 }
