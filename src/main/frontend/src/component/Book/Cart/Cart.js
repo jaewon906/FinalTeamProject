@@ -29,7 +29,8 @@ function Cart() {
         fetchBookInfo(response.data.cartItems);
       })
       .catch((error) => {
-        console.log(error);
+        console.log("오류 발생")
+        navigate("/home");
       })
       .finally(() => {
         // 데이터를 가져온 후 로딩 상태 해제

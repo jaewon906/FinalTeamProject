@@ -9,13 +9,9 @@ import Loading from '../../../js/Loading';
 function Home() {
   const [isLoading, setIsLoading] = useState(true);
 
-  
-
   const handleLoadingChange = (isLoading) => {
-    if (!isLoading) {
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 500)
+    if (!isLoading) {      
+      setIsLoading(false);   
     }
   };
 

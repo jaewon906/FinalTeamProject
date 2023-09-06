@@ -13,4 +13,6 @@ public interface BookRepository extends JpaRepository<BookEntity, Long> {
     List<BookEntity> findBooksByTitleContaining(String title);
     BookEntity findBookByIsbn13(String isbn13);
     List<BookEntity> findByBookIdIn(List<Long> ids);
+
+    BookEntity deleteByIsbn13(String isbn13);
 }
