@@ -7,7 +7,6 @@
     align-items: center;
 }
 
-
 .selectAndSearch {
     width: 80%;
     display: flex;
@@ -28,6 +27,7 @@
     background-color: #ffffff;
     border: 1px solid #b0c6fd;
 }
+
 .selectAndSearchBox {
     display: flex;
     width: 400px;
@@ -75,15 +75,15 @@
 
 
 .productInfo {
-    width: calc(100% - 2px);
+    width: calc(100% - 3px);
     height: 50px;
     border: 1px solid gray;
     display: flex;
-    transition :  background-color 0.3s;
+    transition: background-color 0.3s;
 
 }
 
-.productInfo:hover{
+.productInfo:hover {
     background-color: #cedbfb;
 }
 
@@ -101,19 +101,39 @@
 }
 
 .productInfo > .isbn13 {
-    width: 9%;
-    cursor: pointer;
+    width: 12%;
 }
 
 .productInfo > .title {
-    width:22%;
+    width: 32%;
 }
 
 .productInfo > .cover {
-    width: 15%;
+    width: 16%;
 
 }
-.cover > img{
+
+.productInfo > .author {
+    width: 17%;
+
+}
+
+.productInfo > .price {
+    width: 7%;
+
+}
+
+.productInfo > .publisher {
+    width: 7%;
+
+}
+
+.productInfo > .productState {
+    width: 9%;
+    border-right: none;
+}
+
+.cover > img {
     width: 72px;
     height: 96px;
 
@@ -131,23 +151,8 @@
     display: none;
 }
 
-.productInfo > .author {
-    width: 20%;
-
-}
-
-.productInfo > .price {
-    width: 7%;
-
-}
-
-.productInfo > .publisher {
-    width: 7%;
-
-}
-.productInfo > .productState {
-    width: 7%;
-    border-right: none;
+.productState option {
+    background-color: #f2f4fa;
 }
 
 .pagingBtnArea {
@@ -218,6 +223,7 @@
     align-items: center;
     background-color: white;
 }
+
 .loading {
     width: 150px;
     height: 150px;

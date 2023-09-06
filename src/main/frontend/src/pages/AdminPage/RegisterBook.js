@@ -60,15 +60,13 @@ export default function RegisterBook() {
         }
     }
 
-
-
     return (
         <div className={style.main}>
             <h1>상품 등록</h1>
             <div className={style.section}>
                 <div className={style.section1}>
                     <h2>ISBN 코드 입력</h2>
-                    <input onKeyUp={onEnter} ref={isbn13}/>
+                    <input onKeyUp={onEnter} type={"number"} ref={isbn13}/>
                     <button onClick={validateDuplicateBook}>중복 체크</button>
                 </div>
                 <div className={style.section2}>
@@ -78,15 +76,15 @@ export default function RegisterBook() {
                                     <h2>등록되지 않은 상품입니다.</h2>
                                     <button onClick={register}>등록하기</button>
                                 </> :
-                                <div style={{display:"flex", alignItems:"center"}}>
-                                    <div style={{width:"40%"}}>
+                                <div style={{display:"flex", alignItems:"center", marginTop:"100px", width:"100%"}}>
+                                    <div style={{width:"50%", display:"flex", justifyContent:"center"}}>
                                         <img src={urls} alt={""}/>
                                     </div>
-                                    <div style={{width:"60%"}}>
-                                        <table>
+                                    <div style={{width:"50%", height:"100%"}}>
+                                        <table style={{height:"100%"}}>
                                             <tbody>
                                             <tr>
-                                                <td>제목 </td>
+                                                <td>제목</td>
                                                 <td>{isDuplicate.title}</td>
                                             </tr>
                                             <tr>

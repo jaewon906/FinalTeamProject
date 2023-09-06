@@ -11,6 +11,7 @@ function FilteredBookList({ category }) {
   const [filteredBookList, setFilteredBookList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
+
   useEffect(() => {
     axios
       .get("/api/bookdetail")
@@ -124,16 +125,14 @@ function FilteredBookList({ category }) {
                     </div>
                   </div>
                   <div className="cart-buy">
-                    {/* <div className="btn-cart">
-                                            <Button violet="true" fullWidth>장바구니 담기</Button>
-                                        </div> */}
+
                     <div className="btn-buy">
                       <Button
                         onClick={() => {
                           goToPurchase(bookDetail.isbn13);
                         }}
                         green="true"
-                        fullWidth
+                        style={{width:"100px",height:"45px"}}
                       >
                         구매하기
                       </Button>

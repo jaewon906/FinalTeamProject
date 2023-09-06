@@ -63,7 +63,7 @@
 }
 
 .userInfo {
-    width: 99.5%;
+    width: calc(100% - 3px);
     height: 25px;
     border: 1px solid gray;
     display: flex;

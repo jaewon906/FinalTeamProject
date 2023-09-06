@@ -125,11 +125,17 @@ public class AdminController {
     @PostMapping("manage/product/register")
     public void registerBook(String isbn13) throws JsonProcessingException {
 
-        log.info("sdfsdfsdfsdf : {}", isbn13);
         AladinBookDetailReq aladinBookDetailReq = new AladinBookDetailReq();
         aladinBookDetailReq.setItemId(isbn13);
 
         aladinApiService.saveBookFromDetailApi(aladinBookDetailReq);
+
+    }
+
+    @PostMapping("manage/product/update")
+    public void updateProductState(@RequestBody List<Map<String, String>> updatedList) {
+
+        adminService.updateProductState(updatedList);
 
     }
 }

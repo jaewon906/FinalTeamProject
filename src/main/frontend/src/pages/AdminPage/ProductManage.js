@@ -4,7 +4,6 @@ import {useEffect, useRef, useState} from "react";
 import convertToWon from "../../js/convertToWon";
 
 
-
 let sort = "bookId";
 let order = "ASC"
 let page = "0"
@@ -29,7 +28,7 @@ export default function ProductManage() {
     useEffect(() => {
         axios.get("/api/admin/manage/product?page=" + page + "&size=100&sort=bookId,ASC")
             .then(res => {
-                console.log(res.data)
+                console.log(res.data.content)
                 setProductInfo(res.data.content)
                 setSearchResultLength(res.data.totalElements)
                 setTotalPage(res.data.totalPages)
@@ -116,13 +115,13 @@ export default function ProductManage() {
     // true = ASC
     const sortMethod = (e) => {
 
-        document.getElementById("orderNumber").style.background = "#f2f4fa"
-        document.getElementById("orderName").style.background = "#f2f4fa"
-        document.getElementById("username").style.background = "#f2f4fa"
-        document.getElementById("userAddress").style.background = "#f2f4fa"
-        document.getElementById("userTel").style.background = "#f2f4fa"
-        document.getElementById("totalPrice").style.background = "#f2f4fa"
-        document.getElementById("orderState").style.background = "#f2f4fa"
+        document.getElementById("isbn13").style.background = "#f2f4fa"
+        document.getElementById("cover").style.background = "#f2f4fa"
+        document.getElementById("title").style.background = "#f2f4fa"
+        document.getElementById("author").style.background = "#f2f4fa"
+        document.getElementById("publisher").style.background = "#f2f4fa"
+        document.getElementById("priceSales").style.background = "#f2f4fa"
+        document.getElementById("productState").style.background = "#f2f4fa"
 
         e.target.style.backgroundColor = "#cbdfff"
         sort = e.target.id;
@@ -141,25 +140,25 @@ export default function ProductManage() {
 
 
             switch (sort) {
-                case "orderNumber":
+                case "isbn13":
                     setCat([true, false, false, false, false, false, false, false]);
                     break;
-                case "orderName":
+                case "cover":
                     setCat([false, true, false, false, false, false, false, false]);
                     break;
-                case "username":
+                case "title":
                     setCat([false, false, true, false, false, false, false, false]);
                     break;
-                case "userAddress":
+                case "author":
                     setCat([false, false, false, true, false, false, false, false]);
                     break;
-                case "userTel":
+                case "publisher":
                     setCat([false, false, false, false, true, false, false, false]);
                     break;
-                case "totalPrice":
+                case "priceSales":
                     setCat([false, false, false, false, false, true, false, false]);
                     break;
-                case "orderState":
+                case "productState":
                     setCat([false, false, false, false, false, false, true, false]);
                     break;
                 case "deleteFlag":
@@ -175,25 +174,25 @@ export default function ProductManage() {
             let idx = 0
 
             switch (sort) {
-                case "orderNumber":
+                case "isbn13":
                     idx = 0;
                     break;
-                case "orderName":
+                case "cover":
                     idx = 1;
                     break;
-                case "username":
+                case "title":
                     idx = 2;
                     break;
-                case "userAddress":
+                case "author":
                     idx = 3;
                     break;
-                case "userTel":
+                case "publisher":
                     idx = 4;
                     break;
-                case "totalPrice":
+                case "priceSales":
                     idx = 5;
                     break;
-                case "orderState":
+                case "productState":
                     idx = 6;
                     break;
                 case "deleteFlag":
@@ -204,6 +203,7 @@ export default function ProductManage() {
 
             setCat(val => {
                 const newVal = [...val]
+
                 for (let i = 0; i < newVal.length; i++) {
                     if (i !== idx) {
                         newVal[i] = false
@@ -247,50 +247,43 @@ export default function ProductManage() {
                     let c = totalPage - 5
 
                     for (let j = 0; j < 10; j++) {
-                        paginationButtons.push(
-                            <p style={{width: "60px", textAlign: "center"}} id={c - 5 + j + ""} key={c - 4 + j}
-                               onClick={toSearchWithPage}>
-                                {currentPage === (c - 5 + j) + "" ?
-                                    <span id={c - 5 + j + ""}>{c - 4 + j}</span> : c - 4 + j}
-                            </p>
-                        );
+                        paginationButtons.push(<p style={{width: "60px", textAlign: "center"}} id={c - 5 + j + ""}
+                                                  key={c - 4 + j}
+                                                  onClick={toSearchWithPage}>
+                            {currentPage === (c - 5 + j) + "" ?
+                                <span id={c - 5 + j + ""}>{c - 4 + j}</span> : c - 4 + j}
+                        </p>);
                     }
                 } else {
                     for (cnt; cnt < b; cnt++) {
-                        paginationButtons.push(
-                            <p style={{width: "60px", textAlign: "center"}} id={cnt - 5 + ""} key={cnt - 4}
-                               onClick={toSearchWithPage}>
-                                {currentPage === (cnt - 5) + "" ? <span id={cnt - 5 + ""}>{cnt - 4}</span> : cnt - 4}
-                            </p>
-                        );
+                        paginationButtons.push(<p style={{width: "60px", textAlign: "center"}} id={cnt - 5 + ""}
+                                                  key={cnt - 4}
+                                                  onClick={toSearchWithPage}>
+                            {currentPage === (cnt - 5) + "" ? <span id={cnt - 5 + ""}>{cnt - 4}</span> : cnt - 4}
+                        </p>);
                     }
                 }
 
             } else {
                 for (i; i <= 10; i++) {
-                    paginationButtons.push(
-                        <p style={{width: "60px", textAlign: "center"}} id={i - 1 + ""} key={i}
-                           onClick={toSearchWithPage}>
-                            {currentPage === (i - 1) + "" ? <span id={i - 1 + ""}>{i}</span> : i}
-                        </p>
-                    );
+                    paginationButtons.push(<p style={{width: "60px", textAlign: "center"}} id={i - 1 + ""} key={i}
+                                              onClick={toSearchWithPage}>
+                        {currentPage === (i - 1) + "" ? <span id={i - 1 + ""}>{i}</span> : i}
+                    </p>);
                 }
             }
         } else {
             for (i; i <= totalPage; i++) {
-                paginationButtons.push(
-                    <p style={{width: "60px", textAlign: "center"}} id={i - 1 + ""} key={i} onClick={toSearchWithPage}>
-                        {currentPage === (i - 1) + "" ? <span id={i - 1 + ""}>{i}</span> : i}
-                    </p>
-                );
+                paginationButtons.push(<p style={{width: "60px", textAlign: "center"}} id={i - 1 + ""} key={i}
+                                          onClick={toSearchWithPage}>
+                    {currentPage === (i - 1) + "" ? <span id={i - 1 + ""}>{i}</span> : i}
+                </p>);
             }
         }
 
-        return (
-            <div className={style.middlePagingBtnArea}>
+        return (<div className={style.middlePagingBtnArea}>
                 {paginationButtons}
-            </div>
-        );
+            </div>);
     };
 
     const toSearchWithStartEndBtn = (val) => {
@@ -359,30 +352,27 @@ export default function ProductManage() {
     const visualizationModifyDataAndAddToArray = (e) => {
 
         let cnt = 0;
-        let atOrderNumber = e.currentTarget.parentNode.parentNode.children[0].textContent
+        let atISBN = e.currentTarget.parentNode.parentNode.children[0].textContent
 
 
         for (let i = 0; i < updateDataArr.length; i++) {
-            if (updateDataArr[i].isbn13 === atOrderNumber) {
+            if (updateDataArr[i].isbn13 === atISBN) {
                 cnt++;
             }
         }
 
         if (cnt === 0) {
-            updateDataArr.push(
-                {
-                    orderNumber: atOrderNumber,
-                    orderState: e.currentTarget.value
-                });
+            updateDataArr.push({
+                isbn13: atISBN, remain: e.currentTarget.value
+            });
             setUpdateArrLength(updateDataArr.length)
         }
 
         if (cnt === 1) {
-            let filter = updateDataArr.filter(el => el.userNumber !== atOrderNumber);
+            let filter = updateDataArr.filter(el => el.isbn13!== atISBN);
 
             filter.push({
-                orderNumber: atOrderNumber,
-                orderState: e.currentTarget.value
+                isbn13: atISBN, remain: e.currentTarget.value
             })
 
             updateDataArr = filter
@@ -398,8 +388,7 @@ export default function ProductManage() {
         const ret = window.confirm("수정 하시겠습니까?")
 
         if (ret) {
-            axios.post("/api/admin/manage/product/update", updateDataArr
-            ).then(() => {
+            axios.post("/api/admin/manage/product/update", updateDataArr).then(() => {
                 alert("수정이 완료되었습니다.")
                 window.location.reload()
             }).catch((e) => {
@@ -410,26 +399,26 @@ export default function ProductManage() {
 
     }
 
-    const returnOptionElement = (productState, key) => {
+    const returnOptionElement = (productState,color, key) => {
         return (
-            <select onChange={visualizationModifyDataAndAddToArray} id={`select${key}`}
-                    defaultValue={productState}>
-                <option value={"재고 있음"}>재고 있음</option>
-                <option value={"품절"}>품절</option>
-            </select>)
+            <select style={{background: color}} onChange={visualizationModifyDataAndAddToArray} id={`select${key}`}
+                        defaultValue={productState}>
+            <option value={"1"}>재고 있음</option>
+            <option value={"0"}>품절</option>
+        </select>)
     }
 
 
-    return (
-        <>
+    return (<>
             <div className={style.main}>
                 <h1 style={{margin: "100px 0 50px 0 "}}>상품 리스트</h1>
                 <div className={style.selectAndSearch}>
                     <button
-                        onClick={()=>{
-                            window.location.href="product/register"
+                        onClick={() => {
+                            window.location.href = "product/register"
                         }}
-                        className={style.registerBookBtn}>등록하기</button>
+                        className={style.registerBookBtn}>등록하기
+                    </button>
                     <div className={style.selectAndSearchBox}>
                         <p style={{lineHeight: "27px"}}>검색 결과 : <strong>{searchResultLength}개</strong></p>
                         <input ref={keyword} type={"search"} onKeyDown={onEnter} placeholder={"search"}/>
@@ -448,93 +437,79 @@ export default function ProductManage() {
                     <div className={style.table}>
                         <div style={{position: "sticky", top: "0px", backgroundColor: "#f2f4fa"}}
                              className={style.productInfo}>
-                            <div id={"orderNumber"} onClick={sortMethod}
+                            <div id={"isbn13"} onClick={sortMethod}
                                  className={`${style.isbn13} ${style.category}`}>isbn
-                                {
-                                    cat[0] ? <i className="fa-solid fa-caret-up"></i>
-                                        : <i className="fa-solid fa-caret-down"></i>
-                                }
+                                {cat[0] ? <i className="fa-solid fa-caret-up"></i> :
+                                    <i className="fa-solid fa-caret-down"></i>}
                             </div>
-                            <div
-                                 className={`${style.cover} `}>책 표지
+                            <div id={"cover"}
+                                className={`${style.cover} `}>책 표지
                                 {
 
                                 }
                             </div>
-                            <div id={"username"} onClick={sortMethod}
+                            <div id={"title"} onClick={sortMethod}
                                  className={`${style.title} ${style.category}`}>제목
-                                {
-                                    cat[2] ? <i className="fa-solid fa-caret-up"></i>
-                                        : <i className="fa-solid fa-caret-down"></i>
-                                }
+                                {cat[2] ? <i className="fa-solid fa-caret-up"></i> :
+                                    <i className="fa-solid fa-caret-down"></i>}
                             </div>
-                            <div id={"userAddress"} onClick={sortMethod}
+                            <div id={"author"} onClick={sortMethod}
                                  className={`${style.author} ${style.category}`}>작가
-                                {
-                                    cat[3] ? <i className="fa-solid fa-caret-up"></i>
-                                        : <i className="fa-solid fa-caret-down"></i>
-                                }
+                                {cat[3] ? <i className="fa-solid fa-caret-up"></i> :
+                                    <i className="fa-solid fa-caret-down"></i>}
                             </div>
-                            <div id={"userTel"} onClick={sortMethod}
+                            <div id={"publisher"} onClick={sortMethod}
                                  className={`${style.publisher} ${style.category}`}>출판사
-                                {
-                                    cat[4] ? <i className="fa-solid fa-caret-up"></i>
-                                        : <i className="fa-solid fa-caret-down"></i>
-                                }
+                                {cat[4] ? <i className="fa-solid fa-caret-up"></i> :
+                                    <i className="fa-solid fa-caret-down"></i>}
                             </div>
-                            <div id={"totalPrice"} onClick={sortMethod}
+                            <div id={"priceSales"} onClick={sortMethod}
                                  className={`${style.price} ${style.category}`}>가격
-                                {
-                                    cat[5] ? <i className="fa-solid fa-caret-up"></i>
-                                        : <i className="fa-solid fa-caret-down"></i>
-                                }
+                                {cat[5] ? <i className="fa-solid fa-caret-up"></i> :
+                                    <i className="fa-solid fa-caret-down"></i>}
                             </div>
-                            <div id={"orderState"} onClick={sortMethod}
+                            <div id={"productState"} onClick={sortMethod}
                                  className={`${style.productState} ${style.category}`}>재고 상태
-                                {
-                                    cat[6] ? <i className="fa-solid fa-caret-up"></i>
-                                        : <i className="fa-solid fa-caret-down"></i>
-                                }
+                                {cat[6] ? <i className="fa-solid fa-caret-up"></i> :
+                                    <i className="fa-solid fa-caret-down"></i>}
                             </div>
                         </div>
-                        {loading ?
-                            productInfo.map((el, key) => {
+                        {loading ? productInfo.map((el, key) => {
 
-                                const imgUrl = el.previewImgList
-                                const urlPattern = /https?:\/\/[^\s]+/g;
-                                const urls = imgUrl.match(urlPattern)[0].split("\"")[0];
+                            const imgUrl = el.previewImgList
+                            const urlPattern = /https?:\/\/[^\s]+/g;
+                            let urls;
 
-                                const toOrderDetail = () =>
+                            if(imgUrl){
+                                urls = imgUrl.match(urlPattern)[0].split("\"")[0];
+                            }
 
-                                {
-                                    window.location.href = `/admin/manage/orderDetail/order?orderNumber=${el.isbn13}`
-                                }
 
-                                return (
-                                    <div key={key} style={{height:"100px"}} className={style.productInfo}>
-                                        <div onClick={toOrderDetail} style={{color:"red"}} className={style.isbn13}>{el.isbn13}</div>
-                                        <div style={{justifyContent:"center"}} className={style.cover}>
-                                            <img src={urls} alt={""}/>
-                                        </div>
-                                        <div className={style.title}>{el.title}</div>
-                                        <div className={style.author}>{el.author}</div>
-                                        <div className={style.publisher}>{el.publisher}</div>
-                                        <div
-                                            className={style.price}>{convertToWon(el.priceSales
-                                            .toString(), null)} 원
-                                        </div>
-                                        <div className={style.productState}>
-                                            {returnOptionElement(el.productState, key)}
-                                        </div>
+                            return (<div key={key} style={{height: "100px"}} className={style.productInfo}>
+                                    <div style={{justifyContent:"center"}}
+                                         className={style.isbn13}>{el.isbn13}
                                     </div>
+                                    <div style={{justifyContent: "center"}}
+                                         className={style.cover}>
+                                        <img src={urls} alt={""}/>
+                                    </div>
+                                    <div className={style.title}>{el.title}</div>
+                                    <div className={style.author}>{el.author}</div>
+                                    <div className={style.publisher}>{el.publisher}</div>
+                                    <div
+                                        className={style.price}>{convertToWon(el.priceSales
+                                        .toString(), null)} 원
+                                    </div>
+                                    <div style={{padding:"0px", width:"calc(9% + 23px)"}} className={style.productState}>
+                                        {el.remain === "1" ? returnOptionElement(el.remain,"#52d75f", key):""}
+                                        {el.remain === "0" ? returnOptionElement(el.remain,"red", key):""}
+                                    </div>
+                                </div>
 
-                                )
-                            })
-                            :
-                            <div className={style.loadingBox}>
-                                <div className={style.loading}></div>
-                            </div>
-                        }
+                            )
+                        }) : <div className={style.loadingBox}>
+                            <div className={style.loading}></div>
+                        </div>}
                     </div>
 
                 </div>
@@ -560,6 +535,5 @@ export default function ProductManage() {
                 </div>
             </div>
 
-        </>
-    )
+        </>)
 }

@@ -276,4 +276,13 @@ public class AdminService {
     }
 
 
+    public void updateProductState(List<Map<String, String>> updatedList) {
+        for (Map<String, String> updated : updatedList) {
+
+            String isbn13 = updated.get("isbn13");
+            String remain = updated.get("remain");
+
+            memberRepository.updateProductState(isbn13, remain);
+        }
+    }
 }

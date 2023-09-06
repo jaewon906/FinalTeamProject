@@ -1,5 +1,7 @@
 package com.kdt.BookVoyage.Book;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,8 +26,8 @@ public class AladinBookDetailRes {
         private String pubDate; // 출간일
         private String fullDescription; // 책소개
         private String fullDescription2;    // 출판사 제공 책 소개
-        private String priceSales;  // 판매가
-        private String priceStandard;   // 정가
+        private Integer priceSales;  // 판매가
+        private Integer priceStandard;   // 정가
         private String publisher;   // 출판사
         private String isbn13;  // isbn 13 자리
         private String cover;   // 표지(저화질)
@@ -33,6 +35,8 @@ public class AladinBookDetailRes {
         private String mallType;    // 몰타입, 국내도서, 외서, 전자책 등
         private String stockstatus; // 재고 상태
         private BookSubDetails subInfo; // 부가 정보
+        @Pattern(regexp = "0,1")
+        private String remain;
         }
     @Data
     @AllArgsConstructor

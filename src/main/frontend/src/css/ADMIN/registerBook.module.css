@@ -22,10 +22,10 @@
     flex-direction: column;
     align-items: center;
 }
-.section2{
-    justify-content: center;
-}
-.section2  tr{
+
+.section2  td{
+   min-width: 60px;
+
 }
 
 .section1{

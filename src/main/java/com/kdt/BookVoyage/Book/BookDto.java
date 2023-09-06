@@ -1,5 +1,6 @@
 package com.kdt.BookVoyage.Book;
 
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,8 +21,8 @@ public class BookDto {
     private String pubDate;
     private String fullDescription;
     private String fullDescription2;
-    private String priceSales;
-    private String priceStandard;
+    private Integer priceSales;
+    private Integer priceStandard;
     private String publisher;
     private String isbn13;
     private String cover;
@@ -33,6 +34,8 @@ public class BookDto {
     private String authorTypeDesc;
     private String authorInfo;
     private String authorPhoto;
+    @Pattern(regexp = "0,1")
+    private String remain;
     private List<Long> cartItemIds;
 
     public static BookDto entityToDto(BookEntity entity) {
