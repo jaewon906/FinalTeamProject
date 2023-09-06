@@ -34,8 +34,9 @@ const ReplySection = () => {
                     }
                 }
             ).then((res) => {
+                console.log(res.data)
                 const newReply = res.data;
-                console.log("댓글 작성 응답(newReply) = " + newReply)
+                console.log("댓글 작성 응답(newReply) = " + res.data)
                 setReplies((prevReplies) => [...prevReplies, newReply]);
                 // window.location.reload()
                 setReply("");
@@ -56,6 +57,7 @@ const ReplySection = () => {
                 const response = await axios.get(
                     `/api/board/board-detail/reply-list/${id}`
                 );
+                console.log(response.data)
                 const replyList = response.data;
                 console.log("댓글 작성 응답(replyList) = ", replyList);
                 setReplies(replyList);
@@ -119,6 +121,7 @@ const ReplySection = () => {
                                     {isEditing && editReplyId === reply.id ? (
                                             <input
                                                 type="text"
+                                                style={{width:"80%"}}
                                                 value={updatedReply}
                                                 className={styles.replyInput}
                                                 placeholder="댓글을 입력하세요"
@@ -142,7 +145,7 @@ const ReplySection = () => {
                                             <button
                                                 className={styles.detailUpdateBtn}
                                                 style={{ fontSize: "11px", padding: "7px", marginRight: "3px" }}
-                                                onClick={saveUpdateReply}
+                                                onClick={() => saveUpdateReply(reply.id)}
                                             >
                                                 저장
                                             </button>

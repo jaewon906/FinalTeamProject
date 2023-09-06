@@ -79,6 +79,7 @@ public class ReplyService {
 
 
     public List<ReplyEntity> findReplyList(Long boardId) {
+
         return replyRepository.findByBoardEntity_Id(boardId);
     }
 
@@ -102,7 +103,6 @@ public class ReplyService {
 
         //댓글 수정할 내용을 업데이트
         replyEntity.setReply(dto.getReply());
-
         //DB에 수정되어 업데이트 된 댓글을 저장
         replyRepository.save(replyEntity);
 

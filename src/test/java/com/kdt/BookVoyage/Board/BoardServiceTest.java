@@ -37,12 +37,12 @@ public class BoardServiceTest {
     @Test
     public void writeBoard() {
 
-        IntStream.rangeClosed(1,3).forEach(i -> {
+        IntStream.rangeClosed(1,5).forEach(i -> {
 
             BoardEntity boardEntity = BoardEntity.builder()
-                    .category("도서 예약")
-                    .title("예약 부탁드려요..." + i)
-                    .content("너무 빌리고 싶은 책이 있어요..." + i)
+                    .category("계정 관련 문의")
+                    .title("왜 블락인지 ..." + i)
+                    .content("블락 풀어주세요 애 블락이죠 제가 ..." + i)
                     .writer("샘플 작성자..." + i)
                     .build();
             boardRepository.save(boardEntity);
