@@ -3,7 +3,9 @@ package com.kdt.BookVoyage.Book;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.modelmapper.ModelMapper;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -65,5 +67,19 @@ public class BookDto {
 
 
         return dto;
+    }
+
+    public static List<BookDto> EntityToDTO(List<BookEntity> bookEntityList){
+
+        List<BookDto> result = new ArrayList<>();
+        ModelMapper modelMapper = new ModelMapper();
+
+        for(BookEntity bookEntity : bookEntityList){
+
+            BookDto map = modelMapper.map(bookEntity, BookDto.class);
+            result.add(map);
+        }
+
+        return result;
     }
 }

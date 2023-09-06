@@ -1,5 +1,6 @@
 package com.kdt.BookVoyage.Admin;
 
+import com.kdt.BookVoyage.Book.BookDto;
 import com.kdt.BookVoyage.Member.MemberDTO;
 import com.kdt.BookVoyage.Member.MemberEntity;
 import com.kdt.BookVoyage.Order.OrderDTO;
@@ -18,45 +19,53 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/admin")
+@RequestMapping("/api/admin/")
 @RequiredArgsConstructor
 @Slf4j
 public class AdminController {
 
     private final AdminService adminService;
-    private final PurchaseService purchaseService;
 
-    @GetMapping("/autoLogin")
+
+    @GetMapping("autoLogin")
     public void autoLogin() {
+
         log.info("(admin)자동 로그인 되셨습니다.");
     }
 
-    @GetMapping("/login")
+    @GetMapping("login")
     public void login(AdminDTO adminDTO, HttpServletResponse response) throws UnsupportedEncodingException {
+
         adminService.login(adminDTO, response);
     }
 
-    @GetMapping("/summary")
-    public int loadSummary(){
+    @GetMapping("summary")
+    public int loadSummary() {
+
         return adminService.getTotalSummary();
     }
-    @GetMapping("/summaryNewUserPerDay")
-    public Map<String, Integer> loadGetNewUserPerDaySummary(){
+
+    @GetMapping("summaryNewUserPerDay")
+    public Map<String, Integer> loadGetNewUserPerDaySummary() {
+
         return adminService.getNewUserPerDaySummary();
     }
 
+    @GetMapping("showUnreadOrders") //관리자가 읽지않은 주문들을 불러옵니다.
+    public List<OrderDTO> showOrderLists() {
+        return adminService.showUnreadOrderLists();
+    }
 
     @GetMapping("manage/user")
-    public Page<MemberDTO> loadUserInfo(Pageable pageable){
-        log.info("pageable : {}",pageable);
-       return adminService.getUserInfo(pageable);
+    public Page<MemberDTO> loadUserInfo(Pageable pageable) {
+
+        return adminService.getUserInfo(pageable);
     }
 
     @GetMapping("manage/user/search")
-    public Page<MemberDTO> searchUserInfo(String keyword, Pageable pageable){
-        log.info("keyword : {}",keyword);
-        log.info("pageable : {}",pageable);
-        return adminService.searchUserInfo(keyword,pageable);
+    public Page<MemberDTO> searchUserInfo(String keyword, Pageable pageable) {
+
+        return adminService.searchUserInfo(keyword, pageable);
     }
 
     @PostMapping("manage/user/update")
@@ -66,31 +75,21 @@ public class AdminController {
 
     }
 
-    @GetMapping("/showAllOrders") //모든 주문 내역
-    public List<OrderDTO> showOrderLists() {
-        return adminService.showAllOrderLists();
-    }
 
-    @GetMapping("/showRecentOrders") //최근 읽지않은 4개 주문 내역
-    public List<OrderDTO> showRecentOrders() {
-        return adminService.showRecentOrders();
-    }
-
-    @GetMapping("/manage/order")
-    public Page<OrderDTO> loadOrderInfo(Pageable pageable){
+    @GetMapping("manage/order")
+    public Page<OrderDTO> loadOrderInfo(Pageable pageable) {
 
         return adminService.getOrderInfo(pageable);
     }
 
-    @GetMapping("/manage/order/search")
-    public Page<OrderDTO> searchOrderInfo(String keyword, Pageable pageable){
-        log.info("keyword : {}",keyword);
-        log.info("pageable : {}",pageable);
-        return adminService.searchOrderInfo(keyword,pageable);
+    @GetMapping("manage/order/search")
+    public Page<OrderDTO> searchOrderInfo(String keyword, Pageable pageable) {
+
+        return adminService.searchOrderInfo(keyword, pageable);
     }
 
-    @PostMapping("/manage/orderDetail")
-    public OrderDetailDTO loadOrderDetailInfo(OrderDTO orderDTO){
+    @PostMapping("manage/order/detail")
+    public OrderDetailDTO loadOrderDetailInfo(OrderDTO orderDTO) {
 
         return adminService.getOrderDetailAndSetIsRead(orderDTO);
     }
@@ -102,5 +101,14 @@ public class AdminController {
 
     }
 
+    @GetMapping("manage/product")
+    public Page<BookDto> getProductLists(Pageable pageable) {
+        return adminService.getProductLists(pageable);
+    }
+
+    @GetMapping("manage/product/search")
+    public Page<BookDto> searchProductInfo(String keyword, Pageable pageable) {
+        return adminService.searchProductInfo(keyword, pageable);
+    }
 
 }

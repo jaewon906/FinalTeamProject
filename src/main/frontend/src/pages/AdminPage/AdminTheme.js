@@ -48,8 +48,8 @@ export default function AdminTheme(props) {
                         }} className={style.category}>주문 관리
                         </div>
                         <div onClick={() => {
-                            window.location.href = "/admin/manage/CS"
-                        }} className={style.category}>문의 관리
+                            window.location.href = "/admin/manage/product"
+                        }} className={style.category}>상품 관리
                         </div>
                         <p onClick={logout} style={{marginTop: "300px", cursor: "pointer"}}>로그아웃</p>
                     </div>

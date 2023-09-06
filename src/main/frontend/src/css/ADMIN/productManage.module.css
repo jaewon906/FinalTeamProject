@@ -1,0 +1,228 @@
+.main {
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.selectAndSearch {
+    width: 80%;
+    display: flex;
+    height: 50px;
+    justify-content: space-between;
+}
+
+.registerBookBtn {
+    width: 150px;
+    height: 35px;
+    border: 1px solid #f2f4fa;
+    background-color: #b0c6fd;
+    transition: background-color 0.3s;
+    border-radius: 3px;
+}
+
+.registerBookBtn:hover {
+    background-color: #ffffff;
+    border: 1px solid #b0c6fd;
+}
+.selectAndSearchBox {
+    display: flex;
+    width: 400px;
+    height: 100%;
+    justify-content: space-between;
+}
+
+.selectAndSearchBox > input {
+    outline: none;
+    border: 3px solid #98b6ff;
+    height: 27px;
+    padding-left: 3px;
+}
+
+.selectAndSearchBox > select {
+    height: 27px;
+    border: 2px solid #98b6ff;
+    outline: none;
+}
+
+.section {
+    width: 80%;
+    min-height: 297px;
+    max-height: 541px;
+    height: auto;
+    overflow: auto;
+    box-shadow: 0 0 10px 1px gray;
+
+}
+
+.category {
+    cursor: pointer;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.category:active {
+    transform: scale(0.95);
+}
+
+.table {
+    width: 100%;
+    height: 100%;
+}
+
+
+.productInfo {
+    width: calc(100% - 2px);
+    height: 50px;
+    border: 1px solid gray;
+    display: flex;
+    transition :  background-color 0.3s;
+
+}
+
+.productInfo:hover{
+    background-color: #cedbfb;
+}
+
+.productInfo > div {
+    font-size: 14px;
+}
+
+.productInfo > .isbn13, .cover, .title, .productState, .author, .price, .publisher {
+    overflow: auto;
+    text-overflow: fade;
+    border-right: 1px solid gray;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+}
+
+.productInfo > .isbn13 {
+    width: 9%;
+    cursor: pointer;
+}
+
+.productInfo > .title {
+    width:22%;
+}
+
+.productInfo > .cover {
+    width: 15%;
+
+}
+.cover > img{
+    width: 72px;
+    height: 96px;
+
+}
+
+.productState > select {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: none;
+    outline: #98b6ff;
+}
+
+.table ::-webkit-scrollbar {
+    display: none;
+}
+
+.productInfo > .author {
+    width: 20%;
+
+}
+
+.productInfo > .price {
+    width: 7%;
+
+}
+
+.productInfo > .publisher {
+    width: 7%;
+
+}
+.productInfo > .productState {
+    width: 7%;
+    border-right: none;
+}
+
+.pagingBtnArea {
+    display: flex;
+    max-width: 800px;
+    height: 50px;
+    border-bottom: 1px solid #c3c3c3;
+    margin-top: 40px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pagingBtnArea > * > i {
+    cursor: pointer;
+    transition: color 0.2s
+}
+
+.pagingBtnArea > * > i:hover {
+    color: red;
+    cursor: pointer;
+}
+
+.rightPagingBtnArea, .leftPagingBtnArea {
+    width: 50px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.rightPagingBtnArea > p {
+    cursor: pointer;
+}
+
+.middlePagingBtnArea {
+    width: auto;
+    display: flex;
+    justify-content: center;
+    margin: 0 30px 0 30px;
+}
+
+.middlePagingBtnArea > p {
+    cursor: pointer;
+}
+
+.middlePagingBtnArea > p > span {
+    font-weight: bold;
+    color: #ff0000;
+}
+
+.updateUserStateBtn {
+    width: 150px;
+    height: 35px;
+    border: 1px solid #f2f4fa;
+    background-color: #b0c6fd;
+    transition: background-color 0.3s;
+    border-radius: 3px;
+}
+
+.updateUserStateBtn:hover {
+    background-color: #ffffff;
+    border: 1px solid #b0c6fd;
+}
+
+.loadingBox {
+    width: 100%;
+    height: 453px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+}
+.loading {
+    width: 150px;
+    height: 150px;
+    background-image: url("../../../public/image/loading.gif");
+    background-position: center center;
+    background-size: cover;
+}
+

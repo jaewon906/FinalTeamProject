@@ -1,5 +1,8 @@
 package com.kdt.BookVoyage.Admin;
 
+import com.kdt.BookVoyage.Book.BookDto;
+import com.kdt.BookVoyage.Book.BookEntity;
+import com.kdt.BookVoyage.Book.BookRepository;
 import com.kdt.BookVoyage.Common.CookieConfig;
 import com.kdt.BookVoyage.Common.OrderNotFoundException;
 import com.kdt.BookVoyage.Common.UserIdNotFoundException;
@@ -31,11 +34,12 @@ import java.util.*;
 @Slf4j
 public class AdminService {
 
-    private final AdminRepository adminRepository;
-    private final MemberRepository memberRepository;
     private final TokenConfig tokenConfig;
     private final CookieConfig cookieConfig;
+    private final BookRepository bookRepository;
+    private final AdminRepository adminRepository;
     private final OrderRepository orderRepository;
+    private final MemberRepository memberRepository;
 
     @PostConstruct
     public void createAdminAccount() {
@@ -126,7 +130,7 @@ public class AdminService {
         List<MemberDTO> memberDTOS = AdminDTO.EntityToDTO(all.stream().toList());
 
 
-        return new PageImpl<>(memberDTOS, pageable, 1L);
+        return new PageImpl<>(memberDTOS, pageable, all.getTotalElements());
     }
 
     public Page<MemberDTO> searchUserInfo(String keyword, Pageable pageable) {
@@ -136,7 +140,7 @@ public class AdminService {
 
         List<MemberDTO> memberDTOS = AdminDTO.EntityToDTO(memberEntities.stream().toList());
 
-        return new PageImpl<>(memberDTOS, pageable,1L);
+        return new PageImpl<>(memberDTOS, pageable,memberEntities.getTotalElements());
 
     }
 
@@ -151,43 +155,21 @@ public class AdminService {
         }
     }
 
-    public List<OrderDTO> showRecentOrders() {
-        List<OrderDTO> lists4 = new ArrayList<>();
-        List<OrderEntity> orderEntityLists4 = orderRepository.findAll(Sort.by(
-                Sort.Order.asc("isRead"),
-                Sort.Order.desc("orderedTime")
-        ));
-
-        if (orderEntityLists4.size() != 0) {
-
-            if (orderEntityLists4.size() >= 4) {
-
-                for (int i = 0; i < 4; i++) {
-
-                    lists4.add(OrderDTO.EntityToDTO(orderEntityLists4).get(i));
-                }
-
-            } else {
-
-                for (int i = 0; i < orderEntityLists4.size(); i++) {
-
-                    lists4.add(OrderDTO.EntityToDTO(orderEntityLists4).get(i));
-                }
-            }
-
-
-        }
-
-        return lists4;
-    }
-
-    public List<OrderDTO> showAllOrderLists() {
+    public List<OrderDTO> showUnreadOrderLists() {
 
         List<OrderEntity> allOrderByOrderNumberDesc = orderRepository.findAll(Sort.by(Sort.Order.desc("orderedTime")));
+        List<OrderEntity> unreadOrders = new ArrayList<>();
 
         if (allOrderByOrderNumberDesc.size() != 0) {
 
-            return OrderDTO.EntityToDTO(allOrderByOrderNumberDesc);
+            for(OrderEntity orderEntity : allOrderByOrderNumberDesc){
+
+                if(orderEntity.getIsRead()==0)
+                    unreadOrders.add(orderEntity);
+
+            }
+
+            return OrderDTO.EntityToDTO(unreadOrders);
 
         } else return null;
 
@@ -202,7 +184,7 @@ public class AdminService {
 
         List<OrderDTO> orderDTO = OrderDTO.EntityToDTO(orderEntities.stream().toList());
 
-        return new PageImpl<>(orderDTO, pageable, 1L);
+        return new PageImpl<>(orderDTO, pageable, orderEntities.getTotalElements());
     }
 
     public Page<OrderDTO> getOrderInfo(Pageable pageable) {
@@ -211,7 +193,7 @@ public class AdminService {
 
         List<OrderDTO> orderDTO = OrderDTO.EntityToDTO(all.stream().toList());
 
-        return new PageImpl<>(orderDTO, pageable, 1L);
+        return new PageImpl<>(orderDTO, pageable, all.getTotalElements());
 
 
     }
@@ -252,5 +234,27 @@ public class AdminService {
             else
                 orderRepository.updateUserState(orderNumber, orderState);
         }
+    }
+
+    public Page<BookDto> getProductLists(Pageable pageable) {
+
+        Page<BookEntity> all = bookRepository.findAll(pageable);
+
+        List<BookEntity> list = all.stream().toList();
+
+        List<BookDto> bookDtos = BookDto.EntityToDTO(list);
+
+        return new PageImpl<>(bookDtos, pageable,all.getTotalElements());
+    }
+
+
+    public Page<BookDto> searchProductInfo(String keyword, Pageable pageable) {
+        Page<BookEntity> productEntities = bookRepository.searchByIsbn13ContainingIgnoreCaseOrAuthorContainingIgnoreCaseOrTitleContainingIgnoreCaseOrPublisherContainingIgnoreCase(
+                keyword, keyword, keyword, keyword,pageable
+        );
+
+        List<BookDto> bookDtos = BookDto.EntityToDTO(productEntities.stream().toList());
+
+        return new PageImpl<>(bookDtos, pageable, productEntities.getTotalElements());
     }
 }
