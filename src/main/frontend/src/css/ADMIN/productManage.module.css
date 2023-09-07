@@ -7,13 +7,25 @@
     align-items: center;
 }
 
-
 .selectAndSearch {
-    margin-bottom: 30px;
     width: 80%;
     display: flex;
-    height: 20px;
-    justify-content: flex-end;
+    height: 50px;
+    justify-content: space-between;
+}
+
+.registerBookBtn {
+    width: 150px;
+    height: 35px;
+    border: 1px solid #f2f4fa;
+    background-color: #b0c6fd;
+    transition: background-color 0.3s;
+    border-radius: 3px;
+}
+
+.registerBookBtn:hover {
+    background-color: #ffffff;
+    border: 1px solid #b0c6fd;
 }
 
 .selectAndSearchBox {
@@ -48,7 +60,6 @@
 
 .category {
     cursor: pointer;
-    display: flex;
     align-items: center;
     justify-content: space-between;
 }
@@ -63,51 +74,72 @@
 }
 
 
-.orderInfo {
+.productInfo {
     width: calc(100% - 3px);
     height: 50px;
     border: 1px solid gray;
     display: flex;
-    transition :  background-color 0.3s;
+    transition: background-color 0.3s;
+
 }
 
-.orderInfo:hover{
+.productInfo:hover {
     background-color: #cedbfb;
 }
 
-.orderInfo > div {
-    white-space: nowrap;
+.productInfo > div {
     font-size: 14px;
 }
 
-.orderInfo > .orderNumber, .orderName, .username, .orderState, .address, .totalPrice, .userTel {
+.productInfo > .isbn13, .cover, .title, .productState, .author, .price, .publisher {
     overflow: auto;
     text-overflow: fade;
-    padding: 0 10px;
     border-right: 1px solid gray;
     display: flex;
     align-items: center;
-
+    padding: 0 10px;
 }
 
-.orderInfo > .orderNumber {
+.productInfo > .isbn13 {
     width: 12%;
-    cursor: pointer;
 }
 
-.orderInfo > .username {
-    width: 6%;
+.productInfo > .title {
+    width: 32%;
 }
 
-.orderInfo > .orderName {
-    width: 23%;
+.productInfo > .cover {
+    width: 16%;
+
 }
 
-.orderInfo > .orderState {
-    width: 10%;
+.productInfo > .author {
+    width: 17%;
+
+}
+
+.productInfo > .price {
+    width: 7%;
+
+}
+
+.productInfo > .publisher {
+    width: 7%;
+
+}
+
+.productInfo > .productState {
+    width: 9%;
     border-right: none;
 }
-.orderState > select {
+
+.cover > img {
+    width: 72px;
+    height: 96px;
+
+}
+
+.productState > select {
     width: 100%;
     height: 100%;
     border: none;
@@ -115,28 +147,12 @@
     outline: #98b6ff;
 }
 
-.orderState option {
-    background-color: #f2f4fa;
-}
-
 .table ::-webkit-scrollbar {
     display: none;
 }
 
-.orderInfo > .address {
-    width: 30%;
-
-}
-
-.orderInfo > .totalPrice {
-    width: 7%;
-
-}
-
-.orderInfo > .userTel {
-    width: 11%;
-
-
+.productState option {
+    background-color: #f2f4fa;
 }
 
 .pagingBtnArea {
@@ -207,6 +223,7 @@
     align-items: center;
     background-color: white;
 }
+
 .loading {
     width: 150px;
     height: 150px;

@@ -2,6 +2,7 @@ import style from "../css/Common/categoryHeader.module.css"
 import {Link} from "react-router-dom";
 
 export default function CategoryHeader() {
+
     return(
         <div className={style.container}>
             <div className={style.main}>

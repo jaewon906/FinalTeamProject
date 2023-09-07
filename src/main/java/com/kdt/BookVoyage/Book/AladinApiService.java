@@ -109,6 +109,7 @@ public class AladinApiService {
             book.setCategoryName(bookDetail.getCategoryName());
             book.setToc(bookDetail.getSubInfo().getToc());
             book.setItemPage(bookDetail.getSubInfo().getItemPage());
+            book.setRemain("1");
 
             // previewImgList 구성
             List<String> previewImgList = bookDetail.getSubInfo().getPreviewImgList();

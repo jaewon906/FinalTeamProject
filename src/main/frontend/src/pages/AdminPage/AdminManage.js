@@ -10,7 +10,6 @@ export default function AdminManage() {
     const [isLoading, setIsLoading] = useState(false);
     const [totalMember, setTotalMember] = useState(0)
     const [totalOrders, setTotalOrders] = useState([{}])
-    const [recentOrders, setRecentOrders] = useState([{}])
     const [user, setUser] = useState([])
 
     let i = 0
@@ -53,14 +52,7 @@ export default function AdminManage() {
 
             })
 
-        axios.get("/api/admin/showRecentOrders") // 최근 3개 주문내역 조회
-            .then(res => {
-                setRecentOrders(res.data)
-            })
-            .catch(e => console.error(e))
-
-
-        axios.get("/api/admin/showAllOrders") // 모든 주문내역 조회
+        axios.get("/api/admin/showUnreadOrders") // 모든 주문내역 조회
             .then(res => {
                 setTotalOrders(res.data)
             })
@@ -131,7 +123,7 @@ export default function AdminManage() {
                             window.location.href = "product/"
                         }}
                         className={style.totalProduct}>
-                        <h3>주문 수</h3>
+                        <h3>확인 안한 주문 건</h3>
                         <h1>{totalOrders.length} 건</h1>
                     </div>
 
@@ -231,7 +223,7 @@ export default function AdminManage() {
                     className={style.price}>금액
                 </div>
             </div>
-            {recentOrders.map((el, idx) => {
+            {totalOrders.map((el, idx) => {
 
                 return (
                     <Link to={`/admin/manage/orderDetail/order?orderNumber=${el.orderNumber}`}>

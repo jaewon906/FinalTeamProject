@@ -95,11 +95,11 @@ export default function Header(props) {
         const localStorage = window.localStorage
         const themeState = localStorage.getItem("theme");
 
-        if (themeState === "0" || themeState === null) {
-            localStorage.setItem("theme", "1");
+        if (themeState === "1" || themeState === null) {
+            localStorage.setItem("theme", "0");
         }
-        if (themeState === "1")
-            localStorage.setItem("theme", "0")
+        if (themeState === "0")
+            localStorage.setItem("theme", "1")
 
         dispatch(modeRdc())
     }

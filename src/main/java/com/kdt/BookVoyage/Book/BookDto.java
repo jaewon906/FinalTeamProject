@@ -1,9 +1,12 @@
 package com.kdt.BookVoyage.Book;
 
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.modelmapper.ModelMapper;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,8 +21,8 @@ public class BookDto {
     private String pubDate;
     private String fullDescription;
     private String fullDescription2;
-    private String priceSales;
-    private String priceStandard;
+    private Integer priceSales;
+    private Integer priceStandard;
     private String publisher;
     private String isbn13;
     private String cover;
@@ -31,6 +34,8 @@ public class BookDto {
     private String authorTypeDesc;
     private String authorInfo;
     private String authorPhoto;
+    @Pattern(regexp = "0,1")
+    private String remain;
     private List<Long> cartItemIds;
 
     public static BookDto entityToDto(BookEntity entity) {
@@ -65,5 +70,19 @@ public class BookDto {
 
 
         return dto;
+    }
+
+    public static List<BookDto> EntityToDTO(List<BookEntity> bookEntityList){
+
+        List<BookDto> result = new ArrayList<>();
+        ModelMapper modelMapper = new ModelMapper();
+
+        for(BookEntity bookEntity : bookEntityList){
+
+            BookDto map = modelMapper.map(bookEntity, BookDto.class);
+            result.add(map);
+        }
+
+        return result;
     }
 }

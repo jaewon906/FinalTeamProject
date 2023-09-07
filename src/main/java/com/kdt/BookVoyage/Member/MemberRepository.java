@@ -24,6 +24,11 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
     void updateUserState(@Param("userNumber") String userNumber, @Param("deleteFlag") String deleteFlag, LocalDateTime dateTime);
 
     @Modifying
+    @Transactional
+    @Query(value = "update BookEntity b set b.remain=:remain where b.isbn13=:isbn13")
+    void updateProductState(@Param("isbn13") String isbn13, @Param("remain") String remain);
+
+    @Modifying
     @Query(value = "update MemberEntity m set m.deleteFlag='N', m.timeBaseEntity.DeletedTime=null where m.userId=:userId")
     void updateDeleteFlag1(@Param("userId") String userId);
 
