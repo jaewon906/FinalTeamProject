@@ -43,12 +43,17 @@ function BestSeller({ handleLoadingChange }) {
           {bestSeller.map((book, key) => {
             return (
               <li key={key}>
-                <div className={bestStyle.rank}>{book.bestRank}</div>
+                {book.bestRank === "1" ? (
+                  <i className="fa-solid fa-crown fa-beat fa-2xl" style={{color: "#45B751", paddingBottom: "26px"}}></i>
+                ) : (
+                  <div className={bestStyle.rank}>{book.bestRank}</div>
+                )}             
                 <Link to={`/home/bookdetail/${book.isbn13}/`}>
                 <img src={book.cover} alt="cover" width="220px" height="300px" />
                 </Link>
                 <br />
                 <br />
+                
                 <div className={bestStyle.bookInfo}>
                   <p className={bestStyle.bookTitle}>
                     <strong>{book.title}</strong>

@@ -47,6 +47,16 @@
   transform: translate(-50%, -50%);
 }
 
+.rank {
+  width: 25px;
+  height: 18px;
+  background-color: #767676;
+  color: white;
+  text-align: center;
+  padding: 5px 0;
+  margin-bottom: 10px;
+  border-radius: 6px 0;
+}
 
 
 
