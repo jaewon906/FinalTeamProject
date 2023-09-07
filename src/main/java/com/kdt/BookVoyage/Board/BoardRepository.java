@@ -21,4 +21,5 @@ public interface BoardRepository extends JpaRepository<BoardEntity, Long> {
 
     Page<BoardEntity> findByCategoryIgnoreCase(String category, Pageable pageable);
 
+
 }

@@ -52,22 +52,6 @@ public class BoardController {
     }
 
 
-
-
-/*    @GetMapping("/board-list")
-    public ResponseEntity<Page<BoardDTO>> board_list (
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
-
-    ) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
-        Page<BoardEntity> boardPage = boardService.boardList(pageable);
-        Page<BoardDTO> boardDTOPage = boardPage.map(BoardDTO::new);
-
-        return ResponseEntity.ok(boardDTOPage);
-    }*/
-
-
     @GetMapping("/board-detail/{boardId}")
     public WrapperClass board_detail(@PathVariable("boardId") Long boardId) {
 

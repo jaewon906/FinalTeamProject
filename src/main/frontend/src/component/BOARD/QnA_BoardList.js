@@ -76,6 +76,7 @@ const QnA_BoardList = (props) => {
         setCurrentPage(page);
     };
 
+
     // 검색 버튼 클릭 시
     const handleSearch = (searchText) => {
         setSearchResults(searchText)
