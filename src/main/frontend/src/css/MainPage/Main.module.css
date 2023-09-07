@@ -2,9 +2,7 @@
   text-decoration: none;
 }
 .container{
-  width:90%;
-  min-width: 1200px;
-  max-width: 1600px;
+  width:75%;
   margin: 100px auto;
 }
 .hotItem {

@@ -23,6 +23,9 @@ public class AladinItemListRes {
         private String pubDate;
         private String publisher;
         private String isbn13;
+        private String bestDuration;
+        private String bestRank;
+        private String cover;
     }
 
 }
