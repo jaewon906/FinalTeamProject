@@ -434,23 +434,18 @@
 
 .categoryContainer {
     display: flex;
-    justify-content: center;
-    margin: 20px; /* 카테고리 버튼과 검색 입력 필드 사이의 여백 조절 */
+    align-items: center;
+    margin: 25px; /* 카테고리 버튼과 검색 입력 필드 사이의 여백 조절 */
 }
 
-.categoryButton {
-    width: 80px; /* 버튼의 너비 조정 */
-    height: 30px; /* 버튼의 높이 조정 */
-    background-color: #f2f2f2; /* 카테고리 버튼 배경색 */
-    border: 2px solid #ccc;
-    border-radius: 3px;
-    margin-right: 20px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    font-size: 13px; /* 글꼴 크기 조정 */
+.categoryDropdown {
+    width: 180px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-left: 10px;
 }
-
-.categoryButton.active {
-    background-color: #45b751; /* 선택된 카테고리 버튼 배경색 */
-    color: white; /* 선택된 카테고리 버튼 글자색 */
+.categoryLabel {
+    font-weight: bold;
+    margin-bottom: 10px;
 }
