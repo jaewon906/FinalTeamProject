@@ -97,7 +97,7 @@ export default function RegisterBook() {
                                             </tr>
                                             <tr>
                                                 <td>가격 </td>
-                                                <td>{convertToWon(isDuplicate.priceSales, null)} 원</td>
+                                                <td>{convertToWon(isDuplicate.priceSales.toString(), null)} 원</td>
                                             </tr>
                                             </tbody>
                                         </table>

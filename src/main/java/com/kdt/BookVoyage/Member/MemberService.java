@@ -35,5 +35,5 @@ public interface MemberService {
 
     boolean myInfoAuth(MemberDTO memberDTO);
 
-    OrderDetailDTO showMyOrderDetail(String orderNumber);
+    OrderDetailDTO showMyOrderDetail(String orderNumber, HttpServletRequest request);
 }

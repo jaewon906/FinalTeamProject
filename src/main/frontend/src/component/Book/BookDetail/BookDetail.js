@@ -8,6 +8,7 @@ import DOMPurify from 'dompurify';
 import Parser from "html-react-parser";
 import "../../../css/DetailPage/BookDetail.css";
 import Loading from '../../../js/Loading';
+import goToPurchase from "../../../js/goToPurchase";
 
 function BookDetail() {
 
@@ -108,31 +109,6 @@ function BookDetail() {
     height: 50px;
     width: 150px;
   `;
-
-  const goToPurchase = (isbn) => {
-    const userNumber = getUserNumber().userNumber;
-
-    if (userNumber) {
-      const sessionStorage = window.sessionStorage;
-      let item = sessionStorage.getItem(isbn);
-      let item_number = parseInt(item);
-
-      if (item_number) {
-        item_number += quantity;
-        sessionStorage.setItem(isbn, item_number);
-      } else {
-        sessionStorage.setItem(isbn, quantity);
-      }
-      window.location.href = "/home/purchase";
-    } else {
-      const ret = window.confirm(
-        "로그인이 필요한 서비스입니다. 로그인 하시겠습니까?"
-      );
-      if (ret) {
-        window.location.href = "/home/logIn";
-      }
-    }
-  };
 
 
   const AddToCart = async (bookId, quantity) => {
@@ -301,7 +277,8 @@ function BookDetail() {
               </tbody>
             </table>
             <div className="cart-buy-btn">
-              <ButtonWithMarginHeight
+              {bookDetails.remain==="1"?<>
+                  <ButtonWithMarginHeight
                 violet="true"
                 onClick={() => {
                   AddToCart(bookDetails.bookId, quantity);
@@ -311,12 +288,18 @@ function BookDetail() {
               </ButtonWithMarginHeight>
               <ButtonWithMarginHeight
                 onClick={() => {
-                  goToPurchase(isbn13);
+                  goToPurchase(isbn13, quantity);
                 }}
                 green="true"
               >
                 구매하기
-              </ButtonWithMarginHeight>
+              </ButtonWithMarginHeight></>:
+            <ButtonWithMarginHeight
+
+              red="true"
+          >
+            품절
+          </ButtonWithMarginHeight>}
             </div>
           </div>
         </div>
