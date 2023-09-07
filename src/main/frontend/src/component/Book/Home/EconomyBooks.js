@@ -58,6 +58,7 @@ function EconomyBooks({ handleLoadingChange }) {
                     alt="book_image"
                     width="280px"
                     height="400px"
+                    style={{ border: "1px solid #eaeaea" }}
                   />
                 </Link>
                 <br />
