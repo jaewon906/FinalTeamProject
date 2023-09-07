@@ -179,7 +179,7 @@ public class AladinApiService {
         return bookPage.getContent();
     }
 
-    // 프론트엔드에서 받은 bookId 값들로 책 조회하여 반환
+    // 프론트엔드에서 받은 bookId 값들로 책 조회하여 반환 장바구니
     public List<BookDto> getBooksByIds(List<Long> ids) {
         List<BookEntity> bookEntities = bookRepository.findByBookIdIn(ids);
 

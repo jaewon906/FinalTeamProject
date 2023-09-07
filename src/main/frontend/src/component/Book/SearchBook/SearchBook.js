@@ -1,9 +1,9 @@
+
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import useDebounce from "../../../hooks/useDebounce";
 import axios from "axios";
 import Button from "../../../common/Button";
-import Loading from "../../../js/Loading";
 import { getUserNumber } from "../../../js/getUserNumber";
 
 function SearchBook() {
@@ -29,6 +29,7 @@ function SearchBook() {
       const response = await axios.get("/api/search", {
         params: { title: searchTerm },
       });
+      console.log(response);
       const modifiedData = response.data.map((book) => {
         const imgUrlArray = JSON.parse(book.previewImgList.replace(/\\/g, ""));
         return {
@@ -39,6 +40,7 @@ function SearchBook() {
       setSearchResults(modifiedData);
 
     } catch (error) {
+      console.error(error);
       setSearchResults([]);
     }
   };
@@ -66,6 +68,8 @@ function SearchBook() {
       }
     }
   };
+
+  console.log(searchResults)
 
   if (searchResults.length > 0) {
     return (
