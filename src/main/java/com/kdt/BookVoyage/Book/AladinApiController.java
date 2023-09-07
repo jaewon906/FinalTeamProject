@@ -21,6 +21,15 @@ public class AladinApiController {
         this.bookRepository = bookRepository;
     }
 
+    // 베스트셀러 등 리스트 검색
+    @GetMapping("/list/{queryType}")
+    public AladinItemListRes searchList(@PathVariable("queryType") String queryType) {
+        AladinItemListReq aladinItemListReq = new AladinItemListReq();
+        aladinItemListReq.setQueryType(queryType);
+
+        return aladinApiService.getBookList(aladinItemListReq);
+    }
+
 
     // 카테고리를 통해 도서를 검색해서 book_list 테이블에 저장시킴
 //    @GetMapping("/list/{category}")
@@ -28,12 +37,7 @@ public class AladinApiController {
 //        return aladinApiService.saveBookListFromApi(category);
 //    }
 
-//    @GetMapping("/detail")
-//    public AladinBookDetailRes getDetail() {
-//        AladinBookDetailReq aladinBookDetailReq = new AladinBookDetailReq();
-//
-//        return aladinApiService.getDetails(aladinBookDetailReq);
-//    }
+
 
     // book_list 테이블에 들어있는 도서에 대한 isbn13을 통해 book 테이블에 자동으로 저장시킴
 //    @GetMapping("/search-books")
@@ -160,4 +164,23 @@ public class AladinApiController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("도서 삭제에 실패했습니다.");
         }
     }
+
+    // db 내 책 검색 기능, 사용 안 함
+//    @GetMapping("/searchByIsbn")
+//    public ResponseEntity<BookEntity> searchBookFromDb(@RequestParam("isbn") String isbn) {
+//
+//        try {
+//            BookEntity book = bookRepository.findBookByIsbn13(isbn);
+//
+//            if (book != null) {
+//                log.info(String.valueOf(book));
+//                return ResponseEntity.ok(book);
+//            } else {
+//                return ResponseEntity.notFound().build();
+//            }
+//        } catch (Exception e) {
+//            // 예외 발생 시 로깅 또는 적절한 에러 메시지를 클라이언트에 반환할 수 있다.
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+//        }
+//    }
 }

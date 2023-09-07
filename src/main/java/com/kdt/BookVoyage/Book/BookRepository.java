@@ -16,6 +16,8 @@ public interface BookRepository extends JpaRepository<BookEntity, Long> {
 
     BookEntity deleteByIsbn13(String isbn13);
 
+    BookEntity findByIsbn13Containing(String isbn13);
+
     Page<BookEntity> searchByIsbn13ContainingIgnoreCaseOrAuthorContainingIgnoreCaseOrTitleContainingIgnoreCaseOrPublisherContainingIgnoreCase(String keyword, String keyword1, String keyword2, String keyword3, Pageable pageable);
 
 }

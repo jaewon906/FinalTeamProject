@@ -1,9 +1,11 @@
 package com.kdt.BookVoyage.Purchase;
 
+import com.kdt.BookVoyage.Book.BookDto;
 import com.kdt.BookVoyage.Book.BookEntity;
 import com.kdt.BookVoyage.Book.BookRepository;
 import com.kdt.BookVoyage.Common.ExpiredViewTimeException;
 import com.kdt.BookVoyage.Common.OrderNotFoundException;
+import com.kdt.BookVoyage.Common.ProductIsNotExistException;
 import com.kdt.BookVoyage.Common.UserIdNotFoundException;
 import com.kdt.BookVoyage.Member.MemberDTO;
 import com.kdt.BookVoyage.Member.MemberEntity;
@@ -189,5 +191,15 @@ public class PurchaseService {
                 throw new OrderNotFoundException("주문 결과가 존재하지 않습니다.");
         } else
             throw new UserIdNotFoundException("회원이 존재하지 않습니다.");
+    }
+
+    public void isProductExist(BookDto bookDto) {
+        String isbn13 = bookDto.getIsbn13();
+
+        BookEntity bookByIsbn13 = bookRepository.findBookByIsbn13(isbn13);
+
+        if (!bookByIsbn13.getRemain().equals("1")) {
+            throw new ProductIsNotExistException("품절되었습니다.");
+        }
     }
 }

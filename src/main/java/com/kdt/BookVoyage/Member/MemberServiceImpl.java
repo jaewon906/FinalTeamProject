@@ -1,15 +1,14 @@
 package com.kdt.BookVoyage.Member;
 
-import com.kdt.BookVoyage.Common.CookieConfig;
-import com.kdt.BookVoyage.Common.OrderProductNotFoundException;
-import com.kdt.BookVoyage.Common.UserIdNotFoundException;
-import com.kdt.BookVoyage.Common.UserPasswordNotMatchException;
+import com.kdt.BookVoyage.Common.*;
 import com.kdt.BookVoyage.EmailVerification.EmailDTO;
 import com.kdt.BookVoyage.EmailVerification.EmailRepository;
 import com.kdt.BookVoyage.EmailVerification.EmailService;
 import com.kdt.BookVoyage.Order.*;
+import com.kdt.BookVoyage.Security.SecretKey;
 import com.kdt.BookVoyage.Security.TokenConfig;
 import com.kdt.BookVoyage.Security.TokenDTO;
+import com.kdt.BookVoyage.Security.TokenDecoder;
 import jakarta.mail.AuthenticationFailedException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -40,6 +39,7 @@ public class MemberServiceImpl implements MemberService {
     private final OrderProductRepository orderProductRepository;
     private final EmailService emailService;
     private final TokenConfig tokenConfig;
+    private final TokenDecoder tokenDecoder;
     private final CookieConfig cookieConfig;
 
     List<MemberEntity> dormantAccounts = new ArrayList<>();
@@ -305,17 +305,41 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public OrderDetailDTO showMyOrderDetail(String orderNumber) {
+    public OrderDetailDTO showMyOrderDetail(String orderNumber, HttpServletRequest request) {
 
         Optional<OrderEntity> byOrderNumber = orderRepository.findByOrderNumber(orderNumber);
+        String accessToken = "";
+
+        Cookie[] cookies = request.getCookies();
+
+        try {
+            for (Cookie cookie : cookies) {
+                String cookieName = cookie.getName();
+
+                if (cookieName.equals("accessToken")) {
+                    accessToken = cookie.getValue();
+                }
+            }
+        } catch (Exception ignore) {
+
+        }
+
 
         if (byOrderNumber.isPresent()) {
 
-            MemberEntity memberEntity = byOrderNumber.get().getMemberEntity();
-            List<OrderProductEntity> orderProductEntity = byOrderNumber.get().getOrderProductEntity();
-            OrderEntity orderEntity = byOrderNumber.get();
+            String userNumber = byOrderNumber.get().getMemberEntity().getUserNumber();
+            String userNumberFromToken = tokenDecoder.accessTokenDecoder(accessToken, "userNumber");
 
-            return OrderDetailDTO.getOrderDetailDTO(memberEntity, orderProductEntity, orderEntity);
+            if(userNumber.equals(userNumberFromToken)){
+
+                List<OrderProductEntity> orderProductEntity = byOrderNumber.get().getOrderProductEntity();
+                MemberEntity memberEntity = byOrderNumber.get().getMemberEntity();
+
+                OrderEntity orderEntity = byOrderNumber.get();
+
+                return OrderDetailDTO.getOrderDetailDTO(memberEntity, orderProductEntity, orderEntity);
+
+            } else throw new UnauthorizedAccessException("잘못된 접근입니다.");
 
         }
         else throw new OrderProductNotFoundException("주문 상품이 존재하지 않습니다.");
