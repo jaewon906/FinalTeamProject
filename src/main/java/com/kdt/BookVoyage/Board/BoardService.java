@@ -89,6 +89,7 @@ public class BoardService {
        return boardRepository.findByCategoryIgnoreCase(category, pageable);
     }
 
+
 /*    @Transactional(readOnly = true)
     public Page<BoardEntity> boardListByCategory(String category, Pageable pageable) {
 

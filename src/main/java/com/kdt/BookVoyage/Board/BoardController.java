@@ -46,7 +46,6 @@ public class BoardController {
 
         log.info("asdfsadfasfasdfasfasfasfsaf{}", boardPage);
 
-
         Page<BoardDTO> boardDTOPage = boardPage.map(BoardDTO::new);
         log.info("asfasfasfsafasfsafd====={}", category);
         return ResponseEntity.ok(boardDTOPage);
@@ -156,14 +155,14 @@ public class BoardController {
 
 
     @GetMapping("/board-list/search")
-    public String search(String keyword, Model model) {
+    public ResponseEntity<List<BoardEntity>> search(@RequestParam String keyword ) {
         try {
             List<BoardEntity> searchList = boardService.search(keyword);
-            model.addAttribute("searchList", searchList);
-        } catch (Exception exception) {
+            return ResponseEntity.ok(searchList);
+            } catch (Exception exception) {
             System.out.println("검색이 안되요 = " + exception);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-        return null;
     }
 
 

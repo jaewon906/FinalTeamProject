@@ -18,10 +18,26 @@ const ReplySection = () => {
     /** =========== 게시글에 댓글 작성하기 위한 백엔드 통신 ==============  */
     const replySubmit = async () => {
 
+        const user = getUserNumber();
+
+        if (!user) {
+            // 사용자가 로그인하지 않은 경우
+            if (window.confirm("댓글 작성을 위해 로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?")) {
+                // 로그인 페이지로 이동
+                window.location.href = "/home/login"; // 로그인 페이지 URL로 변경
+            }
+            return;
+        }
+
         if (reply.trim() === "") {
             alert("댓글 입력 바람.");
             return;
+
         }
+        // 사용자 정보를 얻어올 수 있는 함수를 호출하여 로그인 상태 확인
+
+
+
         try {
 
             const userNickname = getUserNumber().nickname;

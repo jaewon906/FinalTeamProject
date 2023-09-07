@@ -78,7 +78,7 @@ public class BoardEntity {
 
     public TimeBaseEntity getTimeBaseEntity() {
         if (this.timeBaseEntity == null) {
-            this.timeBaseEntity = new TimeBaseEntity(); // 또는 다른 초기화 로직을 수행할 수 있습니다.
+            this.timeBaseEntity = new TimeBaseEntity();
         }
         return this.timeBaseEntity;
     }
