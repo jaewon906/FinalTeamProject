@@ -1,5 +1,6 @@
 .container {
   width: 75%;
+  max-width: 80vw;
   margin: 50px auto;
 }
 
@@ -46,5 +47,11 @@
   font-size: 1.1rem;
   padding: 10px 0;
 }
+
+i {
+  /* padding-bottom: 26px; */
+}
+
+
 
 
