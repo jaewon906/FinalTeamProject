@@ -29,7 +29,7 @@ export default function AdminManage() {
                 window.location.href = "/admin/login/"
             })
 
-        axios.get("/api/admin/summaryNewUserPerDay") //가입자수 추이
+       axios.get("/api/admin/summaryNewUserPerDay") //가입자수 추이
             .then(res => {
 
                 const dataFromServer = res.data
@@ -73,7 +73,6 @@ export default function AdminManage() {
 
     const orderNoticeDot = (v) => {
 
-
         return (<div style={{height: "100%", position: "relative"}}>
             {v === 0 ?
                 <div style={{
@@ -103,9 +102,11 @@ export default function AdminManage() {
 
 
     return (<>{isLoading ? <div className={style.section1}>
-        <div style={{display: "flex"}}>
+        <div
+            style={{display: "flex"}}>
             <div>
-                <div style={{display: "flex"}}>
+                <div
+                    style={{display: "flex"}}>
 
                     <div
                         onClick={() => {
@@ -133,12 +134,14 @@ export default function AdminManage() {
                     }}
                     style={{display: "flex"}}>
 
-                    <div className={style.unreadCS}>
+                    <div
+                        className={style.unreadCS}>
                         <h3>읽지 않은 문의사항</h3>
                         <h1>1개</h1>
                     </div>
 
-                    <div className={style.comingSoon}>
+                    <div
+                        className={style.comingSoon}>
                         <h1>준비중</h1>
                     </div>
 

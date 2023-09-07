@@ -1,0 +1,50 @@
+.container {
+  width: 75%;
+  margin: 50px auto;
+}
+
+.hotItem {
+  font-weight: bold;
+  margin: 40px 0;
+  display: block;
+}
+
+.rank {
+  width: 25px;
+  height: 18px;
+  background-color: #767676;
+  color: white;
+  text-align: center;
+  padding: 5px 0;
+  margin-bottom: 10px;
+  border-radius: 6px 0;
+}
+
+.hotItemList {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 0;
+}
+
+.hotItemList > li {
+  margin: 10px;
+  width: 220px;
+}
+
+.author {
+  color: #595959;
+  font-size: 0.9rem;
+}
+
+.bookInfo {
+  width: 90%;
+}
+
+.bookTitle {
+  font-size: 1.1rem;
+  padding: 10px 0;
+}
+
+

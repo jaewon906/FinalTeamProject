@@ -37,7 +37,7 @@ export default function Payment(props) {
 
     /* 3. 콜백 함수 정의하기 */
     function callback(response) {
-        console.log(response)
+
         const {
             success,
             merchant_uid,
@@ -71,8 +71,8 @@ export default function Payment(props) {
 
             const sessionStorage = window.sessionStorage
 
-        let purchasedList = []
-        let amounts = []
+            let purchasedList = []
+            let amounts = []
 
             for (let i = 0; i < sessionStorage.length; i++) {
 
@@ -88,13 +88,13 @@ export default function Payment(props) {
                     purchasedList: purchasedList.join(","),
                     amount: amounts.join(","),
                     userNumber: userNumber,
-                    totalPrice:props.price,
-                    orderNumber:merchant_uid.split("_")[1]
+                    totalPrice: props.price,
+                    orderNumber: merchant_uid.split("_")[1]
                 }
             })
                 .then(() => {
                     window.sessionStorage.clear()
-                    window.location.href =`purchase/result?userNumber=${userNumber}&merchant_uid=${merchant_uid}`
+                    window.location.href = `purchase/result?userNumber=${userNumber}&merchant_uid=${merchant_uid}`
                 })
                 .catch(e => {
                     alert("error")
