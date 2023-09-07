@@ -29,10 +29,10 @@ public class OrderProductEntity {
 
 
     @Column(name = "price_sales")
-    private String priceSales;
+    private Integer priceSales;
 
     @Column(name = "price_std")
-    private String priceStandard;
+    private Integer priceStandard;
 
     @Column
     private String publisher;

@@ -184,9 +184,9 @@ export default function PurchasePage() {
 
                                         <div style={{height:"50%"}} className={style.bookPrice}>
                                             <strike style={{color: "gray", fontSize: "14px"}}>정가
-                                                : {convertToWon(priceStandard, null)}</strike>
+                                                : {convertToWon(priceStandard.toString(), null)} 원</strike>
                                             <i className="fa-solid fa-arrow-down"></i>
-                                            <span>할인가 : {convertToWon(priceSales, null)}</span>
+                                            <span>할인가 : {convertToWon(priceSales.toString(), null)} 원</span>
                                         </div>
 
                                         <div className={style.bookAmount}>
@@ -204,7 +204,7 @@ export default function PurchasePage() {
 
                                         <div className={style.bookTotalPrice}>
                                             <span
-                                                style={{color: "red"}}>총 금액 : {convertToWon(priceSales, amounts[idx])} 원</span>
+                                                style={{color: "red"}}>총 금액 : {convertToWon(priceSales.toString(), amounts[idx])} 원</span>
                                         </div>
 
                                         <button className={style.deleteBtn} id={isbn} onClick={deleteBooks}>삭제</button>

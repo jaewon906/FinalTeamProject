@@ -15,7 +15,7 @@ public class AladinBookDetailReq {
 
     private String TTBKey = "ttbdhzlehzl011603001";
     private String itemIdType = "ISBN";
-    private String ItemId = "9791198173898";
+    private String ItemId = "";
     private String[] OptResults =
             {"Toc", "fulldescription", "previewImgList", "authors", "Story", "phraseList", "cardReviewImgList", "packing"};
     private String output = "js";

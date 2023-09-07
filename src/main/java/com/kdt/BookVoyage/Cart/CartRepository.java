@@ -10,5 +10,4 @@ import java.util.Optional;
 public interface CartRepository extends JpaRepository<CartEntity, Long> {
     Optional<CartEntity> findByMember(MemberEntity member);
 
-
 }

@@ -1,5 +1,6 @@
 package com.kdt.BookVoyage.Purchase;
 
+import com.kdt.BookVoyage.Book.BookDto;
 import com.kdt.BookVoyage.Book.BookEntity;
 import com.kdt.BookVoyage.Member.MemberDTO;
 import com.kdt.BookVoyage.Member.MemberServiceImpl;
@@ -60,6 +61,12 @@ public class PurchaseController {
     public void cancelOrder(OrderDTO orderDTO) {
         purchaseService.cancelOrder(orderDTO);
 
+    }
+
+    @GetMapping("/validateProductIsExist")
+    public void isProductExist(BookDto bookDto) {
+
+        purchaseService.isProductExist(bookDto);
     }
 }
 

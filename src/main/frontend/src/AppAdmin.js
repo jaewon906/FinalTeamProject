@@ -7,6 +7,8 @@ import UserManage from "./pages/AdminPage/UserManage";
 import NotFound from "./js/NotFound";
 import OrderManage from "./pages/AdminPage/OrderManage";
 import OrderManageDetail from "./pages/AdminPage/OrderManageDetail";
+import ProductManage from "./pages/AdminPage/ProductManage";
+import RegisterBook from "./pages/AdminPage/RegisterBook";
 
 export default function AppAdmin() {
 
@@ -20,6 +22,10 @@ export default function AppAdmin() {
                 <Route path={"manage/"} element={<Outlet/>}>
                     <Route path={"user/"} element={<AdminTheme page={<UserManage/>}/>}/>
                     <Route path={"order/"} element={<AdminTheme page={<OrderManage/>}/>}/>
+                    <Route path={"product/"} element={<AdminTheme page={<ProductManage/>}/>}/>
+                    <Route path={"product/"} element={<Outlet/>}>
+                        <Route path={"register/"} element={<AdminTheme page={<RegisterBook/>}/>}></Route>
+                    </Route>
                     <Route path={"orderDetail/:orderNumber"} element={<AdminTheme page={<OrderManageDetail/>}/>}/>
                 </Route>
             </Route>

@@ -16,7 +16,6 @@ export default function OrderDetailPage() {
     useEffect(() => {
         axios.get(`/api/user/myPage/orderDetail/${orderNumber}`)
             .then(res => {
-                console.log(res.data)
                 setOrderData(res.data)
             })
             .catch(e => console.error(e))
@@ -41,7 +40,6 @@ export default function OrderDetailPage() {
 
     }
 
-    console.log(orderData.orderState)
 
     return (
         <div className={style.container}>

@@ -5,8 +5,6 @@ import unixToDate from "../../js/unixToDate";
 
 export default function UserChart(props){
 
-    // const[user,setUser] = useState([])
-
     const oneDay = 24 * 3600 * 1000
     const a = new Date();
     const twoWeeks = 15 * 24 * 3600 * 1000
@@ -21,6 +19,7 @@ export default function UserChart(props){
             dateSevenDaysAgo.split("-")[2].split(" ")[0]
 
     }
+    console.log(props.today)
 
     useEffect(()=>{
         const options = {
@@ -116,6 +115,7 @@ export default function UserChart(props){
         chart.render().then().catch();
 
     },[props.today])
+
     return(
         <div>
             <div id={"chart"}></div>

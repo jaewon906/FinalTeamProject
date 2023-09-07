@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import styles from "../css/Common/Loading.module.css";
 
 function Loading() {

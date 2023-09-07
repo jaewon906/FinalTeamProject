@@ -5,23 +5,23 @@ import Novel from './Novel';
 import SelfDevelopmentBook from './SelfDevelopment';
 import styles from '../../../css/MainPage/Main.module.css';
 import Loading from '../../../js/Loading';
+import BestSeller from './BestSeller';
+import NewBook from './NewBook';
 
 function Home() {
   const [isLoading, setIsLoading] = useState(true);
 
-  
-
   const handleLoadingChange = (isLoading) => {
-    if (!isLoading) {
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 500)
+    if (!isLoading) {      
+      setIsLoading(false);   
     }
   };
 
   return (
     <div className={styles.main}>
       {isLoading && <Loading />}
+      <BestSeller handleLoadingChange={handleLoadingChange} />
+      <NewBook handleLoadingChange={handleLoadingChange} />
       <EconomyBooks handleLoadingChange={handleLoadingChange} />
       <ScienceBooks handleLoadingChange={handleLoadingChange} />
       <Novel handleLoadingChange={handleLoadingChange} />
