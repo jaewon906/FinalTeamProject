@@ -14,8 +14,6 @@ export default function AdminManage() {
 
     let i = 0
 
-    // let totalBooks = 0;
-    // let unreadCS = 0;
 
     useEffect(() => {
 

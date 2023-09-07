@@ -76,41 +76,42 @@ public class AdminService {
 
     public int getTotalSummary() {
 
-        List<MemberEntity> all = memberRepository.findAll();
+        List<MemberEntity> all = memberRepository.findAllMembers();
 
         return all.size();
     }
 
     public Map<String, Integer> getNewUserPerDaySummary() {
 
-        List<MemberEntity> all = memberRepository.findAll();
+        List<MemberEntity> all = memberRepository.findAllMembers();
+        List<MemberEntity> list = all.stream().toList();
         Map<String, Integer> result = new HashMap<>();
 
-        long eightDays = 15 * 24 * 3600 * 1000;
+        long fifteenDays = 15 * 24 * 3600 * 1000;
         long oneDay = 24 * 3600 * 1000;
 
         int a[] = new int[15];
 
         long now = new Timestamp(System.currentTimeMillis()).getTime();
-        long sevenDaysAgo = now - eightDays; // 현재 기준 15일 전
+        long fifteenDaysAgo = now - fifteenDays; // 현재 기준 15일 전
 
-        String split = new Timestamp(sevenDaysAgo).toString().split(" ")[0];
+        String split = new Timestamp(fifteenDaysAgo).toString().split(" ")[0];
 
-        long sevenDaysAgo_0Hour = Timestamp.valueOf(split + " " + "00:00:00").getTime(); // 현재 기준 7일 전 00시 00분 00초
+        long fifteenDaysAgo_0Hour = Timestamp.valueOf(split + " " + "00:00:00").getTime(); // 현재 기준 15일 전 00시 00분 00초
 
         for (int i = 1; i <= 15; i++) {
 
             for (int j = 0; j < all.size() - 1; j++) {
 
-                long signUpDate = all.get(j).getTimeBaseEntity().getCreatedTime().getTime();
+                long signUpDate = list.get(j).getTimeBaseEntity().getCreatedTime().getTime();
 
 
-                if (signUpDate >= i * oneDay + sevenDaysAgo_0Hour && signUpDate < (i + 1) * oneDay + sevenDaysAgo_0Hour) {// 2주전 00시 00분 00초 ~ 23시 59분 59초
+                if (signUpDate >= i * oneDay + fifteenDaysAgo_0Hour && signUpDate < (i + 1) * oneDay + fifteenDaysAgo_0Hour) {// 2주전 00시 00분 00초 ~ 23시 59분 59초
                     a[i - 1]++;
                 }
 
             }
-            String timestamp1 = new Timestamp(i * oneDay + sevenDaysAgo_0Hour).toString();
+            String timestamp1 = new Timestamp(i * oneDay + fifteenDaysAgo_0Hour).toString();
             String date = timestamp1.split(" ")[0];
 
             result.put(date, a[i - 1]);
@@ -122,7 +123,8 @@ public class AdminService {
     }
 
     public Page<MemberDTO> getUserInfo(Pageable pageable) {
-        Page<MemberEntity> all = memberRepository.findAll(pageable);
+
+        Page<MemberEntity> all = memberRepository.findAllMembers(pageable);
 
         List<MemberDTO> memberDTOS = AdminDTO.EntityToDTO(all.stream().toList());
 
