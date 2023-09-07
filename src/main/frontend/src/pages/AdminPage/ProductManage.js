@@ -88,7 +88,7 @@ export default function ProductManage() {
         page = e.target.id
         setCurrentPage(e.target.id)
 
-        axios.get("/api/admin/manage/order/search?page=" + page + "&size=" + size + "&sort=" + sort + "," + order, {
+        axios.get("/api/admin/manage/product/search?page=" + page + "&size=" + size + "&sort=" + sort + "," + order, {
             params: {
                 keyword: keyword.current.value
             }
@@ -121,7 +121,7 @@ export default function ProductManage() {
         document.getElementById("author").style.background = "#f2f4fa"
         document.getElementById("publisher").style.background = "#f2f4fa"
         document.getElementById("priceSales").style.background = "#f2f4fa"
-        document.getElementById("productState").style.background = "#f2f4fa"
+        document.getElementById("remain").style.background = "#f2f4fa"
 
         e.target.style.backgroundColor = "#cbdfff"
         sort = e.target.id;
@@ -158,7 +158,7 @@ export default function ProductManage() {
                 case "priceSales":
                     setCat([false, false, false, false, false, true, false, false]);
                     break;
-                case "productState":
+                case "remain":
                     setCat([false, false, false, false, false, false, true, false]);
                     break;
                 case "deleteFlag":
@@ -192,7 +192,7 @@ export default function ProductManage() {
                 case "priceSales":
                     idx = 5;
                     break;
-                case "productState":
+                case "remain":
                     idx = 6;
                     break;
                 case "deleteFlag":
@@ -399,10 +399,10 @@ export default function ProductManage() {
 
     }
 
-    const returnOptionElement = (productState,color, key) => {
+    const returnOptionElement = (remain,color, key) => {
         return (
             <select style={{background: color}} onChange={visualizationModifyDataAndAddToArray} id={`select${key}`}
-                        defaultValue={productState}>
+                        defaultValue={remain}>
             <option value={"1"}>재고 있음</option>
             <option value={"0"}>품절</option>
         </select>)
@@ -468,7 +468,7 @@ export default function ProductManage() {
                                 {cat[5] ? <i className="fa-solid fa-caret-up"></i> :
                                     <i className="fa-solid fa-caret-down"></i>}
                             </div>
-                            <div id={"productState"} onClick={sortMethod}
+                            <div id={"remain"} onClick={sortMethod}
                                  className={`${style.productState} ${style.category}`}>재고 상태
                                 {cat[6] ? <i className="fa-solid fa-caret-up"></i> :
                                     <i className="fa-solid fa-caret-down"></i>}

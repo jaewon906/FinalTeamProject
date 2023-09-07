@@ -39,7 +39,6 @@ public class SecurityConfig {
                                 .requestMatchers("/api/user/logOut").permitAll() //로그아웃
                                 .requestMatchers("/api/user/findMyInfo/**").permitAll() //내정보 찾기
                                 .requestMatchers("/api/user/dormantAccount").permitAll() //휴면계정
-                                .requestMatchers("/api/book/**").hasRole("USER")
                                 .requestMatchers("/api/user/board/**").hasRole("USER") //게시글 관련
                                 .requestMatchers("/api/user/myPage/**").hasRole("USER") //내 페이지 관련
                                 .requestMatchers("/api/user/withdrawal").hasRole("USER") //회원탈퇴

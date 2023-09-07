@@ -46,6 +46,7 @@
     height: 27px;
     border: 2px solid #98b6ff;
     outline: none;
+    cursor: pointer;
 }
 
 .section {
@@ -145,6 +146,7 @@
     border: none;
     background: none;
     outline: #98b6ff;
+    cursor: pointer;
 }
 
 .table ::-webkit-scrollbar {
@@ -153,6 +155,7 @@
 
 .productState option {
     background-color: #f2f4fa;
+
 }
 
 .pagingBtnArea {
