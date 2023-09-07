@@ -3,7 +3,6 @@ package com.kdt.BookVoyage.Board;
 
 import com.kdt.BookVoyage.Member.MemberRepository;
 import com.kdt.BookVoyage.Member.MemberService;
-import com.kdt.BookVoyage.Reply.ReplyEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.*;
@@ -14,11 +13,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -41,10 +38,10 @@ public class BoardController {
         Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
 
         Page<BoardEntity> boardPage;
-        if ("all".equalsIgnoreCase(category)) {
-            boardPage = boardService.boardList(pageable);
-        } else {
+        if (category != null && !category.isEmpty()) {
             boardPage = boardService.getBoardListByCategory(category, pageable);
+        } else {
+            boardPage = boardService.boardList(pageable);
         }
 
         log.info("asdfsadfasfasdfasfasfasfsaf{}", boardPage);

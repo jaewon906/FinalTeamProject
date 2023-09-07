@@ -13,6 +13,7 @@ const QnA_BoardList = (props) => {
     const [totalPages, setTotalPages] = useState(0);
     const [selectCategory, setSelectCategory] = useState("all"); // 초기 카테고리 선택은 'all'로 설정
     const [data, setData] = useState([]); // 데이터를 저장할 상태 변수
+    const [isLoading, setIsLoading] = useState(true);
 
     const authenticate = () => {
         axios.get("/api/board/create-board/authenticate").then(() => {
@@ -26,43 +27,41 @@ const QnA_BoardList = (props) => {
 
     // 데이터를 가져오는 함수
     const fetchBoardData = async () => {
+
+        setIsLoading(true); // 데이터 로딩이 시작됨을 표시
         try {
             let url = `/api/board/board-list?page=${currentPage}&size=10&sort=id,DESC`;
 
             if (selectCategory !== "all") {
                 url += `&category=${selectCategory}`;
+                console.log(url , "all 카테고리아닐때");
+
             }
-
-            if (selectCategory === "all") {
-                // "All" 카테고리를 선택한 경우, 모든 게시글을 가져옵니다.
-                const allBoardData = await axios.get(`/api/board/board-list?page=${currentPage}&size=10&sort=id,DESC`);
-                setData(allBoardData.data.content);
-                setTotalPages(allBoardData.data.totalPages);
-            } else {
-                const response = await axios.get(url);
-                setData(response.data.content);
-                setTotalPages(response.data.totalPages);
-                console.log(selectCategory);
-            }
-
-        } catch (error) {
-            console.error("게시글 데이터 가져오기 실패:", error);
-        }
-/*        try {
-            let url = `/api/board/board-list?page=${currentPage}&size=10&sort=id,DESC`;
-
-            if (selectCategory !== "all") {
-                url += `&category=${selectCategory}`;
-            }
-
             const response = await axios.get(url);
             setData(response.data.content);
             setTotalPages(response.data.totalPages);
-            console.log(selectCategory);
+            console.log(response.data);
         } catch (error) {
-            console.error("게시글 데이터 가져오기 실패:", error);
-        }*/
-    };
+            console.error("데이터 가져오기 실패:", error);
+        } finally {
+            setIsLoading(false); // 데이터 로딩이 완료됨을 표시
+        }
+    }
+            /*else {
+                let url = `/api/board/board-list?page=${currentPage}&size=10&sort=id,DESC`;
+                url += `&category=all`
+                const response = await axios.get(url);
+                console.log(url, "all 카테고리일때");
+                setData(response.data.content);
+                setTotalPages(response.data.totalPages);
+            }*/
+            
+/*            let url = `/api/board/board-list?page=${currentPage}&size=10&sort=id,DESC`;
+            if (selectCategory !== "all") {
+                url += `&category=${selectCategory}`;
+                console.log(url);
+            }*/
+
 
     // 컴포넌트가 마운트되었을 때 데이터 가져오기
     useEffect(() => {
@@ -150,7 +149,41 @@ const QnA_BoardList = (props) => {
                             </tr>
                             </thead>
                             <tbody>
-                            {filteredData.length !== 0 ?(
+
+                            {isLoading ? (
+                                // 로딩 중일 때
+                                <tr>
+                                    <td colSpan="8">
+                                        <div className={styles.spinnerContainer}>
+                                            <div className={`spinner ${styles.spinner}`}></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ) : data.length === 0 && selectCategory !== 'all' ? (
+                                // 데이터가 없는 경우
+                                <tr>
+                                    <td colSpan="8">선택한 카테고리에 해당하는 데이터가 없습니다.</td>
+                                </tr>
+                            ) : (
+                                // 데이터가 있는 경우
+                                data.map((i, index) => (
+                                    <QnA_BoardBox
+                                        key={i.id}
+                                        id={i.id} //게시글 번호 역순으로 생성
+                                        title={i.title}
+                                        category={i.category}
+                                        content={i.content.replace(/<[^>]+>/g, '')}
+                                        writer={i.writer}
+                                        view={i.view}
+                                        createdTime={i.createdTime}
+                                        formattedCreatedTime={formattedCreatedTime}
+                                        currentPage={currentPage + 1}
+                                    />
+                                ))
+                            )}
+
+
+{/*                            {filteredData.length !== 0 ?(
                                     filteredData.map((i, index) => (
                                         <QnA_BoardBox
                                             key={i.id}
@@ -167,27 +200,9 @@ const QnA_BoardList = (props) => {
 
                                     ))
                             ) : (
-                           /* {Array.isArray(data) && data.length !== 0 ? (
-                                data.filter((i) => selectCategory === 'all' || i.category === selectCategory)
-                                    .map((i, index) => (
-                                        <QnA_BoardBox
-                                            key={i.id}
-                                            id={i.id} //게시글 번호 역순으로 생성
-                                            title={i.title}
-                                            category={i.category}
-                                            content={i.content.replace(/<[^>]+>/g, '')}
-                                            writer={i.writer}
-                                            view={i.view}
-                                            createdTime={i.createdTime}
-                                            formattedCreatedTime={formattedCreatedTime}
-                                            currentPage={currentPage + 1}
-                                        />
-
-                                    ))
-                            ) : (*/
                                 <tr>
                                     <td colSpan="8">
-                                        {selectCategory !== "all" ? (
+                                        {filteredData.length === 0 && selectCategory !== "all" ? (
                                             '선택한 카테고리에 해당하는 데이터가 없습니다.'
                                         ) : (
                                             <div className={styles.spinnerContainer}>
@@ -196,7 +211,7 @@ const QnA_BoardList = (props) => {
                                         )}
                                     </td>
                                 </tr>
-                            )}
+                            )}*/}
                             </tbody>
                         </table>
                     </div>
@@ -204,6 +219,7 @@ const QnA_BoardList = (props) => {
                         currentPage={currentPage}
                         totalPages={totalPages}
                         onPageChange={onPageChange}
+
                     />
                     <div className={styles.boardMainWriteButton}>
                         <button
@@ -220,6 +236,20 @@ const QnA_BoardList = (props) => {
 };
 
 export default QnA_BoardList;
+
+/*
+            if (selectCategory !== "all") {
+                url += `&category=${selectCategory}`;
+                console.log(url);
+
+            } else {
+                let url = `/api/board/board-list?page=${currentPage}&size=10&sort=id,DESC`;
+                url += `&category=all`
+                const response = await axios.get(url);
+                console.log(url);
+                setData(response.data.content);
+                setTotalPages(response.data.totalPages);
+            }*/
 
 
 {/*                        <div className={styles.categoryContainer} style={{marginBottom: "50px"}}>
