@@ -172,11 +172,11 @@
 ##
 ### 상품 관리 페이지
 ###
-#### manage/product : 현재 등록되어 있는 상품을 조회하는 기능입니다. o
-#### manage/product/search : 키워드를 입력하여 페이징 처리된 주문을 찾는 기능입니다. o
-#### manage/product/duplicateValidation : 상품을 등록하기 전에 상품이 이미 등록이 되어있는지 검증하는 기능입니다. 
-#### manage/product/register : 상품을 등록하는 기능입니다.
-#### manage/product/update : 상품의 절판 또는 재입고를 설정할 수 있는 기능입니다.
+#### manage/product : 현재 등록되어 있는 상품을 조회하는 기능입니다. 
+#### manage/product/search : 키워드를 입력하여 페이징 처리된 주문을 찾는 기능입니다. 
+#### manage/product/duplicateValidation : isbn 번호를 입력했을 때 DB에 존재하면 isbn에 해당하는 데이터를 관리자에게 보여주고 없으면 등록하는 버튼과 함께 DB에 존재하지 않는다고 알려주는 기능입니다. 
+#### manage/product/register : 중복되지 않는다고 나오면 등록하기 버튼을 통해 isbn이 서버로 전송되어 isbn에 해당하는 데이터들을 알라딘 api를 통해 불러와서 DB에 저장합니다.
+#### manage/product/update : 상품의 절판 또는 구매 가능 여부를 설정할 수 있는 기능입니다. remain 컬럼을 활용해서 0 : 절판, 1 : 구매 가능 으로 플래그를 활용했습니다.
 
 
 #
