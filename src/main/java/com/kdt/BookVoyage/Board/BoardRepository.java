@@ -12,7 +12,6 @@ import java.util.List;
 
 public interface BoardRepository extends JpaRepository<BoardEntity, Long> {
 
-    List<BoardEntity> findByTitleContaining(String keyword); //특정 키워드를 포함한 게시물 조회
 
     @Modifying
     @Query("update BoardEntity b set b.title = :title, b.category = :category, b.content = :content, b.timeBaseEntity.CreatedTime = :modifiedTime where b.id = :id")
@@ -20,6 +19,12 @@ public interface BoardRepository extends JpaRepository<BoardEntity, Long> {
 
 
     Page<BoardEntity> findByCategoryIgnoreCase(String category, Pageable pageable);
+
+    // 카테고리와 키워드로 검색
+    Page<BoardEntity> findByCategoryAndTitleContaining(String category, String keyword, Pageable pageable);
+
+    // 키워드로 검색
+    Page<BoardEntity> findByTitleContaining(String keyword, Pageable pageable);
 
 
 }
