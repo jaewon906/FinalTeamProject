@@ -64,9 +64,9 @@ public class PurchaseController {
     }
 
     @GetMapping("/validateProductIsExist")
-    public void isProductExist(BookDto bookDto) {
+    public void isProductExist(PurchaseDTO purchaseDTO) {
 
-        purchaseService.isProductExist(bookDto);
+        purchaseService.isProductExist(purchaseDTO);
     }
 }
 

@@ -29,7 +29,6 @@ ReplyDTO {
         /* Dto -> Entity */
         public ReplyEntity toEntity() {
             ReplyEntity replyEntity = ReplyEntity.builder()
-                    .id(id)
                     .reply(reply)
                     .nickname(nickname)
                     .boardEntity(boardEntity)

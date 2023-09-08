@@ -41,7 +41,6 @@ export default function MyPage(props) {
 
     useEffect(() => {
 
-        console.log(props.userInfo)
         setMyInfo(props.userInfo)
 
         setAddressData(() => {

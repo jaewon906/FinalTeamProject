@@ -53,7 +53,8 @@ public class SecurityConfig {
                                 .requestMatchers("/api/detail/**").permitAll()  // 도서 상세 정보 표시
                                 .requestMatchers("/api/searchByIsbn").permitAll()   // isbn으로 db에서 검색
                                 .requestMatchers("/api/cart/**").hasRole("USER")    // 장바구니
-                                .requestMatchers("/api/board/board-list").permitAll()
+                                .requestMatchers("/api/board/board-list/**").permitAll()
+                                .requestMatchers("/api/board/board-list/search").permitAll()
                                 .requestMatchers("/api/board/board-detail/**").permitAll()
                                 .requestMatchers("/api/board/delete-board").permitAll()
                                 .requestMatchers("/api/board/update-board").permitAll()
