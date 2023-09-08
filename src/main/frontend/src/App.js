@@ -25,6 +25,7 @@ import PurchaseResultPage from "./pages/PurchasePage/PruchaseResultPage";
 import OrderDetailPage from "./pages/MyPage/OrderDetailPage";
 import {useSelector} from "react-redux";
 import {createGlobalStyle} from "styled-components";
+import BookRegistPage from './pages/BookRegistPage';
 
 
 function App() {
@@ -78,6 +79,7 @@ function App() {
                         <Route path="children/" element={<FilteredBookListPage category="어린이" />} />
                         <Route path="foreign/" element={<FilteredBookListPage category="외국어" />} />
                         <Route path="search/" element={<SearchResults />} />
+                        <Route path="regist/" element={<BookRegistPage />} />
                         <Route path="purchase/" element={<PurchasePage />} />
                         <Route path="purchase/" element={<Outlet />} >
                             <Route path=":userNumber" element={<PurchaseResultPage />} />

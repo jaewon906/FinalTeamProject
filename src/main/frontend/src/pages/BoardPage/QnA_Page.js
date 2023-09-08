@@ -38,6 +38,11 @@ const QnA_Page = () => {
         }
     };
 
+    // 카테고리 변경 시 실행되는 함수
+    const categoryChange = (category) => {
+        setSelectedCategory(category);
+        setCurrentPage(0);  // 페이지를 0으로 리셋
+    }
 
 
     return (

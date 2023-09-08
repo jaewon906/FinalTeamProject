@@ -2,6 +2,7 @@ package com.kdt.BookVoyage.Book;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -34,6 +35,14 @@ public class AladinApiService {
                 .queryParams(aladinBookDetailReq.toMultiValueMap());
 
         return restTemplate.getForObject(uri.toUriString(), AladinBookDetailRes.class);
+    }
+
+    public AdminBookSearchRes searchBookfromIsbn(AladinBookDetailReq aladinBookDetailReq) {
+        String bookSearchUrl = "http://www.aladin.co.kr/ttb/api/ItemLookUp.aspx?";
+        UriComponentsBuilder uri = UriComponentsBuilder.fromHttpUrl(bookSearchUrl)
+                .queryParams(aladinBookDetailReq.toMultiValueMap());
+
+        return restTemplate.getForObject(uri.toUriString(), AdminBookSearchRes.class);
     }
 
     public AladinItemListRes getBookList(AladinItemListReq aladinItemListReq) {
@@ -70,6 +79,15 @@ public class AladinApiService {
     // isbn을 기반으로 도서 검색한 후 나온 정보들을 BookEntity 및 DB에 저장하는 메서드
     public BookEntity saveBookFromDetailApi(AladinBookDetailReq aladinBookDetailReq) throws JsonProcessingException {
 
+        // isbn을 기반으로 이미 저장된 도서를 검색
+        String isbn = aladinBookDetailReq.getItemId();
+        BookEntity existingBook = bookRepository.findBookByIsbn13(isbn);
+
+        // 이미 저장된 도서가 있다면 중복 저장을 막음
+        if(existingBook != null) {
+            throw new DuplicateBookException("이미 저장된 도서입니다.");
+        }
+
         BookEntity book = new BookEntity();
 
         AladinBookDetailRes aladinBookDetailRes = getDetails(aladinBookDetailReq);
@@ -91,6 +109,7 @@ public class AladinApiService {
             book.setCategoryName(bookDetail.getCategoryName());
             book.setToc(bookDetail.getSubInfo().getToc());
             book.setItemPage(bookDetail.getSubInfo().getItemPage());
+            book.setRemain("1");
 
             // previewImgList 구성
             List<String> previewImgList = bookDetail.getSubInfo().getPreviewImgList();
@@ -160,12 +179,23 @@ public class AladinApiService {
         return bookPage.getContent();
     }
 
-    // 프론트엔드에서 받은 bookId 값들로 책 조회하여 반환
+    // 프론트엔드에서 받은 bookId 값들로 책 조회하여 반환 장바구니
     public List<BookDto> getBooksByIds(List<Long> ids) {
         List<BookEntity> bookEntities = bookRepository.findByBookIdIn(ids);
 
         return bookEntities.stream()
                 .map(BookDto::entityToDto)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public boolean deleteBookByIsbn(String isbn) {
+        BookEntity book = bookRepository.findBookByIsbn13(isbn);
+
+        if (book != null) {
+            bookRepository.delete(book);
+            return true;
+        }
+        return false;
     }
 }

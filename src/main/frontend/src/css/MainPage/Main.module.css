@@ -2,10 +2,8 @@
   text-decoration: none;
 }
 .container{
-  width:90%;
-  min-width: 1200px;
-  max-width: 1600px;
-  margin: 50px auto;
+  width:75%;
+  margin: 100px auto;
 }
 .hotItem {
   font-weight: bold;
@@ -49,6 +47,16 @@
   transform: translate(-50%, -50%);
 }
 
+.rank {
+  width: 25px;
+  height: 18px;
+  background-color: #767676;
+  color: white;
+  text-align: center;
+  padding: 5px 0;
+  margin-bottom: 10px;
+  border-radius: 6px 0;
+}
 
 
 

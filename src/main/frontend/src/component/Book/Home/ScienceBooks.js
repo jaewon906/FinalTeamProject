@@ -26,8 +26,10 @@ function ScienceBooks({ handleLoadingChange }) {
         console.error("데이터를 가져오는데 실패했다 : ", error);
       })
       .finally(() => {
-        setIsLoading(false);
-        handleLoadingChange(false);
+        setTimeout(() => {
+          setIsLoading(false);  // 데이터 로딩 완료 후 isLoading을 false로 설정
+          handleLoadingChange(false); // 상위 컴포넌트에 로딩 완료 상태를 알림
+        }, 500)
       })
   }, []);
 
@@ -53,6 +55,7 @@ function ScienceBooks({ handleLoadingChange }) {
                     alt="book_image"
                     width="280px"
                     height="400px"
+                    style={{ border: "1px solid #eaeaea" }}
                   />
                 </Link>
                 <br />

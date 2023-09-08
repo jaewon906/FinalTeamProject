@@ -77,8 +77,8 @@ public class MemberController {
     }
 
     @GetMapping("/myPage/orderDetail/{orderNumber}") // 본인 주문 조회
-    public OrderDetailDTO showMyOrderDetail(@PathVariable("orderNumber") String orderNumber) {
-        return memberService.showMyOrderDetail(orderNumber);
+    public OrderDetailDTO showMyOrderDetail(@PathVariable("orderNumber") String orderNumber, HttpServletRequest request) {
+        return memberService.showMyOrderDetail(orderNumber, request);
     }
 
 
