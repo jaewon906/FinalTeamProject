@@ -60,14 +60,15 @@ public class JwtFilter extends OncePerRequestFilter {
         boolean validateAccessToken = tokenConfig.validateAccessToken(accessToken);
         boolean validateRefreshToken = tokenConfig.validateRefreshToken(refreshToken);
 
-        validateAccessTokenAndRefreshToken(request, response, refreshToken, validateAccessToken, validateRefreshToken);
+        validateAccessTokenAndRefreshToken(request, response, refreshToken, validateAccessToken, validateRefreshToken, filterChain);
 
 
         filterChain.doFilter(request, response);
 
     }
 
-    private void validateAccessTokenAndRefreshToken(HttpServletRequest request, HttpServletResponse response, String refreshToken, boolean validateAccessToken, boolean validateRefreshToken) throws UnsupportedEncodingException {
+    private void validateAccessTokenAndRefreshToken(HttpServletRequest request, HttpServletResponse response, String refreshToken, boolean validateAccessToken, boolean validateRefreshToken, FilterChain filterChain) throws IOException, ServletException {
+
         if (validateAccessToken && validateRefreshToken) { //두 토큰이 인증될 때
 
             log.info("엑세스 토큰과 리프레쉬 토큰 둘 다 인증되었습니다.");
@@ -102,6 +103,7 @@ public class JwtFilter extends OncePerRequestFilter {
             Optional<MemberEntity> allByUserNumber = memberRepository.findAllByUserNumber(userNumber);
 
             if (allByUserNumber.isPresent()) {
+
                 if(allByUserNumber.get().getDeleteFlag().equals("N")){
 
                     MemberDTO map = modelMapper.map(allByUserNumber, MemberDTO.class);
@@ -116,6 +118,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
                     SecurityContextHolder.getContext().setAuthentication(token);
                 }
+
                 else{log.error("사용자 계정이 비활성화 되어있습니다.");}
 
             }
@@ -127,5 +130,6 @@ public class JwtFilter extends OncePerRequestFilter {
             log.error("두 토큰이 인증되지 않았습니다.");
         }
     }
+
 
 }

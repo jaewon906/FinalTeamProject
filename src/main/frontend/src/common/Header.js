@@ -11,37 +11,38 @@ import ThemeToggleBtn from "../js/ThemeToggleBtn";
 export default function Header(props) {
 
     const [isLogin, setIsLogin] = useState(false)
-    const [nickname, setNickname] = useState()
+    const [username, setUsername] = useState()
     const [userNumber, setUserNumber] = useState("0")
     const navigate = useNavigate();
     const location = useLocation();
-    
     const dispatch = useDispatch();
 
     const handleChangeSearchValue = (e) => {
-        navigate(`/home/search?q=${e.target.value}`)}
+        navigate(`/home/search?q=${e.target.value}`)
+    }
 
     const handleClickToCart = () => {
-        
-        if(isLogin) {
-          navigate("/home/cart");
+
+        if (isLogin) {
+            navigate("/home/cart");
         } else {
             const ret = window.confirm("로그인이 필요한 기능입니다. 로그인 하시겠습니까?");
-            if(ret) {
-                navigate("/home/logIn", {state : {returnUrl : "/home/cart/"}});
-            } else{
+            if (ret) {
+                navigate("/home/logIn", {state: {returnUrl: "/home/cart/"}});
+            } else {
                 return;
             }
         }
-        
+
     }
 
     useEffect(() => {
+
         setUserNumber(getUserNumber().userNumber);
 
         if (userNumber !== "0" && userNumber !== undefined) {
             setIsLogin(true);
-            setNickname(getUserNumber().username)
+            setUsername(getUserNumber().username)
 
         } else setIsLogin(false);
 
@@ -58,6 +59,7 @@ export default function Header(props) {
                 navigate("/home/myPage")
             })
             .catch(err => {
+
                 console.error(err);
                 const ret = window.confirm("로그인이 필요한 서비스입니다. 로그인 하시겠습니까?")
 
@@ -67,12 +69,15 @@ export default function Header(props) {
             })
     }
     const signUp = () => {
-         navigate("/home/signUp")
+        navigate("/home/signUp")
     }
+
     const logIn = () => {
         navigate("/home/logIn")
     }
+
     const logOut = () => {
+
         const ret = window.confirm("로그아웃 하시겠습니까?")
 
         if (ret) {
@@ -81,7 +86,7 @@ export default function Header(props) {
                         alert("로그아웃 되셨습니다.")
                         setIsLogin(false);
                         navigate("/home")
-                    window.sessionStorage.clear()
+                        window.sessionStorage.clear()
                     }
                 ).catch(e => {
                 console.error(e)
@@ -113,9 +118,9 @@ export default function Header(props) {
             </div>
             <div className={style.functionBox}>
                 {isLogin ?
-                    <div style={{display:"flex"}}>
+                    <div style={{display: "flex"}}>
                         <p>반갑습니다</p>
-                        <p style={{marginLeft:"20px"}}>{nickname} 님</p>
+                        <p style={{marginLeft: "20px"}}>{username} 님</p>
                     </div> : ""}
 
                 <button onClick={handleClickToCart} className={style.cart}>
@@ -126,11 +131,11 @@ export default function Header(props) {
                     <i className="fa-solid fa-user-pen"></i>
                 </button>
 
-                <input name={"search"} 
-                type={"search"} 
-                className={style.search} 
-                placeholder={"search..."} 
-                onChange={handleChangeSearchValue}
+                <input name={"search"}
+                       type={"search"}
+                       className={style.search}
+                       placeholder={"search..."}
+                       onChange={handleChangeSearchValue}
                 />
                 <button className={style.signUp} onClick={signUp}>회원가입</button>
                 {isLogin ?
