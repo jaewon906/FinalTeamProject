@@ -18,7 +18,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "BOARD")
-@ToString(of = {"id, title"})
+@ToString(of = {"title"})
 public class BoardEntity {
 
     @Id
@@ -74,6 +74,13 @@ public class BoardEntity {
         this.writer = writer;
         this.content = content;
         this.view = view;
+    }
+
+    public TimeBaseEntity getTimeBaseEntity() {
+        if (this.timeBaseEntity == null) {
+            this.timeBaseEntity = new TimeBaseEntity();
+        }
+        return this.timeBaseEntity;
     }
 
 }
