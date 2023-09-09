@@ -29,9 +29,9 @@ public class BoardService {
         boardRepository.save(boardEntity);
     }
 
-/*    public List<BoardEntity> findBoardList() {
+    public List<BoardEntity> findBoardList() {
         return boardRepository.findAll();
-    }*/
+    }
 
     public BoardEntity findOne(Long id) {
         //id에 해당하는 board가 repository에 존재하지 않을 경우 NullPointerException이 발생하면
@@ -59,8 +59,8 @@ public class BoardService {
 
 
     @Transactional
-    public BoardDTO increaseView(Long postId) {
-        Optional<BoardEntity> boardOptional = boardRepository.findById(postId);
+    public BoardDTO increaseView(Long boardId) {
+        Optional<BoardEntity> boardOptional = boardRepository.findById(boardId);
         if (boardOptional.isPresent()) {
             BoardEntity boardEntity = boardOptional.get();
             int currentViewCount = boardEntity.getView();

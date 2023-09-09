@@ -96,7 +96,7 @@ const QnA_DetailBoard = () => {
                     <div className={styles.detailHeader}>
                         <h2> 문의 사항 : {category}</h2>
                     </div>
-                    <div style={{marginTop:"50px", width:"100%"}}>
+                    <div style={{marginTop:"2px", width:"100%"}}>
                         <h3 className={styles.detailTitle}>글 제목</h3>
                         <h4 style={{
                             padding: "15px",

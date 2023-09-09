@@ -30,8 +30,6 @@ public class BoardController {
 
 
 
-
-
     @GetMapping("/board-list")
     public ResponseEntity<Page<BoardDTO>> board_list (
             @RequestParam(defaultValue = "0") int page,
@@ -112,7 +110,6 @@ public class BoardController {
     }
 
 
-
     @PostMapping("/create-board")
     public ResponseEntity create_board(@RequestBody BoardDTO boardDTO ) {
         System.out.println("게시글 작성 요청 받음 = " + boardDTO);
@@ -121,7 +118,6 @@ public class BoardController {
         HttpStatus status = HttpStatus.CREATED; //201 메세지로 잘 생성되었음을 확인
 
         try{
-
             BoardEntity boardEntity = new BoardEntity (
                     boardDTO.getId(),
                     boardDTO.getTitle(),
@@ -209,16 +205,3 @@ public class BoardController {
  * 페이징 정보 활용: 컨트롤러에서 받은 페이지와 크기 정보를 사용하여 해당 페이지의 데이터를 서비스나 리포지토리로 전달하고, 페이징 처리된 결과를 클라이언트에 반환합니다.
  *
  * 따라서 @RequestParam 어노테이션과 파라미터로 전달하는 값을 설정하는 것은 클라이언트가 페이징된 데이터를 요청하고, 서버에서 그에 맞게 데이터를 처리하기 위한 필수적인 단계입니다.*/
-
-/*
-
-@GetMapping("/board-list/search")
-public ResponseEntity<List<BoardEntity>> search(@RequestParam String keyword ) {
-    try {
-        List<BoardEntity> searchList = boardService.search(keyword);
-        return ResponseEntity.ok(searchList);
-    } catch (Exception exception) {
-        System.out.println("검색이 안되요 = " + exception);
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-    }
-}*/

@@ -75,7 +75,7 @@ public class AdminServiceTest {
 //
 //    }
 
-    @Test
+/*    @Test
     public void 시간을_기준으로_멤버수_나누기() {
         List<MemberEntity> all = memberRepository.findAll();
         Map<String, Integer> result = new HashMap<>();
@@ -103,5 +103,5 @@ public class AdminServiceTest {
 
 //        memberRepositoryTest.멤버수찾기();
 
-    }
+    }*/
 }

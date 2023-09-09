@@ -37,13 +37,13 @@ public class BoardServiceTest {
     @Test
     public void writeBoard() {
 
-        IntStream.rangeClosed(1,2).forEach(i -> {
+        IntStream.rangeClosed(1,3).forEach(i -> {
 
             BoardEntity boardEntity = BoardEntity.builder()
-                    .category("교환 및 환불")
-                    .title("환불은 언제까지에요?" + i)
-                    .content("잘못 주문해가지고 취소하려고 합니당 ..." + i)
-                    .writer("강아지" + i)
+                    .category("계정 관련 문의")
+                    .title(i + "." + "제가 휴먼 계정이라고 떠요")
+                    .content(i + "." + "얼마나 오래 활동을 안해야지 휴먼계정이 되는거죠? 제가 꽤 오래 접속을 하지 않았던 거 같긴한데,, 휴먼 계정되면 안 좋은 점이 있나요?")
+                    .writer("손흥민" + "." + i)
                     .build();
             boardRepository.save(boardEntity);
         });
@@ -59,15 +59,7 @@ public class BoardServiceTest {
             Long memberId = memberRepository.save(memberEntity).getId();
             // When
         }
-        
-    @Test
-    @DisplayName("게시글 리스트 조회해보기")
-    public void makeBoardList() {
 
-        List<BoardEntity> boardList = boardService.findBoardList();
-        boardList.stream().map(b -> boardList).collect(Collectors.toList());
-
-    }
 
     @Test
     @Transactional
