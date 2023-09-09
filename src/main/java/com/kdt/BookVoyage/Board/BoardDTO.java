@@ -34,8 +34,6 @@ public class BoardDTO {
 
     public BoardDTO(BoardEntity boardEntity) {
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmm");
-
 
         this.id = boardEntity.getId();
         this.title = boardEntity.getTitle();
@@ -43,7 +41,6 @@ public class BoardDTO {
         this.writer = boardEntity.getWriter();
         this.content = boardEntity.getContent();
         this.view = boardEntity.getView();
-
 
         // getTimeBaseEntity()의 반환 값을 확인하고 예외 처리
         if (boardEntity.getTimeBaseEntity() != null) {

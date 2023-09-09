@@ -49,7 +49,6 @@ const QnA_CreateBoard = () => {
 
 
     /** text-editor 메서드 */
-
     function onEditorChange(newContent) {
         setContent(newContent)
     }
