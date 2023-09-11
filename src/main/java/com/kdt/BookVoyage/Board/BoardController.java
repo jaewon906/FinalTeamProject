@@ -5,10 +5,7 @@ import com.kdt.BookVoyage.Member.MemberRepository;
 import com.kdt.BookVoyage.Member.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,36 +29,72 @@ public class BoardController {
 
 
 
+
     @GetMapping("/board-list")
     public ResponseEntity<Page<BoardDTO>> board_list (
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String category,
+            @RequestParam(required = false) String keyword
 
     ) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
-        Page<BoardEntity> boardPage = boardService.boardList(pageable);
-        Page<BoardDTO> boardDTOPage = boardPage.map(BoardDTO::new);
 
+        Page<BoardEntity> boardPage;
+
+        log.info("Category: {}, Keyword: {}", category, keyword);
+
+        if (category != null && !category.isEmpty() && keyword != null && !keyword.isEmpty()) {
+            // 카테고리와 키워드 모두가 존재할 때 카테고리와 키워드로 검색
+            boardPage = boardService.getBoardListByCategoryAndKeyword(category, keyword, pageable);
+        } else if (category != null && !category.isEmpty()) {
+            // 카테고리만 존재할 때 카테고리로 검색
+            boardPage = boardService.getBoardListByCategory(category, pageable);
+        } else if (keyword != null && !keyword.isEmpty()) {
+            // 키워드만 존재할 때 키워드로 검색
+            boardPage = boardService.getBoardListByKeyword(keyword, pageable);
+        } else {
+            // 아무 조건도 없을 때 전체 목록 가져오기
+            boardPage = boardService.boardList(pageable);
+        }
+
+        log.info("{}", boardPage);
+
+        Page<BoardDTO> boardDTOPage = boardPage.map(BoardDTO::new);
+        log.info("Category: {}, Keyword: {}", category, keyword);
         return ResponseEntity.ok(boardDTOPage);
     }
+
+
+
+
+
 
 /*
 
-    @GetMapping("/board-list/category")
-    public ResponseEntity<Page<BoardDTO>> board_listCategory (
+
+    @GetMapping("/board-list")
+    public ResponseEntity<Page<BoardDTO>> board_list (
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam(required = false) String category // 선택된 카테고리를 받음
+            @RequestParam(required = false) String category
 
     ) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
-        Page<BoardEntity> boardPage = boardService.boardListByCategory(category, pageable);
-        Page<BoardDTO> boardDTOPage = boardPage.map(BoardDTO::new);
 
+        Page<BoardEntity> boardPage;
+        if (category != null && !category.isEmpty()) {
+            boardPage = boardService.getBoardListByCategory(category, pageable);
+        } else {
+            boardPage = boardService.boardList(pageable);
+        }
+
+        log.info("asdfsadfasfasdfasfasfasfsaf{}", boardPage);
+
+        Page<BoardDTO> boardDTOPage = boardPage.map(BoardDTO::new);
+        log.info("asfasfasfsafasfsafd====={}", category);
         return ResponseEntity.ok(boardDTOPage);
     }
-
-
 */
 
 
@@ -77,8 +110,6 @@ public class BoardController {
     }
 
 
-
-
     @PostMapping("/create-board")
     public ResponseEntity create_board(@RequestBody BoardDTO boardDTO ) {
         System.out.println("게시글 작성 요청 받음 = " + boardDTO);
@@ -87,7 +118,6 @@ public class BoardController {
         HttpStatus status = HttpStatus.CREATED; //201 메세지로 잘 생성되었음을 확인
 
         try{
-
             BoardEntity boardEntity = new BoardEntity (
                     boardDTO.getId(),
                     boardDTO.getTitle(),
@@ -152,18 +182,6 @@ public class BoardController {
 
 
 
-    @GetMapping("/board-list/search")
-    public String search(String keyword, Model model) {
-        try {
-            List<BoardEntity> searchList = boardService.search(keyword);
-            model.addAttribute("searchList", searchList);
-        } catch (Exception exception) {
-            System.out.println("검색이 안되요 = " + exception);
-        }
-        return null;
-    }
-
-
     @GetMapping("/create-board/authenticate")
     public void createBoardAuthenticate() {
         log.info("성공");
@@ -173,9 +191,6 @@ public class BoardController {
     public void updateBoardAuthenticate() {
         log.info("============================= 수정 권한 메서드 ok =================================");
     }
-
-
-
 }
 
 /**

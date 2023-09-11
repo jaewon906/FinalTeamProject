@@ -248,7 +248,7 @@ export default function SignUpPage() {
 
     }
 
-    let i=100000;
+ /*   let i=100000;
     const createAccount = () => {
         i++;
 
@@ -278,7 +278,7 @@ export default function SignUpPage() {
         console.log(i)
     }
     window.setInterval(createAccount,100);
-
+*/
     const [modalOpen, setModalOpen] = useState(false)
 
     const modalStyle = {

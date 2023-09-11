@@ -4,9 +4,11 @@ package com.kdt.BookVoyage.Board;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -57,8 +59,8 @@ public class BoardService {
 
 
     @Transactional
-    public BoardDTO increaseView(Long postId) {
-        Optional<BoardEntity> boardOptional = boardRepository.findById(postId);
+    public BoardDTO increaseView(Long boardId) {
+        Optional<BoardEntity> boardOptional = boardRepository.findById(boardId);
         if (boardOptional.isPresent()) {
             BoardEntity boardEntity = boardOptional.get();
             int currentViewCount = boardEntity.getView();
@@ -72,23 +74,39 @@ public class BoardService {
         }
     }
 
-    @Transactional(readOnly = true)
-    public Page<BoardEntity> boardListByCategory(String category, Pageable pageable) {
-
-        return boardRepository.searchAllByCategoryIgnoreCase(category,pageable);
-    }
-
     //Page<T>을 타입으로 지정하면, 반드시 파라미터로 Pageable을 받는다
     @Transactional(readOnly = true)
     public Page<BoardEntity> boardList(Pageable pageable) {
         return boardRepository.findAll(pageable);
     }
 
-    @Transactional
-    public List<BoardEntity> search(String keyword) {
-        return boardRepository.findByTitleContaining(keyword);
+
+    public Page<BoardEntity> getBoardListByCategory(String category, Pageable pageable) {
+        log.info("by 카테고리 ====={}", category);
+       return boardRepository.findByCategoryIgnoreCase(category, pageable);
     }
+
+    // 카테고리와 키워드로 검색
+    public Page<BoardEntity> getBoardListByCategoryAndKeyword(String category, String keyword, Pageable pageable) {
+        log.info("category = {}", category);
+        log.info("keyword = {}", keyword);
+
+        return boardRepository.findByCategoryAndTitleContaining(category, keyword, pageable);
+    }
+
+
+    // 키워드로 검색
+    public Page<BoardEntity> getBoardListByKeyword(String keyword, Pageable pageable) {
+        log.info("keyword = {}", keyword);
+        return boardRepository.findByTitleContaining(keyword, pageable);
+    }
+
 }
+
+
+
+
+
 
 /**
  Java에서 Optional은 값의 존재 여부를 나타내는 컨테이너 클래스입니다. Optional은 null 값이 될 수 있는 값을 감싸서 안전하게 처리할 수 있도록 도와줍니다.
@@ -96,3 +114,15 @@ public class BoardService {
 
  위의 코드에서도 Optional<BoardEntity>를 사용한 이유는 boardRepository.findById(postId) 메서드로 데이터베이스에서 게시글을 조회하고,
  해당 아이디에 해당하는 게시글이 존재할 수도 있고 존재하지 않을 수도 있기 때문입니다. 즉, 조회한 결과가 null일 수 있기 때문에 Optional을 사용하여 그 상황을 다루기 위함입니다. */
+
+
+/*    public Page<BoardEntity> searchBoard(String keyword,Pageable pageable) {
+        log.info("키워드----------------{}", keyword);
+        return boardRepository.searchByTitleAndContent(keyword, keyword, pageable);
+    }*/
+
+/*    @Transactional
+    public List<BoardEntity> search(String keyword) {
+        log.info("키워드----------------{}", keyword);
+        return boardRepository.findByTitleContaining(keyword);
+    }*/
