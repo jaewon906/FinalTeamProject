@@ -36,7 +36,6 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     private final EmailRepository emailRepository;
     private final OrderRepository orderRepository;
-    private final OrderProductRepository orderProductRepository;
     private final EmailService emailService;
     private final TokenConfig tokenConfig;
     private final TokenDecoder tokenDecoder;
@@ -46,13 +45,13 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public boolean signUp(MemberDTO memberDTO) throws Exception {
-//Validation이 memberDTO를 인터셉트해서 검사를 먼저하고 엔티티에서 unique를 지정했기 때문에 예외처리 하지않음
 
         StringBuilder userNumber = new StringBuilder();
 
         for (int i = 0; i < 10; i++) {
             userNumber.append((int) Math.floor(Math.random() * 10));
         }
+
         memberDTO.setUserNumber(userNumber.toString());
 
         MemberEntity memberEntity = MemberEntity.DTOToEntity(memberDTO);
@@ -66,7 +65,7 @@ public class MemberServiceImpl implements MemberService {
 
             return true;
         } else {
-            throw new SQLIntegrityConstraintViolationException("회원가입에 실패했습니다.");
+            throw new DuplicatedIdException("회원가입에 실패했습니다.");
         }
 
     }

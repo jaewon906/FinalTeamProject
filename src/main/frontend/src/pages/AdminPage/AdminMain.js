@@ -5,7 +5,7 @@ import UserChart from "./UserChart";
 import convertToWon from "../../js/convertToWon";
 import {Link} from "react-router-dom";
 
-export default function AdminManage() {
+export default function AdminMain() {
 
     const [isLoading, setIsLoading] = useState(false);
     const [totalMember, setTotalMember] = useState(0)
@@ -227,10 +227,10 @@ export default function AdminManage() {
             {totalOrders.map((el, idx) => {
 
                 return (
-                    <Link to={`/admin/manage/orderDetail/order?orderNumber=${el.orderNumber}`}>
+                    <Link key={idx} to={`/admin/manage/orderDetail/order?orderNumber=${el.orderNumber}`}>
                         <div id={el.orderNumber}
                              className={style.order}
-                             key={idx}>
+                             >
                             {orderNoticeDot(el.isRead)}
                             <div
                                 className={style.orderNumber}>

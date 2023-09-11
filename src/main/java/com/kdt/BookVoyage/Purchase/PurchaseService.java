@@ -193,13 +193,18 @@ public class PurchaseService {
             throw new UserIdNotFoundException("회원이 존재하지 않습니다.");
     }
 
-    public void isProductExist(BookDto bookDto) {
-        String isbn13 = bookDto.getIsbn13();
+    public void isProductExist(PurchaseDTO purchaseDTO) {
+        List<String> isbn13List = purchaseDTO.getIsbnList();
 
-        BookEntity bookByIsbn13 = bookRepository.findBookByIsbn13(isbn13);
+        for (String isbn13 : isbn13List) {
 
-        if (!bookByIsbn13.getRemain().equals("1")) {
-            throw new ProductIsNotExistException("품절되었습니다.");
+            BookEntity bookByIsbn13 = bookRepository.findBookByIsbn13(isbn13);
+
+            if (!bookByIsbn13.getRemain().equals("1")) {
+                throw new ProductIsNotExistException("품절되었습니다.");
+            }
+
         }
+
     }
 }
