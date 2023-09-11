@@ -172,7 +172,7 @@ public class AladinApiService {
 //        }
 //    }
 
-    // 페이징 처리하여 프론트엔드로 반환
+    // 페이징 처리하여 프론트엔드로 반환, all 페이지에서 사용
     public List<BookEntity> getBooksByPage(int page, int limit) {
         Pageable pageable = PageRequest.of(page, limit);    // 페이지 번호는 0부터 시작
         Page<BookEntity> bookPage = bookRepository.findAll(pageable);

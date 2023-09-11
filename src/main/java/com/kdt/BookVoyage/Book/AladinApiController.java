@@ -101,7 +101,7 @@ public class AladinApiController {
         return ResponseEntity.ok(bookDetails);
     }
 
-    // 페이징 처리(클라이언트에서 요청한 도서 개수와 페이지 수만큼 출력)
+    // 페이징 처리(클라이언트에서 요청한 도서 개수와 페이지 수만큼 출력), all 페이지에서 사용
     @GetMapping("/books")
     public ResponseEntity<List<BookEntity>> getBooks
             (@RequestParam("_page") int page, @RequestParam("_limit") int limit) {

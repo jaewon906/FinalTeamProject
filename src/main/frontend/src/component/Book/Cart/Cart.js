@@ -26,6 +26,7 @@ function Cart() {
             .then((response) => {
                 // 가져온 장바구니 정보를 상태에 설정
                 setCart(response.data);
+                console.log(response.data)
                 fetchBookInfo(response.data.cartItems);
             })
             .catch((error) => {
@@ -82,11 +83,6 @@ function Cart() {
     }
 
     const handleCheckBoxChange = (itemId, isbn) => {
-        // if (selectedItems.includes(itemId)) {
-        //   setSelectedItems(selectedItems.filter((id) => id !== itemId));
-        // } else {
-        //   setSelectedItems([...selectedItems, itemId]);
-        // }
         setSelectedItems((prevSelectedItems) => {
             const selectedItem = prevSelectedItems.find((item) => item.itemId === itemId);
 

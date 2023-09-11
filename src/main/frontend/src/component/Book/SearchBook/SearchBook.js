@@ -53,7 +53,7 @@ function SearchBook() {
             <div className="container1">
                 <div className="main1">
                     <ul className="all-book-list">
-                        <h1>검색 결과</h1>
+                        <h1>검색 결과({searchResults.length})</h1>
 
                         {searchResults.map((bookDetail, key) => {
                             const standardPrice = parseInt(bookDetail.priceStandard);

@@ -12,7 +12,7 @@ import goToPurchase from "../../../js/goToPurchase";
 
 function BookDetail() {
 
-  const { isbn13 } = useParams(); // 리액트 라우터로부터 도서 id를 받아옴
+  const { isbn13 } = useParams(); // 리액트 라우터로부터 도서 isbn을 받아옴
 
   const [bookDetails, setBookDetails] = useState({
     previewImgList: [], // 빈 배열로 초기화
