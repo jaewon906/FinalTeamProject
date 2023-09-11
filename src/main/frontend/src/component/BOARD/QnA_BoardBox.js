@@ -35,7 +35,7 @@ const QnA_BoardBox = (props) => {
                         state: { id: props.id, currentPage: props.currentPage }
                     }}
                 >
-                    {props.content.includes('.') ? props.content.substring(0,props.content.indexOf('.')+1) : props.content}
+                    {props.content.length > 55 ? `${props.content.substring(0, 30)}....` : props.content}
                 </Link>
             </td>
             <td>{props.writer}</td>
@@ -47,3 +47,17 @@ const QnA_BoardBox = (props) => {
 };
 
 export default QnA_BoardBox;
+
+
+/*                <Link
+                    to={{
+                        pathname: `/home/board/detail/${props.id}`,
+                        state: { id: props.id, currentPage: props.currentPage }
+                    }}
+                >
+                    {props.searchResults.length > 0 ?
+                    props.searchResults.map((result) => (
+                        <div key={result.id}>{result.title}</div>
+                    ))    : props.title
+                }
+                </Link>*/

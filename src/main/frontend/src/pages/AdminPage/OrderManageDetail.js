@@ -13,7 +13,7 @@ export default function OrderManageDetail() {
 
     useEffect(() => {
 
-        axios.post("/api/admin/manage/orderDetail", null, {
+        axios.post("/api/admin/manage/order/detail", null, {
             params: {
                 isRead: 1,
                 orderNumber: orderNumber

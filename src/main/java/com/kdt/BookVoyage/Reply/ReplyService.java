@@ -26,21 +26,17 @@ public class ReplyService {
     private final BoardRepository boardRepository;
     private final MemberRepository memberRepository;
 
-    private final EntityManager em;
-
-
-
-
     /**
      * 댓글 작성 api
      */
     @Transactional
     public ReplyDTO.ReplyResponseDTO replyCreate(Long id, ReplyDTO.ReplyRequestDTO dto) {
+        // 게시글의 ID 값을 받기
         BoardEntity boardEntity = boardRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException("댓글 작성 실패 : 해당 게시글이 존재하지 않습니다." + id));
 
+        // 사용자 정보를 받기
         String logInUserNickname = dto.getNickname();
-
         // MemberEntity를 가져오는 로직 (예시: 닉네임을 이용하여 조회)
         MemberEntity memberEntity = memberRepository.findByNickname(logInUserNickname)
                 .orElseThrow(() -> new IllegalArgumentException("해당 닉네임의 사용자가 없습니다."));
@@ -50,15 +46,17 @@ public class ReplyService {
         //memberEntity를 dto에 저장
 
 
+        // 댓글 엔티티를 생성
         ReplyEntity replyEntity = dto.toEntity();
+        // 댓글 엔티티에 사용자 정보를 저장
         replyEntity.setMemberEntity(memberEntity);
-
-
+        // 댓글을 데이터베이스에 저장
         replyRepository.save(replyEntity);
 
 
         ReplyDTO.ReplyResponseDTO responseDTO = new ReplyDTO.ReplyResponseDTO(replyEntity);
         responseDTO.setNickname(logInUserNickname);
+        log.info("작성될때 service code에서 id{}", id);
 
         return responseDTO;
     }
@@ -76,14 +74,12 @@ public class ReplyService {
     public void deleteReply(Long replyId) {
         // 댓글을 데이터베이스에서 삭제
         replyRepository.deleteByReplyId(replyId);
-
-        //게시글 업데이트를 위한 코드 작성
-
         log.info("댓글 삭제 성공: {}", replyId);
     }
 
 
     public List<ReplyEntity> findReplyList(Long boardId) {
+
         return replyRepository.findByBoardEntity_Id(boardId);
     }
 
@@ -98,6 +94,19 @@ public class ReplyService {
         //id에 해당하는 board가 repository에 존재하지 않을 경우 NullPointerException이 발생하면
         //서버가 죽을 수 있기 때문에, 예외처리를 함께 작성
         return replyRepository.findById(id).orElseThrow(NullPointerException::new);
+    }
+
+    @Transactional
+    public ReplyDTO.ReplyResponseDTO updateReply(Long replyId, ReplyDTO.ReplyRequestDTO dto) {
+
+        ReplyEntity replyEntity = replyRepository.findById(replyId).orElseThrow(() -> new NotFoundException("댓글을 찾을 수 없습니다."));
+
+        //댓글 수정할 내용을 업데이트
+        replyEntity.setReply(dto.getReply());
+        //DB에 수정되어 업데이트 된 댓글을 저장
+        replyRepository.save(replyEntity);
+
+        return new ReplyDTO.ReplyResponseDTO(replyEntity);
     }
 }
 
@@ -124,19 +133,6 @@ public class ReplyService {
 
 
 
-/*    @Transactional
-    public Long replyCreate(Long id, ReplyDTO.ReplyRequestDTO dto) {
-        BoardEntity boardEntity = boardRepository.findById(id).orElseThrow(() ->
-            new IllegalArgumentException("댓글 작성 실패 : 해당 게시글이 존재하지 않습니다." + id));
-
-            dto.setBoardEntity(boardEntity);
-
-        ReplyEntity replyEntity = dto.toEntity();
-        replyRepository.save(replyEntity);
-
-        return replyEntity.getId();
-
-        }*/
 
 
 

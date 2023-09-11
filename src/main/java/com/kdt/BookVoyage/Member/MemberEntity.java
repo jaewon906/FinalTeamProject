@@ -47,7 +47,7 @@ public class MemberEntity {
     private String deleteFlag;// DB에서 완전 삭제 대신 값이 0일때 비활성화 처리. 추후 계정 복구를 위함
     @Column(nullable = false, unique = true)
     private String userNumber; //회원 고유번호 (난수)
-    @OneToOne(mappedBy = "member")
+    @OneToOne(mappedBy = "member", fetch = FetchType.LAZY)
     @ToString.Exclude
     private CartEntity cart;
 

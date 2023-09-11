@@ -2,6 +2,7 @@ package com.kdt.BookVoyage.Common;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -12,6 +13,7 @@ import java.sql.Timestamp;
 @EntityListeners(AuditingEntityListener.class) // JPA가 엔티티의 변경 이벤트를 감지하고, 감시 정보(생성일, 수정일 등)를 자동으로 관리할 수 있게 됩니다.
 @Embeddable // 예를 들어 멤버 테이블의 컬럼에 주소를 포함하고 싶음. 근데 주소 안에도 여러 멤버 변수들(상세주소 우편번호 등)을 포함시키고 싶을 때 즉, 한 덩어리로 묶어서 보내고 싶을 때
 @Getter
+@Setter
 public class TimeBaseEntity {
 
     @CreationTimestamp // 해당 데이터를 테이블에 적용했을 때 시간을 자동으로 생성해준다

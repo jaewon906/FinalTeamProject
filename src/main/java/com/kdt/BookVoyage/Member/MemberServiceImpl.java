@@ -1,15 +1,13 @@
 package com.kdt.BookVoyage.Member;
 
-import com.kdt.BookVoyage.Common.CookieConfig;
-import com.kdt.BookVoyage.Common.OrderProductNotFoundException;
-import com.kdt.BookVoyage.Common.UserIdNotFoundException;
-import com.kdt.BookVoyage.Common.UserPasswordNotMatchException;
+import com.kdt.BookVoyage.Common.*;
 import com.kdt.BookVoyage.EmailVerification.EmailDTO;
 import com.kdt.BookVoyage.EmailVerification.EmailRepository;
 import com.kdt.BookVoyage.EmailVerification.EmailService;
 import com.kdt.BookVoyage.Order.*;
 import com.kdt.BookVoyage.Security.TokenConfig;
 import com.kdt.BookVoyage.Security.TokenDTO;
+import com.kdt.BookVoyage.Security.TokenDecoder;
 import jakarta.mail.AuthenticationFailedException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -37,22 +35,22 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     private final EmailRepository emailRepository;
     private final OrderRepository orderRepository;
-    private final OrderProductRepository orderProductRepository;
     private final EmailService emailService;
     private final TokenConfig tokenConfig;
+    private final TokenDecoder tokenDecoder;
     private final CookieConfig cookieConfig;
 
     List<MemberEntity> dormantAccounts = new ArrayList<>();
 
     @Override
     public boolean signUp(MemberDTO memberDTO) throws Exception {
-//Validation이 memberDTO를 인터셉트해서 검사를 먼저하고 엔티티에서 unique를 지정했기 때문에 예외처리 하지않음
 
         StringBuilder userNumber = new StringBuilder();
 
         for (int i = 0; i < 10; i++) {
             userNumber.append((int) Math.floor(Math.random() * 10));
         }
+
         memberDTO.setUserNumber(userNumber.toString());
 
         MemberEntity memberEntity = MemberEntity.DTOToEntity(memberDTO);
@@ -66,7 +64,7 @@ public class MemberServiceImpl implements MemberService {
 
             return true;
         } else {
-            throw new SQLIntegrityConstraintViolationException("회원가입에 실패했습니다.");
+            throw new DuplicatedIdException("회원가입에 실패했습니다.");
         }
 
     }
@@ -85,20 +83,7 @@ public class MemberServiceImpl implements MemberService {
 
                 switch (byUserId.get().getDeleteFlag()) {
                     case "N" -> {
-                        MemberDTO memberDTO1 = MemberDTO.EntityToDTO(byUserId.get());
-
-                        TokenDTO generateAccessToken = tokenConfig.generateAccessToken(memberDTO1);
-                        TokenDTO generateRefreshToken = tokenConfig.generateRefreshToken(memberDTO1);
-
-                        Cookie accessToken = cookieConfig.setCookie(generateAccessToken.getAccessToken(), "accessToken", false, "/", 3600);
-                        Cookie refreshToken = cookieConfig.setCookie(generateRefreshToken.getRefreshToken(), "refreshToken", true, "/", 7 * 24 * 3600);
-
-                        response.addCookie(accessToken);
-                        response.addCookie(refreshToken);
-
-                        log.info("로그인 성공");
-
-                        emailService.sendEmailLogInNotification(byUserId.get().getUserEmail(), byUserId.get().getUserId());
+                        createAccRefTokenIfSignUp(response, byUserId);
 
                         return true;
                     }
@@ -230,7 +215,6 @@ public class MemberServiceImpl implements MemberService {
         }
     }
 
-
     @Override
     @Transactional
     public boolean emailAuthentication(EmailDTO emailDTO) throws AuthenticationFailedException {
@@ -246,6 +230,7 @@ public class MemberServiceImpl implements MemberService {
             throw new AuthenticationFailedException("인증번호가 일치하지 않습니다.");
         }
     }
+
 
     @Scheduled(fixedDelay = 7 * 24 * 60 * 60 * 1000L) //일 주일에 한번 씩 휴면계정의 모든 리스트를 불러옴
     public void deleteDormantAccount() {
@@ -279,8 +264,26 @@ public class MemberServiceImpl implements MemberService {
         }
     }
 
+    private void createAccRefTokenIfSignUp(HttpServletResponse response, Optional<MemberEntity> byUserId) throws UnsupportedEncodingException {
+        MemberDTO memberDTO1 = MemberDTO.EntityToDTO(byUserId.get());
+
+        TokenDTO generateAccessToken = tokenConfig.generateAccessToken(memberDTO1);
+        TokenDTO generateRefreshToken = tokenConfig.generateRefreshToken(memberDTO1);
+
+        Cookie accessToken = cookieConfig.setCookie(generateAccessToken.getAccessToken(), "accessToken", false, "/", 3600);
+        Cookie refreshToken = cookieConfig.setCookie(generateRefreshToken.getRefreshToken(), "refreshToken", true, "/", 7 * 24 * 3600);
+
+        response.addCookie(accessToken);
+        response.addCookie(refreshToken);
+
+        log.info("로그인 성공");
+
+        emailService.sendEmailLogInNotification(byUserId.get().getUserEmail(), byUserId.get().getUserId());
+    }
+
     @Override
     public boolean myInfoAuth(MemberDTO memberDTO) {
+
         String plainText = memberDTO.getPassword();
         MemberEntity memberEntity = MemberEntity.DTOToEntity(memberDTO);
         Optional<MemberEntity> byUserNumber = memberRepository.findByUserNumber(memberEntity.getUserNumber());
@@ -304,18 +307,66 @@ public class MemberServiceImpl implements MemberService {
         }
     }
 
+    public List<OrderDTO> showAllOrders(MemberDTO memberDTO) {
+
+        String userNumber = memberDTO.getUserNumber();
+        Optional<MemberEntity> allByUserNumber = memberRepository.findAllByUserNumber(userNumber);
+
+        if (allByUserNumber.isPresent()) {
+
+            Long id = allByUserNumber.get().getId();
+            Optional<List<OrderEntity>> allByMemberEntityId = orderRepository.findAllByMemberEntityIdOrderByOrderNumberDesc(id);
+
+            if (allByMemberEntityId.isPresent()) {
+
+                log.info("주문 내역이 있습니다.");
+
+                return OrderDTO.EntityToDTO(allByMemberEntityId.get());
+
+            } else
+                throw new OrderNotFoundException("회원이 주문한 내역이 없습니다.");
+
+        } else
+            throw new UserIdNotFoundException("회원이 존재하지 않습니다.");
+
+    }
+
     @Override
-    public OrderDetailDTO showMyOrderDetail(String orderNumber) {
+    public OrderDetailDTO showMyOrderDetail(String orderNumber, HttpServletRequest request) {
 
         Optional<OrderEntity> byOrderNumber = orderRepository.findByOrderNumber(orderNumber);
+        String refreshToken = "";
+
+        Cookie[] cookies = request.getCookies();
+
+        try {
+            for (Cookie cookie : cookies) {
+                String cookieName = cookie.getName();
+
+                if (cookieName.equals("refreshToken")) {
+                    refreshToken = cookie.getValue();
+                }
+            }
+        } catch (Exception ignore) {
+
+        }
+
 
         if (byOrderNumber.isPresent()) {
 
-            MemberEntity memberEntity = byOrderNumber.get().getMemberEntity();
-            List<OrderProductEntity> orderProductEntity = byOrderNumber.get().getOrderProductEntity();
-            OrderEntity orderEntity = byOrderNumber.get();
+            String userNumber = byOrderNumber.get().getMemberEntity().getUserNumber();
+            String userNumberFromToken = tokenDecoder.refreshTokenDecoder(refreshToken, "userNumber");
 
-            return OrderDetailDTO.getOrderDetailDTO(memberEntity, orderProductEntity, orderEntity);
+            if(userNumber.equals(userNumberFromToken)){
+
+                List<OrderProductEntity> orderProductEntity = byOrderNumber.get().getOrderProductEntity();
+                MemberEntity memberEntity = byOrderNumber.get().getMemberEntity();
+
+                OrderEntity orderEntity = byOrderNumber.get();
+
+                return OrderDetailDTO.getOrderDetailDTO(memberEntity, orderProductEntity, orderEntity);
+
+            } else throw new UnauthorizedAccessException("잘못된 접근입니다.");
 
         }
         else throw new OrderProductNotFoundException("주문 상품이 존재하지 않습니다.");

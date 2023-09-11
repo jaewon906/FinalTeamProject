@@ -64,7 +64,7 @@
 
 
 .orderInfo {
-    width: calc(100% - 2px);
+    width: calc(100% - 3px);
     height: 50px;
     border: 1px solid gray;
     display: flex;
@@ -113,6 +113,10 @@
     border: none;
     background: none;
     outline: #98b6ff;
+}
+
+.orderState option {
+    background-color: #f2f4fa;
 }
 
 .table ::-webkit-scrollbar {

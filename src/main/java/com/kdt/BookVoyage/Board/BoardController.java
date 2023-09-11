@@ -5,10 +5,7 @@ import com.kdt.BookVoyage.Member.MemberRepository;
 import com.kdt.BookVoyage.Member.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,36 +29,74 @@ public class BoardController {
 
 
 
+
+
+
     @GetMapping("/board-list")
     public ResponseEntity<Page<BoardDTO>> board_list (
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String category,
+            @RequestParam(required = false) String keyword
 
     ) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
-        Page<BoardEntity> boardPage = boardService.boardList(pageable);
-        Page<BoardDTO> boardDTOPage = boardPage.map(BoardDTO::new);
 
+        Page<BoardEntity> boardPage;
+
+        log.info("Category: {}, Keyword: {}", category, keyword);
+
+        if (category != null && !category.isEmpty() && keyword != null && !keyword.isEmpty()) {
+            // 카테고리와 키워드 모두가 존재할 때 카테고리와 키워드로 검색
+            boardPage = boardService.getBoardListByCategoryAndKeyword(category, keyword, pageable);
+        } else if (category != null && !category.isEmpty()) {
+            // 카테고리만 존재할 때 카테고리로 검색
+            boardPage = boardService.getBoardListByCategory(category, pageable);
+        } else if (keyword != null && !keyword.isEmpty()) {
+            // 키워드만 존재할 때 키워드로 검색
+            boardPage = boardService.getBoardListByKeyword(keyword, pageable);
+        } else {
+            // 아무 조건도 없을 때 전체 목록 가져오기
+            boardPage = boardService.boardList(pageable);
+        }
+
+        log.info("{}", boardPage);
+
+        Page<BoardDTO> boardDTOPage = boardPage.map(BoardDTO::new);
+        log.info("Category: {}, Keyword: {}", category, keyword);
         return ResponseEntity.ok(boardDTOPage);
     }
+
+
+
+
+
 
 /*
 
-    @GetMapping("/board-list/category")
-    public ResponseEntity<Page<BoardDTO>> board_listCategory (
+
+    @GetMapping("/board-list")
+    public ResponseEntity<Page<BoardDTO>> board_list (
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam(required = false) String category // 선택된 카테고리를 받음
+            @RequestParam(required = false) String category
 
     ) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
-        Page<BoardEntity> boardPage = boardService.boardListByCategory(category, pageable);
-        Page<BoardDTO> boardDTOPage = boardPage.map(BoardDTO::new);
 
+        Page<BoardEntity> boardPage;
+        if (category != null && !category.isEmpty()) {
+            boardPage = boardService.getBoardListByCategory(category, pageable);
+        } else {
+            boardPage = boardService.boardList(pageable);
+        }
+
+        log.info("asdfsadfasfasdfasfasfasfsaf{}", boardPage);
+
+        Page<BoardDTO> boardDTOPage = boardPage.map(BoardDTO::new);
+        log.info("asfasfasfsafasfsafd====={}", category);
         return ResponseEntity.ok(boardDTOPage);
     }
-
-
 */
 
 
@@ -75,7 +110,6 @@ public class BoardController {
         return new WrapperClass(boardDTO);
 
     }
-
 
 
 
@@ -152,18 +186,6 @@ public class BoardController {
 
 
 
-    @GetMapping("/board-list/search")
-    public String search(String keyword, Model model) {
-        try {
-            List<BoardEntity> searchList = boardService.search(keyword);
-            model.addAttribute("searchList", searchList);
-        } catch (Exception exception) {
-            System.out.println("검색이 안되요 = " + exception);
-        }
-        return null;
-    }
-
-
     @GetMapping("/create-board/authenticate")
     public void createBoardAuthenticate() {
         log.info("성공");
@@ -173,9 +195,6 @@ public class BoardController {
     public void updateBoardAuthenticate() {
         log.info("============================= 수정 권한 메서드 ok =================================");
     }
-
-
-
 }
 
 /**
@@ -190,3 +209,16 @@ public class BoardController {
  * 페이징 정보 활용: 컨트롤러에서 받은 페이지와 크기 정보를 사용하여 해당 페이지의 데이터를 서비스나 리포지토리로 전달하고, 페이징 처리된 결과를 클라이언트에 반환합니다.
  *
  * 따라서 @RequestParam 어노테이션과 파라미터로 전달하는 값을 설정하는 것은 클라이언트가 페이징된 데이터를 요청하고, 서버에서 그에 맞게 데이터를 처리하기 위한 필수적인 단계입니다.*/
+
+/*
+
+@GetMapping("/board-list/search")
+public ResponseEntity<List<BoardEntity>> search(@RequestParam String keyword ) {
+    try {
+        List<BoardEntity> searchList = boardService.search(keyword);
+        return ResponseEntity.ok(searchList);
+    } catch (Exception exception) {
+        System.out.println("검색이 안되요 = " + exception);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    }
+}*/

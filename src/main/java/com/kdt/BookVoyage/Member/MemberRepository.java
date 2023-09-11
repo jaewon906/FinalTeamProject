@@ -3,6 +3,7 @@ package com.kdt.BookVoyage.Member;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -11,6 +12,7 @@ import org.springframework.data.repository.query.Param;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
 
@@ -22,6 +24,11 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
     @Transactional
     @Query(value = "update MemberEntity m set m.deleteFlag=:deleteFlag, m.timeBaseEntity.DeletedTime=:dateTime where m.userNumber=:userNumber")
     void updateUserState(@Param("userNumber") String userNumber, @Param("deleteFlag") String deleteFlag, LocalDateTime dateTime);
+
+    @Modifying
+    @Transactional
+    @Query(value = "update BookEntity b set b.remain=:remain where b.isbn13=:isbn13")
+    void updateProductState(@Param("isbn13") String isbn13, @Param("remain") String remain);
 
     @Modifying
     @Query(value = "update MemberEntity m set m.deleteFlag='N', m.timeBaseEntity.DeletedTime=null where m.userId=:userId")
@@ -62,6 +69,15 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
     Optional<MemberEntity> findAllByUserNumber(String userNumber);
     Optional<MemberEntity> findByUserEmailAndUserId(String userEmail, String userId);
 
+    @EntityGraph(attributePaths = "cart")
+    @Query(value = "select m from MemberEntity m")
+    Page<MemberEntity> findAllMembers(Pageable pageable);
+
+    @EntityGraph(attributePaths = "cart")
+    @Query(value = "select m from MemberEntity m")
+    List<MemberEntity> findAllMembers();
+
+    @EntityGraph(attributePaths = "cart")
     Page<MemberEntity> searchByUserIdContainingIgnoreCaseOrUsernameContainingIgnoreCaseOrNicknameContainingIgnoreCaseOrUserNumberContainingIgnoreCaseOrUserEmailContainingIgnoreCaseOrUserAddressContainingIgnoreCaseOrUserTelContainingIgnoreCase(
             String keyword1,
             String keyword2,
@@ -73,5 +89,7 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
             Pageable pageable
     );
 
+//    @Query(value = "select m from MemberEntity m where MemberEntity.timeBaseEntity.CreatedTime <= :startTime and MemberEntity .timeBaseEntity.CreatedTime >=:endTime")
+//    Optional<List<MemberEntity>> findMembersClassifyByCreateTime(@Param("startTime") LocalDateTime startTime, @Param("endTime") LocalDateTime endTime);
 
 }

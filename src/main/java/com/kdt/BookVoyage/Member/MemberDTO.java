@@ -45,7 +45,7 @@ public class MemberDTO {
 
 
     public static MemberDTO EntityToDTO(MemberEntity memberEntity) {
-        ModelMapper modelMapper=new ModelMapper();
+        ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(memberEntity, MemberDTO.class);
     }
 }

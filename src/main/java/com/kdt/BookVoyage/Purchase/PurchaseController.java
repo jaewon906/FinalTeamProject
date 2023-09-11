@@ -1,5 +1,6 @@
 package com.kdt.BookVoyage.Purchase;
 
+import com.kdt.BookVoyage.Book.BookDto;
 import com.kdt.BookVoyage.Book.BookEntity;
 import com.kdt.BookVoyage.Member.MemberDTO;
 import com.kdt.BookVoyage.Member.MemberServiceImpl;
@@ -38,13 +39,6 @@ public class PurchaseController {
     }
 
 
-    @GetMapping("/showAllOrders")
-    public List<OrderDTO> showAllOrders(MemberDTO memberDTO) {
-
-        return purchaseService.showAllOrders(memberDTO);
-    }
-
-
     @GetMapping("/result")
     public List<OrderDTO> purchaseResult(HttpServletRequest request) {
 
@@ -60,6 +54,12 @@ public class PurchaseController {
     public void cancelOrder(OrderDTO orderDTO) {
         purchaseService.cancelOrder(orderDTO);
 
+    }
+
+    @GetMapping("/validateProductIsExist")
+    public void isProductExist(PurchaseDTO purchaseDTO) {
+
+        purchaseService.isProductExist(purchaseDTO);
     }
 }
 

@@ -21,7 +21,7 @@ const QnA_BoardPagination = ({currentPage, totalPages, onPageChange}) => {
 
     return (
         <div>
-            <div className="button-container mt-3 d-flex justify-content-center">
+            <div className="button-container">
                 <button
                     className="page-button"
                     onClick={() => onPageChange(0)} // 매개변수page를 0으로 설정해 맨앞의 페이지로 이동

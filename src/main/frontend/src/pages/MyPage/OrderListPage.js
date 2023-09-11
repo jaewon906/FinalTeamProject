@@ -11,7 +11,7 @@ export default function OrderListPage() {
     const [orderList, setOrderList] = useState([{}]);
 
     useEffect(() => {
-        axios.get("/api/user/purchase/showAllOrders", {
+        axios.get("/api/user/myPage/orderLists", {
             params: {
                 userNumber: getUserNumber().userNumber
             }
@@ -46,7 +46,7 @@ export default function OrderListPage() {
                                 <div className={style.orderName}>{el.orderName}</div>
                                 <div className={style.customer}>{el.username}</div>
                                 <div className={style.addr}>{el.userAddress}</div>
-                                <div className={style.price}>{convertToWon(totalPrice, null)}</div>
+                                <div className={style.price}>{convertToWon(totalPrice, null)} 원</div>
                                 <div className={style.orderState}>{el.orderState}</div>
                             </div>
                         )

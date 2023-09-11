@@ -1,9 +1,11 @@
 package com.kdt.BookVoyage.Purchase;
 
+import com.kdt.BookVoyage.Book.BookDto;
 import com.kdt.BookVoyage.Book.BookEntity;
 import com.kdt.BookVoyage.Book.BookRepository;
 import com.kdt.BookVoyage.Common.ExpiredViewTimeException;
 import com.kdt.BookVoyage.Common.OrderNotFoundException;
+import com.kdt.BookVoyage.Common.ProductIsNotExistException;
 import com.kdt.BookVoyage.Common.UserIdNotFoundException;
 import com.kdt.BookVoyage.Member.MemberDTO;
 import com.kdt.BookVoyage.Member.MemberEntity;
@@ -115,30 +117,6 @@ public class PurchaseService {
 
     }
 
-    public List<OrderDTO> showAllOrders(MemberDTO memberDTO) {
-
-        String userNumber = memberDTO.getUserNumber();
-        Optional<MemberEntity> allByUserNumber = memberRepository.findAllByUserNumber(userNumber);
-
-        if (allByUserNumber.isPresent()) {
-
-            Long id = allByUserNumber.get().getId();
-            Optional<List<OrderEntity>> allByMemberEntityId = orderRepository.findAllByMemberEntityIdOrderByOrderNumberDesc(id);
-
-            if (allByMemberEntityId.isPresent()) {
-
-                log.info("주문 내역이 있습니다.");
-
-                return OrderDTO.EntityToDTO(allByMemberEntityId.get());
-
-            } else
-                throw new OrderNotFoundException("회원이 주문한 내역이 없습니다.");
-
-        } else
-            throw new UserIdNotFoundException("회원이 존재하지 않습니다.");
-
-    }
-
     @Transactional
     public void cancelOrder(OrderDTO orderDTO) {
         Optional<OrderEntity> byOrderNumber = orderRepository.findByOrderNumber(orderDTO.getOrderNumber());
@@ -189,5 +167,20 @@ public class PurchaseService {
                 throw new OrderNotFoundException("주문 결과가 존재하지 않습니다.");
         } else
             throw new UserIdNotFoundException("회원이 존재하지 않습니다.");
+    }
+
+    public void isProductExist(PurchaseDTO purchaseDTO) {
+        List<String> isbn13List = purchaseDTO.getIsbnList();
+
+        for (String isbn13 : isbn13List) {
+
+            BookEntity bookByIsbn13 = bookRepository.findBookByIsbn13(isbn13);
+
+            if (!bookByIsbn13.getRemain().equals("1")) {
+                throw new ProductIsNotExistException("품절되었습니다.");
+            }
+
+        }
+
     }
 }

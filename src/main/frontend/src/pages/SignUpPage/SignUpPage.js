@@ -248,14 +248,14 @@ export default function SignUpPage() {
 
     }
 
-    // let i=10;
+    // let i=100000;
     // const createAccount = () => {
     //     i++;
     //
     //     axios.post("/api/user/signUp", null, {
     //         params: {
     //             userId: "qwer" + i,
-    //             password: "rkddkwl1!",
+    //             password: "qwer1234!",
     //             username: "박재원",
     //             nickname: "재원씨야호" + i,
     //             userEmail: "ploii" + i + "@naver.com",
