@@ -224,7 +224,7 @@ export default function AdminMain() {
                     className={style.price}>금액
                 </div>
             </div>
-            {totalOrders.map((el, idx) => {
+            {totalOrders?totalOrders.map((el, idx) => {
 
                 return (
                     <Link key={idx} to={`/admin/manage/orderDetail/order?orderNumber=${el.orderNumber}`}>
@@ -259,7 +259,7 @@ export default function AdminMain() {
                                 ""}
                         </div>
                     </Link>)
-            })}
+            }): " "}
 
         </div>
         <div className={style.CS}>문의사항 표기</div>
