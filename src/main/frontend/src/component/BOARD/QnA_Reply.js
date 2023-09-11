@@ -53,6 +53,7 @@ const ReplySection = () => {
                 setReplies((prevReplies) => [...prevReplies, newReply]);
                 // window.location.reload()
                 setReply("");
+                console.log(id)
             }).catch(e => {
                 console.error(e)
             })
@@ -70,7 +71,7 @@ const ReplySection = () => {
                 const response = await axios.get(
                     `/api/board/board-detail/reply-list/${id}`
                 );
-                console.log(response.data)
+                console.log(id)
                 const replyList = response.data;
                 console.log("댓글 작성 응답(replyList) = ", replyList);
                 setReplies(replyList);
