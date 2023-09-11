@@ -39,13 +39,6 @@ public class PurchaseController {
     }
 
 
-    @GetMapping("/showAllOrders")
-    public List<OrderDTO> showAllOrders(MemberDTO memberDTO) {
-
-        return purchaseService.showAllOrders(memberDTO);
-    }
-
-
     @GetMapping("/result")
     public List<OrderDTO> purchaseResult(HttpServletRequest request) {
 
@@ -64,9 +57,9 @@ public class PurchaseController {
     }
 
     @GetMapping("/validateProductIsExist")
-    public void isProductExist(BookDto bookDto) {
+    public void isProductExist(PurchaseDTO purchaseDTO) {
 
-        purchaseService.isProductExist(bookDto);
+        purchaseService.isProductExist(purchaseDTO);
     }
 }
 

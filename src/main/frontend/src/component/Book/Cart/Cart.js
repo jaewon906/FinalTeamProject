@@ -162,7 +162,18 @@ function Cart() {
     const goToPurchase = () => {
         if (userNumber) {
 
-            axios.get("/api/user/purchase/validateProductIsExist")
+            let arr = []
+            selectedItems.map((el,idx)=>{
+                arr[idx]=el.isbn
+            })
+
+            arr.join(",")
+
+            axios.get("/api/user/purchase/validateProductIsExist",{
+                params:{
+                    isbnList :arr.join(",")
+                }
+            })
                 .then(() => {
                     const sessionStorage = window.sessionStorage;
 
