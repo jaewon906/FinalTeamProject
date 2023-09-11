@@ -39,13 +39,6 @@ public class PurchaseController {
     }
 
 
-    @GetMapping("/showAllOrders")
-    public List<OrderDTO> showAllOrders(MemberDTO memberDTO) {
-
-        return purchaseService.showAllOrders(memberDTO);
-    }
-
-
     @GetMapping("/result")
     public List<OrderDTO> purchaseResult(HttpServletRequest request) {
 

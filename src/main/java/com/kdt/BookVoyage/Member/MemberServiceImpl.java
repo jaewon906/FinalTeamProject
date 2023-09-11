@@ -5,7 +5,6 @@ import com.kdt.BookVoyage.EmailVerification.EmailDTO;
 import com.kdt.BookVoyage.EmailVerification.EmailRepository;
 import com.kdt.BookVoyage.EmailVerification.EmailService;
 import com.kdt.BookVoyage.Order.*;
-import com.kdt.BookVoyage.Security.SecretKey;
 import com.kdt.BookVoyage.Security.TokenConfig;
 import com.kdt.BookVoyage.Security.TokenDTO;
 import com.kdt.BookVoyage.Security.TokenDecoder;
@@ -84,20 +83,7 @@ public class MemberServiceImpl implements MemberService {
 
                 switch (byUserId.get().getDeleteFlag()) {
                     case "N" -> {
-                        MemberDTO memberDTO1 = MemberDTO.EntityToDTO(byUserId.get());
-
-                        TokenDTO generateAccessToken = tokenConfig.generateAccessToken(memberDTO1);
-                        TokenDTO generateRefreshToken = tokenConfig.generateRefreshToken(memberDTO1);
-
-                        Cookie accessToken = cookieConfig.setCookie(generateAccessToken.getAccessToken(), "accessToken", false, "/", 3600);
-                        Cookie refreshToken = cookieConfig.setCookie(generateRefreshToken.getRefreshToken(), "refreshToken", true, "/", 7 * 24 * 3600);
-
-                        response.addCookie(accessToken);
-                        response.addCookie(refreshToken);
-
-                        log.info("로그인 성공");
-
-                        emailService.sendEmailLogInNotification(byUserId.get().getUserEmail(), byUserId.get().getUserId());
+                        createAccRefTokenIfSignUp(response, byUserId);
 
                         return true;
                     }
@@ -229,7 +215,6 @@ public class MemberServiceImpl implements MemberService {
         }
     }
 
-
     @Override
     @Transactional
     public boolean emailAuthentication(EmailDTO emailDTO) throws AuthenticationFailedException {
@@ -245,6 +230,7 @@ public class MemberServiceImpl implements MemberService {
             throw new AuthenticationFailedException("인증번호가 일치하지 않습니다.");
         }
     }
+
 
     @Scheduled(fixedDelay = 7 * 24 * 60 * 60 * 1000L) //일 주일에 한번 씩 휴면계정의 모든 리스트를 불러옴
     public void deleteDormantAccount() {
@@ -278,8 +264,26 @@ public class MemberServiceImpl implements MemberService {
         }
     }
 
+    private void createAccRefTokenIfSignUp(HttpServletResponse response, Optional<MemberEntity> byUserId) throws UnsupportedEncodingException {
+        MemberDTO memberDTO1 = MemberDTO.EntityToDTO(byUserId.get());
+
+        TokenDTO generateAccessToken = tokenConfig.generateAccessToken(memberDTO1);
+        TokenDTO generateRefreshToken = tokenConfig.generateRefreshToken(memberDTO1);
+
+        Cookie accessToken = cookieConfig.setCookie(generateAccessToken.getAccessToken(), "accessToken", false, "/", 3600);
+        Cookie refreshToken = cookieConfig.setCookie(generateRefreshToken.getRefreshToken(), "refreshToken", true, "/", 7 * 24 * 3600);
+
+        response.addCookie(accessToken);
+        response.addCookie(refreshToken);
+
+        log.info("로그인 성공");
+
+        emailService.sendEmailLogInNotification(byUserId.get().getUserEmail(), byUserId.get().getUserId());
+    }
+
     @Override
     public boolean myInfoAuth(MemberDTO memberDTO) {
+
         String plainText = memberDTO.getPassword();
         MemberEntity memberEntity = MemberEntity.DTOToEntity(memberDTO);
         Optional<MemberEntity> byUserNumber = memberRepository.findByUserNumber(memberEntity.getUserNumber());
@@ -303,11 +307,35 @@ public class MemberServiceImpl implements MemberService {
         }
     }
 
+    public List<OrderDTO> showAllOrders(MemberDTO memberDTO) {
+
+        String userNumber = memberDTO.getUserNumber();
+        Optional<MemberEntity> allByUserNumber = memberRepository.findAllByUserNumber(userNumber);
+
+        if (allByUserNumber.isPresent()) {
+
+            Long id = allByUserNumber.get().getId();
+            Optional<List<OrderEntity>> allByMemberEntityId = orderRepository.findAllByMemberEntityIdOrderByOrderNumberDesc(id);
+
+            if (allByMemberEntityId.isPresent()) {
+
+                log.info("주문 내역이 있습니다.");
+
+                return OrderDTO.EntityToDTO(allByMemberEntityId.get());
+
+            } else
+                throw new OrderNotFoundException("회원이 주문한 내역이 없습니다.");
+
+        } else
+            throw new UserIdNotFoundException("회원이 존재하지 않습니다.");
+
+    }
+
     @Override
     public OrderDetailDTO showMyOrderDetail(String orderNumber, HttpServletRequest request) {
 
         Optional<OrderEntity> byOrderNumber = orderRepository.findByOrderNumber(orderNumber);
-        String accessToken = "";
+        String refreshToken = "";
 
         Cookie[] cookies = request.getCookies();
 
@@ -315,8 +343,8 @@ public class MemberServiceImpl implements MemberService {
             for (Cookie cookie : cookies) {
                 String cookieName = cookie.getName();
 
-                if (cookieName.equals("accessToken")) {
-                    accessToken = cookie.getValue();
+                if (cookieName.equals("refreshToken")) {
+                    refreshToken = cookie.getValue();
                 }
             }
         } catch (Exception ignore) {
@@ -327,7 +355,7 @@ public class MemberServiceImpl implements MemberService {
         if (byOrderNumber.isPresent()) {
 
             String userNumber = byOrderNumber.get().getMemberEntity().getUserNumber();
-            String userNumberFromToken = tokenDecoder.accessTokenDecoder(accessToken, "userNumber");
+            String userNumberFromToken = tokenDecoder.refreshTokenDecoder(refreshToken, "userNumber");
 
             if(userNumber.equals(userNumberFromToken)){
 

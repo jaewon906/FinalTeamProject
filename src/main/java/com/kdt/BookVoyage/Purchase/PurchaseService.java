@@ -117,30 +117,6 @@ public class PurchaseService {
 
     }
 
-    public List<OrderDTO> showAllOrders(MemberDTO memberDTO) {
-
-        String userNumber = memberDTO.getUserNumber();
-        Optional<MemberEntity> allByUserNumber = memberRepository.findAllByUserNumber(userNumber);
-
-        if (allByUserNumber.isPresent()) {
-
-            Long id = allByUserNumber.get().getId();
-            Optional<List<OrderEntity>> allByMemberEntityId = orderRepository.findAllByMemberEntityIdOrderByOrderNumberDesc(id);
-
-            if (allByMemberEntityId.isPresent()) {
-
-                log.info("주문 내역이 있습니다.");
-
-                return OrderDTO.EntityToDTO(allByMemberEntityId.get());
-
-            } else
-                throw new OrderNotFoundException("회원이 주문한 내역이 없습니다.");
-
-        } else
-            throw new UserIdNotFoundException("회원이 존재하지 않습니다.");
-
-    }
-
     @Transactional
     public void cancelOrder(OrderDTO orderDTO) {
         Optional<OrderEntity> byOrderNumber = orderRepository.findByOrderNumber(orderDTO.getOrderNumber());
