@@ -32,12 +32,8 @@ public class ReplyController {
 
     @PostMapping("/board-detail/reply-list/{id}")
     public ResponseEntity<ReplyDTO.ReplyResponseDTO> replyCreate(@PathVariable Long id, ReplyDTO.ReplyRequestDTO dto) {
-
         ReplyDTO.ReplyResponseDTO responseDTO = replyService.replyCreate(id, dto);
-        log.info("=========================={}", id);
-
         return ResponseEntity.ok(responseDTO);
-
     }
 
 
@@ -57,10 +53,7 @@ public class ReplyController {
                     return responseDTO;
                 })
                 .collect(Collectors.toList());
-
-
         return ResponseEntity.ok(responseDTOList);
-
     }
 
 
@@ -79,7 +72,6 @@ public class ReplyController {
 
     @PutMapping("/board-detail/reply-update/{replyId}")
     public ResponseEntity<ReplyDTO.ReplyResponseDTO> updateReply (@PathVariable("replyId") Long replyId, @RequestBody ReplyDTO.ReplyRequestDTO dto) {
-
         ReplyDTO.ReplyResponseDTO responseDTO = replyService.updateReply(replyId, dto);
         return ResponseEntity.ok(responseDTO);
     }

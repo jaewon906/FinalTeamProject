@@ -106,7 +106,6 @@ public class BoardController {
 
         BoardDTO boardDTO = new BoardDTO(boardEntity);
         return new WrapperClass(boardDTO);
-
     }
 
 

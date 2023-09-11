@@ -35,9 +35,6 @@ const ReplySection = () => {
 
         }
         // 사용자 정보를 얻어올 수 있는 함수를 호출하여 로그인 상태 확인
-
-
-
         try {
 
             const userNickname = getUserNumber().nickname;
@@ -127,7 +124,7 @@ const ReplySection = () => {
 
     return (
         <>
-            <div style={{width: "100%", borderTop: "2px solid #888", marginTop: "50px"}}>
+            <div style={{width: "100%", borderTop: "2px solid #888", marginTop: "30px"}}>
                 <div className={styles.reply}>
                     <h4>{replies.length > 0 && `${replies.length} 개의 댓글 😊`}</h4>
                     <ul className={styles.replyList} id="replyList">
@@ -146,6 +143,7 @@ const ReplySection = () => {
                                     ) : (
                                         reply.reply
                                     )}
+
                                 </div>
                                 <div className={styles.replyInfo}>
                                     <div className={styles.replyAuthor}>

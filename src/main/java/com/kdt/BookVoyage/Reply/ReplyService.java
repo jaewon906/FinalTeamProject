@@ -10,8 +10,6 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.crossstore.ChangeSetPersister;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,7 +42,6 @@ public class ReplyService {
         dto.setBoardEntity(boardEntity);
         dto.setMemberEntity(memberEntity);
         //memberEntity를 dto에 저장
-
 
         // 댓글 엔티티를 생성
         ReplyEntity replyEntity = dto.toEntity();
@@ -79,7 +76,6 @@ public class ReplyService {
 
 
     public List<ReplyEntity> findReplyList(Long boardId) {
-
         return replyRepository.findByBoardEntity_Id(boardId);
     }
 
@@ -100,36 +96,13 @@ public class ReplyService {
     public ReplyDTO.ReplyResponseDTO updateReply(Long replyId, ReplyDTO.ReplyRequestDTO dto) {
 
         ReplyEntity replyEntity = replyRepository.findById(replyId).orElseThrow(() -> new NotFoundException("댓글을 찾을 수 없습니다."));
-
         //댓글 수정할 내용을 업데이트
         replyEntity.setReply(dto.getReply());
         //DB에 수정되어 업데이트 된 댓글을 저장
         replyRepository.save(replyEntity);
-
         return new ReplyDTO.ReplyResponseDTO(replyEntity);
     }
 }
-
-
-
-/*    @Transactional
-    public Long replyCreate(Long id, ReplyDTO.ReplyRequestDTO dto, String logInUserNickname) {
-        BoardEntity boardEntity = boardRepository.findById(id).orElseThrow(() ->
-                new IllegalArgumentException("댓글 작성 실패 : 해당 게시글이 존재하지 않습니다." + id));
-
-        // MemberEntity를 가져오는 로직 (예시: 닉네임을 이용하여 조회)
-*//*        MemberEntity memberEntity = memberRepository.findByNickname(logInUserNickname)
-                .orElseThrow(() -> new IllegalArgumentException("해당 닉네임의 사용자가 없습니다."));*//*
-
-        dto.setBoardEntity(boardEntity);
-
-        ReplyEntity replyEntity = dto.toEntity();
-        replyRepository.save(replyEntity);
-
-        return replyEntity.getId();
-
-    }*/
-
 
 
 
