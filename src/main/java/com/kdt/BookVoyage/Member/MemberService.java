@@ -33,6 +33,7 @@ public interface MemberService {
 
     void withdrawal1(MemberDTO memberDTO);
 
+
     boolean myInfoAuth(MemberDTO memberDTO);
 
     OrderDetailDTO showMyOrderDetail(String orderNumber, HttpServletRequest request);

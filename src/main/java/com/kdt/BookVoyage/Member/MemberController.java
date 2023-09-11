@@ -2,9 +2,11 @@ package com.kdt.BookVoyage.Member;
 
 import com.kdt.BookVoyage.EmailVerification.EmailDTO;
 import com.kdt.BookVoyage.EmailVerification.EmailService;
+import com.kdt.BookVoyage.Order.OrderDTO;
 import com.kdt.BookVoyage.Order.OrderDetailDTO;
 import com.kdt.BookVoyage.Order.OrderProductDTO;
 import com.kdt.BookVoyage.Purchase.PurchaseDTO;
+import com.kdt.BookVoyage.Purchase.PurchaseService;
 import jakarta.mail.AuthenticationFailedException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -76,7 +78,13 @@ public class MemberController {
         return memberService.modifyInfo(memberDTO, response);
     }
 
-    @GetMapping("/myPage/orderDetail/{orderNumber}") // 본인 주문 조회
+    @GetMapping("/myPage/orderLists") // 본인의 모든 주문 내역 조회
+    public List<OrderDTO> showAllOrders(MemberDTO memberDTO) {
+
+        return memberService.showAllOrders(memberDTO);
+    }
+
+    @GetMapping("/myPage/orderDetail/{orderNumber}") // 본인 주문 상세 조회
     public OrderDetailDTO showMyOrderDetail(@PathVariable("orderNumber") String orderNumber, HttpServletRequest request) {
         return memberService.showMyOrderDetail(orderNumber, request);
     }
