@@ -32,13 +32,13 @@
 
 ### 라이브러리(or 프레임워크) : spring-web, mySQL-driver, Spring-Security, JPA, mail, validation, modelMapper, jjwt, lombok
 
-# ※ 프로젝트가 동작하기 위해 book.sql파일, application-secret.properties(개인정보가 들어있어 git에 푸쉬하지 않았습니다.), SecretKey(JWT signature)가 필요합니다. 연락 주시면 데이터 바로 보내드리겠습니다.
+### <span style="background-color:#C0FFFF">※ 프로젝트가 동작하기 위해 book.sql파일, application-secret.properties(개인정보가 들어있어 git에 푸쉬하지 않았습니다.), SecretKey(JWT signature)가 필요합니다. 연락 주시면 데이터 바로 보내드리겠습니다.
 
-### book.sql ->  - MySQL 실행 - root 계정 접속 - Navigator 하단 Administration 선택 - MANAGEMENT - Data Import - Import from Self-Contained File - 별도 제공하는 book.sql import
+### <span style="background-color:#C0FFFF">book.sql ->  - MySQL 실행 - root 계정 접속 - Navigator 하단 Administration 선택 - MANAGEMENT - Data Import - Import from Self-Contained File - 별도 제공하는 book.sql import
 
-### application-secret.properties -> src/main/resources 에 추가
+### <span style="background-color:#C0FFFF">application-secret.properties -> src/main/resources 에 추가
 
-### secretKey -> src/java/com/kdt/BookVoyage/Security에 추가
+### <span style="background-color:#C0FFFF">secretKey -> src/java/com/kdt/BookVoyage/Security에 추가
 
 #
 
@@ -46,7 +46,7 @@
 
 #
 
-### 1. 회원가입
+### <span style="background-color:#fff5b1"> 1. 회원가입 </span>
 
 #### 1) 아이디, 닉네임, 이메일은 유일하게 설정하여 중복 검사를 진행
 
@@ -62,7 +62,7 @@
 
 #
 
-### 2. 회원탈퇴
+### <span style="background-color:#fff5b1">2. 회원탈퇴</span>
 
 #### 1) 회원탈퇴시 유예기간을 지정하기 위해 DELETE_FLAG 컬럼과 DELETE_TIME을 지정한다. 회원탈퇴시 DELETE_FLAG가 Y로 설정된다
 
@@ -72,7 +72,7 @@
 
 #
 
-### 3. 회원정보 수정
+### <span style="background-color:#fff5b1">3. 회원정보 수정
 
 #### 1) 회원정보 수정은 먼저 회원정보를 불러오는 뷰를 만들고 회원정보를 가져온다.
 
@@ -88,7 +88,7 @@
 
 #
 
-### 4. 회원권한 부여 및 인증
+### <span style="background-color:#fff5b1">4. 회원권한 부여 및 인증
 
 #### 1) 회원가입을 통한 사용자와 관리자의 Role은 각각 USER, ADMIN으로 지정한다.
 
@@ -104,7 +104,7 @@
 
 #
 
-### 5. 로그인
+### <span style="background-color:#fff5b1">5. 로그인
 
 #### 1) 로그인 시 아이디와 비밀번호가 일치하면 해당 브라우저의 쿠키에 access토큰과 refresh토큰을 부여한다.
 
@@ -114,13 +114,13 @@
 
 #
 
-### 6. 로그아웃
+### <span style="background-color:#fff5b1">6. 로그아웃
 
 #### 1) 로그아웃시 access토큰과 refresh토큰을 회수한다.
 
 #
 
-### 7. 아이디 찾기
+### <span style="background-color:#fff5b1">7. 아이디 찾기
 
 #### 1) 사용자가 이메일값을 보내면 DB에 해당 이메일 값이 있을 때 그 이메일로 난수 8글자의 메일을 전송한다.
 
@@ -130,7 +130,7 @@
 
 #
 
-### 8. 비밀번호 찾기
+### <span style="background-color:#fff5b1">8. 비밀번호 찾기
 
 #### 1) 사용자가 아이디와 이메일값을 보내면 DB에 해당 이메일과 아이디 값이 존재하면서 같은 튜플에 있을 때 그 이메일로 난수 8글자의 메일을 전송한다.
 
@@ -142,7 +142,7 @@
 
 #
 
-## 9. 결제기능
+### <span style="background-color:#fff5b1">9. 결제기능
 
 #### 1) 결제하기 또는 장바구니에 담을 시 결제창으로 이동한다.
 
@@ -154,7 +154,7 @@
 
 #
 
-### 10. 주문 내역 확인
+### <span style="background-color:#fff5b1">10. 주문 내역 확인
 
 #### 1) 사용자는 본인이 구매한 주문 내역들을 열람할 수 있다.
 
@@ -168,7 +168,7 @@
 
 #
 
-### 1. 로그인
+### <span style="background-color:#fff5b1">1. 로그인
 
 #### 1) 자동으로 생성된 아이디와 암호로 로그인을 진행한다.
 
@@ -178,7 +178,7 @@
 
 #
 
-### 2. 관리자 메인 페이지의 요약기능
+### <span style="background-color:#fff5b1">2. 관리자 메인 페이지의 요약기능
 
 #### 1) 회원수, 최근 주문건, 읽지 않은 문의글 수를 화면에 띄워 데이터가 한 눈에 볼 수 있게 한다. △ (회원수, 주문만 기능 구현)
 
@@ -192,7 +192,7 @@
 
 #
 
-### 3. 회원 관리 페이지
+### <span style="background-color:#fff5b1">3. 회원 관리 페이지
 
 #### 1) 접근시 100명을 기준으로 초기 화면에 띄운다.
 
@@ -210,7 +210,7 @@
 
 #
 
-### 4. 주문 관리 페이지
+### <span style="background-color:#fff5b1">4. 주문 관리 페이지
 
 #### 1) 접근 시 초기 화면에 최근 주문건 100개를 보여준다
 
@@ -222,7 +222,7 @@
 
 #
 
-### 5. 상품 관리 페이지
+### <span style="background-color:#fff5b1">5. 상품 관리 페이지
 
 #### 1) 접근 시 초기 화면에 최근 주문건 100개를 보여준다
 
