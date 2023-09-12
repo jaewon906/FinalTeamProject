@@ -30,20 +30,16 @@ public class ReplyController {
     private final ReplyService replyService;
 
 
-    @PostMapping("/board-detail/reply-list/{id}")
-    public ResponseEntity<ReplyDTO.ReplyResponseDTO> replyCreate(@PathVariable Long id, ReplyDTO.ReplyRequestDTO dto) {
-
-        ReplyDTO.ReplyResponseDTO responseDTO = replyService.replyCreate(id, dto);
-        log.info("=========================={}", id);
-
+    @PostMapping("/board-detail/reply-list/{boardId}")
+    public ResponseEntity<ReplyDTO.ReplyResponseDTO> replyCreate(@PathVariable Long boardId, ReplyDTO.ReplyRequestDTO dto) {
+        ReplyDTO.ReplyResponseDTO responseDTO = replyService.replyCreate(boardId, dto);
         return ResponseEntity.ok(responseDTO);
-
     }
 
 
-    @GetMapping("/board-detail/reply-list/{id}")
-    public ResponseEntity<List<ReplyDTO.ReplyResponseDTO>> reply_list(@PathVariable Long id) {
-        List<ReplyEntity> replyList = replyService.findReplyList(id);
+    @GetMapping("/board-detail/reply-list/{boardId}")
+    public ResponseEntity<List<ReplyDTO.ReplyResponseDTO>> reply_list(@PathVariable Long boardId) {
+        List<ReplyEntity> replyList = replyService.findReplyList(boardId);
         List<ReplyDTO.ReplyResponseDTO> responseDTOList = replyList.stream()
                 .map(reply -> {
                     ReplyDTO.ReplyResponseDTO responseDTO = new ReplyDTO.ReplyResponseDTO(reply);
@@ -57,10 +53,7 @@ public class ReplyController {
                     return responseDTO;
                 })
                 .collect(Collectors.toList());
-
-
         return ResponseEntity.ok(responseDTOList);
-
     }
 
 
@@ -79,7 +72,6 @@ public class ReplyController {
 
     @PutMapping("/board-detail/reply-update/{replyId}")
     public ResponseEntity<ReplyDTO.ReplyResponseDTO> updateReply (@PathVariable("replyId") Long replyId, @RequestBody ReplyDTO.ReplyRequestDTO dto) {
-
         ReplyDTO.ReplyResponseDTO responseDTO = replyService.updateReply(replyId, dto);
         return ResponseEntity.ok(responseDTO);
     }

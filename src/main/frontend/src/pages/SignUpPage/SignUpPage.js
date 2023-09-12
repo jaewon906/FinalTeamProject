@@ -302,6 +302,7 @@ export default function SignUpPage() {
         minHeight: "450px",
         minWidth: "100%"
     }
+
     return (
         <div className={style.container}>
             <Modal style={modalStyle} isOpen={modalOpen} onRequestClose={closeModal}>

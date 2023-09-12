@@ -48,16 +48,14 @@ const QnA_Page = () => {
                                 <li key={index} className={styles.qnaData} style={{listStyleType:"none"}}>
                                     <button
                                         style={{
-                                            fontSize: "15px",
-                                            height: "35px",
-                                            border: "none",
-                                            color: "black",
-                                            borderRadius: "5px",
-                                            cursor: "pointer"}}
+                                        padding:"10px",
+                                        width:"100%",
+
+                                    }}
                                         className={`${activeIndex === index ? 'active' : ''}`}
                                         onClick={() => toggleAnswer(index)}
                                     >
-                                        {faq.question}
+                                        <p className={styles.qnaQuestion}>{faq.question}</p>
                                     </button>
                                     {activeIndex === index && <p className={styles.qnaAnswer}>{faq.answer}</p>}
                                 </li>
