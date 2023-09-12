@@ -3,18 +3,13 @@ package com.kdt.BookVoyage.Admin;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.kdt.BookVoyage.Book.*;
 import com.kdt.BookVoyage.Member.MemberDTO;
-import com.kdt.BookVoyage.Member.MemberEntity;
 import com.kdt.BookVoyage.Order.OrderDTO;
 import com.kdt.BookVoyage.Order.OrderDetailDTO;
-import com.kdt.BookVoyage.Order.OrderEntity;
-import com.kdt.BookVoyage.Purchase.PurchaseService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
@@ -29,7 +24,7 @@ public class AdminController {
 
     private final AdminService adminService;
 
-    private final AladinApiService aladinApiService;
+    private final BookService bookService;
 
     @GetMapping("autoLogin")
     public void autoLogin() {
@@ -128,7 +123,7 @@ public class AdminController {
         AladinBookDetailReq aladinBookDetailReq = new AladinBookDetailReq();
         aladinBookDetailReq.setItemId(isbn13);
 
-        aladinApiService.saveBookFromDetailApi(aladinBookDetailReq);
+        bookService.saveBookFromDetailApi(aladinBookDetailReq);
 
     }
 

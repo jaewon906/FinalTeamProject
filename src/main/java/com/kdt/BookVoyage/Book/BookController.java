@@ -9,15 +9,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/book")
 @Slf4j
-public class AladinApiController {
+public class BookController {
 
     private final BookRepository bookRepository;
-    private final AladinApiService aladinApiService;
+    private final BookService bookService;
 
-    public AladinApiController(AladinApiService aladinApiService, BookRepository bookRepository) {
-        this.aladinApiService = aladinApiService;
+    public BookController(BookService bookService, BookRepository bookRepository) {
+        this.bookService = bookService;
         this.bookRepository = bookRepository;
     }
 
@@ -27,7 +27,7 @@ public class AladinApiController {
         AladinItemListReq aladinItemListReq = new AladinItemListReq();
         aladinItemListReq.setQueryType(queryType);
 
-        return aladinApiService.getBookList(aladinItemListReq);
+        return bookService.getBookList(aladinItemListReq);
     }
 
 
@@ -67,7 +67,7 @@ public class AladinApiController {
         try {
             AladinBookDetailReq aladinBookDetailReq = new AladinBookDetailReq();
             aladinBookDetailReq.setItemId(isbn);
-            return aladinApiService.searchBookfromIsbn(aladinBookDetailReq);
+            return bookService.searchBookfromIsbn(aladinBookDetailReq);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -83,7 +83,7 @@ public class AladinApiController {
         AladinBookDetailReq aladinBookDetailReq = new AladinBookDetailReq();
         aladinBookDetailReq.setItemId(isbn13);
         try {
-            BookEntity saveBook = aladinApiService.saveBookFromDetailApi(aladinBookDetailReq);
+            BookEntity saveBook = bookService.saveBookFromDetailApi(aladinBookDetailReq);
             return ResponseEntity.ok("도서가 성공적으로 저장되었습니다.");
         } catch (DuplicateBookException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 저장된 도서입니다.");
@@ -101,11 +101,11 @@ public class AladinApiController {
         return ResponseEntity.ok(bookDetails);
     }
 
-    // 페이징 처리(클라이언트에서 요청한 도서 개수와 페이지 수만큼 출력)
+    // 페이징 처리(클라이언트에서 요청한 도서 개수와 페이지 수만큼 출력), all 페이지에서 사용
     @GetMapping("/books")
     public ResponseEntity<List<BookEntity>> getBooks
             (@RequestParam("_page") int page, @RequestParam("_limit") int limit) {
-        List<BookEntity> books = aladinApiService.getBooksByPage(page, limit);
+        List<BookEntity> books = bookService.getBooksByPage(page, limit);
         return ResponseEntity.ok(books);
     }
 
@@ -145,7 +145,7 @@ public class AladinApiController {
     // 프론트엔드에서 bookId를 받아서 bookRepository를 조회한 뒤 결과 반환
     @GetMapping("/bookitems")
     public ResponseEntity<List<BookDto>> getBooksByIds(@RequestParam List<Long> ids) {
-        List<BookDto> books = aladinApiService.getBooksByIds(ids);
+        List<BookDto> books = bookService.getBooksByIds(ids);
         return ResponseEntity.ok(books);
     }
 
@@ -153,7 +153,7 @@ public class AladinApiController {
     @DeleteMapping("/search/{isbn}/delete")
     public ResponseEntity<String> searchAndDeleteBook(@PathVariable("isbn") String isbn) {
         try {
-            boolean deleted = aladinApiService.deleteBookByIsbn(isbn);
+            boolean deleted = bookService.deleteBookByIsbn(isbn);
             if(deleted) {
                 return ResponseEntity.ok("도서를 삭제했습니다.");
             } else {

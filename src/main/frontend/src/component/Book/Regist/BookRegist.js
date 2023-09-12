@@ -14,7 +14,7 @@ function BookRegist({ onSearch }) {
       onSearch(isbn); // 검색 버튼 클릭 시 isbn을 백엔드로 전달
     } else if(action === "register") {
       axios
-      .post(`/api/search/${isbn}/save`)
+      .post(`/api/book/search/${isbn}/save`)
       .then((response) => {
         console.log("성공")
       })

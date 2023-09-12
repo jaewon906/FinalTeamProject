@@ -8,7 +8,7 @@ const goToPurchase = (isbn, quantity) => {
 
         axios.get("/api/user/purchase/validateProductIsExist",{
             params:{
-                isbn13 : isbn
+                isbnList : isbn
             }
         })
             .then(()=>{

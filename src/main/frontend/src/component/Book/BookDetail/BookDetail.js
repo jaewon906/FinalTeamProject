@@ -12,7 +12,7 @@ import goToPurchase from "../../../js/goToPurchase";
 
 function BookDetail() {
 
-  const { isbn13 } = useParams(); // 리액트 라우터로부터 도서 id를 받아옴
+  const { isbn13 } = useParams(); // 리액트 라우터로부터 도서 isbn을 받아옴
 
   const [bookDetails, setBookDetails] = useState({
     previewImgList: [], // 빈 배열로 초기화
@@ -79,7 +79,7 @@ function BookDetail() {
     // 도서 정보를 불러오는 API 호출
     const fetchBookDetails = async () => {
       try {
-        const response = await axios.get(`/api/detail/${isbn13}`);
+        const response = await axios.get(`/api/book/detail/${isbn13}`);
         const book = response.data; // 단일 도서 정보
         const imgUrlArray = JSON.parse(book.previewImgList.replace(/\\/g, ""));
         const modifiedData = {

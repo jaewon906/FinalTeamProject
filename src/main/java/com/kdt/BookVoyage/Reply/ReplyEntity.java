@@ -34,13 +34,5 @@ public class ReplyEntity extends BaseEntity {
     @JoinColumn(name = "MEMBER_ID")
     private MemberEntity memberEntity;
 
-    @Transient
-    public String getMemberNickname() {
-        if (memberEntity != null) {
-            return memberEntity.getNickname();
-        }
-        return null;
-    }
-
 }
 

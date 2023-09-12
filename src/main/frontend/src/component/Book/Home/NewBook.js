@@ -11,7 +11,7 @@ function NewBook({ handleLoadingChange }) {
 
   useEffect(() => {
     axios
-      .get(`/api/list/${queryType}`)
+      .get(`/api/book/list/${queryType}`)
       .then((response) => {
         if(response.data && response.data.item) {
           const books = response.data.item;

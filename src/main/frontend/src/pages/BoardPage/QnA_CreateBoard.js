@@ -49,7 +49,6 @@ const QnA_CreateBoard = () => {
 
 
     /** text-editor 메서드 */
-
     function onEditorChange(newContent) {
         setContent(newContent)
     }
@@ -138,7 +137,7 @@ const QnA_CreateBoard = () => {
                                         <input
                                             type="text"
                                             id="title_input"
-                                            style={{height:"25px", width:"500px", padding:"5px"}}
+                                            style={{height:"25px", width:"40%", padding:"5px"}}
                                             value={title}
                                             onChange={(e) => {
                                                 setTitle(e.target.value);

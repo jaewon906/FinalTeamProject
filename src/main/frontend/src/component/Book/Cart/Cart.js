@@ -26,6 +26,7 @@ function Cart() {
             .then((response) => {
                 // 가져온 장바구니 정보를 상태에 설정
                 setCart(response.data);
+                console.log(response.data)
                 fetchBookInfo(response.data.cartItems);
             })
             .catch((error) => {
@@ -43,7 +44,7 @@ function Cart() {
     const fetchBookInfo = (cartItems) => {
         const bookIds = cartItems.map((item) => item.bookId);
         axios
-            .get(`/api/bookitems?ids=${bookIds.join(",")}`)
+            .get(`/api/book/bookitems?ids=${bookIds.join(",")}`)
             .then((response) => {
                 console.log("Response Data", response.data);
                 // 도서 정보를 가져온 뒤, cartItems에 병합하여 상태 업데이트
@@ -82,11 +83,6 @@ function Cart() {
     }
 
     const handleCheckBoxChange = (itemId, isbn) => {
-        // if (selectedItems.includes(itemId)) {
-        //   setSelectedItems(selectedItems.filter((id) => id !== itemId));
-        // } else {
-        //   setSelectedItems([...selectedItems, itemId]);
-        // }
         setSelectedItems((prevSelectedItems) => {
             const selectedItem = prevSelectedItems.find((item) => item.itemId === itemId);
 
@@ -166,7 +162,18 @@ function Cart() {
     const goToPurchase = () => {
         if (userNumber) {
 
-            axios.get("/api/user/purchase/validateProductIsExist")
+            let arr = []
+            selectedItems.map((el,idx)=>{
+                arr[idx]=el.isbn
+            })
+
+            arr.join(",")
+
+            axios.get("/api/user/purchase/validateProductIsExist",{
+                params:{
+                    isbnList :arr.join(",")
+                }
+            })
                 .then(() => {
                     const sessionStorage = window.sessionStorage;
 

@@ -43,17 +43,18 @@ public class SecurityConfig {
                                 .requestMatchers("/api/user/myPage/**").hasRole("USER") //내 페이지 관련
                                 .requestMatchers("/api/user/withdrawal").hasRole("USER") //회원탈퇴
                                 .requestMatchers("/api/user/purchase/**").hasRole("USER") //회원탈퇴
-                                .requestMatchers("/api/list/**").permitAll()    // 도서 리스트 호출
-                                .requestMatchers("/api/search/**").permitAll() // isbn 검색 결과
+                                .requestMatchers("/api/book/list/**").permitAll()    // 도서 리스트 호출
+                                .requestMatchers("/api/book/search/**").permitAll() // isbn 검색 결과
                                 .requestMatchers("/api/admin/autoLogin").hasRole("ADMIN") //로그인
                                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                                .requestMatchers("/api/books").permitAll()  // 도서 조회 결과 10개씩 페이징 처
-                                .requestMatchers("/api/bookdetail").permitAll() // 도서 전체 조회 결과
-                                .requestMatchers("/api/bookitems").permitAll()  // id로 도서 검색
-                                .requestMatchers("/api/detail/**").permitAll()  // 도서 상세 정보 표시
-                                .requestMatchers("/api/searchByIsbn").permitAll()   // isbn으로 db에서 검색
+                                .requestMatchers("/api/book/books").permitAll()  // 도서 조회 결과 10개씩 페이징 처
+                                .requestMatchers("/api/book/bookdetail").permitAll() // 도서 전체 조회 결과
+                                .requestMatchers("/api/book/bookitems").permitAll()  // id로 도서 검색
+                                .requestMatchers("/api/book/detail/**").permitAll()  // 도서 상세 정보 표시
+                                .requestMatchers("/api/book/searchByIsbn").permitAll()   // isbn으로 db에서 검색
                                 .requestMatchers("/api/cart/**").hasRole("USER")    // 장바구니
-                                .requestMatchers("/api/board/board-list").permitAll()
+                                .requestMatchers("/api/board/board-list/**").permitAll()
+                                .requestMatchers("/api/board/board-list/search").permitAll()
                                 .requestMatchers("/api/board/board-detail/**").permitAll()
                                 .requestMatchers("/api/board/delete-board").permitAll()
                                 .requestMatchers("/api/board/update-board").permitAll()
