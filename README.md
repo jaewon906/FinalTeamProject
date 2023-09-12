@@ -375,3 +375,278 @@
 #### result/ : 구매 후 사용자가 구매한 상품을 한 번만 보여준다.
 
 #### cancel/ : 배송과정이 배송 중 전까지 사용자가 주문을 취소할 수 있다.
+
+
+
+🧾프로젝트 구조
+
+백엔드(스프링부트)
+java
+┗ 📂com
+┃ ┗ 📂kdt
+┃ ┃ ┗ 📂BookVoyage
+┃ ┃ ┃ ┣ 📂Admin
+┃ ┃ ┃ ┃ ┣ 📜AdminController.java
+┃ ┃ ┃ ┃ ┣ 📜AdminDTO.java
+┃ ┃ ┃ ┃ ┣ 📜AdminRepository.java
+┃ ┃ ┃ ┃ ┗ 📜AdminService.java
+┃ ┃ ┃ ┣ 📂Board
+┃ ┃ ┃ ┃ ┣ 📜BaseEntity.java
+┃ ┃ ┃ ┃ ┣ 📜BoardController.java
+┃ ┃ ┃ ┃ ┣ 📜BoardDeleteDTO.java
+┃ ┃ ┃ ┃ ┣ 📜BoardDTO.java
+┃ ┃ ┃ ┃ ┣ 📜BoardEntity.java
+┃ ┃ ┃ ┃ ┣ 📜BoardRepository.java
+┃ ┃ ┃ ┃ ┣ 📜BoardService.java
+┃ ┃ ┃ ┃ ┣ 📜NotFoundException.java
+┃ ┃ ┃ ┃ ┗ 📜WrapperClass.java
+┃ ┃ ┃ ┣ 📂Book
+┃ ┃ ┃ ┃ ┣ 📜AdminBookSearchRes.java
+┃ ┃ ┃ ┃ ┣ 📜AladinBookDetailReq.java
+┃ ┃ ┃ ┃ ┣ 📜AladinBookDetailRes.java
+┃ ┃ ┃ ┃ ┣ 📜AladinBookSearchReq.java
+┃ ┃ ┃ ┃ ┣ 📜AladinBookSearchRes.java
+┃ ┃ ┃ ┃ ┣ 📜AladinItemListReq.java
+┃ ┃ ┃ ┃ ┣ 📜AladinItemListRes.java
+┃ ┃ ┃ ┃ ┣ 📜BookController.java
+┃ ┃ ┃ ┃ ┣ 📜BookDto.java
+┃ ┃ ┃ ┃ ┣ 📜BookEntity.java
+┃ ┃ ┃ ┃ ┣ 📜BookRepository.java
+┃ ┃ ┃ ┃ ┣ 📜BookService.java
+┃ ┃ ┃ ┃ ┣ 📜DuplicateBookException.java
+┃ ┃ ┃ ┃ ┣ 📜InvalidIsbnException.java
+┃ ┃ ┃ ┃ ┗ 📜RestTemplateConfig.java
+┃ ┃ ┃ ┣ 📂Cart
+┃ ┃ ┃ ┃ ┣ 📜CartController.java
+┃ ┃ ┃ ┃ ┣ 📜CartDto.java
+┃ ┃ ┃ ┃ ┣ 📜CartEntity.java
+┃ ┃ ┃ ┃ ┣ 📜CartRepository.java
+┃ ┃ ┃ ┃ ┣ 📜CartRequest.java
+┃ ┃ ┃ ┃ ┗ 📜CartService.java
+┃ ┃ ┃ ┣ 📂CartItem
+┃ ┃ ┃ ┃ ┣ 📜CartItemDto.java
+┃ ┃ ┃ ┃ ┣ 📜CartItemEntity.java
+┃ ┃ ┃ ┃ ┗ 📜CartItemRepository.java
+┃ ┃ ┃ ┣ 📂Common
+┃ ┃ ┃ ┃ ┣ 📜AsyncConfig.java
+┃ ┃ ┃ ┃ ┣ 📜CookieConfig.java
+┃ ┃ ┃ ┃ ┣ 📜DuplicatedIdException.java
+┃ ┃ ┃ ┃ ┣ 📜ExpiredViewTimeException.java
+┃ ┃ ┃ ┃ ┣ 📜InvalidIsbn13Exception.java
+┃ ┃ ┃ ┃ ┣ 📜OrderNotFoundException.java
+┃ ┃ ┃ ┃ ┣ 📜OrderProductNotFoundException.java
+┃ ┃ ┃ ┃ ┣ 📜ProductIsNotExistException.java
+┃ ┃ ┃ ┃ ┣ 📜ReactWebController.java
+┃ ┃ ┃ ┃ ┣ 📜TimeBaseEntity.java
+┃ ┃ ┃ ┃ ┣ 📜TokenNotValidateException.java
+┃ ┃ ┃ ┃ ┣ 📜TokenRegenerationFailException.java
+┃ ┃ ┃ ┃ ┣ 📜UnauthorizedAccessException.java
+┃ ┃ ┃ ┃ ┣ 📜UserIdNotFoundException.java
+┃ ┃ ┃ ┃ ┗ 📜UserPasswordNotMatchException.java
+┃ ┃ ┃ ┣ 📂EmailVerification
+┃ ┃ ┃ ┃ ┣ 📜EmailController.java
+┃ ┃ ┃ ┃ ┣ 📜EmailDTO.java
+┃ ┃ ┃ ┃ ┣ 📜EmailEntity.java
+┃ ┃ ┃ ┃ ┣ 📜EmailHtml.java
+┃ ┃ ┃ ┃ ┣ 📜EmailRepository.java
+┃ ┃ ┃ ┃ ┗ 📜EmailService.java
+┃ ┃ ┃ ┣ 📂Member
+┃ ┃ ┃ ┃ ┣ 📜MemberController.java
+┃ ┃ ┃ ┃ ┣ 📜MemberDTO.java
+┃ ┃ ┃ ┃ ┣ 📜MemberEntity.java
+┃ ┃ ┃ ┃ ┣ 📜MemberRepository.java
+┃ ┃ ┃ ┃ ┣ 📜MemberRole.java
+┃ ┃ ┃ ┃ ┣ 📜MemberService.java
+┃ ┃ ┃ ┃ ┗ 📜MemberServiceImpl.java
+┃ ┃ ┃ ┣ 📂Order
+┃ ┃ ┃ ┃ ┣ 📜OrderDetailDTO.java
+┃ ┃ ┃ ┃ ┣ 📜OrderDTO.java
+┃ ┃ ┃ ┃ ┣ 📜OrderEntity.java
+┃ ┃ ┃ ┃ ┣ 📜OrderProductDTO.java
+┃ ┃ ┃ ┃ ┣ 📜OrderProductEntity.java
+┃ ┃ ┃ ┃ ┣ 📜OrderProductRepository.java
+┃ ┃ ┃ ┃ ┗ 📜OrderRepository.java
+┃ ┃ ┃ ┣ 📂Purchase
+┃ ┃ ┃ ┃ ┣ 📜PurchaseController.java
+┃ ┃ ┃ ┃ ┣ 📜PurchaseDTO.java
+┃ ┃ ┃ ┃ ┗ 📜PurchaseService.java
+┃ ┃ ┃ ┣ 📂Reply
+┃ ┃ ┃ ┃ ┣ 📜ReplyController.java
+┃ ┃ ┃ ┃ ┣ 📜ReplyDTO.java
+┃ ┃ ┃ ┃ ┣ 📜ReplyEntity.java
+┃ ┃ ┃ ┃ ┣ 📜ReplyRepository.java
+┃ ┃ ┃ ┃ ┗ 📜ReplyService.java
+┃ ┃ ┃ ┣ 📂Security
+┃ ┃ ┃ ┃ ┣ 📜JwtFilter.java
+┃ ┃ ┃ ┃ ┣ 📜SecretKey.java
+┃ ┃ ┃ ┃ ┣ 📜SecurityConfig.java
+┃ ┃ ┃ ┃ ┣ 📜TokenConfig.java
+┃ ┃ ┃ ┃ ┣ 📜TokenDecoder.java
+┃ ┃ ┃ ┃ ┗ 📜TokenDTO.java
+┃ ┃ ┃ ┗ 📜BookVoyageApplication.java
+
+
+프론트엔드(리액트)
+📦src
+┣ 📂common
+┃ ┣ 📜Button.js
+┃ ┣ 📜CategoryHeader.js
+┃ ┣ 📜Footer.js
+┃ ┗ 📜Header.js
+┣ 📂component
+┃ ┣ 📂BOARD
+┃ ┃ ┣ 📜EditorComponent.js
+┃ ┃ ┣ 📜QnA_BoardBox.js
+┃ ┃ ┣ 📜QnA_BoardList.js
+┃ ┃ ┣ 📜QnA_BoardPagination.js
+┃ ┃ ┗ 📜QnA_Reply.js
+┃ ┣ 📂Book
+┃ ┃ ┣ 📂BookDetail
+┃ ┃ ┃ ┗ 📜BookDetail.js
+┃ ┃ ┣ 📂BookList
+┃ ┃ ┃ ┗ 📜AllBookList.js
+┃ ┃ ┣ 📂Cart
+┃ ┃ ┃ ┗ 📜Cart.js
+┃ ┃ ┣ 📂FilteredBookList
+┃ ┃ ┃ ┗ 📜FilteredBookList.js
+┃ ┃ ┣ 📂Home
+┃ ┃ ┃ ┣ 📜BestSeller.js
+┃ ┃ ┃ ┣ 📜EconomyBooks.js
+┃ ┃ ┃ ┣ 📜Home.js
+┃ ┃ ┃ ┣ 📜NewBook.js
+┃ ┃ ┃ ┣ 📜Novel.js
+┃ ┃ ┃ ┣ 📜ScienceBooks.js
+┃ ┃ ┃ ┗ 📜SelfDevelopment.js
+┃ ┃ ┣ 📂Regist
+┃ ┃ ┃ ┣ 📜BookRegist.js
+┃ ┃ ┃ ┗ 📜BookSearch.js
+┃ ┃ ┗ 📂SearchBook
+┃ ┃ ┃ ┗ 📜SearchBook.js
+┃ ┗ 📜Test.js
+┣ 📂css
+┃ ┣ 📂ADMIN
+┃ ┃ ┣ 📜adminLogin.module.css
+┃ ┃ ┣ 📜adminManage.module.css
+┃ ┃ ┣ 📜orderManage.module.css
+┃ ┃ ┣ 📜orderManageDetail.module.css
+┃ ┃ ┣ 📜productManage.module.css
+┃ ┃ ┣ 📜registerBook.module.css
+┃ ┃ ┗ 📜userManage.module.css
+┃ ┣ 📂BOARD
+┃ ┃ ┣ 📜board.css
+┃ ┃ ┣ 📜board.module.css
+┃ ┃ ┗ 📜reply.module.css
+┃ ┣ 📂CartPage
+┃ ┃ ┗ 📜Cart.module.css
+┃ ┣ 📂Common
+┃ ┃ ┣ 📜categoryHeader.module.css
+┃ ┃ ┣ 📜footer.module.css
+┃ ┃ ┣ 📜header.module.css
+┃ ┃ ┣ 📜jw_topBtn.module.css
+┃ ┃ ┗ 📜Loading.module.css
+┃ ┣ 📂DetailPage
+┃ ┃ ┗ 📜BookDetail.css
+┃ ┣ 📂ListPage
+┃ ┃ ┗ 📜AllBookList.css
+┃ ┣ 📂LogInPage
+┃ ┃ ┗ 📜logInPage.module.css
+┃ ┣ 📂MainPage
+┃ ┃ ┣ 📜BookList.module.css
+┃ ┃ ┗ 📜Main.module.css
+┃ ┣ 📂MyPage
+┃ ┃ ┣ 📜findMyIdPage.module.css
+┃ ┃ ┣ 📜findMyPwPage.module.css
+┃ ┃ ┣ 📜modifyPasswordPage.module.css
+┃ ┃ ┣ 📜myPage.module.css
+┃ ┃ ┣ 📜myPageAndModifyPaswordPage.module.css
+┃ ┃ ┣ 📜myPageAuth.module.css
+┃ ┃ ┣ 📜orderDetail.module.css
+┃ ┃ ┗ 📜orderListPage.module.css
+┃ ┣ 📂PurchasePage
+┃ ┃ ┣ 📜payment.module.css
+┃ ┃ ┣ 📜purchasePage.module.css
+┃ ┃ ┗ 📜purchseResultPage.module.css
+┃ ┣ 📂SearchPage
+┃ ┃ ┗ 📜SearchResults.css
+┃ ┗ 📂SignUpPage
+┃ ┃ ┗ 📜signUpPage.module.css
+┣ 📂fonts
+┃ ┣ 📜KakaoBold.ttf
+┃ ┣ 📜KakaoOTFBold.otf
+┃ ┣ 📜KakaoOTFRegular.otf
+┃ ┣ 📜KakaoRegular.ttf
+┃ ┣ 📜NanumSquareB.ttf
+┃ ┣ 📜NanumSquareEB.ttf
+┃ ┣ 📜NanumSquareL.ttf
+┃ ┗ 📜NanumSquareR.ttf
+┣ 📂hooks
+┃ ┗ 📜useDebounce.js
+┣ 📂js
+┃ ┣ 📜AdminPageControl.js
+┃ ┣ 📜combineReducers.js
+┃ ┣ 📜convertToWon.js
+┃ ┣ 📜getUserNumber.js
+┃ ┣ 📜goToPurchase.js
+┃ ┣ 📜HomeAddress.js
+┃ ┣ 📜jw_topBtn.js
+┃ ┣ 📜Loading.js
+┃ ┣ 📜NotFound.js
+┃ ┣ 📜Payment.js
+┃ ┣ 📜ScrollTop.js
+┃ ┣ 📜ThemeReducer.js
+┃ ┣ 📜ThemeToggleBtn.js
+┃ ┗ 📜unixToDate.js
+┣ 📂lib
+┃ ┗ 📂styles
+┃ ┃ ┗ 📜palette.js
+┣ 📂pages
+┃ ┣ 📂AdminPage
+┃ ┃ ┣ 📜AdminLogin.js
+┃ ┃ ┣ 📜AdminMain.js
+┃ ┃ ┣ 📜AdminTheme.js
+┃ ┃ ┣ 📜OrderManage.js
+┃ ┃ ┣ 📜OrderManageDetail.js
+┃ ┃ ┣ 📜ProductManage.js
+┃ ┃ ┣ 📜RegisterBook.js
+┃ ┃ ┣ 📜UserChart.js
+┃ ┃ ┗ 📜UserManage.js
+┃ ┣ 📂BoardPage
+┃ ┃ ┣ 📜QnA_CreateBoard.js
+┃ ┃ ┣ 📜QnA_DetailBoard.js
+┃ ┃ ┣ 📜QnA_Page.js
+┃ ┃ ┗ 📜QnA_UpdateBoard.js
+┃ ┣ 📂BookRegistPage
+┃ ┃ ┗ 📜index.js
+┃ ┣ 📂CartPage
+┃ ┃ ┗ 📜index.js
+┃ ┣ 📂DetailPage
+┃ ┃ ┗ 📜index.js
+┃ ┣ 📂FilteredBookPage
+┃ ┃ ┗ 📜index.js
+┃ ┣ 📂ListPage
+┃ ┃ ┗ 📜index.js
+┃ ┣ 📂LogInPage
+┃ ┃ ┗ 📜LogInPage.js
+┃ ┣ 📂MainPage
+┃ ┃ ┗ 📜index.js
+┃ ┣ 📂MyPage
+┃ ┃ ┣ 📜FindMyIdPage.js
+┃ ┃ ┣ 📜FindMyPwPage.js
+┃ ┃ ┣ 📜ModifyPasswordPage.js
+┃ ┃ ┣ 📜MyPage.js
+┃ ┃ ┣ 📜MyPageAndModifyPasswordPage.js
+┃ ┃ ┣ 📜MyPageAuth.js
+┃ ┃ ┣ 📜OrderDetailPage.js
+┃ ┃ ┗ 📜OrderListPage.js
+┃ ┣ 📂PurchasePage
+┃ ┃ ┣ 📜PruchaseResultPage.js
+┃ ┃ ┗ 📜PurchasePage.js
+┃ ┣ 📂SearchPage
+┃ ┃ ┗ 📜index.js
+┃ ┗ 📂SignUpPage
+┃ ┃ ┗ 📜SignUpPage.js
+┣ 📜App.js
+┣ 📜AppAdmin.js
+┣ 📜Apps.js
+┣ 📜index.js
+┗ 📜setupProxy.js
