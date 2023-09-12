@@ -34,7 +34,7 @@
 
 # ※ 프로젝트가 동작하기 위해 book.sql파일, application-secret.properties(개인정보가 들어있어 git에 푸쉬하지 않았습니다.), SecretKey(JWT signature)가 필요합니다. 연락 주시면 데이터 바로 보내드리겠습니다.
 
-### book.sql -> mySQL import 진행
+### book.sql ->  - MySQL 실행 - root 계정 접속 - Navigator 하단 Administration 선택 - MANAGEMENT - Data Import - Import from Self-Contained File - 별도 제공하는 book.sql import
 
 ### application-secret.properties -> src/main/resources 에 추가
 
@@ -376,7 +376,7 @@
 
 #### cancel/ : 배송과정이 배송 중 전까지 사용자가 주문을 취소할 수 있다.
 
-
+```
 
 🧾프로젝트 구조
 
@@ -650,3 +650,4 @@ java
 ┣ 📜Apps.js
 ┣ 📜index.js
 ┗ 📜setupProxy.js
+```
