@@ -44,7 +44,7 @@ function Cart() {
     const fetchBookInfo = (cartItems) => {
         const bookIds = cartItems.map((item) => item.bookId);
         axios
-            .get(`/api/bookitems?ids=${bookIds.join(",")}`)
+            .get(`/api/book/bookitems?ids=${bookIds.join(",")}`)
             .then((response) => {
                 console.log("Response Data", response.data);
                 // 도서 정보를 가져온 뒤, cartItems에 병합하여 상태 업데이트

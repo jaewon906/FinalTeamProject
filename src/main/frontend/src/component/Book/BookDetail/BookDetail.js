@@ -79,7 +79,7 @@ function BookDetail() {
     // 도서 정보를 불러오는 API 호출
     const fetchBookDetails = async () => {
       try {
-        const response = await axios.get(`/api/detail/${isbn13}`);
+        const response = await axios.get(`/api/book/detail/${isbn13}`);
         const book = response.data; // 단일 도서 정보
         const imgUrlArray = JSON.parse(book.previewImgList.replace(/\\/g, ""));
         const modifiedData = {

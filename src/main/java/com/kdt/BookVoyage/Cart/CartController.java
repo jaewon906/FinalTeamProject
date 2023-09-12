@@ -2,9 +2,6 @@ package com.kdt.BookVoyage.Cart;
 
 import com.kdt.BookVoyage.Book.BookEntity;
 import com.kdt.BookVoyage.Book.BookRepository;
-import com.kdt.BookVoyage.CartItem.CartItemDto;
-import com.kdt.BookVoyage.CartItem.CartItemEntity;
-import com.kdt.BookVoyage.Member.MemberDTO;
 import com.kdt.BookVoyage.Member.MemberEntity;
 import com.kdt.BookVoyage.Member.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,11 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.print.Book;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor

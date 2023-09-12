@@ -20,7 +20,7 @@ function AllBookList() {
     const fetch = useCallback(async () => {
         try {
             const {data} = await axios.get(
-                `/api/books?_limit=10&_page=${page.current}`
+                `/api/book/books?_limit=10&_page=${page.current}`
             );
             const modifiedData = data.map((book) => {
                 const imgUrlArray = JSON.parse(book.previewImgList.replace(/\\/g, ""));

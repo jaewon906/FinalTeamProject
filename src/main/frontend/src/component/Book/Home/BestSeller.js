@@ -11,12 +11,13 @@ function BestSeller({ handleLoadingChange }) {
 
   useEffect(() => {
     axios
-    .get(`/api/list/${queryType}`)
+    .get(`/api/book/list/${queryType}`)
     .then((response) => {
       if(response.data && response.data.item) {
         const books = response.data.item;
         const top10Books = books.slice(0, 10);
         setBestSeller(top10Books);
+        console.log(bestSeller)
       } else {
         console.error("데이터를 불러오는데 실패했습니다.");
       }

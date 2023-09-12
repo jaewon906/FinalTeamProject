@@ -13,18 +13,17 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class AladinApiService {
+public class BookService {
 
     private final BookRepository bookRepository;
     private final RestTemplate restTemplate;
 
     @Autowired
-    public AladinApiService(BookRepository bookRepository, RestTemplate restTemplate) {
+    public BookService(BookRepository bookRepository, RestTemplate restTemplate) {
         this.bookRepository = bookRepository;
         this.restTemplate = restTemplate;
     }
@@ -79,9 +78,16 @@ public class AladinApiService {
     // isbn을 기반으로 도서 검색한 후 나온 정보들을 BookEntity 및 DB에 저장하는 메서드
     public BookEntity saveBookFromDetailApi(AladinBookDetailReq aladinBookDetailReq) throws JsonProcessingException {
 
+
         // isbn을 기반으로 이미 저장된 도서를 검색
         String isbn = aladinBookDetailReq.getItemId();
         BookEntity existingBook = bookRepository.findBookByIsbn13(isbn);
+
+        // ISBN이 13자리가 아니면 저장하지 않음
+        if (isbn.length() != 13) {
+            // 에러 처리 또는 로그를 추가할 수 있음
+            throw new InvalidIsbnException("ISBN이 13자리가 아닙니다.");
+        }
 
         // 이미 저장된 도서가 있다면 중복 저장을 막음
         if(existingBook != null) {
@@ -113,12 +119,14 @@ public class AladinApiService {
 
             // previewImgList 구성
             List<String> previewImgList = bookDetail.getSubInfo().getPreviewImgList();
+
             if(previewImgList != null && !previewImgList.isEmpty()) {
                 ObjectMapper objectMapper = new ObjectMapper();
                 String previewImgListToJSON = objectMapper.writeValueAsString(previewImgList);
                 book.setPreviewImgList(previewImgListToJSON);
+            } else {
+                book.setPreviewImgList("{}");
             }
-
 
             List<AladinBookDetailRes.Authors> bookAuthors = bookDetail.getSubInfo().getAuthors();
 

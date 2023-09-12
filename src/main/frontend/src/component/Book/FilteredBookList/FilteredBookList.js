@@ -15,7 +15,7 @@ function FilteredBookList({category}) {
 
     useEffect(() => {
         axios
-            .get("/api/bookdetail")
+            .get("/api/book/bookdetail")
             .then((response) => {
                 const modifiedData = response.data.map((book) => {
                     const imgUrlArray = JSON.parse(

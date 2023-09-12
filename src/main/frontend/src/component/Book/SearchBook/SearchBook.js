@@ -26,7 +26,7 @@ function SearchBook() {
 
     const fetchSearchBook = async (searchTerm) => {
         try {
-            const response = await axios.get("/api/search", {
+            const response = await axios.get("/api/book/search", {
                 params: {title: searchTerm},
             });
             console.log(response);

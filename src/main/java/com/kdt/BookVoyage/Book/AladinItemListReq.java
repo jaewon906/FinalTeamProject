@@ -21,7 +21,7 @@ public class AladinItemListReq {
     private String Version = "20131101";
     private String Year = "2023";
     private String Month = "8";
-    private String Week = "1";
+    private String Week = "3";
 
     public MultiValueMap<String, String> toMultiValueMap() {
         var map = new LinkedMultiValueMap<String, String>();

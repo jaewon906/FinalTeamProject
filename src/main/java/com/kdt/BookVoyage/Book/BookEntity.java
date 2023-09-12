@@ -78,4 +78,5 @@ public class BookEntity {
     @OneToMany(mappedBy = "book")
     @JsonIgnore
     private List<CartItemEntity> cartItems = new ArrayList<>(); // cart item
+
 }

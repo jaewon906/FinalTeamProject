@@ -7,7 +7,7 @@ function BookSearch () {
 
   const handleSearch = (isbn) => {
     axios
-    .get(`/api/search/${isbn}`) // isbn을 백엔드로 전송
+    .get(`/api/book/search/${isbn}`) // isbn을 백엔드로 전송
     .then((response) => {
       setSearchResult(response.data);
     })
