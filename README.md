@@ -46,7 +46,7 @@
 
 #
 
-### ```<span style="background-color:#fff5b1"> 1. 회원가입 </span>```
+### <span style={{backgroundColor:"#fff5b1"}}> 1. 회원가입 </span>
 
 #### 1) 아이디, 닉네임, 이메일은 유일하게 설정하여 중복 검사를 진행
 
