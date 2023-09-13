@@ -32,16 +32,21 @@
 
 ### 라이브러리(or 프레임워크) : spring-web, mySQL-driver, Spring-Security, JPA, mail, validation, modelMapper, jjwt, lombok    
 
+###
+###
+## 참고사항
+###
 
 
 
-### ※ 도서 구매 및 열람기능은 도서 데이터가 포함된 book.sql파일이 필요합니다.
+### 도서 구매 및 열람기능은 도서 데이터가 포함된 book.sql파일이 필요합니다.
 
 ### <span style="background-color:#C0FFFF">book.sql ->  - MySQL 실행 - root 계정 접속 - Navigator 하단 Administration 선택 - MANAGEMENT - Data Import - Import from Self-Contained File - 별도 제공하는 book.sql import   
+###
+###
 
 
-
-## 관리자 페이지는 /admin/login 페이지에서 id = admin, pw = 0000으로 접속 가능합니다.
+### 관리자 페이지는 /admin/login 페이지에서 id = admin, pw = 0000으로 접속 가능합니다.
 
 #
 
