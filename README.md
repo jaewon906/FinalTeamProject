@@ -32,13 +32,10 @@
 
 ### 라이브러리(or 프레임워크) : spring-web, mySQL-driver, Spring-Security, JPA, mail, validation, modelMapper, jjwt, lombok
 
-### <span style="background-color:#C0FFFF">※ 프로젝트가 동작하기 위해 book.sql파일, application-secret.properties(개인정보가 들어있어 git에 푸쉬하지 않았습니다.), SecretKey(JWT signature)가 필요합니다. 연락 주시면 데이터 바로 보내드리겠습니다.
+### ※ 도서 구매 및 열람기능은 도서 데이터가 포함된 book.sql파일이 필요합니다.
 
 ### <span style="background-color:#C0FFFF">book.sql ->  - MySQL 실행 - root 계정 접속 - Navigator 하단 Administration 선택 - MANAGEMENT - Data Import - Import from Self-Contained File - 별도 제공하는 book.sql import
 
-### <span style="background-color:#C0FFFF">application-secret.properties -> src/main/resources 에 추가
-
-### <span style="background-color:#C0FFFF">secretKey -> src/java/com/kdt/BookVoyage/Security에 추가
 
 #
 

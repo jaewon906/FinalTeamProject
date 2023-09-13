@@ -5,8 +5,8 @@ build/
 !**/src/test/**/build/
 
 ### important ###
-application-secret.properties
-SecretKey.java
+#application-secret.properties
+#SecretKey.java
 EmailConfig.java
 ### STS ###
 .apt_generated
