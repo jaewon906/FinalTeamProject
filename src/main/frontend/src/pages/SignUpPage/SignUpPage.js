@@ -248,7 +248,7 @@ export default function SignUpPage() {
 
     }
 
-    // let i=100000;
+    // let i=10;
     // const createAccount = () => {
     //     i++;
     //
@@ -260,8 +260,8 @@ export default function SignUpPage() {
     //             nickname: "재원씨야호" + i,
     //             userEmail: "ploii" + i + "@naver.com",
     //             userTel: "010-1234-1234",
-    //             userAddress: "없음",
-    //             userDetailAddress: "없음",
+    //             userAddress: "경기도 성남시 분당구 금곡로 11-1",
+    //             userDetailAddress: "3층",
     //             gender: "남자",
     //             userAge: "1996-04-06",
     //             deleteFlag: "Y",
