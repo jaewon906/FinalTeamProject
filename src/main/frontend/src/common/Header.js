@@ -49,7 +49,7 @@ export default function Header(props) {
     }, [userNumber, location.state?.returnUrl])
 
     const myPage = () => {
-
+console.log(process.env.REACT_APP_DB_HOST)
         axios.get(process.env.REACT_APP_DB_HOST + "/api/user/myPage", {
             params: {
                 userNumber: userNumber
