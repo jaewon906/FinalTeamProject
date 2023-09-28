@@ -10,7 +10,7 @@ import org.springframework.security.web.firewall.HttpFirewall;
 public class SpringSecurityConfig {
 
     @Bean
-    public WebSecurityCustomizer configure(){
+    public WebSecurityCustomizer configureWebSecurity(){
         return (webSecurity)->{webSecurity.httpFirewall(defaultHttpFirewall());};
     }
 
