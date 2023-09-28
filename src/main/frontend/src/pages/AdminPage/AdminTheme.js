@@ -20,7 +20,7 @@ export default function AdminTheme(props) {
 
         if (ret) {
 
-            axios.get("/api/user/logOut")
+            axios.get(process.env.REACT_APP_DB_HOST+"/api/user/logOut")
                 .then(() => {
                     alert("로그아웃 되셨습니다.")
                     window.location.href = "/admin/login"

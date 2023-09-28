@@ -59,7 +59,7 @@ export default function SignUpPage() {
 
     const validateID = () => {
 
-        axios.get("/api/user/signUp/idValidation", {
+        axios.get(process.env.REACT_APP_DB_HOST+"/api/user/signUp/idValidation", {
             params: {
                 userId: id.current.value
             }
@@ -81,7 +81,7 @@ export default function SignUpPage() {
     }
     const validateNickname = () => {
 
-        axios.get("/api/user/signUp/nicknameValidation", {
+        axios.get(process.env.REACT_APP_DB_HOST+"/api/user/signUp/nicknameValidation", {
             params:
                 {
                     nickname: nickname1.current.value
@@ -111,7 +111,7 @@ export default function SignUpPage() {
 
         if (expireTime === -1) {
 
-            axios.post("/api/user/signUp/deleteExpiredVerificationCode", null, {
+            axios.post(process.env.REACT_APP_DB_HOST+"/api/user/signUp/deleteExpiredVerificationCode", null, {
                 params: {
                     userEmail: email.current[0].value + "@" + email.current[1].value
                 }
@@ -134,7 +134,7 @@ export default function SignUpPage() {
         setIsEmailValidate(false)
         setReAuthenticateEmail(false)
 
-        axios.get("/api/user/signUp/emailValidation", {
+        axios.get(process.env.REACT_APP_DB_HOST+"/api/user/signUp/emailValidation", {
             params: {
                 userEmail: email.current[0].value + "@" + email.current[1].value
             }
@@ -154,7 +154,7 @@ export default function SignUpPage() {
 
 
     const confirmVerificationCode = () => {
-        axios.get("/api/user/findMyInfo/byEmail/auth", {
+        axios.get(process.env.REACT_APP_DB_HOST+"/api/user/findMyInfo/byEmail/auth", {
             params: {
                 userEmail: email.current[0].value + "@" + email.current[1].value,
                 verificationCode: verificationCode1.current.value
@@ -194,7 +194,7 @@ export default function SignUpPage() {
         const ret = window.confirm("등록하시겠습니까?")
 
         if (ret && (password.current.value === confirmPassword.current.value)) {
-            axios.post("/api/user/signUp", null, {
+            axios.post(process.env.REACT_APP_DB_HOST+"/api/user/signUp", null, {
                 params: {
                     userId: id.current.value,
                     password: password.current.value,

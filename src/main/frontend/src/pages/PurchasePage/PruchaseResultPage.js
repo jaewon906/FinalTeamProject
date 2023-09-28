@@ -13,7 +13,7 @@ export default function PurchaseResultPage() {
 
 
     useEffect(() => {
-        axios.get(`/api/user/purchase/result?`
+        axios.get(process.env.REACT_APP_DB_HOST+`/api/user/purchase/result?`
             + `userNumber=${userNumber}&merchant_uid=${merchantUid}`)
             .then(res => {
                 setPursedResult(res.data);

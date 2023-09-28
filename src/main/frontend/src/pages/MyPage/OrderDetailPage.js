@@ -14,7 +14,7 @@ export default function OrderDetailPage() {
     const goBack = useNavigate();
 
     useEffect(() => {
-        axios.get(`/api/user/myPage/orderDetail/${orderNumber}`)
+        axios.get(process.env.REACT_APP_DB_HOST+`/api/user/myPage/orderDetail/${orderNumber}`)
             .then(res => {
                 setOrderData(res.data)
             })
@@ -26,7 +26,7 @@ export default function OrderDetailPage() {
         const ret = window.confirm("주문을 취소하시겠습니까?")
 
         if (ret) {
-            axios.post("/api/user/purchase/cancel", null, {
+            axios.post(process.env.REACT_APP_DB_HOST+"/api/user/purchase/cancel", null, {
                 params: {
                     orderNumber: orderNumber
                 }

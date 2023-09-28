@@ -13,7 +13,7 @@ export default function OrderManageDetail() {
 
     useEffect(() => {
 
-        axios.post("/api/admin/manage/order/detail", null, {
+        axios.post(process.env.REACT_APP_DB_HOST+"/api/admin/manage/order/detail", null, {
             params: {
                 isRead: 1,
                 orderNumber: orderNumber

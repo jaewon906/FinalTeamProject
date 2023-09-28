@@ -8,14 +8,14 @@ export default function AdminLogin() {
     const password=useRef();
 
     useEffect(()=>{
-        axios.get("/api/admin/autoLogin", {})
+        axios.get(process.env.REACT_APP_DB_HOST+"/api/admin/autoLogin", {})
             .then(()=>window.location.href="/admin/manage/")
             .catch(e=>console.error(e))
         document.getElementById("userOnly").remove()
     },[])
 
     const toLogin =() =>{
-        axios.get("/api/admin/login", {
+        axios.get(process.env.REACT_APP_DB_HOST+"/api/admin/login", {
             params: {
                 adminId:adminId.current.value,
                 password:password.current.value

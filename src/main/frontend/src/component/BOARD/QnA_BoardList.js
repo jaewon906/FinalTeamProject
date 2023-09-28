@@ -17,7 +17,7 @@ const QnA_BoardList = (props) => {
 
 
     const authenticate = () => {
-        axios.get("/api/board/create-board/authenticate").then(() => {
+        axios.get(process.env.REACT_APP_DB_HOST+"/api/board/create-board/authenticate").then(() => {
             window.location.href = "board/create-board/"
         }).catch(e => {
             window.confirm("게시글 작성을 위해 로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?")
@@ -31,7 +31,7 @@ const QnA_BoardList = (props) => {
     const fetchBoardData = async () => {
         setIsLoading(true); // 데이터 로딩이 시작됨을 표시
         try {
-            let url = `/api/board/board-list?page=${currentPage}&size=10&sort=id,DESC`;
+            let url = process.env.REACT_APP_DB_HOST+`/api/board/board-list?page=${currentPage}&size=10&sort=id,DESC`;
             if (selectCategory !== "all") {
                 url += `&category=${selectCategory}`;
                 console.log(url, "all 카테고리아닐때");

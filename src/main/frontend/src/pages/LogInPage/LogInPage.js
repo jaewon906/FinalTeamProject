@@ -13,7 +13,7 @@ export default function LogInPage() {
     let userState ;
 
     const toLogIn = () => {
-        axios.get("/api/user/logIn", {
+        axios.get(process.env.REACT_APP_DB_HOST+"/api/user/logIn", {
             params: {
                 userId: userId.current.value,
                 password: password.current.value
@@ -35,12 +35,12 @@ export default function LogInPage() {
                         const ret = window.confirm("휴면 계정입니다. 활동 계정으로 전환 하시겠습니까?")
 
                         if (ret) {
-                            axios.post("/api/user/dormantAccount", null, {
+                            axios.post(process.env.REACT_APP_DB_HOST+"/api/user/dormantAccount", null, {
                                 params: {
                                     userId: userId.current.value,
                                 }
                             }).then(() => {
-                                axios.get("/api/user/logIn", {
+                                axios.get(process.env.REACT_APP_DB_HOST+"/api/user/logIn", {
                                     params: {
                                         userId: userId.current.value,
                                         password: password.current.value

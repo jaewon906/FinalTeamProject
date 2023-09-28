@@ -20,7 +20,7 @@ export default function FindMyPwPage() {
 
         setLoading(true)
 
-        axios.get("/api/user/findMyInfo/byEmailAndId", {
+        axios.get(process.env.REACT_APP_DB_HOST+"/api/user/findMyInfo/byEmailAndId", {
             params: {
                 userId : userId.current.value,
                 userEmail: email.current.value
@@ -40,7 +40,7 @@ export default function FindMyPwPage() {
     }
 
     const sendVerifyCode = () => {
-        axios.get("/api/user/findMyInfo/byEmailAndId/auth", {
+        axios.get(process.env.REACT_APP_DB_HOST+"/api/user/findMyInfo/byEmailAndId/auth", {
             params: {
                 userId:idFromRepo,
                 userEmail: emailFromRepo,
@@ -59,7 +59,7 @@ export default function FindMyPwPage() {
     const resetPassword = () => {
 
         if(setPassword.current.value === confirmPassword.current.value){
-            axios.post("/api/user/findMyInfo/resetAndModifyPassword",null,{
+            axios.post(process.env.REACT_APP_DB_HOST+"/api/user/findMyInfo/resetAndModifyPassword",null,{
                 params:{
                     userNumber:resetMyPw,
                     password:setPassword.current.value

@@ -27,7 +27,7 @@ const QnA_DetailBoard = () => {
     useEffect(() => {
         const getDetailBoard = async () => {
             try {
-                let response = await axios.get(`/api/board/board-detail/${id}`);
+                let response = await axios.get(process.env.REACT_APP_DB_HOST+`/api/board/board-detail/${id}`);
                 console.log("Detail/response = ", response);
                 console.log("detail/response/data.data = ", response.data.data);
                 setTitle(response.data.data.title);
@@ -57,7 +57,7 @@ const QnA_DetailBoard = () => {
             try {
                 let response = await axios({
                     method: 'delete',
-                    url: '/api/board/delete-board',
+                    url: process.env.REACT_APP_DB_HOST+'/api/board/delete-board',
                     headers: {'Content-Type': 'application/json'},
                     data: JSON.stringify(request_data)
                 });

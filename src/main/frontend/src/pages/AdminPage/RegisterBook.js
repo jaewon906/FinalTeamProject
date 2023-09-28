@@ -12,7 +12,7 @@ export default function RegisterBook() {
     const [urls, setUrls] = useState("")
     const validateDuplicateBook = () => {
 
-        axios.get("/api/admin/manage/product/duplicateValidation", {
+        axios.get(process.env.REACT_APP_DB_HOST+"/api/admin/manage/product/duplicateValidation", {
             params: {
                 isbn13: isbn13.current.value
             }
@@ -40,7 +40,7 @@ export default function RegisterBook() {
     }
 
     const register = () => {
-        axios.post("/api/admin/manage/product/register",null,{
+        axios.post(process.env.REACT_APP_DB_HOST+"/api/admin/manage/product/register",null,{
             params:{
                 isbn13:isbn13.current.value
             }

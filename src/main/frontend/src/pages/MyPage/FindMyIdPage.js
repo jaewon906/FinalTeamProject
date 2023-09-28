@@ -16,7 +16,7 @@ export default function FindMyIdPage() {
 
         setLoading(true)
 
-        axios.get("/api/user/findMyInfo/byEmail", {
+        axios.get(process.env.REACT_APP_DB_HOST+"/api/user/findMyInfo/byEmail", {
             params: {
                 userEmail: email.current.value
             }
@@ -34,7 +34,7 @@ export default function FindMyIdPage() {
     }
 
     const sendVerifyCode = () => {
-        axios.get("/api/user/findMyInfo/byEmail/auth", {
+        axios.get(process.env.REACT_APP_DB_HOST+"/api/user/findMyInfo/byEmail/auth", {
             params: {
                 userEmail: emailFromRepo,
                 verificationCode: verificationCode.current.value

@@ -13,7 +13,7 @@ export default function MyPageAuth() {
 
     const getMyInfo = () => {
 
-        axios.get("/api/user/myPage", {
+        axios.get(process.env.REACT_APP_DB_HOST+"/api/user/myPage", {
             params: {
                 userNumber: getUserNumber().userNumber
             }
@@ -36,7 +36,7 @@ export default function MyPageAuth() {
 
     const authenticateToSeeMyInfo = () => {
 
-        axios.get("/api/user/myPage/auth", {
+        axios.get(process.env.REACT_APP_DB_HOST+"/api/user/myPage/auth", {
             params: {
                 userNumber: getUserNumber().userNumber, password: password.current.value
             }

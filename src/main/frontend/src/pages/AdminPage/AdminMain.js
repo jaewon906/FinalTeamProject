@@ -17,7 +17,7 @@ export default function AdminMain() {
 
     useEffect(() => {
 
-        axios.get("/api/admin/summary") //가입 요약
+        axios.get(process.env.REACT_APP_DB_HOST+"/api/admin/summary") //가입 요약
             .then((res) => {
 
                 setTotalMember(res.data)
@@ -29,7 +29,7 @@ export default function AdminMain() {
                 window.location.href = "/admin/login/"
             })
 
-       axios.get("/api/admin/summaryNewUserPerDay") //가입자수 추이
+       axios.get(process.env.REACT_APP_DB_HOST+"/api/admin/summaryNewUserPerDay") //가입자수 추이
             .then(res => {
 
                 const dataFromServer = res.data
@@ -50,7 +50,7 @@ export default function AdminMain() {
 
             })
 
-        axios.get("/api/admin/showUnreadOrders") // 모든 주문내역 조회
+        axios.get(process.env.REACT_APP_DB_HOST+"/api/admin/showUnreadOrders") // 모든 주문내역 조회
             .then(res => {
                 setTotalOrders(res.data)
             })

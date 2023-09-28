@@ -53,7 +53,7 @@ const QnA_UpdateBoard = () => {
         try {
             let response = await axios({
                 method: 'put',
-                url: `/api/board/update-board`,
+                url: process.env.REACT_APP_DB_HOST+`/api/board/update-board`,
                 headers: {'Content-Type': 'application/json'},
                 data: JSON.stringify(request_data)
 

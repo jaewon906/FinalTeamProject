@@ -83,7 +83,7 @@ export default function Payment(props) {
 
             }
 
-            axios.post("/api/user/purchase/purchasedList", {}, {
+            axios.post(process.env.REACT_APP_DB_HOST+"/api/user/purchase/purchasedList", {}, {
                 params: {
                     purchasedList: purchasedList.join(","),
                     amount: amounts.join(","),

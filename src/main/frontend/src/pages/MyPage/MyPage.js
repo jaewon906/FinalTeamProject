@@ -71,7 +71,7 @@ export default function MyPage(props) {
 
     const validateNickname = () => {
 
-        axios.get("/api/user/signUp/nicknameValidation", {
+        axios.get(process.env.REACT_APP_DB_HOST+"/api/user/signUp/nicknameValidation", {
             params: {
                 nickname: nickname1.current.value
             }
@@ -103,7 +103,7 @@ export default function MyPage(props) {
         const ret = window.confirm("수정 하시겠습니까?")
 
         if (ret) {
-            axios.post("/api/user/myPage/update", null, {
+            axios.post(process.env.REACT_APP_DB_HOST+"/api/user/myPage/update", null, {
                 params: {
                     username: username1.current.value,
                     nickname: nickname1.current.value,
@@ -133,18 +133,18 @@ export default function MyPage(props) {
         if (ret) {
             const ret1 = window.prompt("암호를 입력하세요")
 
-            axios.get("/api/user/logIn", {
+            axios.get(process.env.REACT_APP_DB_HOST+"/api/user/logIn", {
                 params: {
                     userId: myInfo.userId, password: ret1
                 }
             }).then(() => {
-                axios.post("/api/user/withdrawal", "", {
+                axios.post(process.env.REACT_APP_DB_HOST+"/api/user/withdrawal", "", {
                     params: {
                         userNumber: myInfo.userNumber
                     }
                 }).then(() => {
                     alert("그동안 이용해 주셔서 감사합니다.")
-                    axios.get("/api/user/logOut")
+                    axios.get(process.env.REACT_APP_DB_HOST+"/api/user/logOut")
                         .then()
                         .catch(err => console.error(err))
                     window.location.href = "/home/"

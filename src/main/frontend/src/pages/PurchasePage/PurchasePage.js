@@ -24,7 +24,7 @@ export default function PurchasePage() {
     let totalPrice = 0
 
     useEffect(()=>{
-        axios.get("/api/user/purchase/userInfo", {
+        axios.get(process.env.REACT_APP_DB_HOST+"/api/user/purchase/userInfo", {
             params: {
                 userNumber: getUserNumber().userNumber
             }
@@ -50,7 +50,7 @@ export default function PurchasePage() {
             isbnList[i] = sessionStorage.key(i);
         }
 
-        axios.get("/api/user/purchase/details", {
+        axios.get(process.env.REACT_APP_DB_HOST+"/api/user/purchase/details", {
             params: {
                 isbnList: isbnList.join(",")
             }

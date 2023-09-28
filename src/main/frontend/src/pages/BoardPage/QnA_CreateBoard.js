@@ -37,7 +37,7 @@ const QnA_CreateBoard = () => {
 
 
     useEffect(()=>{
-        axios.get("/api/board/create-board/authenticate").then(() => {
+        axios.get(process.env.REACT_APP_DB_HOST+"/api/board/create-board/authenticate").then(() => {
             setIsAuthenticate(true)
             setLoding(true)
             setWriter(getUserNumber().nickname)
@@ -76,7 +76,7 @@ const QnA_CreateBoard = () => {
             /** 게시글 생성 요청 전송 */
             let response = await axios({
                 method: 'post',
-                url: '/api/board/create-board',
+                url: process.env.REACT_APP_DB_HOST+'/api/board/create-board',
                 headers: {"Content-Type": 'application/json'}, //JSON형식의 데이터 전송 명시
                 data: request_data
             });

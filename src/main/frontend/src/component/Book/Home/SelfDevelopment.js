@@ -9,7 +9,7 @@ function SelfDevelopmentBook({ handleLoadingChange }) {
 
   useEffect(() => {
     axios
-      .get("/api/book/bookdetail")
+      .get(process.env.REACT_APP_DB_HOST+"/api/book/bookdetail")
       .then((response) => {
         const modifiedData = response.data.map((book) => {
           const imgUrlArray = JSON.parse(

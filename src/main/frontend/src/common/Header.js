@@ -50,7 +50,7 @@ export default function Header(props) {
 
     const myPage = () => {
 
-        axios.get("/api/user/myPage", {
+        axios.get(process.env.REACT_APP_DB_HOST + "/api/user/myPage", {
             params: {
                 userNumber: userNumber
             }
@@ -81,7 +81,7 @@ export default function Header(props) {
         const ret = window.confirm("로그아웃 하시겠습니까?")
 
         if (ret) {
-            axios.get("/api/user/logOut")
+            axios.get(process.env.REACT_APP_DB_HOST+"/api/user/logOut")
                 .then(() => {
                         alert("로그아웃 되셨습니다.")
                         setIsLogin(false);

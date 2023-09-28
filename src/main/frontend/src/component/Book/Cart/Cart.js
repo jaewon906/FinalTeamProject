@@ -22,7 +22,7 @@ function Cart() {
 
     const fetchCartItems = (userNumber) => {
         axios
-            .get(`/api/cart/${userNumber}`)
+            .get(process.env.REACT_APP_DB_HOST+`/api/cart/${userNumber}`)
             .then((response) => {
                 // 가져온 장바구니 정보를 상태에 설정
                 setCart(response.data);
@@ -44,7 +44,7 @@ function Cart() {
     const fetchBookInfo = (cartItems) => {
         const bookIds = cartItems.map((item) => item.bookId);
         axios
-            .get(`/api/book/bookitems?ids=${bookIds.join(",")}`)
+            .get(process.env.REACT_APP_DB_HOST+`/api/book/bookitems?ids=${bookIds.join(",")}`)
             .then((response) => {
                 console.log("Response Data", response.data);
                 // 도서 정보를 가져온 뒤, cartItems에 병합하여 상태 업데이트
@@ -109,7 +109,7 @@ function Cart() {
 
         if (ret) {
             axios
-                .delete(`/api/cart/${userNumber}/items`, {
+                .delete(process.env.REACT_APP_DB_HOST+`/api/cart/${userNumber}/items`, {
                     data: itemIdsToDelete,
                 })
                 .then((response) => {
@@ -169,7 +169,7 @@ function Cart() {
 
             arr.join(",")
 
-            axios.get("/api/user/purchase/validateProductIsExist",{
+            axios.get(process.env.REACT_APP_DB_HOST+"/api/user/purchase/validateProductIsExist",{
                 params:{
                     isbnList :arr.join(",")
                 }

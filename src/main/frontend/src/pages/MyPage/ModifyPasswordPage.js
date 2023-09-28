@@ -14,7 +14,7 @@ export default function ModifyPasswordPage() {
 
         if (ret) {
             if (resetPassword.current.value === confirmResetPassword.current.value) {
-                axios.post("/api/user/findMyInfo/resetAndModifyPassword", null, {
+                axios.post(process.env.REACT_APP_DB_HOST+"/api/user/findMyInfo/resetAndModifyPassword", null, {
                     params: {
                         userNumber: getUserNumber().userNumber,
                         password: resetPassword.current.value

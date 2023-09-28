@@ -14,7 +14,7 @@ function BookRegist({ onSearch }) {
       onSearch(isbn); // 검색 버튼 클릭 시 isbn을 백엔드로 전달
     } else if(action === "register") {
       axios
-      .post(`/api/book/search/${isbn}/save`)
+      .post(process.env.REACT_APP_DB_HOST+`/api/book/search/${isbn}/save`)
       .then((response) => {
         console.log("성공")
       })
@@ -23,7 +23,7 @@ function BookRegist({ onSearch }) {
       })
     } else if(action === "delete") {
       axios
-        .delete(`/api/search/${isbn}/delete`)
+        .delete(process.env.REACT_APP_DB_HOST+`/api/search/${isbn}/delete`)
         .then((response) => {
           console.log("삭제 성공")
         })

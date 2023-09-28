@@ -25,7 +25,7 @@ export default function UserManage() {
 
 
     useEffect(() => {
-        axios.get("/api/admin/manage/user?page=" + page + "&size=100&sort=id,ASC")
+        axios.get(process.env.REACT_APP_DB_HOST+"/api/admin/manage/user?page=" + page + "&size=100&sort=id,ASC")
             .then(res => {
                 setUserInfo(res.data.content)
                 setSearchResultLength(res.data.totalElements)
@@ -63,7 +63,7 @@ export default function UserManage() {
 
     const dataTransfer1 = (size) => {
         setLoading(false)
-        axios.get("/api/admin/manage/user/search?page=" + page + "&size=" + size + "&sort=" + sort + "," + order, {
+        axios.get(process.env.REACT_APP_DB_HOST+"/api/admin/manage/user/search?page=" + page + "&size=" + size + "&sort=" + sort + "," + order, {
             params: {
                 keyword: keyword.current.value
             }
@@ -87,7 +87,7 @@ export default function UserManage() {
         page = e.target.id
         setCurrentPage(e.target.id)
 
-        axios.get("/api/admin/manage/user/search?page=" + page + "&size=" + size + "&sort=" + sort + "," + order, {
+        axios.get(process.env.REACT_APP_DB_HOST+"/api/admin/manage/user/search?page=" + page + "&size=" + size + "&sort=" + sort + "," + order, {
             params: {
                 keyword: keyword.current.value
             }
@@ -297,7 +297,7 @@ export default function UserManage() {
         const size = userAmount.current.value;
         page = val
 
-        axios.get("/api/admin/manage/user/search?page=" + page + "&size=" + size + "&sort=" + sort + "," + order, {
+        axios.get(process.env.REACT_APP_DB_HOST+"/api/admin/manage/user/search?page=" + page + "&size=" + size + "&sort=" + sort + "," + order, {
             params: {
                 keyword: keyword.current.value
             }
@@ -395,7 +395,7 @@ export default function UserManage() {
         const ret = window.confirm("수정 하시겠습니까?")
 
         if (ret) {
-            axios.post("/api/admin/manage/user/update", updateDataArr
+            axios.post(process.env.REACT_APP_DB_HOST+"/api/admin/manage/user/update", updateDataArr
             ).then(() => {
                 alert("수정이 완료되었습니다.")
                 window.location.reload()

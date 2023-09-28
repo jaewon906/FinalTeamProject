@@ -11,7 +11,7 @@ function BestSeller({ handleLoadingChange }) {
 
   useEffect(() => {
     axios
-    .get(`/api/book/list/${queryType}`)
+    .get(process.env.REACT_APP_DB_HOST+`/api/book/list/${queryType}`)
     .then((response) => {
       if(response.data && response.data.item) {
         const books = response.data.item;

@@ -11,7 +11,7 @@ export default function OrderListPage() {
     const [orderList, setOrderList] = useState([{}]);
 
     useEffect(() => {
-        axios.get("/api/user/myPage/orderLists", {
+        axios.get(process.env.REACT_APP_DB_HOST+"/api/user/myPage/orderLists", {
             params: {
                 userNumber: getUserNumber().userNumber
             }

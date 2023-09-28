@@ -40,7 +40,7 @@ const ReplySection = () => {
             const userNickname = getUserNumber().nickname;
 
             axios.post(
-                `/api/board/board-detail/reply-list/${id}`, null, {
+                process.env.REACT_APP_DB_HOST+`/api/board/board-detail/reply-list/${id}`, null, {
                     params: {
                         reply: reply,
                         nickname: userNickname
@@ -69,7 +69,7 @@ const ReplySection = () => {
         const getReplies = async () => {
             try {
                 const response = await axios.get(
-                    `/api/board/board-detail/reply-list/${id}`
+                    process.env.REACT_APP_DB_HOST+`/api/board/board-detail/reply-list/${id}`
                 );
                 console.log(id)
                 const replyList = response.data;
@@ -93,7 +93,7 @@ const ReplySection = () => {
 
     const saveUpdateReply = async (replyId) => {
         try {
-            await axios.put(`/api/board/board-detail/reply-update/${replyId}`,
+            await axios.put(process.env.REACT_APP_DB_HOST+`/api/board/board-detail/reply-update/${replyId}`,
                 {reply: updatedReply});
 
             setReplies((prevReplies) => prevReplies.map((reply) =>
@@ -113,7 +113,7 @@ const ReplySection = () => {
     const deleteReply = async (replyId) => {
         if (window.confirm("댓글을 삭제하시겟습니까?")) {
             try {
-                await axios.delete(`/api/board/board-detail/reply-delete/${replyId}`);
+                await axios.delete(process.env.REACT_APP_DB_HOST+`/api/board/board-detail/reply-delete/${replyId}`);
                 setReplies((prevReplies) => prevReplies.filter((reply) => reply.id !== replyId));
                 console.log(replyId);
             } catch (error) {

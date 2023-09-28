@@ -27,7 +27,7 @@ export default function OrderManage() {
 
 
     useEffect(() => {
-        axios.get("/api/admin/manage/order?page=" + page + "&size=100&sort=id,ASC")
+        axios.get(process.env.REACT_APP_DB_HOST+"/api/admin/manage/order?page=" + page + "&size=100&sort=id,ASC")
             .then(res => {
                 setOrderInfo(res.data.content)
                 setSearchResultLength(res.data.totalElements)
@@ -64,7 +64,7 @@ export default function OrderManage() {
 
     const dataTransfer1 = (size) => {
         setLoading(false)
-        axios.get("/api/admin/manage/order/search?page=" + page + "&size=" + size + "&sort=" + sort + "," + order, {
+        axios.get(process.env.REACT_APP_DB_HOST+"/api/admin/manage/order/search?page=" + page + "&size=" + size + "&sort=" + sort + "," + order, {
             params: {
                 keyword: keyword.current.value
             }
@@ -88,7 +88,7 @@ export default function OrderManage() {
         page = e.target.id
         setCurrentPage(e.target.id)
 
-        axios.get("/api/admin/manage/order/search?page=" + page + "&size=" + size + "&sort=" + sort + "," + order, {
+        axios.get(process.env.REACT_APP_DB_HOST+"/api/admin/manage/order/search?page=" + page + "&size=" + size + "&sort=" + sort + "," + order, {
             params: {
                 keyword: keyword.current.value
             }
@@ -299,7 +299,7 @@ export default function OrderManage() {
         const size = userAmount.current.value;
         page = val
 
-        axios.get("/api/admin/manage/order/search?page=" + page + "&size=" + size + "&sort=" + sort + "," + order, {
+        axios.get(process.env.REACT_APP_DB_HOST+"/api/admin/manage/order/search?page=" + page + "&size=" + size + "&sort=" + sort + "," + order, {
             params: {
                 keyword: keyword.current.value
             }
@@ -397,7 +397,7 @@ export default function OrderManage() {
         const ret = window.confirm("수정 하시겠습니까?")
 
         if (ret) {
-            axios.post("/api/admin/manage/order/update", updateDataArr
+            axios.post(process.env.REACT_APP_DB_HOST+"/api/admin/manage/order/update", updateDataArr
             ).then(() => {
                 alert("수정이 완료되었습니다.")
                 window.location.reload()

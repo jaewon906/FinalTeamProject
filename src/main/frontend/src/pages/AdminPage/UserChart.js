@@ -90,7 +90,7 @@ export default function UserChart(props){
 
         const chart = new ApexCharts(document.getElementById("chart"), options);
 
-        axios.get("/api/admin/summaryNewUserPerDay").then(res=>{
+        axios.get(process.env.REACT_APP_DB_HOST+"/api/admin/summaryNewUserPerDay").then(res=>{
             let i=0
 
             const dataFromServer = res.data
