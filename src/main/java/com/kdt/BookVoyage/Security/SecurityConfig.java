@@ -30,7 +30,6 @@ public class SecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize ->
                         authorize
-
                                 .requestMatchers("/api/admin/autoLogin").hasRole("ADMIN") //로그인
                                 .requestMatchers("/api/admin/login/**").permitAll() // 관리자 로그인
                                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
